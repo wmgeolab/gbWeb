@@ -7,5 +7,5 @@
 #(etc).
 
 import pandas as pd
-dta = pd.read_csv("geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
+dta = pd.read_csv("/__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
 print(dta)
