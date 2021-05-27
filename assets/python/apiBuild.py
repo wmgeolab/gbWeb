@@ -15,5 +15,5 @@ import os
 
 print(os.system("ls //__w/gbWeb/geoBoundaries"))
 
-print(os.system("ls //__w/gbWeb/gbWeb"))
+#print(os.system("ls //__w/gbWeb/gbWeb"))
 print(dta)
