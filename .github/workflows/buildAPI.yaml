@@ -1,0 +1,45 @@
+on:
+  workflow_dispatch
+  
+name: buildAPI
+jobs:
+  csvBuild:
+    runs-on: ubuntu-latest
+    container: docker://geogdan/geoboundaries:A
+    steps:        
+    - name: Download Metadata
+      run: |
+           cd $GITHUB_WORKSPACE
+           cd ..
+           rm -r geoBoundaries
+           git clone --filter=blob:none --no-checkout https://github.com/wmgeolab/geoBoundaries
+           echo "=============="
+           cd geoBoundaries
+           echo "=============="
+           git sparse-checkout add "*.csv"
+           git checkout 
+   
+    - name: Clone the website repository
+      run: |
+            git fetch
+            git clone https://github.com/wmgeolab/gbWeb
+            cd gbWeb
+   
+    - name: Build CSV
+      id: checks
+      run: |
+           echo "==============================================="
+           mkdir ~/tmp 
+           mkdir ~/artifacts
+           python assets/python/apiBuild.py
+      env:
+           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+           
+    - name: Commit Files
+      env:
+            DRTOKEN: ${{secrets.DRTOKEN}}
+            REP: ${{env.GITHUB_REPOSITORY}}
+      run: |
+           ls
+           pwd
+           git status

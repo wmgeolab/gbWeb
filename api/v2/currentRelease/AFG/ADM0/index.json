@@ -1,0 +1,18 @@
+[
+    {
+        "boundaryID": "EGY-ADM1-3_0_0-G166",
+        "boundaryISO": "EGY",
+        "boundaryYear": "2017.0",
+        "boundaryType": "ADM1",
+        "boundarySource-1": "OpenStreetMap",
+        "boundarySource-2": "Wambacher",
+        "boundaryLicense": "Open Data Commons Open Database License 1.0",
+        "licenseDetail": "Open Data Commons Open Database License 1.0",
+        "licenseSource": "https:\/\/www.openstreetmap.org\/copyright",
+        "boundarySourceURL": "https:\/\/wambachers-osm.website\/boundaries\/",
+        "boundaryUpdate": "2020-05-25",
+        "downloadURL": "https:\/\/geoboundaries.org\/data\/geoBoundaries-3_0_0\/EGY\/ADM1\/geoBoundaries-3_0_0-EGY-ADM1-all.zip",
+        "gjDownloadURL": "https:\/\/geoboundaries.org\/data\/geoBoundaries-3_0_0\/EGY\/ADM1\/geoBoundaries-3_0_0-EGY-ADM1.geojson",
+        "imagePreview": "https:\/\/geoboundaries.org\/data\/geoBoundaries-3_0_0\/EGY\/ADM1\/geoBoundariesPreview-3_0_0-EGY-ADM1.png"
+    }
+]

@@ -1,0 +1,18 @@
+[
+    {
+        "boundaryID": "AFG-ADM0-3_0_0-G1",
+        "boundaryISO": "AFG",
+        "boundaryYear": "2012.0",
+        "boundaryType": "ADM0",
+        "boundarySource-1": "Afghanistan Geodesy and Cartography Head Office (AGCHO), Humanitarian Data Exchange",
+        "boundarySource-2": "United Nations Office for the Coordination of Humanitarian Affairs, Afghanistan",
+        "boundaryLicense": "Other - Humanitarian",
+        "licenseDetail": "Humanitarian use only - Noted in metadata tab",
+        "licenseSource": "https:\/\/data.humdata.org\/dataset\/afg-admin-boundaries",
+        "boundarySourceURL": "https:\/\/data.humdata.org\/dataset\/afg-admin-boundaries",
+        "boundaryUpdate": "2020-05-25",
+        "downloadURL": "https:\/\/geoboundaries.org\/data\/geoBoundaries-3_0_0\/AFG\/ADM0\/geoBoundaries-3_0_0-AFG-ADM0-all.zip",
+        "gjDownloadURL": "https:\/\/geoboundaries.org\/data\/geoBoundaries-3_0_0\/AFG\/ADM0\/geoBoundaries-3_0_0-AFG-ADM0.geojson",
+        "imagePreview": "https:\/\/geoboundaries.org\/data\/geoBoundaries-3_0_0\/AFG\/ADM0\/geoBoundariesPreview-3_0_0-AFG-ADM0.png"
+    }
+]
