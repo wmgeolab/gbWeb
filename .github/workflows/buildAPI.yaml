@@ -17,6 +17,7 @@ jobs:
            cd geoBoundaries
            echo "=============="
            git sparse-checkout init "*.csv"
+           git sparse-checkout add "releaseData/geoBoundariesOpen-meta.csv"
            git checkout 
    
     - name: Clone the website repository
