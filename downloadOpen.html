@@ -65,47 +65,30 @@
                 <!-- Banner -->
                 <section>
                     <header class="main">
-                        <h1>Get geoBoundaries: Simplified</h1>
+                        <h1>geoBoundaries: Open License</h1>
                     </header>
 
                     <span class="image main"><img src="images/pic11.jpg" alt="" /></span>
 
-                    <p> This page allows you to download a simplified version of the geoBoundaries product. Contrasted
-                        to our <a href="downloadFull.html">full precision boundaries</a>, the boundaries available on
-                        this page are small and better suited to online visualization or large-scope analysis using
-                        traditional desktop software (i.e., Q or ArcGIS).
-                        Because IDs are identical across our simplified and high precision products, it is feasible to
-                        conduct an analysis using the <a href="downloadFull.html">full precision products</a>, and then
-                        link the results with our simplified products for easy visualization. All products on this page
-                        can be downloaded through our <a href="api.html">API</a>. While we are working on a written
-                        description of our simplification approach, you can currently see our technical implementation
-                        in our simplified product github repository.</p>
-                    <p> We offer three types of simplified boundary downloads, including unstandardized individual
-                        countries, globally standardized individual countries, and a <a href="downloadCGAZ.html">Comprehensive global release for
-                        ADM0 to ADM2.</a></p>
-                    The products on this page include:
-                    <ls>
-                        <li><b>Simplified Single Country Unstandardized (SSCU)</b> - A simplified version of every file
-                            available for every country in the world. No standardization is performed on these files, so
-                            (for example) two countries may overlap in the case of contested boundaries.</li>
-                        <li><b>Simplified Single Country Globally Standardized (SSCGS)</b> - A version of geoBoundaries
-                            simplified data that has been clipped to the U.S. Department of State boundary file,
-                            ensuring no contested boundaries or overlap in the dataset. This globally standardized
-                            product may have gaps between countries.</li>
-                    </ls>
+                    <p> This page allows you to download the geoBoundaries Open product.  The only requirement for use is <a href="index.html#citation">acknowledgement</a>. Users should be aware of the following usage notes for this product:
+                        <ul>
+                            <li>We seek to represent countries as they would represent themselves in the case of conflicted boundaries.  This can result in overlaps between countries.  If you need a single, seamless global boundary, please consider our <a href="downloadCGAZ.html">CGAZ dataset.</a></li>
+                            <li>Each boundary is the most recent, most accurate open license product we could create or source from sources with clearly defined licenses.</li>
+                            <li>Every boundary has a unique ID across the entire globe.</li>
+                            <li>You can choose between products with minor simplifications applied (the default below), or the original, highest-precision files (the "Large File Size") tab.  While the differences in geometries are very small, the simplified geometries are frequently an order of magnitude (or more) smaller in file size and loading speeds.  We recommend the simplified files for most uses.</li>
+                        </ul>
 
                     <hr class="major" />
-                    <h2>geoBoundaries Simplified Country Download</h2>
-                    <blockquote>If you are not familiar with them, the data products below are defined in the list
-                        immediately before this section. ISO codes can be referenced <a
+                    <h2>geoBoundaries Open Borders</h2>
+                    <blockquote>ISO codes can be referenced <a
                             href="https://unstats.un.org/unsd/tradekb/knowledgebase/country-code">here</a>. The only requirement for use is <a
-                            href="index.html#citation">acknowledgement</a></blockquote>
+                            href="index.html#citation">acknowledgement</a>; special restrictions for any given boundary file are noted below.</blockquote>
 
                     <div id="tab-container" class="tab-container">
                         <ul class='etabs'>
 
-                            <li class='tab'><a href="#SSCU">Country - Unstandardized (SSCU)</a></li>
-                            <li class='tab'><a href="#SSCGS">Country - Standardized (SSCGS)</a></li>
+                            <li class='tab'><a href="#SSCU">gbOpen License</a></li>
+                            <li class='tab'><a href="#SSCGS">gbOpen License - Large File Size</a></li>
                         </ul>
 
 
