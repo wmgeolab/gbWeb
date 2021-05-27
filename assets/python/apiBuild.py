@@ -11,5 +11,6 @@ import os
 #dta = pd.read_csv("__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
 print(os.system("ls"))
 print(os.system("pwd"))
-print(os.system("ls __w/gbWeb/geoBoundaries/releaseData/"))
+print(os.system("ls __w/"))
+print(os.system("ls __w/gbWeb"))
 print(dta)
