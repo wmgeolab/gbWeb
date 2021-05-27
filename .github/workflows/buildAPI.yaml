@@ -21,7 +21,7 @@ jobs:
     - name: Clone the website repository
       run: |
             git fetch
-            git clone https://github.com/wmgeolab/gbWeb
+            git clone https://github.com/wmgeolab/gbWeb.git
             cd gbWeb
    
     - name: Build CSV
