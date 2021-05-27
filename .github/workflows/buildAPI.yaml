@@ -15,7 +15,7 @@ jobs:
            echo "=============="
            cd geoBoundaries
            echo "=============="
-           git sparse-checkout add *.csv
+           git sparse-checkout *.csv
            git checkout 
    
     - name: Clone the website repository
