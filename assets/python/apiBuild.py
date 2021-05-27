@@ -6,4 +6,6 @@
 
 #(etc).
 
-print("Hello gbWeb")
+import pandas as pd
+dta = pd.read_csv("geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
+print(dta)
