@@ -11,18 +11,20 @@ jobs:
       run: |
            cd $GITHUB_WORKSPACE
            cd ..
-           rm -r geoBoundaries
+           ls
            git clone --filter=blob:none --no-checkout https://github.com/wmgeolab/geoBoundaries
            echo "=============="
            cd geoBoundaries
            echo "=============="
-           git sparse-checkout add "*.csv"
+           git sparse-checkout init "*.csv"
            git checkout 
    
     - name: Clone the website repository
       run: |
-            git fetch
-            git clone https://github.com/wmgeolab/gbWeb
+            cd ..
+            ls
+            pwd
+            git clone https://github.com/wmgeolab/gbWeb.git
             cd gbWeb
    
     - name: Build CSV
