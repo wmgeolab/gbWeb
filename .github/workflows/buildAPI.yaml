@@ -21,9 +21,9 @@ jobs:
    
     - name: Clone the website repository
       run: |
+            cd ..
             ls
             pwd
-            git fetch
             git clone https://github.com/wmgeolab/gbWeb.git
             cd gbWeb
    
