@@ -11,6 +11,7 @@ jobs:
       run: |
            cd $GITHUB_WORKSPACE
            cd ..
+           ls
            git clone --filter=blob:none --no-checkout https://github.com/wmgeolab/geoBoundaries
            echo "=============="
            cd geoBoundaries
@@ -20,6 +21,8 @@ jobs:
    
     - name: Clone the website repository
       run: |
+            ls
+            pwd
             git fetch
             git clone https://github.com/wmgeolab/gbWeb.git
             cd gbWeb
