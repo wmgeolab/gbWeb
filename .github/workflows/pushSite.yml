@@ -1,6 +1,6 @@
 on:
   workflow_dispatch
-name: zWEB_gB
+name: DeployProductionWebsite
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action

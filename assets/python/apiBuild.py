@@ -8,15 +8,16 @@
 
 import pandas as pd
 import os
+import sys
 
-print(os.system("ls //__w/gbWeb/geoBoundaries"))
-print(os.system("ls //__w/gbWeb/geoBoundaries/releaseData"))
-dta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
-#print(os.system("ls"))
-#print(os.system("pwd"))
-#print(os.system("ls //__w/"))
+openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
+humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv")
+authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv")
 
-print(os.system("ls //__w/gbWeb/geoBoundaries"))
+print(openDta)
+print(humDta)
+print(authDta)
 
-#print(os.system("ls //__w/gbWeb/gbWeb"))
-print(dta)
+for c, r in openDta.iterrows():
+    print(r)
+    sys.exit()
