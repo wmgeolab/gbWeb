@@ -18,6 +18,8 @@ jobs:
            echo "=============="
            git sparse-checkout init "*.csv"
            git sparse-checkout add "releaseData/geoBoundariesOpen-meta.csv"
+           git sparse-checkout add "releaseData/geoBoundariesHumanitarian-meta.csv"
+           git sparse-checkout add "releaseData/geoBoundariesAuthoritative-meta.csv"
            git checkout 
    
     - name: Clone the website repository
