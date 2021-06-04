@@ -30,6 +30,6 @@ for i, r in openDta.iterrows():
     print(apiData["gbOpen"])
 
     with open(currentPath + "index.json", "w") as f:
-        json.dumps(apiData, f)
+        json.dump(apiData, f)
 
     sys.exit()
