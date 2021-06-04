@@ -17,8 +17,8 @@ humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanit
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv")
 
 for i, r in openDta.iterrows():
-    gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(openDta["boundaryID"]) + "/"
-    currentPath = "//__w/gbWeb/gbWeb/api/current/" + str(openDta["boundaryISO"]) + "/" + str(openDta["boundaryType"]) + "/"
+    gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
+    currentPath = "//__w/gbWeb/gbWeb/api/current/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
 
     #Create folder structures if they don't exist
     pathlib.Path(gbIDPath).mkdir(exist_ok=True)
