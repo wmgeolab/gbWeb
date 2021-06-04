@@ -9,19 +9,28 @@
 import pandas as pd
 import os
 import sys
+import json
+import pathlib
 
 openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv")
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv")
 
 for i, r in openDta.iterrows():
-       gbIDPath = "//__w/gbWeb/api/gbID/" + str(openDta["boundaryID"]) + "/"
-       currentpath = "//__w/gbWeb/api/current/" + str(openDta["boundaryISO"]) + "/" + str(openDta["boundaryType"]) + "/"
+    gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(openDta["boundaryID"]) + "/"
+    currentPath = "//__w/gbWeb/gbWeb/api/current/" + str(openDta["boundaryISO"]) + "/" + str(openDta["boundaryType"]) + "/"
 
-       #Build library we'll translate into a json
-       apiData = {}
-       apiData["gbOpen"] = r.to_dict()
+    #Create folder structures if they don't exist
+    pathlib.Path(gbIDPath).mkdir(exist_ok=True)
+    pathlib.Path(currentPath).mkdir(exist_ok=True)
 
-       print(apiData["gbOpen"])
+    #Build library we'll translate into a json
+    apiData = {}
+    apiData["gbOpen"] = r.to_dict()
 
-       sys.exit()
+    print(apiData["gbOpen"])
+
+    with open(currentPath + "index.json", "w") as f:
+        json.dumps(apiData, f)
+
+    sys.exit()
