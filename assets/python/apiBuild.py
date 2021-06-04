@@ -10,7 +10,6 @@ import pandas as pd
 import os
 import sys
 import json
-import pathlib
 
 openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv")
@@ -21,8 +20,8 @@ for i, r in openDta.iterrows():
     currentPath = "//__w/gbWeb/gbWeb/api/current/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
 
     #Create folder structures if they don't exist
-    pathlib.Path(gbIDPath).mkdir(exist_ok=True)
-    pathlib.Path(currentPath).mkdir(exist_ok=True)
+    os.makedirs(gbIDPath, exist_ok=True)
+    os.makedirs(currentPath, exist_ok=True)
 
     #Build library we'll translate into a json
     apiData = {}
