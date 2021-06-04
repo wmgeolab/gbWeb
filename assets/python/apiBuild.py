@@ -44,8 +44,8 @@ for i, r in openDta.iterrows():
 
     else:
         apiData["gbHumanitarian"] = "No humanitarian boundary exists for this ISO/ADM."
-
-
+        print(apiData)
+        
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
 
