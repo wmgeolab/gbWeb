@@ -18,7 +18,7 @@ for i, r in openDta.iterrows():
 
     #Build library we'll translate into a json
     apiData = {}
-    apiData = r.to_dict('list')
+    apiData = r.to_dict('r')
     apiData["downloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
     apiData["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
     apiData["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
@@ -27,7 +27,7 @@ for i, r in openDta.iterrows():
     authMatch = authDta[(authDta["boundaryISO"]==r["boundaryISO"]) & (authDta["boundaryType"]==r["boundaryType"])]
     
     if(authMatch.shape[0] > 0):
-        apiData["gbAuthoritative"] = authMatch.to_dict('list')
+        apiData["gbAuthoritative"] = authMatch.to_dict('r')
         apiData["gbAuthoritative"]["downloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
         apiData["gbAuthoritative"]["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
         apiData["gbAuthoritative"]["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
@@ -37,7 +37,7 @@ for i, r in openDta.iterrows():
     
     humMatch = humDta[(humDta["boundaryISO"]==r["boundaryISO"]) & (humDta["boundaryType"]==r["boundaryType"])]
     if(humMatch.shape[0]>0):
-        apiData["gbHumanitarian"] = humMatch.to_dict('list')
+        apiData["gbHumanitarian"] = humMatch.to_dict('r')
         apiData["gbHumanitarian"]["downloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
         apiData["gbHumanitarian"]["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
         apiData["gbHumanitarian"]["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
@@ -54,16 +54,14 @@ for i, r in openDta.iterrows():
 
     if(authMatch.shape[0] > 0):
         tApiData = apiData["gbAuthoritative"]
-        authPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(tApiData["boundaryID"]['0']) + "/"
+        authPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(tApiData["boundaryID"]) + "/"
         os.makedirs(authPath, exist_ok=True)
         with open(authPath + "index.json", "w") as f:
             json.dump(tApiData, f)
 
     if(humMatch.shape[0] > 0):
-        print(apiData)
         hApiData = apiData["gbHumanitarian"]
-        print(hApiData)
-        humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"]['0']) + "/"
+        humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"]) + "/"
         os.makedirs(humPath, exist_ok=True)
         with open(humPath + "index.json", "w") as f:
             json.dump(hApiData, f)    
