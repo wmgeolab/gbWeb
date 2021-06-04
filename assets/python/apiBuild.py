@@ -14,10 +14,14 @@ openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-m
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv")
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv")
 
-print(openDta)
-print(humDta)
-print(authDta)
+for i, r in openDta.iterrows():
+       gbIDPath = "//__w/gbWeb/api/gbID/" + str(openDta["boundaryID"]) + "/"
+       currentpath = "//__w/gbWeb/api/current/" + str(openDta["boundaryISO"]) + "/" + str(openDta["boundaryType"]) + "/"
 
-for c, r in openDta.iterrows():
-    print(r)
-    sys.exit()
+       #Build library we'll translate into a json
+       apiData = {}
+       apiData["gbOpen"] = r.to_dict()
+
+       print(apiData["gbOpen"])
+
+       sys.exit()

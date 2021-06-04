@@ -1,0 +1,5 @@
+#Make sure the geoBoundaries files
+#are ignored when pulled.
+geoBoundaries
+geoBoundaries/*
+/geoBoundaries/
