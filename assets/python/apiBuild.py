@@ -1,11 +1,3 @@
-#gbWeb/api/currentRelease/ISO/ALL
-#gbWeb/api/currentRelease/all
-#gbWeb/api/currentRelease/ISO/ADM0
-#gbWeb/api/currentRelease/ISO/ADM1
-#gbWeb/api/currentRelease/ISO/ADM2
-
-#(etc).
-
 import pandas as pd
 import os
 import sys
@@ -59,3 +51,15 @@ for i, r in openDta.iterrows():
 
     with open(gbIDPath + "index.json", "w") as f:
         json.dump(apiData, f)
+
+    if(authMatch.shape[0] > 0):
+        tApiData = apiData["gbAuthoritative"]
+        authPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(tApiData["boundaryID"]) + "/"
+        with open(authPath + "index.json", "w") as f:
+            json.dump(tApiData, f)
+
+    if(humMatch.shape[0] > 0):
+        hApiData = apiData["gbHumanitarian"]
+        humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"]) + "/"
+        with open(humPath + "index.json", "w") as f:
+            json.dump(hApiData, f)
