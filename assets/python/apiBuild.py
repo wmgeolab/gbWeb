@@ -44,8 +44,8 @@ for i, r in openDta.iterrows():
 
     else:
         apiData["gbHumanitarian"] = "No humanitarian boundary exists for this ISO/ADM."
-        print(apiData)
         
+
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
 
@@ -60,6 +60,7 @@ for i, r in openDta.iterrows():
             json.dump(tApiData, f)
 
     if(humMatch.shape[0] > 0):
+        print(apiData)
         hApiData = apiData["gbHumanitarian"]
         print(hApiData)
         humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"]['0']) + "/"
