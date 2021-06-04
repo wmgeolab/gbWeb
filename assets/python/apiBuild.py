@@ -26,20 +26,26 @@ for i, r in openDta.iterrows():
 
     #Build library we'll translate into a json
     apiData = {}
-    apiData["gbOpen"] = r.to_dict()
-    apiData["gbOpen"]["downloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
-    apiData["gbOpen"]["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
-    apiData["gbOpen"]["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
+    apiData = r.to_dict()
+    apiData["downloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
+    apiData["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
+    apiData["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
 
     #Match on authoritative 
     authMatch = authDta[(authDta["boundaryISO"]==r["boundaryISO"]) & (authDta["boundaryType"]==r["boundaryType"])]
-    apiData["gbAuthoritative"] = authMatch.to_dict()
+    
+    if(authMatch.shape[0] > 0):
+        apiData["gbAuthoritative"] = authMatch.to_dict()
+    else:
+        apiData["gbAuthoritative"] = "No authoritative boundary exists for this ISO/ADM."
 
+    
     humMatch = humDta[(humDta["boundaryISO"]==r["boundaryISO"]) & (humDta["boundaryType"]==r["boundaryType"])]
-    apiData["gbHumanitarian"] = humMatch.to_dict()
+    if(humMatch.shape[0]>0):
+        apiData["gbHumanitarian"] = humMatch.to_dict()
+    else:
+        apiData["gbHumanitarian"] = "No humanitarian boundary exists for this ISO/ADM."
 
 
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
-
-    sys.exit()
