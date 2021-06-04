@@ -54,12 +54,12 @@ for i, r in openDta.iterrows():
 
     if(authMatch.shape[0] > 0):
         tApiData = apiData["gbAuthoritative"]
-        authPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(tApiData["boundaryID"]) + "/"
+        authPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(tApiData["boundaryID"][0]) + "/"
         with open(authPath + "index.json", "w") as f:
             json.dump(tApiData, f)
 
     if(humMatch.shape[0] > 0):
         hApiData = apiData["gbHumanitarian"]
-        humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"]) + "/"
+        humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"][0]) + "/"
         with open(humPath + "index.json", "w") as f:
             json.dump(hApiData, f)
