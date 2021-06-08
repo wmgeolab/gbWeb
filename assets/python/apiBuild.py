@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import numpy as np
+import copy
 
 openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv")
@@ -44,7 +45,7 @@ for i, r in openDta.iterrows():
 
     else:
         #If no humanitarian exists, we just duplicate the open product links.
-        t = apiData
+        t = copy.deepcopy(apiData)
         apiData["gbHumanitarian"] = t
         
     print(apiData)
