@@ -47,9 +47,6 @@ for i, r in openDta.iterrows():
         #If no humanitarian exists, we just duplicate the open product links.
         t = copy.deepcopy(apiData)
         apiData["gbHumanitarian"] = t
-        
-    #Double check we're UTF8
-    apiData = apiData.encode('utf8')
 
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
