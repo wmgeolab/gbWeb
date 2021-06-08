@@ -9,6 +9,9 @@ openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-m
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8')
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8')
 
+print(os.system("git log -- //__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv"))
+
+
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
     currentPath = "//__w/gbWeb/gbWeb/api/current/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
@@ -50,6 +53,12 @@ for i, r in openDta.iterrows():
 
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
+
+
+    #Modify download paths for the gbID lookups.
+    #gbID downloads need to reference the specific commit sha.
+    print(os.system("git log -- //__w/gbWeb/geoBoundaries/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"))
+
 
     with open(gbIDPath + "index.json", "w") as f:
         json.dump(apiData, f)

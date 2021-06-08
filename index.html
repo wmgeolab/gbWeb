@@ -90,7 +90,7 @@
 								href="index.html#citation">acknowledgement</a>.</p>
 						<ul class="actions">
 							<li><a href="index.html#getdata" class="button big">Download the Data</a></li>
-							<li><a href="geoVis.html" class="button big">View the Data</a></li>
+							<li><a href="geoContrast.html" class="button big">Visualize the Data</a></li>
 						</ul>
 					</div>
 
@@ -171,7 +171,7 @@
 
 					<div class="posts">
 						<article>
-							<a href="downloadSimple.html" class="image"><img src="images/pic02.jpg" alt="" /></a>
+							<a href="downloadOpen.html" class="image"><img src="images/pic02.jpg" alt="" /></a>
 							<h3>Open License Data</h3>
 							<p>For users that require an open license: if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.</p>
 							<ul class="actions">
@@ -179,18 +179,18 @@
 							</ul>
 						</article>
 						<article>
-							<a href="downloadFull.html" class="image"><img src="images/pic01.jpg" alt="" /></a>
+							<a href="downloadHumanitarian.html" class="image"><img src="images/pic01.jpg" alt="" /></a>
 							<h3>Humanitarian Data</h3>
-							<p>The most recent UN OCHA COD boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.</p>
+							<p>The most recent <a href="https://cod.unocha.org/">UN OCHA COD</a> boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.</p>
 							<ul class="actions">
 								<li><a href="downloadFull.html" class="button fit small">Get Full Precision Data</a>
 								</li>
 							</ul>
 						</article>
 						<article>
-							<a href="downloadCGAZ.html" class="image"><img src="images/smallWorld.jpg" alt="" /></a>
-							<h3>Global Country Boundaries</h3>
-							<p>An open license ADM0, ADM1 and ADM2 composite of the globe. If you are doing an analysis for one or a small number of countries, we recommend our country-specific datasets.</p>
+							<a href="downloadAuthoritative.html" class="image"><img src="images/smallWorld.jpg" alt="" /></a>
+							<h3>Authoritative Data</h3>
+							<p>Data approved through the <a href="https://www.unsalb.org/">UN SALB</a> process, integrated with other official country sources. The process to politically approve boundaries can take decades; thus, this dataset is generally the slowest to update. </p>
 							<ul class="actions">
 								<li><a href="downloadCGAZ.html" class="button fit small">Get Global Data</a>
 								</li>
@@ -204,10 +204,10 @@
 				<section id="banner">
 					<div class="content" id="citation">
 						<header>
-							<h1>How to Acknowledge</h1>
-							<p>Any uses of geoBoundaries should come with an acknowledgement - we really need it!</p>
+							<h1>How to Use</h1>
+							<p>Any uses of geoBoundaries must come with an acknowledgement - we really need it!</p>
 						</header>
-						<p><b>All we ask is an acknowledgement in any products you produce which use our data.</b> The
+						<p><b>All we require is an acknowledgement in any products you produce which use our data.</b> The
 							geoBoundaries team is primarily judged on it's citations: it is how our users, funders and
 							peers track our progress and impact. In most uses, you should cite two sources: geoBoundaries,
 						    and the underlying source we provide in the metadata for a given file. </p>
@@ -293,67 +293,22 @@ L.tileLayer(
 			<div class="inner">
 
 				<!-- Menu -->
-				<nav id="menu">
+				<nav id="menu" style="padding:2em 0 0em 0 !important; margin:0em 0em 0em 0em;">
 					<header class="major">
 						<h2>Menu</h2>
 					</header>
 					<ul>
 						<li><a href="index.html">Home</a></li>
-						<li><a href="index.html#getdata">Get Data</a></li>
+						<li><a href="index.html#getdata">Download Data</a></li>
+						<li><a href="geoContrast.html">View Data</a></li>
 						<li><a href="api.html">API & Archive</a></li>
-						<li><a href="index.html#citation">Citation and Use</a></li>
+						<li><a href="index.html#citation">Requirements for Use</a></li>
 						<li><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0231866">Technical
 								Paper</a></li>
-						<li><a href="issues.html">Caveats & Roadmap</a></li>
-						<li>
-							<span class="opener">Get Involved</span>
-							<ul>
-								<li><a href="https://github.com/wmgeolab/geoBoundaries">GitHub Repository</a></li>
-								<li><a href="issues.html#contribute">Contribute Boundaries</a></li>
-								<li><a href="https://github.com/wmgeolab/geoBoundaries/issues">Report Issues</a></li>
-								<li><a href="https://giving.wm.edu/give-now/#allocation=4674">Buy us a Pizza</a></li>
-							</ul>
-						</li>
-
-
+						<li><a href="https://github.com/wmgeolab/geoBoundaries/issues">Known Issues</a></li>
+						<li><a href="https://github.com/wmgeolab/geoBoundaries#getting-involved">Get Involved</a></li>
 					</ul>
-				</nav>
-
-				<!-- Section -->
-				<section>
-					<header class="major">
-						<h2>Recent Updates</h2>
-					</header>
-					<div class="mini-posts">
-						<article>
-							<a href="index.html#getdata" class="image"><img src="images/pic07.jpg" alt="" /></a>
-							<p>geoBoundaries 3.0.0 is out!</p>
-						</article>
-						<article>
-							<a href="downloadSimple.html" class="image"><img src="images/pic08.jpg" alt="" /></a>
-							<p>Simplified data products for visualization are now available.</p>
-						</article>
-						<article>
-							<a href="downloadSimple.html#CGAZ" class="image"><img src="images/pic09.jpg" alt="" /></a>
-							<p>Global single-layer downloads are live.</p>
-						</article>
-					</div>
-				</section>
-
-				<!-- Section -->
-				<section>
-					<header class="major">
-						<h2>Get in touch</h2>
-					</header>
-					<p>Want to contribute, identified an error, or otherwise want to chat? Please reach out!</p>
-					<ul class="contact">
-						<li class="icon solid fa-envelope"><a href="#">team@geoboundaries.org</a></li>
-						<li class="icon solid fa-phone">(757) 221-1970</li>
-						<li class="icon solid fa-home">geoLab, Applied Science<br />
-							540 Landrum Drive<br />
-							Williamsburg, VA 23185T</li>
-					</ul>
-					<!-- Begin Mailchimp Signup Form -->
+					<br />
 					<div id="mc_embed_signup">
 						<form
 							action="https://geoboundaries.us18.list-manage.com/subscribe/post?u=fa7c8b27d1a61c13a67dc3f25&amp;id=1415921471"
@@ -361,7 +316,7 @@ L.tileLayer(
 							class="validate" target="_blank" novalidate>
 							<div id="mc_embed_signup_scroll">
 								<div class="mc-field-group">
-									<label>Subscribe to our Announcement List:</label>
+									<label style="margin-bottom:0em;">Subscribe to our Announcement List:</label>
 									<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
 								</div>
 								<div id="mce-responses" class="clear">
@@ -371,14 +326,13 @@ L.tileLayer(
 								<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
 								<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
 										name="b_fa7c8b27d1a61c13a67dc3f25_1415921471" tabindex="-1" value=""></div>
-								<div class="clear"><input type="submit" value="Submit Email" name="subscribe"
+								<div class="clear" style="margin-top:5px;"><input type="submit" value="Submit Email" name="subscribe"
 										id="mc-embedded-subscribe" class="button"></div>
 							</div>
 						</form>
 					</div>
+				</nav>
 
-					<!--End mc_embed_signup-->
-				</section>
 
 				<!-- Footer -->
 				<footer id="footer">
@@ -399,10 +353,7 @@ L.tileLayer(
 
 	</div>
 
-	<script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js"
-		data-dojo-config="usePlainJson: true, isDebug: false"></script>
-	<script
-		type="text/javascript">window.dojoRequire(["mojo/signup-forms/Loader"], function (L) { L.start({ "baseUrl": "mc.us18.list-manage.com", "uuid": "fa7c8b27d1a61c13a67dc3f25", "lid": "1415921471", "uniqueMethods": true }) })</script>
+
 
 
 	<script src="assets/js/jquery.min.js"></script>
