@@ -104,3 +104,5 @@ for i, r in openDta.iterrows():
         os.makedirs(humPath, exist_ok=True)
         with open(humPath + "index.json", "w") as f:
             json.dump(hApiData, f)    
+    
+    sys.exit()
