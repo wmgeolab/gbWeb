@@ -47,6 +47,7 @@ for i, r in openDta.iterrows():
         t = apiData
         apiData["gbHumanitarian"] = t
         
+    print(apiData)
 
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
