@@ -103,4 +103,4 @@ for i, r in openDta.iterrows():
         with open(humPath + "index.json", "w") as f:
             json.dump(hApiData, f)    
     
-    sys.exit()
+   
