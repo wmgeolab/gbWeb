@@ -55,7 +55,12 @@ for i, r in openDta.iterrows():
 
     #Get sha for Open
     d = requests.get("https://api.github.com/repos/wmgeolab/geoBoundaries/commits?path=releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip")
-    openSha = d.json()[0]["sha"]
+    
+    try:
+        openSha = d.json()[0]["sha"]
+    except:
+        print(d.json())
+        sys.exit()
 
     #Update the URLs with the sha links for open:
     apiData["downloadURL"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+openSha+"/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
