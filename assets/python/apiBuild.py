@@ -97,7 +97,10 @@ for i, r in openDta.iterrows():
         apiData["gbHumanitarian"]["imagePreview"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+humSha+"/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
        
         hApiData = apiData["gbHumanitarian"]
-        del hApiData["gbAuthoritative"]
+        try:
+            del hApiData["gbAuthoritative"]
+        except:
+            print("No authoritative key to remove. Moving on.")
         humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"]) + "/"
         os.makedirs(humPath, exist_ok=True)
         with open(humPath + "index.json", "w") as f:
