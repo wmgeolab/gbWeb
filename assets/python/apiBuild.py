@@ -9,9 +9,9 @@ openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-m
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8')
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8')
 
-print(os.system("git log -- //__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv"))
+print(os.system("cd //__w/gbWeb/geoBoundaries/ | git log -- //__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv"))
 
-
+sys.exit()
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
     currentPath = "//__w/gbWeb/gbWeb/api/current/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
