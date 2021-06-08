@@ -6,9 +6,9 @@ import numpy as np
 import copy
 import requests
 
-openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv", encoding='utf8')
-humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8')
-authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8')
+openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv", encoding='utf8').astype(str)
+humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8').astype(str)
+authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8').astype(str)
 
 
 for i, r in openDta.iterrows():
@@ -66,6 +66,7 @@ for i, r in openDta.iterrows():
     #we need to re-copy the Open over.
     if(humMatch.shape[0]!=1):
         t = copy.deepcopy(apiData)
+        del t["gbHumanitarian"]
         apiData["gbHumanitarian"] = t
 
 
