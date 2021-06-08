@@ -6,9 +6,9 @@ import numpy as np
 import copy
 import requests
 
-openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv", encoding='utf8').astype(str)
-humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8').astype(str)
-authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8').astype(str)
+openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
+humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
+authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 
 
 for i, r in openDta.iterrows():
@@ -67,6 +67,7 @@ for i, r in openDta.iterrows():
     if(humMatch.shape[0]!=1):
         t = copy.deepcopy(apiData)
         del t["gbHumanitarian"]
+        del t["gbAuthoritative"]
         apiData["gbHumanitarian"] = t
 
 
@@ -81,6 +82,7 @@ for i, r in openDta.iterrows():
         apiData["gbAuthoritative"]["gjDownloadURL"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+authSha+"/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
         apiData["gbAuthoritative"]["imagePreview"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+authSha+"/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
         tApiData = apiData["gbAuthoritative"]
+        del tApiData["gbHumanitarian"]
         authPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(tApiData["boundaryID"]) + "/"
         os.makedirs(authPath, exist_ok=True)
         with open(authPath + "index.json", "w") as f:
@@ -95,6 +97,7 @@ for i, r in openDta.iterrows():
         apiData["gbHumanitarian"]["imagePreview"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+humSha+"/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
        
         hApiData = apiData["gbHumanitarian"]
+        del hApiData["gbAuthoritative"]
         humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"]) + "/"
         os.makedirs(humPath, exist_ok=True)
         with open(humPath + "index.json", "w") as f:
