@@ -5,6 +5,7 @@ import json
 import numpy as np
 import copy
 import requests
+import time
 
 openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
@@ -58,6 +59,7 @@ for i, r in openDta.iterrows():
     
     try:
         openSha = d.json()[0]["sha"]
+        time.sleep(65)
     except:
         print(d.json())
         sys.exit()
