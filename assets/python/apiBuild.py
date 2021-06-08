@@ -5,9 +5,9 @@ import json
 import numpy as np
 import copy
 
-openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv")
-humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv")
-authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv")
+openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv", encoding='utf8')
+humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8')
+authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8')
 
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
@@ -48,7 +48,8 @@ for i, r in openDta.iterrows():
         t = copy.deepcopy(apiData)
         apiData["gbHumanitarian"] = t
         
-    print(apiData)
+    #Double check we're UTF8
+    apiData = apiData.encode('utf8')
 
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
