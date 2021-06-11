@@ -15,7 +15,7 @@ humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanit
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 
 #request headers for API authentication
-gitCreds = {'Authorization': 'token ' + token}
+gitCreds = {'Authorization': 'Bearer %s' + token}
 
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
