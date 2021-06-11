@@ -97,7 +97,10 @@ for i, r in openDta.iterrows():
         apiData["gbAuthoritative"]["imagePreview"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+authSha+"/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
         apiData["gbAuthoritative"]["simplifiedGeometryGeoJSON"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+authSha+"/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson"
         tApiData = apiData["gbAuthoritative"]
-        del tApiData["gbHumanitarian"]
+        try:
+            del tApiData["gbHumanitarian"]
+        except:
+            print("No humanitarian key to remove. Moving on.")
         authPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(tApiData["boundaryID"]) + "/"
         os.makedirs(authPath, exist_ok=True)
         with open(authPath + "index.json", "w") as f:
