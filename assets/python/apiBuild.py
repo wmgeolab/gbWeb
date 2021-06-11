@@ -7,7 +7,7 @@ import copy
 import requests
 import time
 
-token = sys.argv[0]
+token = "{"+sys.argv[0]+"}"
 print(token)
 
 openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
@@ -63,7 +63,6 @@ for i, r in openDta.iterrows():
     
     try:
         openSha = d.json()[0]["sha"]
-        time.sleep(10)
     except:
         print(d.json())
         sys.exit()
