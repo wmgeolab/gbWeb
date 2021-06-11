@@ -7,10 +7,9 @@ import copy
 import requests
 import time
 
-token = "{"+sys.argv[0]+"}"
-print(token)
+token = sys.argv[0]
 
-os.system('curl -H "Authorization: token ' + token + '" https://api.github.com')
+h = {'Authorization':'token %s' % token}
 
 openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
@@ -61,7 +60,7 @@ for i, r in openDta.iterrows():
         json.dump(apiData, f)
 
     #Get sha for Open
-    d = requests.get("https://api.github.com/repos/wmgeolab/geoBoundaries/commits?path=releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip", auth=("DanRunfola", token))
+    d = requests.get("https://api.github.com/repos/wmgeolab/geoBoundaries/commits?path=releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip", headers=h)
     
     try:
         openSha = d.json()[0]["sha"]
@@ -89,7 +88,7 @@ for i, r in openDta.iterrows():
 
     if(authMatch.shape[0] > 0):
         #Modify authoritative links to point to the sha
-        d = requests.get("https://api.github.com/repos/wmgeolab/geoBoundaries/commits?path=releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip", auth=("DanRunfola", token))
+        d = requests.get("https://api.github.com/repos/wmgeolab/geoBoundaries/commits?path=releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip", headers=h)
         authSha = d.json()[0]["sha"]
         apiData["gbAuthoritative"]["downloadURL"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+authSha+"/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
         apiData["gbAuthoritative"]["gjDownloadURL"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+authSha+"/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
@@ -104,7 +103,7 @@ for i, r in openDta.iterrows():
 
     if(humMatch.shape[0] > 0):
         #Modify humanitarian links to point to the sha
-        d = requests.get("https://api.github.com/repos/wmgeolab/geoBoundaries/commits?path=releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip", auth=("DanRunfola", token))
+        d = requests.get("https://api.github.com/repos/wmgeolab/geoBoundaries/commits?path=releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip", headers=h)
         humSha = d.json()[0]["sha"]
         apiData["gbHumanitarian"]["downloadURL"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+humSha+"/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
         apiData["gbHumanitarian"]["gjDownloadURL"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+humSha+"/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
