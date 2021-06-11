@@ -38,7 +38,7 @@ jobs:
            echo "==============================================="
            mkdir ~/tmp 
            mkdir ~/artifacts
-           python assets/python/apiBuild.py
+           python assets/python/apiBuild.py ${{secrets.GITHUB_TOKEN}}
       env:
            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
            
