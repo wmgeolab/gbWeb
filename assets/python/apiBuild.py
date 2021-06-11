@@ -7,7 +7,7 @@ import copy
 import requests
 import time
 
-token = sys.argv[0]
+token = sys.argv[1]
 
 h = {'Authorization':'token %s' % token}
 
