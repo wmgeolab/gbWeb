@@ -39,10 +39,10 @@ jobs:
            echo "==============================================="
            mkdir ~/tmp 
            mkdir ~/artifacts
-           python assets/python/apiBuild.py ${{secrets.DRTOKEN}}
+           python assets/python/apiBuild.py ${{secrets.DT2}}
       env:
            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-           DRTOKEN: ${{secrets.DRTOKEN}}
+           DRTOKEN: ${{secrets.DT2}}
            
     - name: Commit Files
       env:
