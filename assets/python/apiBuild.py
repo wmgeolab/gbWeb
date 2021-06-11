@@ -15,13 +15,18 @@ openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-m
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 
+
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
     currentPath = "//__w/gbWeb/gbWeb/api/current/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
+    currentHumPath = "//__w/gbWeb/gbWeb/api/current/gbHumanitarian/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
+    currentAuthPath = "//__w/gbWeb/gbWeb/api/current/gbAuthoritative/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
 
     #Create folder structures if they don't exist
     os.makedirs(gbIDPath, exist_ok=True)
     os.makedirs(currentPath, exist_ok=True)
+    os.makedirs(currentHumPath, exist_ok=True)
+    os.makedirs(currentAuthPath, exist_ok=True)
 
     #Build library we'll translate into a json
     apiData = {}
@@ -58,6 +63,14 @@ for i, r in openDta.iterrows():
 
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
+    
+    with open(currentHumPath + "index.json", "w") as f:
+        json.dump(apiData["gbHumanitarian"], f)
+    
+    if(authMatch.shape[0] == 1):
+        with open(currentAuthPath + "index.json", "w") as f:
+            json.dump(apiData["gbAuthoritative"], f)
+
 
     #Get sha for Open
     print(h)
