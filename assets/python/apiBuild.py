@@ -18,7 +18,7 @@ authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthor
 
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
-    currentPath = "//__w/gbWeb/gbWeb/api/current/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
+    currentPath = "//__w/gbWeb/gbWeb/api/current/release/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
     currentHumPath = "//__w/gbWeb/gbWeb/api/current/gbHumanitarian/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
     currentAuthPath = "//__w/gbWeb/gbWeb/api/current/gbAuthoritative/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
 
