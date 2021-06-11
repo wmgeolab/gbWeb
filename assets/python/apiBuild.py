@@ -65,7 +65,7 @@ for i, r in openDta.iterrows():
     
     try:
         openSha = d.json()[0]["sha"]
-        time.sleep(120)
+        time.sleep(10)
     except:
         print(d.json())
         sys.exit()
