@@ -85,11 +85,11 @@
 					<br /> 
 					<br />
 					<b>To find information on the most up-to-date boundaries available:</b>
-					<pre><code>https://www.geoboundaries.org/api/current/release/[3-LETTER-ISO-CODE]/[ADM-LEVEL]/</code></pre>
+					<pre><code>https://www.geoboundaries.org/api/current/gbOpen/[3-LETTER-ISO-CODE]/[ADM-LEVEL]/</code></pre>
 					<p>Users can also enter the special phrase "ALL" for either "ADM" or "ISO" to get a multi-boundary return. Each requested boundary
 						returns all metadata available for that boundary in the gBOpen release, including a link to both the full-resolution, large-file size
 						and the minor simplification (~5%), small-file size versions.  In cases where a gbHumanitarian or gbAuthoritative release is available
-						for a boundary, that information is provided in sub-objects within the returned json. Users can additionally replace "release" with either 
+						for a boundary, that information is provided in sub-objects within the returned json. Users can additionally replace "gbOpen" with either 
 						"gbAuthoritative" or "gbHumanitarian" to filter results to only include boundaries from those two respective releases.
 					</p>
 					
@@ -125,7 +125,7 @@
 							</div>
 
 
-							<b>Returns the shape(s) representing one of the administrative boundaries:</b>
+							<b>Returns the geometric shape(s) representing one of the administrative boundaries:</b>
 							<!-- HTML generated using hilite.me -->
 							<div
 								style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">

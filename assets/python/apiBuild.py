@@ -16,9 +16,51 @@ humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanit
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 
 
+allADM = {}
+allADM["gbOpen"] = {}
+allADM["gbHumanitarian"] = {}
+allADM["gbAuthoritative"] = {}
+
+#These dicts all hold all boundaries for a given level.
+#This is to support user queries of ISO=ALL for each level.
+allADM["gbOpen"]["ADM0"] = []
+allADM["gbOpen"]["ADM1"] = []
+allADM["gbOpen"]["ADM2"] = []
+allADM["gbOpen"]["ADM3"] = []
+allADM["gbOpen"]["ADM4"] = []
+allADM["gbOpen"]["ADM5"] = []
+
+allADM["gbHumanitarian"]["ADM0"] = []
+allADM["gbHumanitarian"]["ADM1"] = []
+allADM["gbHumanitarian"]["ADM2"] = []
+allADM["gbHumanitarian"]["ADM3"] = []
+allADM["gbHumanitarian"]["ADM4"] = []
+allADM["gbHumanitarian"]["ADM5"] = []
+
+allADM["gbAuthoritative"]["ADM0"] = []
+allADM["gbAuthoritative"]["ADM1"] = []
+allADM["gbAuthoritative"]["ADM2"] = []
+allADM["gbAuthoritative"]["ADM3"] = []
+allADM["gbAuthoritative"]["ADM4"] = []
+allADM["gbAuthoritative"]["ADM5"] = []
+
+#Additionally, for each country we'll add another dictionary.
+#This is to support user queries of ADM=ALL for any ISO.
+allISO = {}
+allISO["gbOpen"] = {}
+allISO["gbHumanitarian"] = {}
+allISO["gbAuthoritative"] = {}
+
+#Finally, we'll just copy everything into all:
+all = {}
+all["gbOpen"] = []
+all["gbHumanitarian"] = []
+all["gbAuthoritative"] = []
+
+
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
-    currentPath = "//__w/gbWeb/gbWeb/api/current/release/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
+    currentPath = "//__w/gbWeb/gbWeb/api/current/gbOpen/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
     currentHumPath = "//__w/gbWeb/gbWeb/api/current/gbHumanitarian/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
     currentAuthPath = "//__w/gbWeb/gbWeb/api/current/gbAuthoritative/" + str(r["boundaryISO"]) + "/" + str(r["boundaryType"]) + "/"
 
@@ -61,6 +103,29 @@ for i, r in openDta.iterrows():
         t = copy.deepcopy(apiData)
         apiData["gbHumanitarian"] = t
 
+    
+    #Append to master ADM and ISO lists
+    curOpen = apiData
+    try:
+        del curOpen["gbHumanitarian"]
+        del curOpen["gbAuthoritative"]
+    except:
+        pass
+    allADM["gbOpen"][r["boundaryType"]].append(curOpen)
+    allADM["gbHumanitarian"][r["boundaryType"]].append(apiData["gbHumanitarian"])
+
+    if(allISO["gbOpen"].has_key(r["boundaryISO"])):
+        allISO["gbOpen"][r["boundaryISO"]].append(curOpen)
+        allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
+    else:
+        allISO["gbOpen"][r["boundaryISO"]] = []
+        allISO["gbHumanitarian"][r["boundaryISO"]] = []
+        allISO["gbOpen"][r["boundaryISO"]].append(curOpen)
+        allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
+
+    all["gbOpen"].append(curOpen)
+    all["gbHumanitarian"].append(apiData["gbHumanitarian"])
+
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
     
@@ -68,6 +133,14 @@ for i, r in openDta.iterrows():
         json.dump(apiData["gbHumanitarian"], f)
     
     if(authMatch.shape[0] == 1):
+        allADM["gbAuthoritative"][r["boundaryType"]].append(apiData["gbAuthoritative"])
+        all["gbAuthoritative"].append(apiData["gbAuthoritative"])
+        if(allISO["gbAuthoritative"].has_key(r["boundaryISO"])):
+            allISO["gbAuthoritative"][r["boundaryISO"]].append(apiData["gbAuthoritative"])
+        else:
+            allISO["gbAuthoritative"][r["boundaryISO"]] = []
+            allISO["gbAuthoritative"][r["boundaryISO"]].append(apiData["gbAuthoritative"])
+
         with open(currentAuthPath + "index.json", "w") as f:
             json.dump(apiData["gbAuthoritative"], f)
 
@@ -96,7 +169,6 @@ for i, r in openDta.iterrows():
         del t["gbHumanitarian"]
         del t["gbAuthoritative"]
         apiData["gbHumanitarian"] = t
-
 
     with open(gbIDPath + "index.json", "w") as f:
         json.dump(apiData, f)
@@ -137,4 +209,26 @@ for i, r in openDta.iterrows():
         with open(humPath + "index.json", "w") as f:
             json.dump(hApiData, f)    
     
-   
+#Add the "ALL" folders for ADMs and save the relevant jsons
+for releaseType in allADM:
+    for level in allADM[releaseType]:
+        allPath = "//__w/gbWeb/gbWeb/api/current/"+str(releaseType)+"/ALL/" + str(level) + "/"
+        os.makedirs(allPath, exist_ok=True)
+        outFile = allPath + "index.json"
+        with open(outFile, "w") as f:
+            json.dump(allADM["releaseType"], f)  
+
+#Add the "ALL" to each ISO folder, as well as the ALL/ALL
+for releaseType in allISO:
+    allALLPath = "//__w/gbWeb/gbWeb/api/current/"+str(releaseType)+"/ALL/ALL/"
+    os.makedirs(allALLPath, exist_ok=True)
+    outALL = allALLPath + "index.json"
+    with open(outALL, "w") as f:
+        json.dump(all[releaseType], f)
+
+    for iso in allISO[releaseType]:
+        allPath = "//__w/gbWeb/gbWeb/api/current/"+str(releaseType)+"/"+str(iso)+"/ALL/" 
+        os.makedirs(allPath, exist_ok=True)
+        outFile = allPath + "index.json"
+        with open(outFile, "w") as f:
+            json.dump(allISO[releaseType][iso], f)
