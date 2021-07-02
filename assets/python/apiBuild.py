@@ -216,7 +216,7 @@ for releaseType in allADM:
         os.makedirs(allPath, exist_ok=True)
         outFile = allPath + "index.json"
         with open(outFile, "w") as f:
-            json.dump(allADM["releaseType"], f)  
+            json.dump(allADM[releaseType], f)  
 
 #Add the "ALL" to each ISO folder, as well as the ALL/ALL
 for releaseType in allISO:
