@@ -114,7 +114,7 @@ for i, r in openDta.iterrows():
     allADM["gbOpen"][r["boundaryType"]].append(curOpen)
     allADM["gbHumanitarian"][r["boundaryType"]].append(apiData["gbHumanitarian"])
 
-    if(allISO["gbOpen"].has_key(r["boundaryISO"])):
+    if(r["boundaryISO"] in allISO["gbOpen"]):
         allISO["gbOpen"][r["boundaryISO"]].append(curOpen)
         allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
     else:
@@ -135,7 +135,7 @@ for i, r in openDta.iterrows():
     if(authMatch.shape[0] == 1):
         allADM["gbAuthoritative"][r["boundaryType"]].append(apiData["gbAuthoritative"])
         all["gbAuthoritative"].append(apiData["gbAuthoritative"])
-        if(allISO["gbAuthoritative"].has_key(r["boundaryISO"])):
+        if(r["boundaryISO"] in allISO["gbAuthoritative"]):
             allISO["gbAuthoritative"][r["boundaryISO"]].append(apiData["gbAuthoritative"])
         else:
             allISO["gbAuthoritative"][r["boundaryISO"]] = []
