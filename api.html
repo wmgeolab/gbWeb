@@ -85,11 +85,12 @@
 					<br /> 
 					<br />
 					<b>To find information on the most up-to-date boundaries available:</b>
-					<pre><code>https://www.geoboundaries.org/api/current/[3-LETTER-ISO-CODE]/[ADM-LEVEL]/</code></pre>
+					<pre><code>https://www.geoboundaries.org/api/current/release/[3-LETTER-ISO-CODE]/[ADM-LEVEL]/</code></pre>
 					<p>Users can also enter the special phrase "ALL" for either "ADM" or "ISO" to get a multi-boundary return. Each requested boundary
 						returns all metadata available for that boundary in the gBOpen release, including a link to both the full-resolution, large-file size
 						and the minor simplification (~5%), small-file size versions.  In cases where a gbHumanitarian or gbAuthoritative release is available
-						for a boundary, that information is provided in subobjects within the returned json. 
+						for a boundary, that information is provided in sub-objects within the returned json. Users can additionally replace "release" with either 
+						"gbAuthoritative" or "gbHumanitarian" to filter results to only include boundaries from those two respective releases.
 					</p>
 					
 					<b>To find information on any geoBoundary, past or present, based on the geoBoundary ID:</b>
