@@ -105,7 +105,7 @@ for i, r in openDta.iterrows():
 
     
     #Append to master ADM and ISO lists
-    curOpen = apiData
+    curOpen = copy.deepcopy(apiData)
     try:
         del curOpen["gbHumanitarian"]
         del curOpen["gbAuthoritative"]
