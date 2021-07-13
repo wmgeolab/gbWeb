@@ -52,11 +52,7 @@ ADMs = ["ADM0", "ADM1", "ADM2", "ADM3", "ADM4", "ADM5", "ADM6"]
 for _, bound in allBounds.iterrows():
     ISO = bound["Alpha-3code"]
     webJSON[ISO] = {}
-    webJSON[ISO]["ISO"] = ISO
-    webJSON[ISO]["Name"] = bound["Name"]
-    webJSON[ISO]["Claimant(s)"] = bound["Claimant(s)"].replace("nan","")
-    webJSON[ISO]["Disputed"] = bound["Disputed"].replace("nan","")
-    webJSON[ISO]["Continent"] = bound["Continent"]
+
 
     for adm in ADMs:
         if ISO in allOpenDict:
@@ -76,6 +72,8 @@ for _, bound in allBounds.iterrows():
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "No"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
             else:
                 pass
         else:
@@ -87,6 +85,8 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openAvailable"] = "No"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
+            else:
+                pass
         
         
         
@@ -107,6 +107,8 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["humPreview"] = allHumDict[ISO][adm]["imagePreview"]
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["humAvailable"] = "No"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
             else:
                 pass
         else:
@@ -136,6 +138,8 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["authPreview"] = allAuthDict[ISO][adm]["imagePreview"]
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["authAvailable"] = "No"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
             else:
                 pass
         else:
