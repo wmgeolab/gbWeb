@@ -15,11 +15,9 @@ for i in range(len(allOpen)):
         allOpenDict[ISO] = {}
     if ADM not in allOpenDict[ISO]:
         allOpenDict[ISO][ADM] = {}
-    for j in range(len(allOpen[i])):
-        print(allOpen[i])
-        print(allOpen[i][j])
-        sys.exit()
-        
+    
+    for key, value in allOpen[i].items():
+        allOpenDict[ISO][ADM][key] = value
 
 webJSON = {}
 ADMs = ["ADM0", "ADM1", "ADM2", "ADM3", "ADM4", "ADM5", "ADM6"]
@@ -34,9 +32,6 @@ for _, bound in allBounds.iterrows():
     webJSON[ISO]["Continent"] = bound["Continent"]
 
     for adm in ADMs:
-        print(adm)
-        print(webJSON)
-        print(allOpen[0])
-        sys.exit()
+        print(allOpenDict[ISO][adm])
         
         #loop
