@@ -72,38 +72,42 @@ for _, bound in allBounds.iterrows():
             webJSON[ISO][adm]["openAvailable"] = "No"
         else:
             pass
-
-        if(adm in allHumDict[ISO]):
-            if(adm not in webJSON[ISO]):
-                webJSON[ISO][adm] = {}
-            webJSON[ISO][adm]["humAvailable"] = "Yes"
-            webJSON[ISO][adm]["ISO"] = ISO
-            webJSON[ISO][adm]["ADM"] = adm
-            webJSON[ISO][adm]["boundaryName"] = allHumDict[ISO][adm]["boundaryName"]
-            webJSON[ISO][adm]["humBoundaryYearRepresented"] = allHumDict[ISO][adm]["boundaryYearRepresented"]
-            webJSON[ISO][adm]["humBoundaryLicense"] = allHumDict[ISO][adm]["boundaryLicense"]
-            webJSON[ISO][adm]["humSourceDataUpdateDate"] = allHumDict[ISO][adm]["sourceDataUpdateDate"]
-            webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
-        elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
+        if ISO in allHumDict:
+            if(adm in allHumDict[ISO]):
+                if(adm not in webJSON[ISO]):
+                    webJSON[ISO][adm] = {}
+                webJSON[ISO][adm]["humAvailable"] = "Yes"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
+                webJSON[ISO][adm]["boundaryName"] = allHumDict[ISO][adm]["boundaryName"]
+                webJSON[ISO][adm]["humBoundaryYearRepresented"] = allHumDict[ISO][adm]["boundaryYearRepresented"]
+                webJSON[ISO][adm]["humBoundaryLicense"] = allHumDict[ISO][adm]["boundaryLicense"]
+                webJSON[ISO][adm]["humSourceDataUpdateDate"] = allHumDict[ISO][adm]["sourceDataUpdateDate"]
+                webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
+            elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
+                webJSON[ISO][adm]["humAvailable"] = "No"
+            else:
+                pass
+        else:
             webJSON[ISO][adm]["humAvailable"] = "No"
-        else:
-            pass
 
-        if(adm in allAuthDict[ISO]):
-            if(adm not in webJSON[ISO]):
-                webJSON[ISO][adm] = {}
-            webJSON[ISO][adm]["authAvailable"] = "Yes"
-            webJSON[ISO][adm]["ISO"] = ISO
-            webJSON[ISO][adm]["ADM"] = adm
-            webJSON[ISO][adm]["boundaryName"] = allAuthDict[ISO][adm]["boundaryName"]
-            webJSON[ISO][adm]["authBoundaryYearRepresented"] = allAuthDict[ISO][adm]["boundaryYearRepresented"]
-            webJSON[ISO][adm]["authBoundaryLicense"] = allAuthDict[ISO][adm]["boundaryLicense"]
-            webJSON[ISO][adm]["authSourceDataUpdateDate"] = allAuthDict[ISO][adm]["sourceDataUpdateDate"]
-            webJSON[ISO][adm]["authBoundarySource-1"] = allAuthDict[ISO][adm]["boundarySource-1"]
-        elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
-            webJSON[ISO][adm]["authAvailable"] = "No"
+        if ISO in allAuthDict:
+            if(adm in allAuthDict[ISO]):
+                if(adm not in webJSON[ISO]):
+                    webJSON[ISO][adm] = {}
+                webJSON[ISO][adm]["authAvailable"] = "Yes"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
+                webJSON[ISO][adm]["boundaryName"] = allAuthDict[ISO][adm]["boundaryName"]
+                webJSON[ISO][adm]["authBoundaryYearRepresented"] = allAuthDict[ISO][adm]["boundaryYearRepresented"]
+                webJSON[ISO][adm]["authBoundaryLicense"] = allAuthDict[ISO][adm]["boundaryLicense"]
+                webJSON[ISO][adm]["authSourceDataUpdateDate"] = allAuthDict[ISO][adm]["sourceDataUpdateDate"]
+                webJSON[ISO][adm]["authBoundarySource-1"] = allAuthDict[ISO][adm]["boundarySource-1"]
+            elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
+                webJSON[ISO][adm]["authAvailable"] = "No"
+            else:
+                pass
         else:
-            pass
-            
+            webJSON[ISO][adm]["authAvailable"] = "No"
         
         print(webJSON)
