@@ -6,6 +6,20 @@ allBounds = pd.read_csv("//__w/gbWeb/geoBoundaryBot/dta/iso_3166_1_alpha_3.csv",
 
 allOpen = requests.get("https://www.geoboundaries.org/api/current/gbOpen/ALL/ALL/").json()
 
+#Convert our list into a dict
+allOpenDict = {}
+for i in range(len(allOpen)):
+    ISO = allOpen[i]['boundaryISO']
+    ADM = allOpen[i]['boundaryType']
+    if ISO not in allOpenDict:
+        allOpenDict[ISO] = {}
+    if ADM not in allOpenDict[ISO]:
+        allOpenDict[ISO][ADM] = {}
+    for j in range(len(allOpen[i])):
+        print(allOpen[i])
+        print(allOpen[i][j])
+        sys.exit()
+        
 
 webJSON = {}
 ADMs = ["ADM0", "ADM1", "ADM2", "ADM3", "ADM4", "ADM5", "ADM6"]
