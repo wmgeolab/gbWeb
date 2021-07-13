@@ -262,8 +262,8 @@
 								{title: "Year Represented", field:"openBoundaryYearRepresented", headerVertical: true, },
 								{title: "Image Preview", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
 								{ formatter: interactivePreview, title:"Interactive Preview", field:"openSimpInteractive", align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
-								{title: "Primary Source", field:"openBoundarySource-1", headerVertical: true, responsive:1,  width:"20%"},
-								{title: "License", field:"openBoundaryLicense", headerVertical:true, responsive:1,  width:"20%"},
+								{title: "Primary Source", field:"openBoundarySource-1", headerVertical: true, responsive:1,  width:"30%"},
+								{title: "License", field:"openBoundaryLicense", headerVertical:true, responsive:1,  width:"30%"},
 								],
 								},
 								{
@@ -276,8 +276,8 @@
 								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true, visible:false, cssClass:"lightHighlight"},
 								{title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, cssClass:"lightHighlight"},
 								{ formatter: interactivePreview, title:"Interactive Preview", field:"humSimpInteractive", visible:false, align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
-								{title: "Primary Source", field:"humBoundarySource-1", headerVertical: true, responsive:1, visible:false, width:"20%",cssClass:"lightHighlight"},
-								{title: "License", field:"humBoundaryLicense", headerVertical:true, responsive:1,  width:"20%", visible:false, cssClass:"lightHighlight"},
+								{title: "Primary Source", field:"humBoundarySource-1", headerVertical: true, responsive:1, visible:false, width:"30%",cssClass:"lightHighlight"},
+								{title: "License", field:"humBoundaryLicense", headerVertical:true, responsive:1,  width:"30%", visible:false, cssClass:"lightHighlight"},
 								],
 								},
 								{
@@ -287,8 +287,8 @@
 								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"authDownloadURL", headerVertical:true, visible:false, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
 								{title: "Year Represented", field:"authBoundaryYearRepresented", visible:false, headerVertical: true, },
 								{title: "Preview", field: "authPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, },
-								{title: "Primary Source", field:"authBoundarySource-1", headerVertical: true, responsive:1,  visible:false, width:"20%"},
-								{title: "License", field:"authBoundaryLicense", headerVertical:true, responsive:1,  visible:false, width:"20%"},
+								{title: "Primary Source", field:"authBoundarySource-1", headerVertical: true, responsive:1,  visible:false, width:"30%"},
+								{title: "License", field:"authBoundaryLicense", headerVertical:true, responsive:1,  visible:false, width:"30%"},
 								],
 								}
 
