@@ -58,7 +58,7 @@ for _, bound in allBounds.iterrows():
         if ISO in allOpenDict:
             if(adm in allOpenDict[ISO]):
                 webJSON[ISO][adm] = {}
-                webJSON[ISO][adm]["openAvailable"] = "Yes"
+                webJSON[ISO][adm]["openAvailable"] = "True"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = allOpenDict[ISO][adm]["boundaryName"]
@@ -71,7 +71,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openPreview"] = allOpenDict[ISO][adm]["imagePreview"]
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm] = {}
-                webJSON[ISO][adm]["openAvailable"] = "No"
+                webJSON[ISO][adm]["openAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
             else:
@@ -82,7 +82,7 @@ for _, bound in allBounds.iterrows():
                     webJSON[ISO] = {}
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
-                webJSON[ISO][adm]["openAvailable"] = "No"
+                webJSON[ISO][adm]["openAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
             else:
@@ -95,7 +95,7 @@ for _, bound in allBounds.iterrows():
             if(adm in allHumDict[ISO]):
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
-                webJSON[ISO][adm]["humAvailable"] = "Yes"
+                webJSON[ISO][adm]["humAvailable"] = "True"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = allHumDict[ISO][adm]["boundaryName"]
@@ -106,7 +106,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["humDownloadURL"] = allHumDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["humPreview"] = allHumDict[ISO][adm]["imagePreview"]
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
-                webJSON[ISO][adm]["humAvailable"] = "No"
+                webJSON[ISO][adm]["humAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = bound["Name"]
@@ -118,7 +118,7 @@ for _, bound in allBounds.iterrows():
                     webJSON[ISO] = {}
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
-                webJSON[ISO][adm]["humAvailable"] = "No"
+                webJSON[ISO][adm]["humAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = bound["Name"]
@@ -128,7 +128,7 @@ for _, bound in allBounds.iterrows():
             if(adm in allAuthDict[ISO]):
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
-                webJSON[ISO][adm]["authAvailable"] = "Yes"
+                webJSON[ISO][adm]["authAvailable"] = "True"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = allAuthDict[ISO][adm]["boundaryName"]
@@ -139,7 +139,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["authDownloadURL"] = allAuthDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["authPreview"] = allAuthDict[ISO][adm]["imagePreview"]
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
-                webJSON[ISO][adm]["authAvailable"] = "No"
+                webJSON[ISO][adm]["authAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = bound["Name"]
@@ -151,7 +151,7 @@ for _, bound in allBounds.iterrows():
                     webJSON[ISO] = {}
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
-                webJSON[ISO][adm]["authAvailable"] = "No"
+                webJSON[ISO][adm]["authAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = bound["Name"]

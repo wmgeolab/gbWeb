@@ -205,7 +205,9 @@
 							responsiveLayout: false,
 							//autoColumns:true,
 							columns: [                 //define the table columns
-								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input'},
+								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input', headerVertical:true},
+								{title: "gbOpen", field:"openAvailable", formatter:"tickCross"}
+
 								//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
 								//{ title: "View", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true },
 								//{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
