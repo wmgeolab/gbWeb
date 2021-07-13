@@ -12,7 +12,7 @@ jobs:
            cd $GITHUB_WORKSPACE
            cd ..
            cd ..
-           rm gbWeb
+           rm -rf gbWeb
            ls
            git clone https://github.com/wmgeolab/geoBoundaryBot
    
