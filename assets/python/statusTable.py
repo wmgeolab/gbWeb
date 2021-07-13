@@ -85,6 +85,8 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "No"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
         
         
         
@@ -114,6 +116,8 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["humAvailable"] = "No"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
         
 
         if ISO in allAuthDict:
@@ -141,6 +145,8 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["authAvailable"] = "No"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
         
         if(ISO in webJSON):
             if(adm in webJSON[ISO]):
