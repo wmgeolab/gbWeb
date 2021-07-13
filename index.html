@@ -47,7 +47,11 @@
   gtag('config', 'AW-984002936');
 </script>
 
-
+<style>
+	.lightHighlight {
+		background-color: #789f9023;
+	}
+</style>
 
 
 </head>
@@ -169,14 +173,41 @@
 						<span>
 							<h2 id="getdata" style="display:inline;">Get the Data</h2> 
 						</span>
-
+						
 					</header>
-					We provide four different data products: gbOpen, gbHumanitarian, gbAuthoritative, and our single-file global composite product, CGAZ.  
-				<div>
-					<input type="checkbox" id="chk-hum", name="chk-open", value="Recommended for most users. For users that require an open license - if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.">
-					<input type="checkbox" id="chk-hum", name="chk-hum", value="Show humanitarian data - the most recent UN OCHA COD boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.">
-					<input type="checkbox" id="chk-hum", name="chk-auth", value="Show authoritative data approved through the UN SALB process, integrated with other official country sources. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage.">
-				</div>
+					<p> This page allows you to download the geoBoundaries Open product.  The only requirement for use is <a href="index.html#citation">acknowledgement</a>. Users should be aware of the following usage notes for this product:
+                        <ul>
+                            <li>We seek to represent countries as they would represent themselves in the case of conflicted boundaries.  This can result in overlaps between countries.  If you need a single, seamless global boundary, please consider our <a href="downloadCGAZ.html">CGAZ dataset.</a></li>
+                            <li>Each boundary is the most recent, most accurate open license product we could create or retrieve from sources with clearly defined licenses.</li>
+                            <li>Every boundary has a unique ID across the entire globe.  Boundary IDs only change when some element of the underlying data changes.</li>
+                            <li>You can choose between products with minor simplifications applied (the default below), or the original, highest-precision files (the "Large File Size" links).  While the differences in geometries are very small, the simplified geometries are frequently an order of magnitude (or more) smaller in file size and loading speeds.  We recommend the simplified files for most uses.</li>
+                        </ul>
+					<br /> 
+					<div class="form-check" style="margin-top:0.01cm">
+						<input class="form-check-input" type="checkbox" value="" id="gbOpen" checked>
+						<label class="form-check-label" for="gbOpen">
+							<b>gbOpen - Recommended for most users.</b> For users that require an open license - if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.
+						</label>
+					</div>
+					<div class="form-check" style="margin-top:0.10cm">
+						<input class="form-check-input" type="checkbox" value="" id="gbHum">
+						<label class="form-check-label" for="gbHum">
+							gbHumanitarian - The most recent UN OCHA COD boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.
+						</label>
+					</div>
+					<div class="form-check" style="margin-top:0.10cm">
+						<input class="form-check-input" type="checkbox" value="" id="gbAuth">
+						<label class="form-check-label" for="gbAuth">
+							gbAuthoritative - Show authoritative data approved through the UN SALB process, integrated with other official country sources. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage.
+						</label>
+					  </div>
+					<input type="checkbox" style="height:10px; width:10px; opacity:100%;" id="chk-open" name="chk-open" value="">
+					<input type="checkbox" id="chk-hum" name="chk-hum" value="">
+					<input type="checkbox" id="chk-auth" name="chk-auth" value="">
+				
+					
+					<br />
+					
 					<div class="row" id="dataTable" style="max-width: 100%;">
 						
 						<div class="col-twelve tab-full" id="dataTableRep">
@@ -192,7 +223,6 @@
 							return "<i class='fa fa-download'></i>";
 						}
 						var iconFormatter = function (cell, row, formatterParams) { //plain text value
-							console.log(cell.getValue())
 							if(typeof cell.getValue() != "undefined")
 							{
 							return "<a href='" + cell.getValue() + "' target='_blank'><img width=50px src='" + cell.getValue() + "'></a>";
@@ -205,13 +235,13 @@
 							layout: "fitDataFill",
 							resizableColumns: false,
 							responsiveLayout: false,
-							groupBy: "boundaryName",
+							groupBy: ["Continent","boundaryName"],
 							//autoColumns:true,
 							columns: [                 //define the table columns
-								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input', headerVertical:false},
-								{title: "Level", field:"ADM", visible:true, responsive:0, headerVertical:true},
+								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input', headerVertical:false, cssClass:"lightHighlight"},
+								{title: "Level", field:"ADM", visible:true, responsive:0, headerVertical:true, cssClass:"lightHighlight"},
 								{
-									title:"geoBoundaries Open",
+									title:"gBOpen",
 									columns:[
 								{title: "Available", field:"openAvailable", formatter:"tickCross", headerVertical: true},
 								{title: "Year Represented", field:"openBoundaryYearRepresented", headerVertical: true},
@@ -219,15 +249,15 @@
 								],
 								},
 								{
-									title:"geoBoundaries Humanitarian",
+									title:"gBHumanitarian",
 									columns:[
-								{title: "Available", field:"humAvailable", formatter:"tickCross", headerVertical: true},
-								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true},
-								{title: "Preview", field: "humPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true},
+								{title: "Available", field:"humAvailable", formatter:"tickCross", headerVertical: true, cssClass:"lightHighlight"},
+								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true, cssClass:"lightHighlight"},
+								{title: "Preview", field: "humPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, cssClass:"lightHighlight"},
 								],
 								},
 								{
-									title:"geoBoundaries Authoritative",
+									title:"gBAuthoritative",
 									columns:[
 								{title: "Available", field:"authAvailable", formatter:"tickCross", headerVertical: true},
 								{title: "Year Represented", field:"authBoundaryYearRepresented", headerVertical: true},

@@ -63,7 +63,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = allOpenDict[ISO][adm]["boundaryName"]
                 webJSON[ISO][adm]["Continent"] = allOpenDict[ISO][adm]["Continent"]
-                webJSON[ISO][adm]["openBoundaryYearRepresented"] = allOpenDict[ISO][adm]["boundaryYearRepresented"]
+                webJSON[ISO][adm]["openBoundaryYearRepresented"] = allOpenDict[ISO][adm]["boundaryYearRepresented"].replace(".0","")
                 webJSON[ISO][adm]["openBoundaryLicense"] = allOpenDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["openSourceDataUpdateDate"] = allOpenDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["openBoundarySource-1"] = allOpenDict[ISO][adm]["boundarySource-1"]
@@ -72,6 +72,7 @@ for _, bound in allBounds.iterrows():
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "False"
+                webJSON[ISO][adm]["Continent"] = bound["Continent"]
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
             else:
@@ -83,6 +84,7 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "False"
+                webJSON[ISO][adm]["Continent"] = bound["Continent"]
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
             else:
@@ -99,7 +101,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = allHumDict[ISO][adm]["boundaryName"]
-                webJSON[ISO][adm]["humBoundaryYearRepresented"] = allHumDict[ISO][adm]["boundaryYearRepresented"]
+                webJSON[ISO][adm]["humBoundaryYearRepresented"] = allHumDict[ISO][adm]["boundaryYearRepresented"].replace(".0","")
                 webJSON[ISO][adm]["humBoundaryLicense"] = allHumDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["humSourceDataUpdateDate"] = allHumDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
@@ -110,6 +112,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = bound["Name"]
+                webJSON[ISO][adm]["Continent"] = bound["Continent"]
             else:
                 pass
         else:
@@ -122,6 +125,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = bound["Name"]
+                webJSON[ISO][adm]["Continent"] = bound["Continent"]
         
 
         if ISO in allAuthDict:
@@ -132,7 +136,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = allAuthDict[ISO][adm]["boundaryName"]
-                webJSON[ISO][adm]["authBoundaryYearRepresented"] = allAuthDict[ISO][adm]["boundaryYearRepresented"]
+                webJSON[ISO][adm]["authBoundaryYearRepresented"] = allAuthDict[ISO][adm]["boundaryYearRepresented"].replace(".0","")
                 webJSON[ISO][adm]["authBoundaryLicense"] = allAuthDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["authSourceDataUpdateDate"] = allAuthDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["authBoundarySource-1"] = allAuthDict[ISO][adm]["boundarySource-1"]
@@ -143,6 +147,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = bound["Name"]
+                webJSON[ISO][adm]["Continent"] = bound["Continent"]
             else:
                 pass
         else:
@@ -155,6 +160,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["ISO"] = ISO
                 webJSON[ISO][adm]["ADM"] = adm
                 webJSON[ISO][adm]["boundaryName"] = bound["Name"]
+                webJSON[ISO][adm]["Continent"] = bound["Continent"]
         
         if(ISO in webJSON):
             if(adm in webJSON[ISO]):
