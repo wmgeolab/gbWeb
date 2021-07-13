@@ -74,34 +74,38 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openAvailable"] = "No"
             else:
                 pass
-            if ISO in allHumDict:
-                if(adm in allHumDict[ISO]):
-                    if(adm not in webJSON[ISO]):
-                        webJSON[ISO][adm] = {}
-                    webJSON[ISO][adm]["humAvailable"] = "Yes"
-                    webJSON[ISO][adm]["ISO"] = ISO
-                    webJSON[ISO][adm]["ADM"] = adm
-                    webJSON[ISO][adm]["boundaryName"] = allHumDict[ISO][adm]["boundaryName"]
-                    webJSON[ISO][adm]["humBoundaryYearRepresented"] = allHumDict[ISO][adm]["boundaryYearRepresented"]
-                    webJSON[ISO][adm]["humBoundaryLicense"] = allHumDict[ISO][adm]["boundaryLicense"]
-                    webJSON[ISO][adm]["humSourceDataUpdateDate"] = allHumDict[ISO][adm]["sourceDataUpdateDate"]
-                    webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
-                elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
-                    webJSON[ISO][adm]["humAvailable"] = "No"
-                else:
-                    pass
+        else:
+            if((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
+                if(ISO not in webJSON):
+                    webJSON[ISO] = {}
+                if(adm not in webJSON[ISO]):
+                    webJSON[ISO][adm] = {}
+                webJSON[ISO][adm]["openAvailable"] = "No"
+
+        if ISO in allHumDict:
+            if(adm in allHumDict[ISO]):
+                if(adm not in webJSON[ISO]):
+                    webJSON[ISO][adm] = {}
+                webJSON[ISO][adm]["humAvailable"] = "Yes"
+                webJSON[ISO][adm]["ISO"] = ISO
+                webJSON[ISO][adm]["ADM"] = adm
+                webJSON[ISO][adm]["boundaryName"] = allHumDict[ISO][adm]["boundaryName"]
+                webJSON[ISO][adm]["humBoundaryYearRepresented"] = allHumDict[ISO][adm]["boundaryYearRepresented"]
+                webJSON[ISO][adm]["humBoundaryLicense"] = allHumDict[ISO][adm]["boundaryLicense"]
+                webJSON[ISO][adm]["humSourceDataUpdateDate"] = allHumDict[ISO][adm]["sourceDataUpdateDate"]
+                webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
+            elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
+                webJSON[ISO][adm]["humAvailable"] = "No"
             else:
+                pass
+        else:
+            if((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 if(ISO not in webJSON):
                     webJSON[ISO] = {}
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["humAvailable"] = "No"
-        else:
-            if(ISO not in webJSON):
-                webJSON[ISO] = {}
-            if(adm not in webJSON[ISO]):
-                webJSON[ISO][adm] = {}
-            webJSON[ISO][adm]["openAvailable"] = "No"
+        
 
         if ISO in allAuthDict:
             if(adm in allAuthDict[ISO]):
@@ -120,10 +124,11 @@ for _, bound in allBounds.iterrows():
             else:
                 pass
         else:
-            if(ISO not in webJSON):
-                webJSON[ISO] = {}
-            if(adm not in webJSON[ISO]):
-                webJSON[ISO][adm] = {}
-            webJSON[ISO][adm]["authAvailable"] = "No"
+            if((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
+                if(ISO not in webJSON):
+                    webJSON[ISO] = {}
+                if(adm not in webJSON[ISO]):
+                    webJSON[ISO][adm] = {}
+                webJSON[ISO][adm]["authAvailable"] = "No"
         
         print(webJSON)
