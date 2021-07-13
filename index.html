@@ -203,16 +203,17 @@
 							layout: "fitDataFill",
 							resizableColumns: false,
 							responsiveLayout: false,
-							autoColumns:true,
+							//autoColumns:true,
 							columns: [                 //define the table columns
-								{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
-								{ title: "View", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true },
-								{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
-								{ title: "Level", field: "boundaryType", visible: true, responsive: 0, headerFilter: "select" },
-								{ title: "License", field: "boundaryLicense", headerFilter: "select", headerFilterParams: { values: true }, visible: true, formatter: "textarea", width: "37%"},
+								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input'},
+								//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
+								//{ title: "View", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true },
+								//{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
+								//{ title: "Level", field: "boundaryType", visible: true, responsive: 0, headerFilter: "select" },
+								//{ title: "License", field: "boundaryLicense", headerFilter: "select", headerFilterParams: { values: true }, visible: true, formatter: "textarea", width: "37%"},
 								//{title:"ID", field:"boundaryID", visible:true},
-								{ title: "Source", field: "boundarySource-1", visible: true, formatter: "textarea", width: "37%" },
-								{ title: "ShapefileURL", field: "downloadURL", visible: false },
+								//{ title: "Source", field: "boundarySource-1", visible: true, formatter: "textarea", width: "37%" },
+								//{ title: "ShapefileURL", field: "downloadURL", visible: false },
 							]
 						});
 					</script>
