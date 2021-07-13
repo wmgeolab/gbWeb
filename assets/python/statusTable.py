@@ -22,7 +22,7 @@ for _, bound in allBounds.iterrows():
     for adm in ADMs:
         print(adm)
         print(webJSON)
-        print(allOpen.keys())
+        print(allOpen[0])
         sys.exit()
         
         #loop
