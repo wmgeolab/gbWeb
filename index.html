@@ -217,10 +217,22 @@
 					
 					<script>
 						var downloadSingleIcon = function (cell, formatterParams) {
+							if(typeof cell.getValue() != "undefined")
+							{
 							return "<i class='fa fa-download'></i>";
+							}
 						}
 						var downloadSimpleIcon = function (cell, formatterParams) {
+							if(typeof cell.getValue() != "undefined")
+							{
 							return "<i class='fa fa-save'></i>";
+							}
+						}
+						var interactivePreview = function (cell, formatterParams) {
+							if(typeof cell.getValue() != "undefined")
+							{
+							return "<i class='fa fa-map-marked'></i>";
+							}
 						}
 						var iconFormatter = function (cell, row, formatterParams) { //plain text value
 							if(typeof cell.getValue() != "undefined")
@@ -245,10 +257,11 @@
 									title:"gBOpen",
 									columns:[
 								{title: "Available", field:"openAvailable", formatter:"tickCross", align:"center", headerVertical: true, },
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"openDownloadURL", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"openSimplified", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
 								{title: "Year Represented", field:"openBoundaryYearRepresented", headerVertical: true, },
-								{title: "Preview", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
+								{title: "Image Preview", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
+								{ formatter: interactivePreview, title:"Interactive Preview", field:"openSimpInteractive", align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
 								{title: "Primary Source", field:"openBoundarySource-1", headerVertical: true, responsive:1,  width:"20%"},
 								{title: "License", field:"openBoundaryLicense", headerVertical:true, responsive:1,  width:"20%"},
 								],
@@ -257,24 +270,25 @@
 									title:"gBHumanitarian",
 									cssClass:"lightHighlight",
 									columns:[
-								{title: "Available", field:"humAvailable", formatter:"tickCross", align:"center", headerVertical: true, cssClass:"lightHighlight"},
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", headerVertical:true, responsive: 0, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", align: "center", headerVertical:true, responsive: 0, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
-								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true, cssClass:"lightHighlight"},
-								{title: "Preview", field: "humPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, cssClass:"lightHighlight"},
-								{title: "Primary Source", field:"humBoundarySource-1", headerVertical: true, responsive:1,  width:"20%",cssClass:"lightHighlight"},
-								{title: "License", field:"humBoundaryLicense", headerVertical:true, responsive:1,  width:"20%",cssClass:"lightHighlight"},
+								{title: "Available", field:"humAvailable", formatter:"tickCross", align:"center", headerVertical: true, cssClass:"lightHighlight", visible:false},
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"humDownloadURL", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"humSimplified", align: "center", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
+								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true, visible:false, cssClass:"lightHighlight"},
+								{title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, cssClass:"lightHighlight"},
+								{ formatter: interactivePreview, title:"Interactive Preview", field:"humSimpInteractive", visible:false, align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
+								{title: "Primary Source", field:"humBoundarySource-1", headerVertical: true, responsive:1, visible:false, width:"20%",cssClass:"lightHighlight"},
+								{title: "License", field:"humBoundaryLicense", headerVertical:true, responsive:1,  width:"20%", visible:false, cssClass:"lightHighlight"},
 								],
 								},
 								{
 									title:"gBAuthoritative",
 									columns:[
-								{title: "Available", field:"authAvailable", formatter:"tickCross", align:"center", headerVertical: true, },
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{title: "Year Represented", field:"authBoundaryYearRepresented", headerVertical: true, },
-								{title: "Preview", field: "authPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
-								{title: "Primary Source", field:"authBoundarySource-1", headerVertical: true, responsive:1,  width:"20%"},
-								{title: "License", field:"authBoundaryLicense", headerVertical:true, responsive:1,  width:"20%"},
+								{title: "Available", field:"authAvailable", formatter:"tickCross", align:"center", visible:false, headerVertical: true, },
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"authDownloadURL", headerVertical:true, visible:false, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{title: "Year Represented", field:"authBoundaryYearRepresented", visible:false, headerVertical: true, },
+								{title: "Preview", field: "authPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, },
+								{title: "Primary Source", field:"authBoundarySource-1", headerVertical: true, responsive:1,  visible:false, width:"20%"},
+								{title: "License", field:"authBoundaryLicense", headerVertical:true, responsive:1,  visible:false, width:"20%"},
 								],
 								}
 
@@ -294,13 +308,61 @@
 							var checkBoxHum = document.getElementById("gbHum");
 							var checkBoxAuth = document.getElementById("gbAuth");
 							
-							//Destroy old tabulator
-							$("#dataTableRep").tabulator("destroy");
-							
-							if (checkBox.checked == true){
-								console.log("check")
+							//toggle columns
+							if (checkBoxOpen.checked == false){
+								tableA.getColumns()[3].hide()
+								tableA.getColumns()[4].hide()
+								tableA.getColumns()[5].hide()
+								tableA.getColumns()[6].hide()
+								tableA.getColumns()[7].hide()
+								tableA.getColumns()[8].hide()
+								tableA.getColumns()[9].hide()
+								tableA.getColumns()[10].hide()
 							} else {
-								console.log("noCheck")
+								tableA.getColumns()[3].show()
+								tableA.getColumns()[4].show()
+								tableA.getColumns()[5].show()
+								tableA.getColumns()[6].show()
+								tableA.getColumns()[7].show()
+								tableA.getColumns()[8].show()
+								tableA.getColumns()[9].show()
+								tableA.getColumns()[10].show()
+							}
+
+							if (checkBoxHum.checked == false){
+								tableA.getColumns()[11].hide()
+								tableA.getColumns()[12].hide()
+								tableA.getColumns()[13].hide()
+								tableA.getColumns()[14].hide()
+								tableA.getColumns()[15].hide()
+								tableA.getColumns()[16].hide()
+								tableA.getColumns()[17].hide()
+								tableA.getColumns()[18].hide()
+							} else {
+								tableA.getColumns()[11].show()
+								tableA.getColumns()[12].show()
+								tableA.getColumns()[13].show()
+								tableA.getColumns()[14].show()
+								tableA.getColumns()[15].show()
+								tableA.getColumns()[16].show()
+								tableA.getColumns()[17].show()
+								tableA.getColumns()[18].show()
+							}
+
+							if (checkBoxAuth.checked == false){
+								tableA.getColumns()[19].hide()
+								tableA.getColumns()[20].hide()
+								tableA.getColumns()[21].hide()
+								tableA.getColumns()[22].hide()
+								tableA.getColumns()[23].hide()
+								tableA.getColumns()[24].hide()
+							} else {
+								tableA.getColumns()[19].show()
+								tableA.getColumns()[20].show()
+								tableA.getColumns()[21].show()
+								tableA.getColumns()[22].show()
+								tableA.getColumns()[23].show()
+								tableA.getColumns()[24].show()
 							}
 							}
 					</script>
