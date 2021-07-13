@@ -34,12 +34,9 @@ for _, bound in allBounds.iterrows():
     for adm in ADMs:
         if(adm in allOpenDict[ISO]):
             webJSON[ISO][adm] = {}
+            print(allOpenDict[ISO][adm])
             webJSON[ISO][adm]["Available"] = "Yes"
-            webJSON[ISO][adm]["Name"] = allOpenDict[ISO][adm]["Name"]
-            webJSON[ISO][adm]["Claimant(s)"] = allOpenDict[ISO][adm]["Claimant(s)"]
-            webJSON[ISO][adm]["Disputed"] = allOpenDict[ISO][adm]["Disputed"]
-            webJSON[ISO][adm]["Continent"] = allOpenDict[ISO][adm]["Continent"]
-            print(allOpenDict[ISO][ADM])
+            
             sys.exit()
         elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
             webJSON[ISO][adm]["Available"] = "No"
