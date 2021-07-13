@@ -1,6 +1,6 @@
 on:
   workflow_dispatch
-name: DeployProductionWebsite
+name: DeployAPI
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
