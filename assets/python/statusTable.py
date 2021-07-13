@@ -15,13 +15,14 @@ for _, bound in allBounds.iterrows():
     webJSON[ISO] = {}
     webJSON[ISO]["ISO"] = ISO
     webJSON[ISO]["Name"] = bound["Name"]
-    webJSON[ISO]["Claimant(s)"] = bound["Claimant(s)"]
-    webJSON[ISO]["Disputed"] = bound["Disputed"]
+    webJSON[ISO]["Claimant(s)"] = bound["Claimant(s)"].replace("nan","")
+    webJSON[ISO]["Disputed"] = bound["Disputed"].replace("nan","")
     webJSON[ISO]["Continent"] = bound["Continent"]
 
     for adm in ADMs:
         print(adm)
         print(webJSON)
+        print(allOpen.keys())
         sys.exit()
         
         #loop
