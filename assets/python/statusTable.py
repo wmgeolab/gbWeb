@@ -73,11 +73,9 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openBoundarySource-1"] = allOpenDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["openDownloadURL"] = allOpenDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["openPreview"] = allOpenDict[ISO][adm]["imagePreview"]
-                webJSONlist.append(webJSON[ISO][adm])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "No"
-                webJSONlist.append(webJSON[ISO][adm])
             else:
                 pass
         else:
@@ -87,7 +85,6 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "No"
-                webJSONlist.append(webJSON[ISO][adm])
         
         
         
@@ -106,10 +103,8 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["humDownloadURL"] = allHumDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["humPreview"] = allHumDict[ISO][adm]["imagePreview"]
-                webJSONlist.append(webJSON[ISO][adm])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["humAvailable"] = "No"
-                webJSONlist.append(webJSON[ISO][adm])
             else:
                 pass
         else:
@@ -119,7 +114,6 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["humAvailable"] = "No"
-                webJSONlist.append(webJSON[ISO][adm])
         
 
         if ISO in allAuthDict:
@@ -136,10 +130,8 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["authBoundarySource-1"] = allAuthDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["authDownloadURL"] = allAuthDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["authPreview"] = allAuthDict[ISO][adm]["imagePreview"]
-                webJSONlist.append(webJSON[ISO][adm])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["authAvailable"] = "No"
-                webJSONlist.append(webJSON[ISO][adm])
             else:
                 pass
         else:
@@ -149,6 +141,9 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["authAvailable"] = "No"
+        
+        if(ISO in webJSON):
+            if(adm in webJSON[ISO]):
                 webJSONlist.append(webJSON[ISO][adm])
         
 with open("//__w/gbWeb/gbWeb/api/index.json", 'w') as f:
