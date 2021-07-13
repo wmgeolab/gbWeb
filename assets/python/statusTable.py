@@ -1,6 +1,6 @@
 import pandas as pd
 import requests
-import sys
+import json
 
 allBounds = pd.read_csv("//__w/gbWeb/geoBoundaryBot/dta/iso_3166_1_alpha_3.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 
@@ -131,4 +131,5 @@ for _, bound in allBounds.iterrows():
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["authAvailable"] = "No"
         
-        print(webJSON)
+with open("//__w/gbWeb/gbWeb/api/index.json", 'w') as f:
+    json.dump(webJSON, f)
