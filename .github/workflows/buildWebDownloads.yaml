@@ -29,20 +29,20 @@ jobs:
            pwd
            python assets/python/statusTable.py
            
-    #- name: Commit Files
-    #  env:
-    #        DRTOKEN: ${{secrets.DRTOKEN}}
-    #        REP: ${{env.GITHUB_REPOSITORY}}
-    #  run: |
-    #       ls
-    #       pwd
-    #       git status
-    #       git config --local user.email "danr@wm.edu"
-    #       git config --local user.name "DanRunfola"
-    #       git add -A .
-    #       git remote set-url origin https://x-access-token:${{ secrets.DRTOKEN }}@github.com/$GITHUB_REPOSITORY
-    #       git diff-index --quiet HEAD || git commit -m "geoBoundary Status and Build Script"
-    #       git status
+    - name: Commit Files
+      env:
+            DRTOKEN: ${{secrets.DRTOKEN}}
+            REP: ${{env.GITHUB_REPOSITORY}}
+      run: |
+           ls
+           pwd
+           git status
+           git config --local user.email "danr@wm.edu"
+           git config --local user.name "DanRunfola"
+           git add -A .
+           git remote set-url origin https://x-access-token:${{ secrets.DRTOKEN }}@github.com/$GITHUB_REPOSITORY
+           git diff-index --quiet HEAD || git commit -m "geoBoundary Web API Build"
+           git status
     #       git push origin main 
 
 
