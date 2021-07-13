@@ -69,6 +69,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openBoundarySource-1"] = allOpenDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["openDownloadURL"] = allOpenDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["openPreview"] = allOpenDict[ISO][adm]["imagePreview"]
+                webJSON[ISO][adm]["simplified"] = allOpenDict[ISO][adm]["simplifiedGeometryGeoJSON"]
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "False"
@@ -107,6 +108,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["humDownloadURL"] = allHumDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["humPreview"] = allHumDict[ISO][adm]["imagePreview"]
+                webJSON[ISO][adm]["simplified"] = allHumDict[ISO][adm]["simplifiedGeometryGeoJSON"]
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["humAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
@@ -142,6 +144,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["authBoundarySource-1"] = allAuthDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["authDownloadURL"] = allAuthDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["authPreview"] = allAuthDict[ISO][adm]["imagePreview"]
+                webJSON[ISO][adm]["simplified"] = allAuthDict[ISO][adm]["simplifiedGeometryGeoJSON"]
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["authAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
