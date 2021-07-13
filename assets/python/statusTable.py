@@ -46,6 +46,7 @@ for i in range(len(allAuth)):
         allAuthDict[ISO][ADM][key] = value
 
 webJSON = {}
+webJSONlist = []
 ADMs = ["ADM0", "ADM1", "ADM2", "ADM3", "ADM4", "ADM5", "ADM6"]
 
 for _, bound in allBounds.iterrows():
@@ -69,9 +70,11 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openBoundaryLicense"] = allOpenDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["openSourceDataUpdateDate"] = allOpenDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["openBoundarySource-1"] = allOpenDict[ISO][adm]["boundarySource-1"]
+                webJSONlist.append(webJSON[ISO])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "No"
+                webJSONlist.append(webJSON[ISO])
             else:
                 pass
         else:
@@ -81,6 +84,10 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "No"
+                webJSONlist.append(webJSON[ISO])
+        
+        
+        
 
         if ISO in allHumDict:
             if(adm in allHumDict[ISO]):
@@ -94,8 +101,10 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["humBoundaryLicense"] = allHumDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["humSourceDataUpdateDate"] = allHumDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
+                webJSONlist.append(webJSON[ISO])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["humAvailable"] = "No"
+                webJSONlist.append(webJSON[ISO])
             else:
                 pass
         else:
@@ -105,6 +114,7 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["humAvailable"] = "No"
+                webJSONlist.append(webJSON[ISO])
         
 
         if ISO in allAuthDict:
@@ -119,8 +129,10 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["authBoundaryLicense"] = allAuthDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["authSourceDataUpdateDate"] = allAuthDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["authBoundarySource-1"] = allAuthDict[ISO][adm]["boundarySource-1"]
+                webJSONlist.append(webJSON[ISO])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["authAvailable"] = "No"
+                webJSONlist.append(webJSON[ISO])
             else:
                 pass
         else:
@@ -130,6 +142,7 @@ for _, bound in allBounds.iterrows():
                 if(adm not in webJSON[ISO]):
                     webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["authAvailable"] = "No"
+                webJSONlist.append(webJSON[ISO])
         
 with open("//__w/gbWeb/gbWeb/api/index.json", 'w') as f:
-    json.dump(webJSON, f)
+    json.dump(webJSONlist, f)

@@ -198,12 +198,12 @@
 
 						};
 						var tableA = new Tabulator("#dataTableRep", {
-							ajaxURL: "https://www.geoboundaries.org/api/current/gbOpen/ALL/ALL/", //ajax URL
+							ajaxURL: "https://www.geoboundaries.org/api/", //ajax URL
 							height: screen.height * 0.60,
 							layout: "fitDataFill",
 							resizableColumns: false,
 							responsiveLayout: false,
-							//autoColumns:true,
+							autoColumns:true,
 							columns: [                 //define the table columns
 								{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
 								{ title: "View", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true },
