@@ -69,6 +69,7 @@ for _, bound in allBounds.iterrows():
             webJSON[ISO][adm]["openSourceDataUpdateDate"] = allOpenDict[ISO][adm]["sourceDataUpdateDate"]
             webJSON[ISO][adm]["openBoundarySource-1"] = allOpenDict[ISO][adm]["boundarySource-1"]
         elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
+            webJSON[ISO][adm] = {}
             webJSON[ISO][adm]["openAvailable"] = "No"
         else:
             pass
