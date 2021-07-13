@@ -172,15 +172,13 @@
 
 					</header>
 					We provide four different data products: gbOpen, gbHumanitarian, gbAuthoritative, and our single-file global composite product, CGAZ.  
-					<ul>
-						<li>Open License Data (gbOpen): <b>Recommended for most users.</b> For users that require an open license - if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.</li>
-						<li>Humanitarian Data (gbHumanitarian): The most recent <a href="https://cod.unocha.org/">UN OCHA COD</a> boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.</li>
-						<li>Authoritative Data (gbAuthoritative): Data approved through the <a href="https://www.unsalb.org/">UN SALB</a> process, integrated with other official country sources. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage. </li>
-						<li>Contiguous Global Administrative Zones (CGAZ): Three files integrating all ADM0, ADM1, and ADM2 boundaries across the entire world.</li>
-					</ul>
-					
+				<div>
+					<input type="checkbox" id="chk-hum", name="chk-open", value="Recommended for most users. For users that require an open license - if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.">
+					<input type="checkbox" id="chk-hum", name="chk-hum", value="Show humanitarian data - the most recent UN OCHA COD boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.">
+					<input type="checkbox" id="chk-hum", name="chk-auth", value="Show authoritative data approved through the UN SALB process, integrated with other official country sources. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage.">
+				</div>
 					<div class="row" id="dataTable" style="max-width: 100%;">
-
+						
 						<div class="col-twelve tab-full" id="dataTableRep">
 
 							Loading...
@@ -194,7 +192,11 @@
 							return "<i class='fa fa-download'></i>";
 						}
 						var iconFormatter = function (cell, row, formatterParams) { //plain text value
+							console.log(cell.getValue())
+							if(typeof cell.getValue() != "undefined")
+							{
 							return "<a href='" + cell.getValue() + "' target='_blank'><img width=50px src='" + cell.getValue() + "'></a>";
+							}
 
 						};
 						var tableA = new Tabulator("#dataTableRep", {
@@ -203,13 +205,38 @@
 							layout: "fitDataFill",
 							resizableColumns: false,
 							responsiveLayout: false,
+							groupBy: "boundaryName",
 							//autoColumns:true,
 							columns: [                 //define the table columns
-								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input', headerVertical:true},
-								{title: "gbOpen", field:"openAvailable", formatter:"tickCross"}
+								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input', headerVertical:false},
+								{title: "Level", field:"ADM", visible:true, responsive:0, headerVertical:true},
+								{
+									title:"geoBoundaries Open",
+									columns:[
+								{title: "Available", field:"openAvailable", formatter:"tickCross", headerVertical: true},
+								{title: "Year Represented", field:"openBoundaryYearRepresented", headerVertical: true},
+								{title: "Preview", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true},
+								],
+								},
+								{
+									title:"geoBoundaries Humanitarian",
+									columns:[
+								{title: "Available", field:"humAvailable", formatter:"tickCross", headerVertical: true},
+								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true},
+								{title: "Preview", field: "humPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true},
+								],
+								},
+								{
+									title:"geoBoundaries Authoritative",
+									columns:[
+								{title: "Available", field:"authAvailable", formatter:"tickCross", headerVertical: true},
+								{title: "Year Represented", field:"authBoundaryYearRepresented", headerVertical: true},
+								{title: "Preview", field: "authPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true},
+								],
+								}
 
 								//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
-								//{ title: "View", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true },
+								//
 								//{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
 								//{ title: "Level", field: "boundaryType", visible: true, responsive: 0, headerFilter: "select" },
 								//{ title: "License", field: "boundaryLicense", headerFilter: "select", headerFilterParams: { values: true }, visible: true, formatter: "textarea", width: "37%"},
