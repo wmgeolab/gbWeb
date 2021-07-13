@@ -43,6 +43,6 @@ jobs:
            git remote set-url origin https://x-access-token:${{ secrets.DRTOKEN }}@github.com/$GITHUB_REPOSITORY
            git diff-index --quiet HEAD || git commit -m "geoBoundary Web API Build"
            git status
-    #       git push origin main 
+           git push origin main 
 
 
