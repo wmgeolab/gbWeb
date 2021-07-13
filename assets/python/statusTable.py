@@ -11,6 +11,7 @@ webJSON = {}
 ADMs = ["ADM0", "ADM1", "ADM2", "ADM3", "ADM4", "ADM5", "ADM6"]
 
 for bound in allBounds.iterrows():
+    print(bound)
     ISO = bound["Alpha-3code"]
     webJSON[ISO] = {}
     webJSON[ISO]["ISO"] = ISO
