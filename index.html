@@ -12,6 +12,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" type="text/css" href="assets/js/slick/slick.css" />
 	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/tabulator.css">
+    <script type="text/javascript" src="assets/js/tabulator.js"></script>
 	<!-- Scripts -->
 	<script async defer src="https://buttons.github.io/buttons.js"></script>
 	<style>
@@ -167,37 +169,54 @@
 						<span>
 							<h2 id="getdata" style="display:inline;">Get the Data</h2> 
 						</span>
+
 					</header>
+					We provide four different data products: gbOpen, gbHumanitarian, gbAuthoritative, and our single-file global composite product, CGAZ.  
+					<ul>
+						<li>Open License Data (gbOpen): <b>Recommended for most users.</b> For users that require an open license - if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.</li>
+						<li>Humanitarian Data (gbHumanitarian): The most recent <a href="https://cod.unocha.org/">UN OCHA COD</a> boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.</li>
+						<li>Authoritative Data (gbAuthoritative): Data approved through the <a href="https://www.unsalb.org/">UN SALB</a> process, integrated with other official country sources. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage. </li>
+						<li>Contiguous Global Administrative Zones (CGAZ): Three files integrating all ADM0, ADM1, and ADM2 boundaries across the entire world.</li>
+					</ul>
+					
+					<div class="row" id="dataTable" style="max-width: 100%;">
 
-					<div class="posts">
-						<article>
-							<a href="downloadOpen.html" class="image"><img src="images/pic02.jpg" alt="" /></a>
-							<h3>Open License Data</h3>
-							<p>For users that require an open license: if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.</p>
-							<ul class="actions">
-								<li><a href="downloadOpen.html" class="button fit small">Get Open Data</a></li>
-							</ul>
-						</article>
-						<article>
-							<a href="downloadHumanitarian.html" class="image"><img src="images/pic01.jpg" alt="" /></a>
-							<h3>Humanitarian Data</h3>
-							<p>The most recent <a href="https://cod.unocha.org/">UN OCHA COD</a> boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.</p>
-							<ul class="actions">
-								<li><a href="downloadFull.html" class="button fit small">Get Full Precision Data</a>
-								</li>
-							</ul>
-						</article>
-						<article>
-							<a href="downloadAuthoritative.html" class="image"><img src="images/smallWorld.jpg" alt="" /></a>
-							<h3>Authoritative Data</h3>
-							<p>Data approved through the <a href="https://www.unsalb.org/">UN SALB</a> process, integrated with other official country sources. The process to politically approve boundaries can take decades; thus, this dataset is generally the slowest to update. </p>
-							<ul class="actions">
-								<li><a href="downloadCGAZ.html" class="button fit small">Get Global Data</a>
-								</li>
-							</ul>
-						</article>
+						<div class="col-twelve tab-full" id="dataTableRep">
 
+							Loading...
+
+						</div>
 					</div>
+
+					
+					<script>
+						var downloadSingleIcon = function (cell, formatterParams) {
+							return "<i class='fa fa-download'></i>";
+						}
+						var iconFormatter = function (cell, row, formatterParams) { //plain text value
+							return "<a href='" + cell.getValue() + "' target='_blank'><img width=50px src='" + cell.getValue() + "'></a>";
+
+						};
+						var tableA = new Tabulator("#dataTableRep", {
+							ajaxURL: "https://wmgeolab.github.io/gbWeb/api/current/gbOpen/ALL/ALL/index.json", //ajax URL
+							height: screen.height * 0.60,
+							layout: "fitDataFill",
+							resizableColumns: false,
+							responsiveLayout: false,
+							//autoColumns:true,
+							columns: [                 //define the table columns
+								{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
+								{ title: "View", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true },
+								{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
+								{ title: "Level", field: "boundaryType", visible: true, responsive: 0, headerFilter: "select" },
+								{ title: "License", field: "boundaryLicense", headerFilter: "select", headerFilterParams: { values: true }, visible: true, formatter: "textarea", width: "37%"},
+								//{title:"ID", field:"boundaryID", visible:true},
+								{ title: "Primary Source", field: "boundarySource-1", visible: true, formatter: "textarea", width: "37%" },
+								{ title: "ShapefileURL", field: "downloadURL", visible: false },
+							]
+						});
+					</script>
+
 				</section>
 
 
