@@ -220,7 +220,7 @@
 							return "<i class='fa fa-download'></i>";
 						}
 						var downloadSimpleIcon = function (cell, formatterParams) {
-							return "<i class='fa fa-download'></i>";
+							return "<i class='fa fa-save'></i>";
 						}
 						var iconFormatter = function (cell, row, formatterParams) { //plain text value
 							if(typeof cell.getValue() != "undefined")
@@ -246,7 +246,7 @@
 									columns:[
 								{title: "Available", field:"openAvailable", formatter:"tickCross", align:"center", headerVertical: true, },
 								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{ formatter: downloadSingleIcon, title: "Simplified geoJSON", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
 								{title: "Year Represented", field:"openBoundaryYearRepresented", headerVertical: true, },
 								{title: "Preview", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
 								{title: "Primary Source", field:"openBoundarySource-1", headerVertical: true, responsive:1,  width:"20%"},
@@ -258,6 +258,8 @@
 									cssClass:"lightHighlight",
 									columns:[
 								{title: "Available", field:"humAvailable", formatter:"tickCross", align:"center", headerVertical: true, cssClass:"lightHighlight"},
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", headerVertical:true, responsive: 0, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", align: "center", headerVertical:true, responsive: 0, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
 								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true, cssClass:"lightHighlight"},
 								{title: "Preview", field: "humPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, cssClass:"lightHighlight"},
 								{title: "Primary Source", field:"humBoundarySource-1", headerVertical: true, responsive:1,  width:"20%",cssClass:"lightHighlight"},
@@ -268,6 +270,7 @@
 									title:"gBAuthoritative",
 									columns:[
 								{title: "Available", field:"authAvailable", formatter:"tickCross", align:"center", headerVertical: true, },
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
 								{title: "Year Represented", field:"authBoundaryYearRepresented", headerVertical: true, },
 								{title: "Preview", field: "authPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
 								{title: "Primary Source", field:"authBoundarySource-1", headerVertical: true, responsive:1,  width:"20%"},

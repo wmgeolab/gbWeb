@@ -70,6 +70,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openDownloadURL"] = allOpenDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["openPreview"] = allOpenDict[ISO][adm]["imagePreview"]
                 webJSON[ISO][adm]["openSimplified"] = allOpenDict[ISO][adm]["simplifiedGeometryGeoJSON"]
+                webJSON[ISO][adm]["openSimpInteractive"] = "http://geojson.io/#id=github:wmgeolab/geoBoundaries/blob/main/releaseData/gbOpen/" + ISO + "/" + adm + "/geoBoundaries-" + ISO+ "-" + adm + "_simplified.geojson"
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm] = {}
                 webJSON[ISO][adm]["openAvailable"] = "False"
@@ -109,6 +110,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["humDownloadURL"] = allHumDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["humPreview"] = allHumDict[ISO][adm]["imagePreview"]
                 webJSON[ISO][adm]["humSimplified"] = allHumDict[ISO][adm]["simplifiedGeometryGeoJSON"]
+                webJSON[ISO][adm]["humSimpInteractive"] = "http://geojson.io/#id=github:wmgeolab/geoBoundaries/blob/main/releaseData/gbHumanitarian/" + ISO + "/" + adm + "/geoBoundaries-" + ISO+ "-" + adm + "_simplified.geojson"
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["humAvailable"] = "False"
                 webJSON[ISO][adm]["ISO"] = ISO
