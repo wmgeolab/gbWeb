@@ -72,7 +72,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openSourceDataUpdateDate"] = allOpenDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["openBoundarySource-1"] = allOpenDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["openDownloadURL"] = allOpenDict[ISO][adm]["downloadURL"]
-                webJSON[ISO][adm]["openPreview"] = allOpenDict[ISO][adm]["preview"]
+                webJSON[ISO][adm]["openPreview"] = allOpenDict[ISO][adm]["imagePreview"]
                 webJSONlist.append(webJSON[ISO][adm])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm] = {}
@@ -105,7 +105,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["humSourceDataUpdateDate"] = allHumDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["humDownloadURL"] = allHumDict[ISO][adm]["downloadURL"]
-                webJSON[ISO][adm]["humPreview"] = allHumDict[ISO][adm]["preview"]
+                webJSON[ISO][adm]["humPreview"] = allHumDict[ISO][adm]["imagePreview"]
                 webJSONlist.append(webJSON[ISO][adm])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["humAvailable"] = "No"
@@ -135,7 +135,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["authSourceDataUpdateDate"] = allAuthDict[ISO][adm]["sourceDataUpdateDate"]
                 webJSON[ISO][adm]["authBoundarySource-1"] = allAuthDict[ISO][adm]["boundarySource-1"]
                 webJSON[ISO][adm]["authDownloadURL"] = allAuthDict[ISO][adm]["downloadURL"]
-                webJSON[ISO][adm]["authPreview"] = allAuthDict[ISO][adm]["preview"]
+                webJSON[ISO][adm]["authPreview"] = allAuthDict[ISO][adm]["imagePreview"]
                 webJSONlist.append(webJSON[ISO][adm])
             elif((adm == "ADM0") or (adm == "ADM1") or (adm == "ADM2")):
                 webJSON[ISO][adm]["authAvailable"] = "No"
