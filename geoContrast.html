@@ -421,6 +421,61 @@ ul li{
 						</div>
 					
 					</div>
+
+					<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
+						<div class="popup-content">
+
+							<div style="text-align:right">
+								<a id="close-contribute-popup" class="close-popup" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
+							</div>
+
+							<h2>Feature Comparison</h2>
+
+							<div class="row box" style="width:100%; margin:15px 0px">
+								<div id="feature-compare-left-div" style="width:49%">
+									<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+									<h3 id="feature-compare-left-name" style="margin-bottom:0; padding-bottom:0"></h3>
+									<span style="font-style:italic; color:gray; margin-left:15px;">geoBoundary</span>
+									<br>
+									<table id="feature-compare-left-table" style="margin-left:15px">
+										<tr>
+											<td>Stat1:</td>
+											<td>Value</td>
+										</tr>
+										<tr>
+											<td>Stat2:</td>
+											<td>Value</td>
+										</tr>
+										<tr>
+											<td>Stat3:</td>
+											<td>Value</td>
+										</tr>
+									</table>
+								</div>
+								<div id="feature-compare-right-div" style="width:49%">
+									<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+									<h3 id="feature-compare-right-name" style="margin-bottom:0; padding-bottom:0"></h3>
+									<span style="font-style:italic; color:gray; margin-left:15px;">Comparison Boundary</span>
+									<br>
+									<table id="feature-compare-right-table" style="margin-left:15px">
+										<tr>
+											<td>Stat1:</td>
+											<td>Value</td>
+										</tr>
+										<tr>
+											<td>Stat2:</td>
+											<td>Value</td>
+										</tr>
+										<tr>
+											<td>Stat3:</td>
+											<td>Value</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							
+						</div>
+					</div>
 					
 					<div id="table-comparison" class="row box" style="width:100%; margin:15px 0px">
 						<div id="left-table-div" style="width:49%">
@@ -1888,10 +1943,34 @@ ul li{
 			  zoom: 4
 			})
 		});
+
+		// map click popup
+		map.on('singleclick', function(evt) {
+			// reset any previous names
+			document.getElementById('feature-compare-left-name').innerText = '';
+			document.getElementById('feature-compare-right-name').innerText = '';
+			// get names
+			let mainName = null;
+			let comparisonName = null;
+			var comparisonSelect = document.getElementById('comparison-names-table-select');
+			map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+				if (layer === gbLayer) {
+					mainName = feature.getProperties()['shapeName']
+				} else if (layer === comparisonLayer) {
+					comparisonName = feature.getProperties()[comparisonSelect.value]
+				};
+			});
+			// update the names
+			document.getElementById('feature-compare-left-name').innerText = mainName;
+			document.getElementById('feature-compare-right-name').innerText = comparisonName;
+			// show popup
+			document.getElementById('feature-compare-popup').className = 'popup';
+		});
 		
 		updateGbCountries();
 		
 		</script>
+
 </body>
 
 </html>
