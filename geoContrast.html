@@ -434,7 +434,7 @@ ul li{
 							<div class="row box" style="width:100%; margin:15px 0px">
 								<div id="feature-compare-left-div" style="width:49%">
 									<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-									<h3 id="feature-compare-left-name" style="margin-bottom:0; padding-bottom:0"></h3>
+									<h3 id="feature-compare-left-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
 									<span style="font-style:italic; color:gray; margin-left:15px;">geoBoundary</span>
 									<br>
 									<table id="feature-compare-left-table" style="margin-left:15px">
@@ -454,7 +454,7 @@ ul li{
 								</div>
 								<div id="feature-compare-right-div" style="width:49%">
 									<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-									<h3 id="feature-compare-right-name" style="margin-bottom:0; padding-bottom:0"></h3>
+									<h3 id="feature-compare-right-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
 									<span style="font-style:italic; color:gray; margin-left:15px;">Comparison Boundary</span>
 									<br>
 									<table id="feature-compare-right-table" style="margin-left:15px">
@@ -1898,8 +1898,8 @@ ul li{
 				color: 'rgba(255, 255, 255, 0.4)',
 			}),
 			stroke: new ol.style.Stroke({
-				color: 'rgb(49, 127, 211)',
-				width: 1,
+				color: 'rgb(29,107,191)', //'rgb(49, 127, 211)',
+				width: 2.5,
 			}),
 		});
 		var gbLayer = new ol.layer.Vector({
@@ -1911,9 +1911,9 @@ ul li{
 				color: 'rgba(255, 255, 255, 0)', // fully transparent
 			}),
 			stroke: new ol.style.Stroke({
-				color: 'rgb(255, 0, 0)',
-				width: 1,
-				lineDash: [4,4]
+				color: 'rgba(255, 0, 0, 0.8)',
+				width: 1.5,
+				lineDash: [10,10]
 			}),
 		});
 		var comparisonLayer = new ol.layer.Vector({
@@ -1947,11 +1947,11 @@ ul li{
 		// map click popup
 		map.on('singleclick', function(evt) {
 			// reset any previous names
-			document.getElementById('feature-compare-left-name').innerText = '';
-			document.getElementById('feature-compare-right-name').innerText = '';
+			document.getElementById('feature-compare-left-name').innerText = '-';
+			document.getElementById('feature-compare-right-name').innerText = '-';
 			// get names
-			let mainName = null;
-			let comparisonName = null;
+			let mainName = '-';
+			let comparisonName = '-';
 			var comparisonSelect = document.getElementById('comparison-names-table-select');
 			map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
 				if (layer === gbLayer) {
@@ -1960,11 +1960,13 @@ ul li{
 					comparisonName = feature.getProperties()[comparisonSelect.value]
 				};
 			});
-			// update the names
-			document.getElementById('feature-compare-left-name').innerText = mainName;
-			document.getElementById('feature-compare-right-name').innerText = comparisonName;
-			// show popup
-			document.getElementById('feature-compare-popup').className = 'popup';
+			if (mainName != '-' | comparisonName != '-') {
+				// update the names
+				document.getElementById('feature-compare-left-name').innerText = mainName;
+				document.getElementById('feature-compare-right-name').innerText = comparisonName;
+				// show popup
+				document.getElementById('feature-compare-popup').className = 'popup';
+			};
 		});
 		
 		updateGbCountries();
