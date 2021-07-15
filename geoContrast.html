@@ -478,6 +478,9 @@ ul li{
 					</div>
 					
 					<div id="table-comparison" class="row box" style="width:100%; margin:15px 0px">
+						<div id="table-comparison-banner" style="width:100%; text-align:center">
+							<h2>Source Overview</h2>
+						</div>
 						<div id="left-table-div" style="width:49%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
@@ -517,17 +520,6 @@ ul li{
 										<td>Line Resolution (<span class="tooltip" data-text="The average density or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
 										<td id="stats-gb-avglineres" class="stats-value"></td>
 									</tr>
-								</table>
-							</div>
-
-							<div id="gb-names-table-div" style="max-height:500px; overflow:auto; margin-top:10px">
-								<table id="gb-names-table" style="margin-left:10px">
-									<thead>
-										<th style="height:52px">shapeName</th>
-										<th>Action</th>
-									</thhead>
-									<tbody id="gb-names-table-tbody">
-									</tbody>
 								</table>
 							</div>
 
@@ -574,7 +566,32 @@ ul li{
 									</tr>
 								</table>
 							</div>
+						</div>
+					</div>
 
+					<div id="table-comparison" class="row box" style="width:100%; margin:15px 0px">
+						<div id="table-comparison-banner" style="width:100%; text-align:center">
+							<h2>Source Contents</h2>
+						</div>
+						<div id="left-table-div" style="width:49%">
+							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
+							<br><br>
+							<div id="gb-names-table-div" style="max-height:500px; overflow:auto; margin-top:10px">
+								<table id="gb-names-table" style="margin-left:10px">
+									<thead>
+										<th style="height:52px">shapeName</th>
+										<th>Action</th>
+									</thhead>
+									<tbody id="gb-names-table-tbody">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div id="right-table-div" style="width:48%">
+							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<br><br>
 							<div id="comparison-names-table-div" style="max-height:500px; overflow:auto; margin-top:10px">
 								<table id="comparison-names-table" style="margin-left:10px">
 									<thead>
@@ -589,11 +606,14 @@ ul li{
 									</tbody>
 								</table>
 							</div>
-
-
 						</div>
 					</div>
-					
+
+					<div id="relations-box" class="row box" style="width:100%; margin:15px 0px">
+						<div id="relations-box-banner" style="width:100%; text-align:center">
+							<h2>Boundary Comparisons</h2>
+						</div>
+					</div>
 					
 					<div id="contribute-popup" class="popup is-hidden is-visually-hidden">
 					  <!-- popup content -->
@@ -1890,7 +1910,20 @@ ul li{
 				alert('Failed to load uploaded file.');
 			});
 		};
-		
+		</script>
+
+		<script>
+		//-----------------------------------
+		// this chunk defines boundary comparisons
+
+		// ... 
+
+		</script>
+
+		<script>
+		//-----------------------------------
+		// this chunk initiates the main map
+
 		// layer definitions
 	
 		var gbStyle = new ol.style.Style({
