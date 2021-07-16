@@ -539,20 +539,24 @@ ul li{
 										<td>Administrative Units:</td>
 										<td id="stats-gb-admincount" class="stats-value"></td>
 									</tr>
-									<tr style="display:none">
+									<tr>
 										<td>Area:</td>
 										<td id="stats-gb-area" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+										<td id="stats-gb-circumf" class="stats-value"></td>
 									</tr>
 									<tr>
 										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
 										<td id="stats-gb-vertices" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 100 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
 										<td id="stats-gb-avglinedens" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Line Resolution (<span class="tooltip" data-text="The average density or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
 										<td id="stats-gb-avglineres" class="stats-value"></td>
 									</tr>
 								</table>
@@ -583,20 +587,24 @@ ul li{
 										<td>Administrative Units:</td>
 										<td id="stats-comp-admincount" class="stats-value"></td>
 									</tr>
-									<tr style="display:none">
+									<tr>
 										<td>Area:</td>
 										<td id="stats-comp-area" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+										<td id="stats-comp-circumf" class="stats-value"></td>
 									</tr>
 									<tr>
 										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
 										<td id="stats-comp-vertices" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 100 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
 										<td id="stats-comp-avglinedens" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Line Resolution (<span class="tooltip" data-text="The average density or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
 										<td id="stats-comp-avglineres" class="stats-value"></td>
 									</tr>
 								</table>
@@ -644,7 +652,7 @@ ul li{
 						</div>
 					</div>
 
-					<div id="relations-box" class="row box" style="width:100%; margin:15px 0px">
+					<div id="relations-box" class="row box" style="display:none; width:100%; margin:15px 0px">
 						<div id="relations-box-banner" style="width:100%; text-align:center">
 							<h2>Boundary Comparisons</h2>
 						</div>
@@ -1080,9 +1088,10 @@ ul li{
 			var lvl = document.getElementById('admin-level-select').value;
 			document.getElementById('stats-gb-level').innerText = lvl;
 			document.getElementById('stats-gb-area').innerText = stats.area.toFixed(0).toLocaleString('en-US') + ' km2';
+			document.getElementById('stats-gb-circumf').innerText = stats.circumf.toFixed(0).toLocaleString('en-US') + ' km';
 			document.getElementById('stats-gb-vertices').innerText = stats.vertices.toLocaleString('en-US');
-			document.getElementById('stats-gb-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / 100km';
-			document.getElementById('stats-gb-avglineres').innerText = stats.avgLineResolution.toFixed(3) + ' km';
+			document.getElementById('stats-gb-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / km';
+			document.getElementById('stats-gb-avglineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
 			document.getElementById('stats-gb-admincount').innerText = stats.adminCount;
 		};
 
@@ -1384,9 +1393,10 @@ ul li{
 			var lvl = document.getElementById('comparison-admin-level-select').value;
 			document.getElementById('stats-comp-level').innerText = lvl;
 			document.getElementById('stats-comp-area').innerText = stats.area.toFixed(0).toLocaleString('en-US') + ' km2';
+			document.getElementById('stats-comp-circumf').innerText = stats.circumf.toFixed(0).toLocaleString('en-US') + ' km';
 			document.getElementById('stats-comp-vertices').innerText = stats.vertices.toLocaleString('en-US');
-			document.getElementById('stats-comp-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / 100km';
-			document.getElementById('stats-comp-avglineres').innerText = stats.avgLineResolution.toFixed(3) + ' km';
+			document.getElementById('stats-comp-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / km';
+			document.getElementById('stats-comp-avglineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
 			document.getElementById('stats-comp-admincount').innerText = stats.adminCount;
 		};
 
@@ -1684,6 +1694,8 @@ ul li{
 			var segLengths = [];
 			for (feat of features) {
 				var geom = feat.getGeometry();
+				circumf += ol.sphere.getLength(geom);
+				area += ol.sphere.getArea(geom);
 				if (geom.getType() == 'Polygon') {
 					// wrap so can treat at multipolygon
 					var polys = [geom.getCoordinates()];
@@ -1691,6 +1703,10 @@ ul li{
 					var polys = geom.getCoordinates();
 				};
 				for (poly of polys) {
+					for (ring of poly) {
+						vertices += ring.length;
+					};
+					/*
 					// poly level aggregate stats
 					var ext = poly[0]; // polygon exterior
 					vertices += ext.length;
@@ -1705,16 +1721,17 @@ ul li{
 					//	var len = turf.length(turf.lineString([v1,v2]));
 					//	segLengths.push(len);
 					//};
+					*/
 				};
 			};
 			// store final stats
 			stats.adminCount = features.length;
 			stats.area = area / 1000000.0; // convert from m2 to km2
-			var circumf = circumf / 1000.0; // convert from m to km, even though supposed to be km
+			circumf = circumf / 1000.0; // convert from m to km
 			stats.circumf = circumf;
 			stats.vertices = vertices;
-			stats.avgLineResolution = circumf / (vertices+1); // ie avg vertext-to-vertex segment length ie resolution
-			stats.avgLineDensity = (vertices+1) / circumf * 100; // ie avg number of vertices per 100 km distance ie density (inverse of line resolution)
+			stats.avgLineResolution = circumf / vertices * 1000; // ie avg vertext-to-vertex segment length ie resolution in meters
+			stats.avgLineDensity = vertices / circumf; // ie avg number of vertices per 1 km distance ie density (inverse of line resolution)
 			//segLengths.sort(function(a, b) {return a - b});
 			//stats.medLineResolution = segLengths[Math.round(segLengths.length/2)]  / 1000.0; // convert from m to km, even though supposed to be km
 			return stats;
@@ -2050,59 +2067,6 @@ ul li{
 			fdsfs;
 		};
 
-		function viewGeom(layerDefs) {
-			// remove existing map div
-			var oldmap = document.getElementById('testmap');
-			if (oldmap != null) {
-				oldmap.remove();
-			};
-			// add new map div
-			var container = document.getElementById('feature-compare-map-container')
-			var mapdiv = document.createElement("div");
-			mapdiv.id = 'testmap';
-			mapdiv.className = 'map';
-			container.appendChild(mapdiv);
-
-			var tileLayer = new ol.layer.Tile({
-					source: new ol.source.XYZ({
-						attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
-						url:
-						'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
-						maxZoom: 20,
-			})});
-			var layers = [tileLayer];
-
-			for (layerDef of layerDefs) {
-				var source = new ol.source.Vector({
-					features: new ol.format.GeoJSON().readFeatures(layerDef.geojson),
-				});
-				var style = new ol.style.Style({
-					fill: new ol.style.Fill({
-						color: layerDef.style.fillColor,
-					}),
-					stroke: new ol.style.Stroke({
-						color: layerDef.style.strokeColor,
-						width: 2.5,
-					}),
-				});
-				var geomLayer = new ol.layer.Vector({source:source, style:style});
-				layers.push(geomLayer);
-			}
-			
-			var map = new ol.Map({
-				target: 'testmap',
-				controls: ol.control.defaults().extend([new ol.control.FullScreen(),
-													new ol.control.ScaleLine({units: 'metric'}),
-													]),
-				layers: layers,
-				view: new ol.View({
-					center: ol.proj.fromLonLat([37.41, 8.82]),
-					zoom: 4
-				})
-			});
-			//map.getView().fit(layers[1].getSource().getExtent());
-		};
-
 		function similarity(feat1, feat2) {
 			// create turf objects
 			//alert('creating turf geoms');
@@ -2128,20 +2092,6 @@ ul li{
 			// calc union
 			//alert('calc union');
 			var union = turf.union(geom1, geom2);
-
-			// debug view isec/union
-			if (0) {
-				var geom1Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(geom1), 'coordinates':turf.getCoords(geom1)}};
-				var geom2Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(geom2), 'coordinates':turf.getCoords(geom2)}};
-				//var isecFeat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(isec), 'coordinates':turf.getCoords(isec)}};
-				//var unionFeat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(union), 'coordinates':turf.getCoords(union)}};
-				//var ring1Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':'Polygon', 'coordinates':[turf.getCoords(union)[0][0]]}};
-				//var ring2Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':'Polygon', 'coordinates':[turf.getCoords(union)[0][3]]}};
-				//var coll = {'type':'FeatureCollection', 'features':[isecFeat,unionFeat]};
-				viewGeom([{'geojson':geom1Feat,'style':{fillColor:'rgba(255, 255, 255, 0.4)',strokeColor:'rgb(29,107,191)'}},
-						{'geojson':geom2Feat,'style':{fillColor:'rgba(255, 255, 255, 0.4)',strokeColor:'rgb(255,0,0)'}},
-				]);
-			};
 
 			// calc metrics
 			//alert('calc areas');
@@ -2287,7 +2237,7 @@ ul li{
 			})});
 			var layers = [tileLayer];
 
-			// main layer
+			// define main layer
 
 			var style = new ol.style.Style({
 				fill: new ol.style.Fill({
@@ -2303,7 +2253,7 @@ ul li{
 			});
 			layers.push(featureCompareMainLayer);
 
-			// comparison layer
+			// define comparison layer
 			
 			var style = new ol.style.Style({
 				fill: new ol.style.Fill({
@@ -2338,22 +2288,37 @@ ul li{
 
 			function updateFeatureComparisonMap(mainGeoj, comparisonGeoj) {
 				// set main source
-				var source = new ol.source.Vector({
-					features: new ol.format.GeoJSON().readFeatures(mainGeoj),
-				});
-				featureCompareMainLayer.setSource(source);
+				if (mainGeoj != null) {
+					var source = new ol.source.Vector({
+						features: new ol.format.GeoJSON().readFeatures(mainGeoj,
+																		{} // featureProjection: featureCompareMap.getView().getProjection() }
+						),
+					});
+					featureCompareMainLayer.setSource(source);
+				};
 
 				// set comparison source
-				var source = new ol.source.Vector({
-					features: new ol.format.GeoJSON().readFeatures(comparisonGeoj),
-				});
-				featureCompareComparisonLayer.setSource(source);
+				if (comparisonGeoj != null) {
+					var source = new ol.source.Vector({
+						features: new ol.format.GeoJSON().readFeatures(comparisonGeoj,
+																		{} // featureProjection: featureCompareMap.getView().getProjection() }
+						),
+					});
+					featureCompareComparisonLayer.setSource(source);
+				};
 
 				// zoom to combined extents
 				var extent = ol.extent.createEmpty();
-				ol.extent.extend(extent, featureCompareMainLayer.getSource().getExtent());
-				ol.extent.extend(extent, featureCompareComparisonLayer.getSource().getExtent());
+				if (mainGeoj != null) {
+					extent = ol.extent.extend(extent, featureCompareMainLayer.getSource().getExtent());
+				};
+				if (comparisonGeoj != null) {
+					extent = ol.extent.extend(extent, featureCompareComparisonLayer.getSource().getExtent());
+				};
 				featureCompareMap.getView().fit(extent);
+
+				// zoom out a little
+				featureCompareMap.getView().setZoom(featureCompareMap.getView().getZoom()-1);
 			};
 		</script>
 
