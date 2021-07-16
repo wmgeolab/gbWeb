@@ -452,16 +452,28 @@ ul li{
 									<br>
 									<table id="feature-compare-left-table" style="margin-left:15px">
 										<tr>
-											<td>Stat1:</td>
-											<td>Value</td>
+											<td>Level:</td>
+											<td id="feature-compare-stats-gb-level" class="stats-value"></td>
 										</tr>
 										<tr>
-											<td>Stat2:</td>
-											<td>Value</td>
+											<td>Area:</td>
+											<td id="feature-compare-stats-gb-area" class="stats-value"></td>
 										</tr>
 										<tr>
-											<td>Stat3:</td>
-											<td>Value</td>
+											<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+											<td id="feature-compare-stats-gb-circumf" class="stats-value"></td>
+										</tr>
+										<tr>
+											<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+											<td id="feature-compare-stats-gb-vertices" class="stats-value"></td>
+										</tr>
+										<tr>
+											<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+											<td id="feature-compare-stats-gb-avglinedens" class="stats-value"></td>
+										</tr>
+										<tr>
+											<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+											<td id="feature-compare-stats-gb-avglineres" class="stats-value"></td>
 										</tr>
 									</table>
 								</div>
@@ -472,21 +484,33 @@ ul li{
 									<br>
 									<table id="feature-compare-right-table" style="margin-left:15px">
 										<tr>
-											<td>Stat1:</td>
-											<td>Value</td>
+											<td>Level:</td>
+											<td id="feature-compare-stats-comp-level" class="stats-value"></td>
 										</tr>
 										<tr>
-											<td>Stat2:</td>
-											<td>Value</td>
+											<td>Area:</td>
+											<td id="feature-compare-stats-comp-area" class="stats-value"></td>
 										</tr>
 										<tr>
-											<td>Stat3:</td>
-											<td>Value</td>
+											<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+											<td id="feature-compare-stats-comp-circumf" class="stats-value"></td>
+										</tr>
+										<tr>
+											<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+											<td id="feature-compare-stats-comp-vertices" class="stats-value"></td>
+										</tr>
+										<tr>
+											<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+											<td id="feature-compare-stats-comp-avglinedens" class="stats-value"></td>
+										</tr>
+										<tr>
+											<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+											<td id="feature-compare-stats-comp-avglineres" class="stats-value"></td>
 										</tr>
 									</table>
 								</div>
 
-								<div style="width:100%">
+								<div style="display:none; width:100%">
 									<!--Topline similarity stats-->
 									<div style="display:inline-block; text-align:center; width:32%">
 										<h5>Equals:</h5>
@@ -2186,19 +2210,56 @@ ul li{
 			// update the names
 			document.getElementById('feature-compare-left-name').innerText = mainName;
 			document.getElementById('feature-compare-right-name').innerText = comparisonName;
+			// calc spatial stats
+			if (feat1 != null) {
+				stats1 = calcSpatialStats([feat1]);
+			};
+			if (feat2 != null) {
+				stats2 = calcSpatialStats([feat2]);
+			};
+			// update the spatial stats
+			if (feat1 != null) {
+				var lvl = document.getElementById('admin-level-select').value;
+				document.getElementById('feature-compare-stats-gb-level').innerText = lvl;
+				document.getElementById('feature-compare-stats-gb-area').innerText = stats1.area.toFixed(0).toLocaleString('en-US') + ' km2';
+				document.getElementById('feature-compare-stats-gb-circumf').innerText = stats1.circumf.toFixed(0).toLocaleString('en-US') + ' km';
+				document.getElementById('feature-compare-stats-gb-vertices').innerText = stats1.vertices.toLocaleString('en-US');
+				document.getElementById('feature-compare-stats-gb-avglinedens').innerText = stats1.avgLineDensity.toFixed(1) + ' / km';
+				document.getElementById('feature-compare-stats-gb-avglineres').innerText = stats1.avgLineResolution.toFixed(1) + ' m';
+			};
+			if (feat2 != null) {
+				var lvl = document.getElementById('comparison-admin-level-select').value;
+				document.getElementById('feature-compare-stats-comp-level').innerText = lvl;
+				document.getElementById('feature-compare-stats-comp-area').innerText = stats2.area.toFixed(0).toLocaleString('en-US') + ' km2';
+				document.getElementById('feature-compare-stats-comp-circumf').innerText = stats2.circumf.toFixed(0).toLocaleString('en-US') + ' km';
+				document.getElementById('feature-compare-stats-comp-vertices').innerText = stats2.vertices.toLocaleString('en-US');
+				document.getElementById('feature-compare-stats-comp-avglinedens').innerText = stats2.avgLineDensity.toFixed(1) + ' / km';
+				document.getElementById('feature-compare-stats-comp-avglineres').innerText = stats2.avgLineResolution.toFixed(1) + ' m';
+			};
 			// calc similarity stats
 			var geojWriter = new ol.format.GeoJSON();
-  			var geoj1 = geojWriter.writeFeatureObject(feat1);
-			var geoj2 = geojWriter.writeFeatureObject(feat2);
-			stats = similarity(geoj1, geoj2);
-			// add feats to the popup comparison map
-			updateFeatureComparisonMap(geoj1, geoj2);
+			var geoj1 = null;
+			var geoj2 = null;
+			if (feat1 != null) {
+				geoj1 = geojWriter.writeFeatureObject(feat1);
+			};
+			if (feat2 != null) {
+				geoj2 = geojWriter.writeFeatureObject(feat2);
+			};
+			if (feat1 != null & feat2 != null) {
+				stats = similarity(geoj1, geoj2);
+			};
 			// update the stats entries
-			document.getElementById('feature-compare-equality').innerText = (stats.equality*100).toFixed(1) + '%';
-			document.getElementById('feature-compare-contains').innerText = (stats.contains*100).toFixed(1) + '%';
-			document.getElementById('feature-compare-within').innerText = (stats.within*100).toFixed(1) + '%';
+			if (feat1 != null & feat2 != null) {
+				document.getElementById('feature-compare-equality').innerText = (stats.equality*100).toFixed(1) + '%';
+				document.getElementById('feature-compare-contains').innerText = (stats.contains*100).toFixed(1) + '%';
+				document.getElementById('feature-compare-within').innerText = (stats.within*100).toFixed(1) + '%';
+			};
 			// show popup
 			document.getElementById('feature-compare-popup').className = 'popup';
+			featureCompareMap.updateSize(); // otherwise will remain hidden until window resize
+			// add feats to the popup comparison map
+			updateFeatureComparisonMap(geoj1, geoj2);
 		};
 
 		map.on('singleclick', function(evt) {
