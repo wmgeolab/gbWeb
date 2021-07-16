@@ -777,7 +777,8 @@ ul li{
 	<script src="assets/js/shp2geojson/preview.js"></script>
 
 	<!--this is for dynamic boundary stats-->
-	<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js" integrity="sha512-Q7HOppxoH0L2M7hreVoFCtUZimR2YaY0fBewIYzkCgmNtgOOZ5IgMNYxHgfps0qrO1ef5m7L1FeHrhXlq1I9HA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 	<script type="text/javascript">
@@ -1916,7 +1917,184 @@ ul li{
 		//-----------------------------------
 		// this chunk defines boundary comparisons
 
-		// ... 
+		// helpers
+		function geoj2turf(geoj) {
+			if (geoj.type == 'Polygon') {
+				geom = turf.polygon(geoj.coordinates)
+			} else if (geoj.type == 'MultiPolygon') {
+				geom = turf.multiPolygon(geoj.coordinates)
+			};
+			return geom;
+		};
+
+		// feature to feature similarity
+		function robustArea(geom) {
+			// make sure isec rings are correctly oriented (otherwise will get negative area)
+			// see https://github.com/Turfjs/turf/issues/1482
+			// https://github.com/w8r/martinez/issues/91
+			var geomType = turf.getType(geom);
+			var coords = turf.getCoords(geom);
+			alert('area calc for '+geomType+' '+coords.length+' '+JSON.stringify(coords));
+			if (geomType == 'Polygon') {
+				// treat as a multipolygon w one polygon
+				coords = [coords];
+			};
+			// reorganize the polygon rings to make sure it's correct
+			var allRings = [];
+			for (poly of coords) {
+				for (ring of poly) {
+					allRings.push(ring);
+				};
+			};
+			var multiLines = turf.multiLineString(allRings);
+			var featureColl = turf.polygonize(multiLines);
+			var polys = [];
+			turf.featureEach(featureColl, function (currentFeature, featureIndex) {
+				var coords = turf.getCoords(currentFeature);
+				polys.push(coords);
+			});
+			var newGeom = turf.multiPolygon(polys);
+			area = turf.area(newGeom);
+			alert('old '+turf.area(geom)+' new '+area);
+
+			/*
+			// calc area one ring at a time
+			area = 0;
+			let ip = 0;
+			for (poly of coords) {
+				let ir = 0;
+				var ringAreas = [];
+				for (ring of poly) {
+					var ringArea = turf.area(turf.polygon([ring]));
+					alert(ip+'-'+ir+', verts '+ring.length+', area '+ringArea);
+					//ringArea = Math.abs(ringArea);
+					//if (ir > 0) {
+					//	ringArea = -ringArea;
+					//};
+					ringAreas.push(ringArea);
+					//area = area + ringArea;
+					ir++;
+				};
+				var extArea = Math.max.apply(Math, ringAreas);
+				var sumArea = ringAreas.reduce((a, b) => a + b, 0);
+				var holeArea = sumArea - extArea;
+				area = area + extArea - holeArea;
+				ip++;
+			};
+			*/
+
+			return area;
+		};
+
+		function viewGeom(layerDefs) {
+			// remove existing map div
+			var oldmap = document.getElementById('testmap');
+			if (oldmap != null) {
+				oldmap.remove();
+			};
+			// add new map div
+			var relbox = document.getElementById('relations-box')
+			var mapdiv = document.createElement("div");
+			mapdiv.id = 'testmap';
+			mapdiv.className = 'map';
+			relbox.appendChild(mapdiv);
+
+			var tileLayer = new ol.layer.Tile({
+					source: new ol.source.XYZ({
+						attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
+						url:
+						'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
+						maxZoom: 20,
+			})});
+			var layers = [tileLayer];
+
+			for (layerDef of layerDefs) {
+				var source = new ol.source.Vector({
+					features: new ol.format.GeoJSON().readFeatures(layerDef.geojson),
+				});
+				var style = new ol.style.Style({
+					fill: new ol.style.Fill({
+						color: layerDef.style.fillColor,
+					}),
+					stroke: new ol.style.Stroke({
+						color: layerDef.style.strokeColor,
+						width: 2.5,
+					}),
+				});
+				var geomLayer = new ol.layer.Vector({source:source, style:style});
+				layers.push(geomLayer);
+			}
+			
+			var map = new ol.Map({
+				target: 'testmap',
+				controls: ol.control.defaults().extend([new ol.control.FullScreen(),
+													new ol.control.ScaleLine({units: 'metric'}),
+													]),
+				layers: layers,
+				view: new ol.View({
+					center: ol.proj.fromLonLat([37.41, 8.82]),
+					zoom: 4
+				})
+			});
+			//map.getView().fit(layers[1].getSource().getExtent());
+		};
+
+		function similarity(feat1, feat2) {
+			// create turf objects
+			alert('creating turf geoms');
+			geom1 = geoj2turf(turf.simplify(feat1.geometry, {tolerance:0.01}));
+			geom2 = geoj2turf(turf.simplify(feat2.geometry, {tolerance:0.01}));
+
+			// exit early if no overlap
+			var [xmin1,ymin1,xmax1,ymax1] = turf.bbox(geom1);
+			var [xmin2,ymin2,xmax2,ymax2] = turf.bbox(geom2);
+			var boxoverlap = (xmin1 <= xmax2 & xmax1 >= xmin2 & ymin1 <= ymax2 & ymax1 >= ymin2)
+			if (!boxoverlap) {
+				return {'equality':0, 'within':0, 'contains':0}
+			};
+
+			// calc intersection
+			alert('calc intersection');
+			var isec = turf.intersect(geom1, geom2);
+			if (isec == null) {
+				// exit early if no intersection
+				return {'equality':0, 'within':0, 'contains':0}
+			};
+			alert('isecCoords'+JSON.stringify(turf.getCoords(isec)))
+
+			// calc union
+			alert('calc union');
+			var union = turf.union(geom1, geom2);
+
+			// debug view isec/union
+			if (1) {
+				var geom1Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(geom1), 'coordinates':turf.getCoords(geom1)}};
+				var geom2Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(geom2), 'coordinates':turf.getCoords(geom2)}};
+				var isecFeat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(isec), 'coordinates':turf.getCoords(isec)}};
+				var unionFeat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(union), 'coordinates':turf.getCoords(union)}};
+				var ring1Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':'Polygon', 'coordinates':[turf.getCoords(union)[0][0]]}};
+				var ring2Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':'Polygon', 'coordinates':[turf.getCoords(union)[0][3]]}};
+				//var coll = {'type':'FeatureCollection', 'features':[isecFeat,unionFeat]};
+				viewGeom([{'geojson':geom1Feat,'style':{fillColor:'rgba(255, 255, 255, 0.4)',strokeColor:'rgb(0,0,0)'}},
+						{'geojson':isecFeat,'style':{fillColor:'rgba(255, 255, 255, 0.4)',strokeColor:'rgb(255,0,0)'}},
+				]);
+			};
+
+			// calc metrics
+			alert('calc areas');
+			var geom1Area = turf.convertArea(turf.area(geom1),'meters','kilometers');
+			var geom2Area = turf.convertArea(turf.area(geom2),'meters','kilometers');
+			var unionArea = turf.convertArea(robustArea(union), 'meters', 'kilometers');
+			var isecArea = turf.convertArea(robustArea(isec), 'meters', 'kilometers');
+			var areas = {'geom1Area':geom1Area, 'geom2Area':geom2Area, 'unionArea':unionArea, 'isecArea':isecArea};
+			alert(JSON.stringify(areas));
+			
+			var results = {};
+			results.equality = isecArea / unionArea;
+			results.within = isecArea / geom1Area;
+			results.contains = isecArea / geom2Area;
+			return results;
+		};
 
 		</script>
 
@@ -1978,7 +2156,7 @@ ul li{
 		});
 
 		// map click popup
-		map.on('singleclick', function(evt) {
+		function openFeatureComparePopup(feat1, feat2) {
 			// reset any previous names
 			document.getElementById('feature-compare-left-name').innerText = '-';
 			document.getElementById('feature-compare-right-name').innerText = '-';
@@ -1986,19 +2164,39 @@ ul li{
 			let mainName = '-';
 			let comparisonName = '-';
 			var comparisonSelect = document.getElementById('comparison-names-table-select');
+			if (feat1 != null) {
+				mainName = feat1.getProperties()['shapeName']
+			};
+			if (feat2 != null) {
+				comparisonName = feat2.getProperties()[comparisonSelect.value]
+			};
+			// update the names
+			document.getElementById('feature-compare-left-name').innerText = mainName;
+			document.getElementById('feature-compare-right-name').innerText = comparisonName;
+			// explore similarity stats
+			var geojWriter = new ol.format.GeoJSON();
+  			var geoj1 = geojWriter.writeFeatureObject(feat1);
+			var geoj2 = geojWriter.writeFeatureObject(feat2);
+			stats = similarity(geoj1, geoj2);
+			alert(JSON.stringify(stats));
+			// show popup
+			document.getElementById('feature-compare-popup').className = 'popup';
+		};
+
+		map.on('singleclick', function(evt) {
+			// get feats
+			let mainFeat = null;
+			let comparisonFeat = null;
 			map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
 				if (layer === gbLayer) {
-					mainName = feature.getProperties()['shapeName']
+					mainFeat = feature
 				} else if (layer === comparisonLayer) {
-					comparisonName = feature.getProperties()[comparisonSelect.value]
+					comparisonFeat = feature
 				};
 			});
-			if (mainName != '-' | comparisonName != '-') {
-				// update the names
-				document.getElementById('feature-compare-left-name').innerText = mainName;
-				document.getElementById('feature-compare-right-name').innerText = comparisonName;
-				// show popup
-				document.getElementById('feature-compare-popup').className = 'popup';
+			// init and open popup for the found features
+			if (mainFeat != null | comparisonFeat != null) {
+				openFeatureComparePopup(mainFeat, comparisonFeat);
 			};
 		});
 		
