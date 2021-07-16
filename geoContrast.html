@@ -429,6 +429,17 @@ ul li{
 								<a id="close-contribute-popup" class="close-popup" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
 							</div>
 
+							<script>
+								// When the user clicks anywhere outside of the popup, close it
+								window.onclick = function(event) {
+									//alert('click '+event.target.className+' '+event.target.id);
+									if (event.target.id == 'feature-compare-popup') {
+										//alert('should close');
+										event.target.className = "popup is-hidden is-visually-hidden";
+									};
+								};
+							</script>
+
 							<h2>Feature Comparison</h2>
 
 							<div class="row box" style="width:100%; margin:15px 0px">
@@ -622,6 +633,17 @@ ul li{
 						<div style="text-align:right">
 							<a id="close-contribute-popup" class="close-popup" onclick="closeContributePopup()">&times;</a>
 						</div>
+
+						<script>
+							// When the user clicks anywhere outside of the popup, close it
+							window.onclick = function(event) {
+								//alert('click '+event.target.className+' '+event.target.id);
+								if (event.target.id == 'contribute-popup') {
+									//alert('should close');
+									event.target.className = "popup is-hidden is-visually-hidden";
+								};
+							};
+						</script>
 						
 						<h3>Contribute your boundary file:</h3>
 						
