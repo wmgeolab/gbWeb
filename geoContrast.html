@@ -248,6 +248,7 @@ ul li{
   border-radius: 4px;
   width: 80vw;
   height: 90vh;
+  overflow: auto;
 }
 
 .popup-open { overflow: hidden; }
@@ -443,6 +444,7 @@ ul li{
 							<h2>Feature Comparison</h2>
 
 							<div class="row box" style="width:100%; margin:15px 0px">
+
 								<div id="feature-compare-left-div" style="width:49%">
 									<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 									<h3 id="feature-compare-left-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
@@ -483,6 +485,28 @@ ul li{
 										</tr>
 									</table>
 								</div>
+
+								<div style="width:100%">
+									<!--Topline similarity stats-->
+									<div style="display:inline-block; text-align:center; width:32%">
+										<h5>Equals:</h5>
+										<h3 id="feature-compare-equality"></h3>
+									</div>
+									<div style="display:inline-block; text-align:center; width:32%">
+										<h5>Contains:</h5>
+										<h3 id="feature-compare-contains"></h3>
+									</div>
+									<div style="display:inline-block; text-align:center; width:32%">
+										<h5>Within:</h5>
+										<h3 id="feature-compare-within"></h3>
+									</div>
+								</div>
+
+								<div id="feature-compare-map-container" class="row" style="width:100%; margin:15px 0px">
+									<div id="feature-compare-map" class="map">
+									</div>
+								</div>
+
 							</div>
 							
 						</div>
@@ -634,6 +658,7 @@ ul li{
 							<a id="close-contribute-popup" class="close-popup" onclick="closeContributePopup()">&times;</a>
 						</div>
 
+						<!--
 						<script>
 							// When the user clicks anywhere outside of the popup, close it
 							window.onclick = function(event) {
@@ -644,6 +669,7 @@ ul li{
 								};
 							};
 						</script>
+						-->
 						
 						<h3>Contribute your boundary file:</h3>
 						
@@ -1950,8 +1976,9 @@ ul li{
 		};
 
 		// feature to feature similarity
-		function robustArea(geom) {
-			// make sure isec rings are correctly oriented (otherwise will get negative area)
+		function robustTurfArea(geom) {
+			// WARNING: turf calculates wildly incorrect area estimates, see instead 'olArea'
+			// make sure isec rings are correctly sorted (otherwise will get negative area)
 			// see https://github.com/Turfjs/turf/issues/1482
 			// https://github.com/w8r/martinez/issues/91
 			var geomType = turf.getType(geom);
@@ -1965,18 +1992,21 @@ ul li{
 			var allRings = [];
 			for (poly of coords) {
 				for (ring of poly) {
+					/*if (ring[0] != ring[ring.length-1]) {
+						ring.push(ring[ring.length-1]);
+					};*/
 					allRings.push(ring);
 				};
 			};
 			var multiLines = turf.multiLineString(allRings);
 			var featureColl = turf.polygonize(multiLines);
-			var polys = [];
+			// cumulate the area of each resulting polygon
+			var area = 0;
+			var pi = 0;
 			turf.featureEach(featureColl, function (currentFeature, featureIndex) {
-				var coords = turf.getCoords(currentFeature);
-				polys.push(coords);
+				area = area + turf.area(currentFeature);
+				pi++;
 			});
-			var newGeom = turf.multiPolygon(polys);
-			area = turf.area(newGeom);
 			alert('old '+turf.area(geom)+' new '+area);
 
 			/*
@@ -2008,6 +2038,18 @@ ul li{
 			return area;
 		};
 
+		function olArea(geom) {
+			var feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(geom), 'coordinates':turf.getCoords(geom)}};
+			var olFeat = new ol.format.GeoJSON().readFeature(feat);
+			var area = ol.sphere.getArea(olFeat.getGeometry());
+			//alert(turf.area(geom)+'-->'+area);
+			return area;
+		};
+
+		function olPerimeter(geom) {
+			fdsfs;
+		};
+
 		function viewGeom(layerDefs) {
 			// remove existing map div
 			var oldmap = document.getElementById('testmap');
@@ -2015,11 +2057,11 @@ ul li{
 				oldmap.remove();
 			};
 			// add new map div
-			var relbox = document.getElementById('relations-box')
+			var container = document.getElementById('feature-compare-map-container')
 			var mapdiv = document.createElement("div");
 			mapdiv.id = 'testmap';
 			mapdiv.className = 'map';
-			relbox.appendChild(mapdiv);
+			container.appendChild(mapdiv);
 
 			var tileLayer = new ol.layer.Tile({
 					source: new ol.source.XYZ({
@@ -2063,7 +2105,7 @@ ul li{
 
 		function similarity(feat1, feat2) {
 			// create turf objects
-			alert('creating turf geoms');
+			//alert('creating turf geoms');
 			geom1 = geoj2turf(turf.simplify(feat1.geometry, {tolerance:0.01}));
 			geom2 = geoj2turf(turf.simplify(feat2.geometry, {tolerance:0.01}));
 
@@ -2076,40 +2118,39 @@ ul li{
 			};
 
 			// calc intersection
-			alert('calc intersection');
+			//alert('calc intersection');
 			var isec = turf.intersect(geom1, geom2);
 			if (isec == null) {
 				// exit early if no intersection
 				return {'equality':0, 'within':0, 'contains':0}
 			};
-			alert('isecCoords'+JSON.stringify(turf.getCoords(isec)))
 
 			// calc union
-			alert('calc union');
+			//alert('calc union');
 			var union = turf.union(geom1, geom2);
 
 			// debug view isec/union
-			if (1) {
+			if (0) {
 				var geom1Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(geom1), 'coordinates':turf.getCoords(geom1)}};
 				var geom2Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(geom2), 'coordinates':turf.getCoords(geom2)}};
-				var isecFeat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(isec), 'coordinates':turf.getCoords(isec)}};
-				var unionFeat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(union), 'coordinates':turf.getCoords(union)}};
-				var ring1Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':'Polygon', 'coordinates':[turf.getCoords(union)[0][0]]}};
-				var ring2Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':'Polygon', 'coordinates':[turf.getCoords(union)[0][3]]}};
+				//var isecFeat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(isec), 'coordinates':turf.getCoords(isec)}};
+				//var unionFeat = {'type':'Feature', 'properties':{}, 'geometry':{'type':turf.getType(union), 'coordinates':turf.getCoords(union)}};
+				//var ring1Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':'Polygon', 'coordinates':[turf.getCoords(union)[0][0]]}};
+				//var ring2Feat = {'type':'Feature', 'properties':{}, 'geometry':{'type':'Polygon', 'coordinates':[turf.getCoords(union)[0][3]]}};
 				//var coll = {'type':'FeatureCollection', 'features':[isecFeat,unionFeat]};
-				viewGeom([{'geojson':geom1Feat,'style':{fillColor:'rgba(255, 255, 255, 0.4)',strokeColor:'rgb(0,0,0)'}},
-						{'geojson':isecFeat,'style':{fillColor:'rgba(255, 255, 255, 0.4)',strokeColor:'rgb(255,0,0)'}},
+				viewGeom([{'geojson':geom1Feat,'style':{fillColor:'rgba(255, 255, 255, 0.4)',strokeColor:'rgb(29,107,191)'}},
+						{'geojson':geom2Feat,'style':{fillColor:'rgba(255, 255, 255, 0.4)',strokeColor:'rgb(255,0,0)'}},
 				]);
 			};
 
 			// calc metrics
-			alert('calc areas');
-			var geom1Area = turf.convertArea(turf.area(geom1),'meters','kilometers');
-			var geom2Area = turf.convertArea(turf.area(geom2),'meters','kilometers');
-			var unionArea = turf.convertArea(robustArea(union), 'meters', 'kilometers');
-			var isecArea = turf.convertArea(robustArea(isec), 'meters', 'kilometers');
+			//alert('calc areas');
+			var geom1Area = turf.convertArea(olArea(geom1),'meters','kilometers');
+			var geom2Area = turf.convertArea(olArea(geom2),'meters','kilometers');
+			var unionArea = turf.convertArea(olArea(union), 'meters', 'kilometers');
+			var isecArea = turf.convertArea(olArea(isec), 'meters', 'kilometers');
 			var areas = {'geom1Area':geom1Area, 'geom2Area':geom2Area, 'unionArea':unionArea, 'isecArea':isecArea};
-			alert(JSON.stringify(areas));
+			//alert(JSON.stringify(areas));
 			
 			var results = {};
 			results.equality = isecArea / unionArea;
@@ -2195,12 +2236,17 @@ ul li{
 			// update the names
 			document.getElementById('feature-compare-left-name').innerText = mainName;
 			document.getElementById('feature-compare-right-name').innerText = comparisonName;
-			// explore similarity stats
+			// calc similarity stats
 			var geojWriter = new ol.format.GeoJSON();
   			var geoj1 = geojWriter.writeFeatureObject(feat1);
 			var geoj2 = geojWriter.writeFeatureObject(feat2);
 			stats = similarity(geoj1, geoj2);
-			alert(JSON.stringify(stats));
+			// add feats to the popup comparison map
+			updateFeatureComparisonMap(geoj1, geoj2);
+			// update the stats entries
+			document.getElementById('feature-compare-equality').innerText = (stats.equality*100).toFixed(1) + '%';
+			document.getElementById('feature-compare-contains').innerText = (stats.contains*100).toFixed(1) + '%';
+			document.getElementById('feature-compare-within').innerText = (stats.within*100).toFixed(1) + '%';
 			// show popup
 			document.getElementById('feature-compare-popup').className = 'popup';
 		};
@@ -2224,6 +2270,91 @@ ul li{
 		
 		updateGbCountries();
 		
+		</script>
+
+		<script>
+			// --------------------------------
+			// Adds the feature comparison map
+
+			// define map background
+
+			var tileLayer = new ol.layer.Tile({
+					source: new ol.source.XYZ({
+						attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
+						url:
+						'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
+						maxZoom: 20,
+			})});
+			var layers = [tileLayer];
+
+			// main layer
+
+			var style = new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: 'rgba(255, 255, 255, 0.4)',
+				}),
+				stroke: new ol.style.Stroke({
+					color: 'rgb(29,107,191)', //'rgb(49, 127, 211)',
+					width: 2.5,
+				}),
+			});
+			var featureCompareMainLayer = new ol.layer.Vector({
+				style: style,
+			});
+			layers.push(featureCompareMainLayer);
+
+			// comparison layer
+			
+			var style = new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: 'rgba(255, 255, 255, 0)', // fully transparent
+				}),
+				stroke: new ol.style.Stroke({
+					color: 'rgba(255, 0, 0, 0.8)',
+					width: 1.5,
+					lineDash: [10,10]
+				}),
+			});
+			var featureCompareComparisonLayer = new ol.layer.Vector({
+				style: style,
+			});
+			layers.push(featureCompareComparisonLayer);
+
+			// create the map			
+			
+			var featureCompareMap = new ol.Map({
+				target: 'feature-compare-map',
+				controls: ol.control.defaults().extend([new ol.control.FullScreen(),
+													new ol.control.ScaleLine({units: 'metric'}),
+													]),
+				layers: layers,
+				view: new ol.View({
+					center: ol.proj.fromLonLat([37.41, 8.82]),
+					zoom: 4
+				})
+			});
+
+			// populating the featureCompareMap
+
+			function updateFeatureComparisonMap(mainGeoj, comparisonGeoj) {
+				// set main source
+				var source = new ol.source.Vector({
+					features: new ol.format.GeoJSON().readFeatures(mainGeoj),
+				});
+				featureCompareMainLayer.setSource(source);
+
+				// set comparison source
+				var source = new ol.source.Vector({
+					features: new ol.format.GeoJSON().readFeatures(comparisonGeoj),
+				});
+				featureCompareComparisonLayer.setSource(source);
+
+				// zoom to combined extents
+				var extent = ol.extent.createEmpty();
+				ol.extent.extend(extent, featureCompareMainLayer.getSource().getExtent());
+				ol.extent.extend(extent, featureCompareComparisonLayer.getSource().getExtent());
+				featureCompareMap.getView().fit(extent);
+			};
 		</script>
 
 </body>
