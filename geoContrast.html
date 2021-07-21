@@ -411,8 +411,30 @@ ul li{
 
 										<div style="width:100%; text-align:center">
 											<script type="text/javascript">
-												function exportMapToPNG() {
+												function setImageDataAndPrintPDF(imgData) {
+													//alert('processing img data');
+													// enable the map image div for printing
+													var mapImgDiv = document.getElementById('map-image-for-printing-div');
+													mapImgDiv.style.display = 'block';
+													// set img src
+													var mapImg = document.getElementById('map-image-for-printing');
+													mapImg.src = imgData;
+													// set args
+													args = {printable:'main', 
+															type:'html', 
+															targetStyles:['*'], 
+															ignoreElements:['map-and-toolbox-div','feature-compare-popup','contribute-popup'], 
+															maxWidth:1000};
+													// create pdf
+													//alert('creating pdf');
+													printJS(args);
+													// disable the map image div
+													mapImgDiv.style.display = 'none';
+												};
+												
+												function renderMapToImgData(processdata) {
 													map.once('rendercomplete', function () {
+														//alert('rendercomplete');
 														const mapCanvas = document.createElement('canvas');
 														const size = map.getSize();
 														mapCanvas.width = size[0];
@@ -440,37 +462,15 @@ ul li{
 															}
 														);
 														imgData = mapCanvas.toDataURL();
-														return imgData;
+														//alert('imgdata '+imgData);
+														processdata(imgData);
 													});
 													map.renderSync();
 												};
 
 												function printPageToPDF() {
-													// enable the map image div for printing
-													var mapImgDiv = document.getElementById('map-image-for-printing-div');
-													mapImgDiv.style.display = 'block';
 													// export the map to img src
-													var mapImg = document.getElementById('map-image-for-printing');
-													//let mapImg = new Image();
-													//mapImg.id = 'map-image-for-printing';
-													//mapImg.crossOrigin = "anonymous";
-													
-													//var imgData = exportMapToPNG();
-													//mapImg.src = imgData;
-													
-													// clear and add the img
-													//mapImgDiv.innerHTML = '';
-													//mapImgDiv.appendChild(mapImg);
-													// set args
-													args = {printable:'main', 
-															type:'html', 
-															targetStyles:['*'], 
-															ignoreElements:['map-and-toolbox-div','feature-compare-popup','contribute-popup'], 
-															maxWidth:1000};
-													// create pdf
-													printJS(args);
-													// disable the map image div
-													mapImgDiv.style.display = 'none';
+													renderMapToImgData(setImageDataAndPrintPDF);
 												};
 											</script>
 
@@ -493,8 +493,8 @@ ul li{
 					
 					</div>
 
-					<div id="map-image-for-printing-div" class="row box" style="display:none; width:100%; margin:15px 0px">
-						<img id="map-image-for-printing" src="https://openmaptiles.org/img/home-banner-map.png" width="100%"></img>
+					<div id="map-image-for-printing-div" class="row box" style="display:none; width:100%; margin:0px 0px">
+						<img id="map-image-for-printing" style="width:100%; height:400px; object-fit:cover" crossorigin="anonymous"></img>
 					</div>
 
 					<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
@@ -2276,6 +2276,7 @@ ul li{
 					url:
 					'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
 					maxZoom: 20,
+					crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
 				})}),
 			  gbLayer,
 			  comparisonLayer
@@ -2389,6 +2390,7 @@ ul li{
 						url:
 						'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
 						maxZoom: 20,
+						crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
 			})});
 			var layers = [tileLayer];
 
