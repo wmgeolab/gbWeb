@@ -27,10 +27,11 @@
   
   /* move to top */
   bottom:100%;
+  margin-bottom:10px;
   
-  /* move to right */
-  left:100%;
-  margin-left:10px; /* padding on the left */
+  /* horizontally center */
+  left:50%;
+  margin-left:-100px; /* half the width */
   
   /* basic styles */
   width:200px;
@@ -331,10 +332,9 @@ ul li{
 				<section style="padding:2em 0 2em 0 !important;">
 					<header class="main">
 						<span><h1>Visualize & Compare Boundaries</h1></span>
-						
 					</header>
 
-					<div class="row gtr-200">
+					<div id="map-and-toolbox-div" class="row gtr-200">
 						<div class="col-7 col-12-medium">
 							<div id="fullscreen" class="fullscreen">
 								<div id="map" class="map">
@@ -402,11 +402,34 @@ ul li{
 											</select>
 										</span>
 										
-										<div id="compare-comparison" style="height:40%; overflow:auto">
+										<div id="compare-comparison" style="height:30%; overflow:auto">
 											
 											<div id="comparison-info-div" style="padding:5px">
 											</div>
 											
+										</div>
+
+										<div style="width:100%; text-align:center">
+											<script>
+												function printPageToPDF() {
+													// enable the map image div for printing
+													var mapImgDiv = document.getElementById('map-image-for-printing-div');
+													mapImgDiv.style.display = 'block';
+													// set args
+													args = {printable:'main', 
+															type:'html', 
+															targetStyles:['*'], 
+															ignoreElements:['map-and-toolbox-div','feature-compare-popup','contribute-popup'], 
+															maxWidth:1000};
+													// create pdf
+													printJS(args);
+													// disable the map image div
+													mapImgDiv.style.display = 'none';
+												};
+											</script>
+											<button type="button" style="font-size:0.6em" onclick="printPageToPDF()">
+												Generate PDF Report
+											 </button>
 										</div>
 										
 										
@@ -420,6 +443,10 @@ ul li{
 
 						</div>
 					
+					</div>
+
+					<div id="map-image-for-printing-div" style="display:none; width:100%; margin:15px 0px">
+						<img  id="map-image-for-printing" src="https://geology.com/world/world-map-360.gif" width="100%"></img>
 					</div>
 
 					<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
@@ -534,12 +561,14 @@ ul li{
 							
 						</div>
 					</div>
+
+					<br>
 					
 					<div id="table-comparison" class="row box" style="width:100%; margin:15px 0px">
 						<div id="table-comparison-banner" style="width:100%; text-align:center">
 							<h2>Source Overview</h2>
 						</div>
-						<div id="left-table-div" style="width:49%">
+						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
 							<span id="stats-gb-name" style="font-style:italic; color:gray; margin-left:15px;">None</span>
@@ -587,7 +616,7 @@ ul li{
 
 						</div>
 						
-						<div id="right-table-div" style="width:48%">
+						<div id="right-table-div" style="width:45%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
 							<span id="stats-comp-name" style="font-style:italic; color:gray; margin-left:15px;">None</span>
@@ -635,15 +664,17 @@ ul li{
 						</div>
 					</div>
 
+					<br>
+
 					<div id="table-comparison" class="row box" style="width:100%; margin:15px 0px">
 						<div id="table-comparison-banner" style="width:100%; text-align:center">
 							<h2>Source Contents</h2>
 						</div>
-						<div id="left-table-div" style="width:49%">
+						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
-							<br><br>
-							<div id="gb-names-table-div" style="max-height:500px; overflow:auto; margin-top:10px">
+							<br>
+							<div id="gb-names-table-div" style="margin-top:10px">
 								<table id="gb-names-table" style="margin-left:10px">
 									<thead>
 										<th style="height:52px">shapeName</th>
@@ -654,11 +685,11 @@ ul li{
 								</table>
 							</div>
 						</div>
-						<div id="right-table-div" style="width:48%">
+						<div id="right-table-div" style="width:45%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-							<br><br>
-							<div id="comparison-names-table-div" style="max-height:500px; overflow:auto; margin-top:10px">
+							<br>
+							<div id="comparison-names-table-div" style="margin-top:10px">
 								<table id="comparison-names-table" style="margin-left:10px">
 									<thead>
 										<th>
@@ -858,6 +889,9 @@ ul li{
 	<!--this is for dynamic boundary stats-->
 	<!--<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js" integrity="sha512-Q7HOppxoH0L2M7hreVoFCtUZimR2YaY0fBewIYzkCgmNtgOOZ5IgMNYxHgfps0qrO1ef5m7L1FeHrhXlq1I9HA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<!--this is for printing pdf reports-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js" integrity="sha512-/fgTphwXa3lqAhN+I8gG8AvuaTErm1YxpUjbdCvwfTMyv8UZnFyId7ft5736xQ6CyQN4Nzr21lBuWWA9RTCXCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 	<script type="text/javascript">
@@ -2131,6 +2165,19 @@ ul li{
 			results.contains = isecArea / geom2Area;
 			return results;
 		};
+
+		/*function spatialRelation(feat1, feat2, simil) {
+			// unfinished...
+			if (simil.contains >= 0.1 | simil.within >= 0.1) {
+				if (simil.equality >= 0.95) {
+					return 'is equal to';
+				} else {
+					return 'is a subset of';
+				};
+			};
+			// next
+			// ...
+		};*/
 
 		</script>
 
