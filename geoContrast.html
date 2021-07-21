@@ -410,11 +410,57 @@ ul li{
 										</div>
 
 										<div style="width:100%; text-align:center">
-											<script>
+											<script type="text/javascript">
+												function exportMapToPNG() {
+													map.once('rendercomplete', function () {
+														const mapCanvas = document.createElement('canvas');
+														const size = map.getSize();
+														mapCanvas.width = size[0];
+														mapCanvas.height = size[1];
+														const mapContext = mapCanvas.getContext('2d');
+														Array.prototype.forEach.call(
+															document.querySelectorAll('.ol-layer canvas'),
+															function (canvas) {
+																if (canvas.width > 0) {
+																	const opacity = canvas.parentNode.style.opacity;
+																	mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+																	const transform = canvas.style.transform;
+																	// Get the transform parameters from the style's transform matrix
+																	const matrix = transform
+																		.match(/^matrix\(([^\(]*)\)$/)[1]
+																		.split(',')
+																		.map(Number);
+																	// Apply the transform to the export map context
+																	CanvasRenderingContext2D.prototype.setTransform.apply(
+																		mapContext,
+																		matrix
+																	);
+																	mapContext.drawImage(canvas, 0, 0);
+																};
+															}
+														);
+														imgData = mapCanvas.toDataURL();
+														return imgData;
+													});
+													map.renderSync();
+												};
+
 												function printPageToPDF() {
 													// enable the map image div for printing
 													var mapImgDiv = document.getElementById('map-image-for-printing-div');
 													mapImgDiv.style.display = 'block';
+													// export the map to img src
+													var mapImg = document.getElementById('map-image-for-printing');
+													//let mapImg = new Image();
+													//mapImg.id = 'map-image-for-printing';
+													//mapImg.crossOrigin = "anonymous";
+													
+													//var imgData = exportMapToPNG();
+													//mapImg.src = imgData;
+													
+													// clear and add the img
+													//mapImgDiv.innerHTML = '';
+													//mapImgDiv.appendChild(mapImg);
 													// set args
 													args = {printable:'main', 
 															type:'html', 
@@ -427,9 +473,11 @@ ul li{
 													mapImgDiv.style.display = 'none';
 												};
 											</script>
+
 											<button type="button" style="font-size:0.6em" onclick="printPageToPDF()">
 												Generate PDF Report
 											 </button>
+
 										</div>
 										
 										
@@ -445,8 +493,8 @@ ul li{
 					
 					</div>
 
-					<div id="map-image-for-printing-div" style="display:none; width:100%; margin:15px 0px">
-						<img  id="map-image-for-printing" src="https://geology.com/world/world-map-360.gif" width="100%"></img>
+					<div id="map-image-for-printing-div" class="row box" style="display:none; width:100%; margin:15px 0px">
+						<img id="map-image-for-printing" src="https://openmaptiles.org/img/home-banner-map.png" width="100%"></img>
 					</div>
 
 					<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
