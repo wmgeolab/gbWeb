@@ -1245,9 +1245,9 @@ ul li{
 			document.getElementById('stats-gb-name').innerText = name;
 			var lvl = document.getElementById('admin-level-select').value;
 			document.getElementById('stats-gb-level').innerText = lvl;
-			document.getElementById('stats-gb-area').innerText = stats.area.toFixed(0).toLocaleString('en-US') + ' km2';
-			document.getElementById('stats-gb-circumf').innerText = stats.circumf.toFixed(0).toLocaleString('en-US') + ' km';
-			document.getElementById('stats-gb-vertices').innerText = stats.vertices.toLocaleString('en-US');
+			document.getElementById('stats-gb-area').innerText = stats.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
+			document.getElementById('stats-gb-circumf').innerText = stats.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
+			document.getElementById('stats-gb-vertices').innerText = stats.vertices.toLocaleString('en-US', {maximumFractionDigits:0});
 			document.getElementById('stats-gb-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / km';
 			document.getElementById('stats-gb-avglineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
 			document.getElementById('stats-gb-admincount').innerText = stats.adminCount;
@@ -1552,9 +1552,9 @@ ul li{
 			document.getElementById('stats-comp-name').innerText = name;
 			var lvl = document.getElementById('comparison-admin-level-select').value;
 			document.getElementById('stats-comp-level').innerText = lvl;
-			document.getElementById('stats-comp-area').innerText = stats.area.toFixed(0).toLocaleString('en-US') + ' km2';
-			document.getElementById('stats-comp-circumf').innerText = stats.circumf.toFixed(0).toLocaleString('en-US') + ' km';
-			document.getElementById('stats-comp-vertices').innerText = stats.vertices.toLocaleString('en-US');
+			document.getElementById('stats-comp-area').innerText = stats.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
+			document.getElementById('stats-comp-circumf').innerText = stats.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
+			document.getElementById('stats-comp-vertices').innerText = stats.vertices.toLocaleString('en-US', {maximumFractionDigits:0});
 			document.getElementById('stats-comp-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / km';
 			document.getElementById('stats-comp-avglineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
 			document.getElementById('stats-comp-admincount').innerText = stats.adminCount;
@@ -2371,8 +2371,8 @@ ul li{
 			if (feat1 != null) {
 				var lvl = document.getElementById('admin-level-select').value;
 				document.getElementById('feature-compare-stats-gb-level').innerText = lvl;
-				document.getElementById('feature-compare-stats-gb-area').innerText = stats1.area.toFixed(0).toLocaleString('en-US') + ' km2';
-				document.getElementById('feature-compare-stats-gb-circumf').innerText = stats1.circumf.toFixed(0).toLocaleString('en-US') + ' km';
+				document.getElementById('feature-compare-stats-gb-area').innerText = stats1.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
+				document.getElementById('feature-compare-stats-gb-circumf').innerText = stats1.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
 				document.getElementById('feature-compare-stats-gb-vertices').innerText = stats1.vertices.toLocaleString('en-US');
 				document.getElementById('feature-compare-stats-gb-avglinedens').innerText = stats1.avgLineDensity.toFixed(1) + ' / km';
 				document.getElementById('feature-compare-stats-gb-avglineres').innerText = stats1.avgLineResolution.toFixed(1) + ' m';
@@ -2380,9 +2380,9 @@ ul li{
 			if (feat2 != null) {
 				var lvl = document.getElementById('comparison-admin-level-select').value;
 				document.getElementById('feature-compare-stats-comp-level').innerText = lvl;
-				document.getElementById('feature-compare-stats-comp-area').innerText = stats2.area.toFixed(0).toLocaleString('en-US') + ' km2';
-				document.getElementById('feature-compare-stats-comp-circumf').innerText = stats2.circumf.toFixed(0).toLocaleString('en-US') + ' km';
-				document.getElementById('feature-compare-stats-comp-vertices').innerText = stats2.vertices.toLocaleString('en-US');
+				document.getElementById('feature-compare-stats-comp-area').innerText = stats2.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
+				document.getElementById('feature-compare-stats-comp-circumf').innerText = stats2.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
+				document.getElementById('feature-compare-stats-comp-vertices').innerText = stats2.vertices.toLocaleString('en-US', {maximumFractionDigits:0});
 				document.getElementById('feature-compare-stats-comp-avglinedens').innerText = stats2.avgLineDensity.toFixed(1) + ' / km';
 				document.getElementById('feature-compare-stats-comp-avglineres').innerText = stats2.avgLineResolution.toFixed(1) + ' m';
 			};
