@@ -622,7 +622,15 @@ ul li{
 							<span id="stats-gb-name" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br><br>
 							<div id="stats-gb-container">
-								<table>
+								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
+										<td><div id="stats-gb-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+									</tr>
+									<tr>
+										<td>License:</td>
+										<td><div id="stats-gb-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+									</tr>
 									<tr>
 										<td>Level:</td>
 										<td id="stats-gb-level" class="stats-value"></td>
@@ -670,7 +678,15 @@ ul li{
 							<span id="stats-comp-name" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br><br>
 							<div id="stats-comp-container">
-								<table>
+								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
+										<td><div id="stats-comp-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+									</tr>
+									<tr>
+										<td>License:</td>
+										<td><div id="stats-comp-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+									</tr>
 									<tr>
 										<td>Level:</td>
 										<td id="stats-comp-level" class="stats-value"></td>
@@ -1155,7 +1171,7 @@ ul li{
 				if (rowIso == iso & rowLevel == level) {
 					var gbSource = row[6];
 					if (row[7] != '') {
-						gbSource += ', ' + row[7];
+						gbSource += ' / ' + row[7];
 					};
 					var gbSourceUrl = row[11].replace('https//', 'https://'); // fix url typos
 					var gbLicense = row[8];
@@ -1178,6 +1194,8 @@ ul li{
 			div.appendChild(info);
 
 			// also update some redundant fields in the stats tables
+			document.getElementById('stats-gb-source').innerHTML = '<a href="'+gbSourceUrl+'" target="_blank">'+gbSource+'</a>';
+			document.getElementById('stats-gb-license').innerHTML = '<a href="'+gbLicenseUrl+'" target="_blank">'+gbLicense+'</a>';
 			document.getElementById('stats-gb-year').innerHTML = gbYear;
 			document.getElementById('stats-gb-updated').innerHTML = gbUpdated;
 		};
@@ -1453,7 +1471,7 @@ ul li{
 				if (rowSource == sourceName & rowIso == iso & rowLevel == level) {
 					var comparisonSource = row[6];
 					if (row[7] != '') {
-						comparisonSource += ', ' + row[7];
+						comparisonSource += ' / ' + row[7];
 					};
 					var comparisonSourceUrl = row[11];
 					var comparisonLicense = row[8];
@@ -1476,6 +1494,8 @@ ul li{
 			div.appendChild(info);
 
 			// also update some redundant fields in the stats tables
+			document.getElementById('stats-comp-source').innerHTML = '<a href="'+comparisonSourceUrl+'" target="_blank">'+comparisonSource+'</a>';
+			document.getElementById('stats-comp-license').innerHTML = '<a href="'+comparisonLicenseUrl+'" target="_blank">'+comparisonLicense+'</a>';
 			document.getElementById('stats-comp-year').innerHTML = comparisonYear;
 			document.getElementById('stats-comp-updated').innerHTML = comparisonUpdated;
 		};
