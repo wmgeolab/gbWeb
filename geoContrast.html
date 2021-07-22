@@ -329,7 +329,7 @@ ul li{
 				</header>
 
 				<!-- Banner -->
-				<section style="padding:2em 0 2em 0 !important;">
+				<section id="main-section" style="padding:2em 0 2em 0 !important;">
 					<header class="main">
 						<span><h1>Visualize & Compare Boundaries</h1></span>
 					</header>
@@ -413,12 +413,16 @@ ul li{
 											<script type="text/javascript">
 												function setImageDataAndPrintPDF(imgData) {
 													//alert('processing img data');
-													// enable the map image div for printing
-													var mapImgDiv = document.getElementById('map-image-for-printing-div');
-													mapImgDiv.style.display = 'block';
+													// enable the top banner div for printing
+													var topBannerDiv = document.getElementById('top-banner-for-printing');
+													topBannerDiv.style.display = 'block';
 													// set img src
 													var mapImg = document.getElementById('map-image-for-printing');
 													mapImg.src = imgData;
+													// set country header
+													var countrySelect = document.getElementById('country-select');
+													var country = countrySelect.options[countrySelect.selectedIndex].text;
+													document.getElementById('country-header-for-printing').innerText = country;
 													// set args
 													args = {printable:'main', 
 															type:'html', 
@@ -429,7 +433,7 @@ ul li{
 													//alert('creating pdf');
 													printJS(args);
 													// disable the map image div
-													mapImgDiv.style.display = 'none';
+													topBannerDiv.style.display = 'none';
 												};
 												
 												function renderMapToImgData(processdata) {
@@ -469,8 +473,10 @@ ul li{
 												};
 
 												function printPageToPDF() {
-													// export the map to img src
-													renderMapToImgData(setImageDataAndPrintPDF);
+													// render the map to image data
+													// on success, set image data to img src and print the pdf
+													var onsuccess = setImageDataAndPrintPDF; 
+													renderMapToImgData(onsuccess);
 												};
 											</script>
 
@@ -493,127 +499,17 @@ ul li{
 					
 					</div>
 
-					<div id="map-image-for-printing-div" class="row box" style="display:none; width:100%; margin:0px 0px">
-						<img id="map-image-for-printing" style="width:100%; height:400px; object-fit:cover" crossorigin="anonymous"></img>
-					</div>
-
-					<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
-						<div class="popup-content">
-
-							<div style="text-align:right">
-								<a id="close-contribute-popup" class="close-popup" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
-							</div>
-
-							<script>
-								// When the user clicks anywhere outside of the popup, close it
-								window.onclick = function(event) {
-									//alert('click '+event.target.className+' '+event.target.id);
-									if (event.target.id == 'feature-compare-popup') {
-										//alert('should close');
-										event.target.className = "popup is-hidden is-visually-hidden";
-									};
-								};
-							</script>
-
-							<h2>Feature Comparison</h2>
-
-							<div class="row box" style="width:100%; margin:15px 0px">
-
-								<div id="feature-compare-left-div" style="width:49%">
-									<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-									<h3 id="feature-compare-left-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
-									<span style="font-style:italic; color:gray; margin-left:15px;">geoBoundary</span>
-									<br>
-									<table id="feature-compare-left-table" style="margin-left:15px">
-										<tr>
-											<td>Level:</td>
-											<td id="feature-compare-stats-gb-level" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Area:</td>
-											<td id="feature-compare-stats-gb-area" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
-											<td id="feature-compare-stats-gb-circumf" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
-											<td id="feature-compare-stats-gb-vertices" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
-											<td id="feature-compare-stats-gb-avglinedens" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
-											<td id="feature-compare-stats-gb-avglineres" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
-								<div id="feature-compare-right-div" style="width:49%">
-									<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-									<h3 id="feature-compare-right-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
-									<span style="font-style:italic; color:gray; margin-left:15px;">Comparison Boundary</span>
-									<br>
-									<table id="feature-compare-right-table" style="margin-left:15px">
-										<tr>
-											<td>Level:</td>
-											<td id="feature-compare-stats-comp-level" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Area:</td>
-											<td id="feature-compare-stats-comp-area" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
-											<td id="feature-compare-stats-comp-circumf" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
-											<td id="feature-compare-stats-comp-vertices" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
-											<td id="feature-compare-stats-comp-avglinedens" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
-											<td id="feature-compare-stats-comp-avglineres" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
-
-								<div style="display:none; width:100%">
-									<!--Topline similarity stats-->
-									<div style="display:inline-block; text-align:center; width:32%">
-										<h5>Equals:</h5>
-										<h3 id="feature-compare-equality"></h3>
-									</div>
-									<div style="display:inline-block; text-align:center; width:32%">
-										<h5>Contains:</h5>
-										<h3 id="feature-compare-contains"></h3>
-									</div>
-									<div style="display:inline-block; text-align:center; width:32%">
-										<h5>Within:</h5>
-										<h3 id="feature-compare-within"></h3>
-									</div>
-								</div>
-
-								<div id="feature-compare-map-container" class="row" style="width:100%; margin:15px 0px">
-									<div id="feature-compare-map" class="map">
-									</div>
-								</div>
-
-							</div>
-							
+					<div id="top-banner-for-printing" style="display:none; width:100%; margin:0; padding:0; text-align:center">
+						<div style="position:relative; text-align:center">
+							<img id="map-image-for-printing" style="width:100%; height:400px; object-fit:cover" crossorigin="anonymous"></img>
+							<h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
 						</div>
 					</div>
 
 					<br>
 					
-					<div id="table-comparison" class="row box" style="width:100%; margin:15px 0px">
-						<div id="table-comparison-banner" style="width:100%; text-align:center">
+					<div id="source-overview" class="row box" style="width:100%; margin:15px 0px; page-break-after:always">
+						<div id="source-overview-banner" style="width:100%; text-align:center">
 							<h2>Source Overview</h2>
 						</div>
 						<div id="left-table-div" style="width:45%">
@@ -642,30 +538,6 @@ ul li{
 									<tr>
 										<td>Last Update:</td>
 										<td id="stats-gb-updated" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Administrative Units:</td>
-										<td id="stats-gb-admincount" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Area:</td>
-										<td id="stats-gb-area" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
-										<td id="stats-gb-circumf" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
-										<td id="stats-gb-vertices" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
-										<td id="stats-gb-avglinedens" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
-										<td id="stats-gb-avglineres" class="stats-value"></td>
 									</tr>
 								</table>
 							</div>
@@ -699,6 +571,56 @@ ul li{
 										<td>Last Update:</td>
 										<td id="stats-comp-updated" class="stats-value"></td>
 									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<br>
+
+					<div id="source-stats" class="row box" style="width:100%; margin:15px 0px">
+						<div id="source-stats-banner" style="width:100%; text-align:center">
+							<h2>Source Statistics</h2>
+						</div>
+						<div id="left-table-div" style="width:45%">
+							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
+							<br>
+							<div id="stats-gb-container">
+								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-gb-admincount" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Area:</td>
+										<td id="stats-gb-area" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+										<td id="stats-gb-circumf" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+										<td id="stats-gb-vertices" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+										<td id="stats-gb-avglinedens" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+										<td id="stats-gb-avglineres" class="stats-value"></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div id="right-table-div" style="width:45%">
+							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<br>
+							<div id="stats-comp-container">
+								<table style="table-layout:fixed; width:100%">
 									<tr>
 										<td>Administrative Units:</td>
 										<td id="stats-comp-admincount" class="stats-value"></td>
@@ -730,8 +652,8 @@ ul li{
 
 					<br>
 
-					<div id="table-comparison" class="row box" style="width:100%; margin:15px 0px">
-						<div id="table-comparison-banner" style="width:100%; text-align:center">
+					<div id="source-contents" class="row box" style="width:100%; margin:15px 0px">
+						<div id="source-contents-banner" style="width:100%; text-align:center">
 							<h2>Source Contents</h2>
 						</div>
 						<div id="left-table-div" style="width:45%">
@@ -775,95 +697,208 @@ ul li{
 							<h2>Boundary Comparisons</h2>
 						</div>
 					</div>
-					
-					<div id="contribute-popup" class="popup is-hidden is-visually-hidden">
-					  <!-- popup content -->
-					  <div class="popup-content">
-						
-						<div style="text-align:right">
-							<a id="close-contribute-popup" class="close-popup" onclick="closeContributePopup()">&times;</a>
-						</div>
-
-						<!--
-						<script>
-							// When the user clicks anywhere outside of the popup, close it
-							window.onclick = function(event) {
-								//alert('click '+event.target.className+' '+event.target.id);
-								if (event.target.id == 'contribute-popup') {
-									//alert('should close');
-									event.target.className = "popup is-hidden is-visually-hidden";
-								};
-							};
-						</script>
-						-->
-						
-						<h3>Contribute your boundary file:</h3>
-						
-						<form>
-							<div style="height:300px; overflow:auto">
-								<table style="width:97%; margin:10px;">
-									<tr>
-										<td>Source*:</td>
-										<td>
-											<input name="source" type="text">
-										</td>
-									</tr>
-									<tr>
-										<td>License*:</td>
-										<td>
-											<input name="license" type="text">
-										</td>
-									</tr>
-									<tr>
-										<td>Administrative level*:</td>
-										<td>
-											<input name="admin-level" type="text">
-										</td>
-									</tr>
-									<tr>
-										<td>Year of boundaries*:</td>
-										<td>
-											<input name="year" type="text">
-										</td>
-									</tr>
-									<tr>
-										<td>Organization*:</td>
-										<td>
-											<input name="organization" type="text">
-										</td>
-									</tr>
-									<tr>
-										<td>Contact email*:</td>
-										<td>
-											<input name="email" type="email">
-										</td>
-									</tr>
-									<tr>
-										<td>Notes/comment:</td>
-										<td>
-											<input name="notes" type="text">
-										</td>
-									</tr>
-								</table>
-							</div>
-							
-							<div style="text-align:right; margin-top:10px">
-								<button type="submit">Submit!</button>
-							</div>
-							
-						</form>
-					  </div>
-					</div>
-				
-
-
-
-
 
 				</section>
 
-
 			</div>
+		</div>
+
+
+		<div>
+			<!--This section defines popups-->
+
+			<div id="contribute-popup" class="popup is-hidden is-visually-hidden">
+				<!-- popup content -->
+				<div class="popup-content">
+				  
+				  <div style="text-align:right">
+					  <a id="close-contribute-popup" class="close-popup" onclick="closeContributePopup()">&times;</a>
+				  </div>
+
+				  <!--
+				  <script>
+					  // When the user clicks anywhere outside of the popup, close it
+					  window.onclick = function(event) {
+						  //alert('click '+event.target.className+' '+event.target.id);
+						  if (event.target.id == 'contribute-popup') {
+							  //alert('should close');
+							  event.target.className = "popup is-hidden is-visually-hidden";
+						  };
+					  };
+				  </script>
+				  -->
+				  
+				  <h3>Contribute your boundary file:</h3>
+				  
+				  <form>
+					  <div style="height:300px; overflow:auto">
+						  <table style="width:97%; margin:10px;">
+							  <tr>
+								  <td>Source*:</td>
+								  <td>
+									  <input name="source" type="text">
+								  </td>
+							  </tr>
+							  <tr>
+								  <td>License*:</td>
+								  <td>
+									  <input name="license" type="text">
+								  </td>
+							  </tr>
+							  <tr>
+								  <td>Administrative level*:</td>
+								  <td>
+									  <input name="admin-level" type="text">
+								  </td>
+							  </tr>
+							  <tr>
+								  <td>Year of boundaries*:</td>
+								  <td>
+									  <input name="year" type="text">
+								  </td>
+							  </tr>
+							  <tr>
+								  <td>Organization*:</td>
+								  <td>
+									  <input name="organization" type="text">
+								  </td>
+							  </tr>
+							  <tr>
+								  <td>Contact email*:</td>
+								  <td>
+									  <input name="email" type="email">
+								  </td>
+							  </tr>
+							  <tr>
+								  <td>Notes/comment:</td>
+								  <td>
+									  <input name="notes" type="text">
+								  </td>
+							  </tr>
+						  </table>
+					  </div>
+					  
+					  <div style="text-align:right; margin-top:10px">
+						  <button type="submit">Submit!</button>
+					  </div>
+					  
+				  </form>
+				</div>
+			</div>
+
+			<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
+				<div class="popup-content">
+
+					<div style="text-align:right">
+						<a id="close-contribute-popup" class="close-popup" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
+					</div>
+
+					<script>
+						// When the user clicks anywhere outside of the popup, close it
+						window.onclick = function(event) {
+							//alert('click '+event.target.className+' '+event.target.id);
+							if (event.target.id == 'feature-compare-popup') {
+								//alert('should close');
+								event.target.className = "popup is-hidden is-visually-hidden";
+							};
+						};
+					</script>
+
+					<h2>Feature Comparison</h2>
+
+					<div class="row box" style="width:100%; margin:15px 0px">
+
+						<div id="feature-compare-left-div" style="width:49%">
+							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+							<h3 id="feature-compare-left-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
+							<span style="font-style:italic; color:gray; margin-left:15px;">geoBoundary</span>
+							<br>
+							<table id="feature-compare-left-table" style="margin-left:15px">
+								<tr>
+									<td>Level:</td>
+									<td id="feature-compare-stats-gb-level" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Area:</td>
+									<td id="feature-compare-stats-gb-area" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+									<td id="feature-compare-stats-gb-circumf" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+									<td id="feature-compare-stats-gb-vertices" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+									<td id="feature-compare-stats-gb-avglinedens" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+									<td id="feature-compare-stats-gb-avglineres" class="stats-value"></td>
+								</tr>
+							</table>
+						</div>
+						<div id="feature-compare-right-div" style="width:49%">
+							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+							<h3 id="feature-compare-right-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
+							<span style="font-style:italic; color:gray; margin-left:15px;">Comparison Boundary</span>
+							<br>
+							<table id="feature-compare-right-table" style="margin-left:15px">
+								<tr>
+									<td>Level:</td>
+									<td id="feature-compare-stats-comp-level" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Area:</td>
+									<td id="feature-compare-stats-comp-area" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+									<td id="feature-compare-stats-comp-circumf" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+									<td id="feature-compare-stats-comp-vertices" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+									<td id="feature-compare-stats-comp-avglinedens" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+									<td id="feature-compare-stats-comp-avglineres" class="stats-value"></td>
+								</tr>
+							</table>
+						</div>
+
+						<div style="display:none; width:100%">
+							<!--Topline similarity stats-->
+							<div style="display:inline-block; text-align:center; width:32%">
+								<h5>Equals:</h5>
+								<h3 id="feature-compare-equality"></h3>
+							</div>
+							<div style="display:inline-block; text-align:center; width:32%">
+								<h5>Contains:</h5>
+								<h3 id="feature-compare-contains"></h3>
+							</div>
+							<div style="display:inline-block; text-align:center; width:32%">
+								<h5>Within:</h5>
+								<h3 id="feature-compare-within"></h3>
+							</div>
+						</div>
+
+						<div id="feature-compare-map-container" class="row" style="width:100%; margin:15px 0px">
+							<div id="feature-compare-map" class="map">
+							</div>
+						</div>
+
+					</div>
+					
+				</div>
+			</div>
+
 		</div>
 
 		<script>
