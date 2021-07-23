@@ -716,39 +716,6 @@ ul li{
 									</tbody>
 								</table>
 							</div>
-							<br>
-							<div style="margin-top:10px">
-								<table id="gb-relations-equals-table" class="gb-table" style="display:none; margin-left:10px">
-									<thead>
-										<th style="height:52px">Boundary</th>
-										<th>Equals</th>
-									</thhead>
-									<tbody id="gb-relations-equals-table-tbody">
-									</tbody>
-								</table>
-							</div>
-							<br>
-							<div>
-								<table id="gb-relations-contains-table" class="gb-table" style="display:none; margin-left:10px">
-									<thead>
-										<th style="height:52px">Boundary</th>
-										<th>Contains</th>
-									</thhead>
-									<tbody id="gb-relations-contains-table-tbody">
-									</tbody>
-								</table>
-							</div>
-							<br>
-							<div>
-								<table id="gb-relations-subset-table" class="gb-table" style="display:none; margin-left:10px">
-									<thead>
-										<th style="height:52px">Boundary</th>
-										<th>Is a subset of</th>
-									</thhead>
-									<tbody id="gb-relations-subset-table-tbody">
-									</tbody>
-								</table>
-							</div>
 						</div>
 
 						<div id="right-table-div" style="width:45%">
@@ -759,32 +726,12 @@ ul li{
 							</button>
 							<br>
 							<div style="margin-top:10px">
-								<table id="comparison-relations-equals-table" class="gb-table" style="display:none; margin-left:10px">
+								<table id="comparison-relations-makeup-table" class="comparison-table" style="display:none; margin-left:10px">
 									<thead>
 										<th style="height:52px">Boundary</th>
-										<th>Equals</th>
+										<th>Related to</th>
 									</thhead>
-									<tbody id="comparison-relations-equals-table-tbody">
-									</tbody>
-								</table>
-							</div>
-							<div style="margin-top:10px">
-								<table id="comparison-relations-contains-table" class="gb-table" style="display:none; margin-left:10px">
-									<thead>
-										<th style="height:52px">Boundary</th>
-										<th>Contains</th>
-									</thhead>
-									<tbody id="comparison-relations-contains-table-tbody">
-									</tbody>
-								</table>
-							</div>
-							<div style="margin-top:10px">
-								<table id="comparison-relations-subset-table" class="gb-table" style="display:none; margin-left:10px">
-									<thead>
-										<th style="height:52px">Boundary</th>
-										<th>Is a subset of</th>
-									</thhead>
-									<tbody id="comparison-relations-subset-table-tbody">
+									<tbody id="comparison-relations-makeup-table-tbody">
 									</tbody>
 								</table>
 							</div>
@@ -933,12 +880,12 @@ ul li{
 									<td id="feature-compare-stats-gb-avglineres" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
-									<td id="feature-compare-stats-gb-overlap" class="stats-value"></td>
-								</tr>
-								<tr>
 									<td>Relationship (<span class="tooltip" data-text="If both feature's boundary overlap exceed 99% then they are considered equal. If either feature exceeds 99% then the one with the highest share is considered FULLY INSIDE the other, while the one with the lowest share CONTAINS ALL OF the other one. If the highest share is above 66.6% then this is modified to MOSTLY INSIDE and CONTAINS MOST OF; above 0% is modified to PARTLY INSIDE and CONTAINS PARTS OF.">?</span>):</td>
 									<td id="feature-compare-stats-gb-relation" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
+									<td id="feature-compare-stats-gb-overlap" class="stats-value"></td>
 								</tr>
 							</table>
 						</div>
@@ -973,12 +920,12 @@ ul li{
 									<td id="feature-compare-stats-comp-avglineres" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
-									<td id="feature-compare-stats-comp-overlap" class="stats-value"></td>
-								</tr>
-								<tr>
 									<td>Relationship (<span class="tooltip" data-text="If both feature's boundary overlap exceed 99% then they are considered equal. If either feature exceeds 99% then the one with the highest share is considered FULLY INSIDE the other, while the one with the lowest share CONTAINS ALL OF the other one. If the highest share is above 66.6% then this is modified to MOSTLY INSIDE and CONTAINS MOST OF; above 0% is modified to PARTLY INSIDE and CONTAINS PARTS OF.">?</span>):</td>
 									<td id="feature-compare-stats-comp-relation" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
+									<td id="feature-compare-stats-comp-overlap" class="stats-value"></td>
 								</tr>
 							</table>
 						</div>
@@ -2436,59 +2383,10 @@ ul li{
 			return newMatches;
 		};
 
-		function findRelatedBoundaries(feat, features) {
-			// calc all relations
-			var allRelations = calcSpatialRelations(feat, features);
-			// find matches
-			var matches = sortSpatialRelations(allRelations, 'within', 0);
-			// keep if at least some relation
-			newMatches = [];
-			for (m of matches) {
-				if ((m[1]['contains'] >= 0.1) | (m[1]['within'] >= 0.1)) {
-					newMatches.push(m);
-				};
-			};
-			var matches = newMatches;
-			// begin logic
-			var relation = '';
-			var final = [];
-			if (matches.length == 0) {
-				return final;
-			};
-			if (matches.length == 1) {
-				relation1 = 'IS';
-			} else {
-				relation1 = 'CONTAINS';
-			};
-			for (x of matches) {
-				var [match,stats] = x;
-				if (matches.length == 1) {
-					if (stats.equality >= 0.90) {
-						var relation2 = 'EQUAL TO';
-						var relation = relation1+' '+relation2;
-						final.push([relation,match]);
-					} else {
-						var relation2 = 'A SUBSET OF';
-						var relation = relation1+' '+relation2;
-						final.push([relation,match]);
-					};
-				} else if (stats.contains >= 0.90) {
-					var relation2 = 'ALL OF';
-					var relation = relation1+' '+relation2;
-					final.push([relation,match]);
-				} else {
-					var relation2 = 'PARTS OF';
-					var relation = relation1+' '+relation2;
-					final.push([relation,match]);
-				};
-			};
-			// finish
-			return final;
-		};
-
 		function updateGbMakeupTable() {
 			var features = gbLayer.getSource().getFeatures();
 			var comparisonFeatures = comparisonLayer.getSource().getFeatures();
+
 			// sort by name
 			features.sort(function (a,b) {
 							if (a.getProperties()['shapeName'] < b.getProperties()['shapeName']) {
@@ -2497,6 +2395,7 @@ ul li{
 								return 1;
 							};
 						});
+
 			// calc and group all related features
 			var makeup = [];
 			for (feature of features) {
@@ -2557,140 +2456,6 @@ ul li{
 			} else {
 				table.style.display = 'none';
 			};
-		};
-
-		function updateGbRelatedTable() {
-			var features = gbLayer.getSource().getFeatures();
-			var comparisonFeatures = comparisonLayer.getSource().getFeatures();
-			// calc and group all related features
-			var equals = [];
-			var contains = [];
-			var subsets = [];
-			for (feature of features) {
-				related = findRelatedBoundaries(feature, comparisonFeatures);
-				if (related[0][0].includes('CONTAINS')) {
-					contains.push([feature,related]);
-				} else if (related[0][0].includes('EQUAL')) {
-					equals.push([feature,related]);
-				} else if (related[0][0].includes('SUBSET')) {
-					subsets.push([feature,related]);
-				};
-			};
-			
-			// populate tables
-			var comparisonSelect = document.getElementById('comparison-names-table-select');
-			
-			// populate equals table
-			var table = document.getElementById('gb-relations-equals-table')
-			// clear old table rows if exists
-			var tbody = document.getElementById('gb-relations-equals-table-tbody');
-			tbody.innerHTML = "";
-			// if any equals
-			if (equals.length > 0) {
-				table.style.display = 'table';
-				// add rows
-				for (x of equals) {
-					var [feature,related] = x;
-					var row = document.createElement("tr");
-					// name
-					var cell = document.createElement("td");
-					var name = feature.getProperties()['shapeName'];
-					var ID = feature.getId();
-					cell.innerHTML = '<a href="#map" onclick="zoomGbFeature('+"'"+ID+"'"+')">'+name+'</a>';
-					row.appendChild(cell);
-					// find related boundaries
-					var cell = document.createElement("td");
-					var cellContent = '';
-					for (x of related) {
-						[relation,matchFeature] = x;
-						var ID = matchFeature.getId();
-						var name = matchFeature.getProperties()[comparisonSelect.value];
-						var nameLink = '<a href="#map" onclick="zoomComparisonFeature('+"'"+ID+"'"+')">'+name+'</a>';
-						cellContent += relation + ' ' + nameLink + '<br>';
-					};
-					cell.innerHTML = cellContent;
-					row.appendChild(cell);
-					// add row
-					tbody.appendChild(row);
-				};
-			} else {
-				table.style.display = 'none';
-			};
-
-			// populate contains table
-			var table = document.getElementById('gb-relations-contains-table')
-			// clear old table rows if exists
-			var tbody = document.getElementById('gb-relations-contains-table-tbody');
-			tbody.innerHTML = "";
-			// if any contains
-			if (contains.length > 0) {
-				table.style.display = 'table';
-				// add rows
-				for (x of contains) {
-					var [feature,related] = x;
-					var row = document.createElement("tr");
-					// name
-					var cell = document.createElement("td");
-					var name = feature.getProperties()['shapeName'];
-					var ID = feature.getId();
-					cell.innerHTML = '<a href="#map" onclick="zoomGbFeature('+"'"+ID+"'"+')">'+name+'</a>';
-					row.appendChild(cell);
-					// find related boundaries
-					var cell = document.createElement("td");
-					var cellContent = '';
-					for (x of related) {
-						[relation,matchFeature] = x;
-						var ID = matchFeature.getId();
-						var name = matchFeature.getProperties()[comparisonSelect.value];
-						var nameLink = '<a href="#map" onclick="zoomComparisonFeature('+"'"+ID+"'"+')">'+name+'</a>';
-						cellContent += relation + ' ' + nameLink + '<br>';
-					};
-					cell.innerHTML = cellContent;
-					row.appendChild(cell);
-					// add row
-					tbody.appendChild(row);
-				};
-			} else {
-				table.style.display = 'none';
-			};
-
-			// populate subset table
-			var table = document.getElementById('gb-relations-subset-table')
-			// clear old table rows if exists
-			var tbody = document.getElementById('gb-relations-subset-table-tbody');
-			tbody.innerHTML = "";
-			// if any equals
-			if (subsets.length > 0) {
-				table.style.display = 'table';
-				// add rows
-				for (x of subsets) {
-					var [feature,related] = x;
-					var row = document.createElement("tr");
-					// name
-					var cell = document.createElement("td");
-					var name = feature.getProperties()['shapeName'];
-					var ID = feature.getId();
-					cell.innerHTML = '<a href="#map" onclick="zoomGbFeature('+"'"+ID+"'"+')">'+name+'</a>';
-					row.appendChild(cell);
-					// find related boundaries
-					var cell = document.createElement("td");
-					var cellContent = '';
-					for (x of related) {
-						[relation,matchFeature] = x;
-						var ID = matchFeature.getId();
-						var name = matchFeature.getProperties()[comparisonSelect.value];
-						var nameLink = '<a href="#map" onclick="zoomComparisonFeature('+"'"+ID+"'"+')">'+name+'</a>';
-						cellContent += relation + ' ' + nameLink + '<br>';
-					};
-					cell.innerHTML = cellContent;
-					row.appendChild(cell);
-					// add row
-					tbody.appendChild(row);
-				};
-			} else {
-				table.style.display = 'none';
-			};
-
 		};
 
 		</script>
