@@ -954,6 +954,79 @@ ul li{
 				</div>
 			</div>
 
+			<div id="feature-popup" class="popup is-hidden is-visually-hidden">
+				<div class="popup-content">
+
+					<div style="text-align:right">
+						<a id="close-feature-popup" class="close-popup" onclick="document.getElementById('feature-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
+					</div>
+
+					<script>
+						// When the user clicks anywhere outside of the popup, close it
+						window.onclick = function(event) {
+							//alert('click '+event.target.className+' '+event.target.id);
+							if (event.target.id == 'feature-popup') {
+								//alert('should close');
+								event.target.className = "popup is-hidden is-visually-hidden";
+							};
+						};
+					</script>
+
+					<h2>Feature Details</h2>
+
+					<div class="row box" style="width:100%; margin:15px 0px">
+
+						<div id="feature-details-div" style="width:99%">
+							<hr style="border-color:gray; background-color:gray; margin:3px; height:3px">
+							<h3 id="feature-details-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
+							<span id="feature-details-source" style="font-style:italic; color:gray; margin-left:15px;">Source goes here...</span>
+							
+							<br>
+
+							<table id="feature-details-table" style="display:none; margin-left:15px">
+								<tr>
+									<td>Level:</td>
+									<td id="feature-details-stats-level" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Area:</td>
+									<td id="feature-details-stats-area" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+									<td id="feature-details-stats-circumf" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+									<td id="feature-details-stats-vertices" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+									<td id="feature-details-stats-avglinedens" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+									<td id="feature-details-stats-avglineres" class="stats-value"></td>
+								</tr>
+							</table>
+
+							<table id="feature-attributes-table" style="margin-left:15px">
+								<tbody id="feature-attributes-table-tbody">
+								</tbody>
+							</table>
+
+						</div>
+
+						<div id="feature-map-container" class="row" style="width:100%; margin:15px 0px">
+							<div id="feature-map" class="map">
+							</div>
+						</div>
+
+					</div>
+					
+				</div>
+			</div>
+
 		</div>
 
 		<script>
@@ -2468,7 +2541,9 @@ ul li{
 					var cell = document.createElement("td");
 					var name = feature.getProperties()['shapeName'];
 					var ID = feature.getId();
-					cell.innerHTML = '<a href="#map" onclick="zoomGbFeature('+"'"+ID+"'"+')">'+name+'</a>';
+					var getFeatureJs = 'gbLayer.getSource().getFeatureById('+ID+')';
+					var onclick = 'openFeaturePopup('+getFeatureJs+','+"'gb'"+')';
+					cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
 					row.appendChild(cell);
 					// find related boundaries
 					var cell = document.createElement("td");
@@ -2854,6 +2929,186 @@ ul li{
 
 				// zoom out a little
 				featureCompareMap.getView().setZoom(featureCompareMap.getView().getZoom()-1);
+			};
+
+		</script>
+
+		<script>
+			// --------------------------------
+			// Adds the feature details map
+
+			// define map background
+
+			var tileLayer = new ol.layer.Tile({
+					source: new ol.source.XYZ({
+						attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
+						url:
+						'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
+						maxZoom: 20,
+						crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+			})});
+			var layers = [tileLayer];
+
+			// define main layer
+
+			var style = new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: 'rgba(255, 255, 255, 0.4)',
+				}),
+				stroke: new ol.style.Stroke({
+					color: 'rgb(29,107,191)', //'rgb(49, 127, 211)',
+					width: 2.5,
+				}),
+			});
+			var featureDetailsMainLayer = new ol.layer.Vector({
+				style: style,
+			});
+			layers.push(featureDetailsMainLayer);
+
+			// define comparison layer
+			
+			var style = new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: 'rgba(255, 255, 255, 0)', // fully transparent
+				}),
+				stroke: new ol.style.Stroke({
+					color: 'rgba(255, 0, 0, 0.8)',
+					width: 1.5,
+					lineDash: [10,10]
+				}),
+			});
+			var featureDetailsComparisonLayer = new ol.layer.Vector({
+				style: style,
+			});
+			layers.push(featureDetailsComparisonLayer);
+
+			// create the map			
+			
+			var featureDetailsMap = new ol.Map({
+				target: 'feature-map',
+				controls: ol.control.defaults().extend([new ol.control.FullScreen(),
+													new ol.control.ScaleLine({units: 'metric'}),
+													]),
+				layers: layers,
+				view: new ol.View({
+					center: ol.proj.fromLonLat([37.41, 8.82]),
+					zoom: 4
+				})
+			});
+
+			// populating the feature map
+
+			function updateFeatureMap(mainGeojs, comparisonGeojs) {
+				// set main source
+				if (mainGeojs != null) {
+					var source = new ol.source.Vector({
+						features: new ol.format.GeoJSON().readFeatures(mainGeojs,
+																		{} // featureProjection: featureCompareMap.getView().getProjection() }
+						),
+					});
+					featureDetailsMainLayer.setSource(source);
+				};
+
+				// set comparison source
+				if (comparisonGeojs != null) {
+					var source = new ol.source.Vector({
+						features: new ol.format.GeoJSON().readFeatures(comparisonGeojs,
+																		{} // featureProjection: featureCompareMap.getView().getProjection() }
+						),
+					});
+					featureDetailsComparisonLayer.setSource(source);
+				};
+
+				// zoom to combined extents
+				var extent = ol.extent.createEmpty();
+				if (mainGeojs != null) {
+					extent = ol.extent.extend(extent, featureDetailsMainLayer.getSource().getExtent());
+				};
+				if (comparisonGeojs != null) {
+					extent = ol.extent.extend(extent, featureDetailsComparisonLayer.getSource().getExtent());
+				};
+				featureDetailsMap.getView().fit(extent);
+
+				// zoom out a little
+				featureDetailsMap.getView().setZoom(featureDetailsMap.getView().getZoom()-1);
+			};
+
+			// populating the feature popup
+			function openFeaturePopup(feat, whichLayer) {
+				// get name
+				var comparisonSelect = document.getElementById('comparison-names-table-select');
+				if (whichLayer == 'gb') {
+					name = feat.getProperties()['shapeName'];
+				} else {
+					name = feat.getProperties()[comparisonSelect.value];
+				};
+				// update the name
+				document.getElementById('feature-details-name').innerText = name;
+				// calc spatial stats
+				stats = calcSpatialStats([feat]);
+				// update the spatial stats
+				if (whichLayer == 'gb') {
+					var lvl = document.getElementById('admin-level-select').value;
+				} else {
+					var lvl = document.getElementById('comparison-admin-level-select').value;
+				};
+				document.getElementById('feature-details-stats-level').innerText = lvl;
+				document.getElementById('feature-details-stats-area').innerText = stats.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
+				document.getElementById('feature-details-stats-circumf').innerText = stats.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
+				document.getElementById('feature-details-stats-vertices').innerText = stats.vertices.toLocaleString('en-US');
+				document.getElementById('feature-details-stats-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / km';
+				document.getElementById('feature-details-stats-avglineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
+				// clear the attributes table
+				var tbody = document.getElementById('feature-attributes-table-tbody');
+				tbody.innerHTML = '';
+				// update the attributes table
+				var props = feat.getProperties();
+				for (attr of Object.keys(props)) {
+					if (attr == 'geometry') {
+						// where openlayers stores the geometry, skip
+						continue;
+					};
+					var row = document.createElement("tr");
+					// attr
+					var cell = document.createElement("td");
+					cell.innerText = attr;
+					row.appendChild(cell);
+					// value
+					var value = props[attr];
+					var cell = document.createElement("td");
+					cell.innerText = value;
+					row.appendChild(cell);
+					// add row
+					tbody.appendChild(row);
+				};
+				// calc relations stats
+				if (whichLayer == 'gb') {
+					var features2 = comparisonLayer.getSource().getFeatures();
+				} else {
+					var features2 = gbLayer.getSource().getFeatures();
+				};
+				related = calcSpatialRelations(feat, features2);
+				// prep for map
+				var geojWriter = new ol.format.GeoJSON();
+				var geoj = geojWriter.writeFeatureObject(feat);
+				var geojColl = {type:'FeatureCollection', features:[geoj]}
+				var relatedFeats = [];
+				for (rel of related) {
+					var relFeat = rel[0];
+					relatedFeats.push(relFeat);
+				};
+				var relGeojColl = geojWriter.writeFeaturesObject(relatedFeats);
+				// show popup
+				document.getElementById('feature-popup').className = 'popup';
+				featureDetailsMap.updateSize(); // otherwise will remain hidden until window resize
+				// scroll to the top
+				document.getElementById('close-feature-popup').scrollIntoView(true);
+				// add feats to the popup comparison map
+				if (whichLayer == 'gb') {
+					updateFeatureMap(geojColl, relGeojColl);
+				} else {
+					updateFeatureMap(relGeojColl, geojColl);
+				};
 			};
 		</script>
 
