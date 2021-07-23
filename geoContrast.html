@@ -696,15 +696,16 @@ ul li{
 
 					<div id="boundary-relations" class="row box" style="width:100%; margin:15px 0px">
 						<div id="boundary-relations-banner" style="width:100%; text-align:center">
-							<h2>Boundary Relationships</h2>
+							<h2 style="margin-bottom:5px">Boundary Relationships</h2>
+							<button onclick="calcBoundaryMakeupTables()">
+								Calculate
+							</button>
+							<br><br>
 						</div>
 
 						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
-							<button onclick="updateGbMakeupTable()">
-								Calculate
-							</button>
 							<br>
 							<div style="margin-top:10px">
 								<table id="gb-relations-makeup-table" class="gb-table" style="display:none; margin-left:10px">
@@ -721,9 +722,6 @@ ul li{
 						<div id="right-table-div" style="width:45%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-							<button onclick="alert('Coming soon!')">
-								Calculate
-							</button>
 							<br>
 							<div style="margin-top:10px">
 								<table id="comparison-relations-makeup-table" class="comparison-table" style="display:none; margin-left:10px">
@@ -2351,6 +2349,34 @@ ul li{
 			return matches;
 		};
 
+		function calcAllSpatialRelations(features1, features2) {
+			// calc relations from 1 to 2
+			var matches1 = [];
+			for (feature1 of features1) {
+				var related = calcSpatialRelations(feature1, features2);
+				matches1.push([feature1,related]);
+			};
+			// then reverse the calcs so they go from 2 to 1
+			var matches2 = [];
+			for (feature2 of features2) {
+				var related2 = [];
+				for (m1 of matches1) {
+					var [f1,related1] = m1;
+					for (r1 of related1) {
+						var [f2,stats] = r1;
+						if (feature2 === f2) {
+							// reverse and add the stats to related
+							newStats = {contains:stats.within, within:stats.contains, equality:stats.equality}
+							related2.push([f1,newStats]);
+						};
+					};
+				};
+				matches2.push([feature2,related2]);
+			};
+			// return both results
+			return [matches1, matches2];
+		};
+
 		function sortSpatialRelations(matches, sort_by, thresh, reverse=true) {
 			// sort
 			function sortFunc(a, b) {
@@ -2383,23 +2409,33 @@ ul li{
 			return newMatches;
 		};
 
-		function updateGbMakeupTable() {
+		function calcBoundaryMakeupTables() {
 			var features = gbLayer.getSource().getFeatures();
 			var comparisonFeatures = comparisonLayer.getSource().getFeatures();
 
+			// calculate relations
+			var [matches1,matches2] = calcAllSpatialRelations(features, comparisonFeatures);
+
+			// update tables
+			updateGbMakeupTable(matches1);
+			updateComparisonMakeupTable(matches2);
+		};
+
+		function updateGbMakeupTable(matches) {
 			// sort by name
-			features.sort(function (a,b) {
-							if (a.getProperties()['shapeName'] < b.getProperties()['shapeName']) {
+			matches.sort(function (a,b) {
+							if (a[0].getProperties()['shapeName'] < b[0].getProperties()['shapeName']) {
 								return -1;
 							} else {
 								return 1;
 							};
 						});
 
-			// calc and group all related features
+			// sort and filter matches above threshold
 			var makeup = [];
-			for (feature of features) {
-				var related = calcSpatialRelations(feature, comparisonFeatures);
+			for (match of matches) {
+				var [feature,related] = match;
+				// sort
 				related = sortSpatialRelations(related, 'within', 0);
 				// keep any that are significant from the perspective of either boundary (>1% of area)
 				var significantRelated = [];
@@ -2416,7 +2452,7 @@ ul li{
 			// populate tables
 			var comparisonSelect = document.getElementById('comparison-names-table-select');
 			
-			// populate equals table
+			// populate makeup table
 			var table = document.getElementById('gb-relations-makeup-table')
 			// clear old table rows if exists
 			var tbody = document.getElementById('gb-relations-makeup-table-tbody');
@@ -2444,6 +2480,79 @@ ul li{
 						var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
 						var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
 						var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
+						var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
+						var share = (stats.within * 100).toFixed(1) + '%';
+						cellContent += share + ' ' + nameLink + '<br>';
+					};
+					cell.innerHTML = cellContent;
+					row.appendChild(cell);
+					// add row
+					tbody.appendChild(row);
+				};
+			} else {
+				table.style.display = 'none';
+			};
+		};
+
+		function updateComparisonMakeupTable(matches) {
+			var comparisonSelect = document.getElementById('comparison-names-table-select');
+
+			// sort by name
+			matches.sort(function (a,b) {
+							if (a[0].getProperties()[comparisonSelect.value] < b[0].getProperties()[comparisonSelect.value]) {
+								return -1;
+							} else {
+								return 1;
+							};
+						});
+
+			// sort and filter matches above threshold
+			var makeup = [];
+			for (match of matches) {
+				var [feature,related] = match;
+				// sort
+				related = sortSpatialRelations(related, 'within', 0);
+				// keep any that are significant from the perspective of either boundary (>1% of area)
+				var significantRelated = [];
+				for (x of related) {
+					if ((x[1].within >= 0.01) | (x[1].contains >= 0.01)) { // x[1] is the stats dict
+						significantRelated.push(x)
+					};
+				};
+				if (significantRelated.length > 0) {
+					makeup.push([feature,significantRelated]);
+				};
+			};
+			
+			// populate tables			
+			// populate makeup table
+			var table = document.getElementById('comparison-relations-makeup-table')
+			// clear old table rows if exists
+			var tbody = document.getElementById('comparison-relations-makeup-table-tbody');
+			tbody.innerHTML = "";
+			// if any related
+			if (makeup.length) {
+				table.style.display = 'table';
+				// add rows
+				for (x of makeup) {
+					var [feature,related] = x;
+					var row = document.createElement("tr");
+					// name
+					var cell = document.createElement("td");
+					var name = feature.getProperties()[comparisonSelect.value];
+					var ID = feature.getId();
+					cell.innerHTML = '<a href="#map" onclick="zoomComparisonFeature('+"'"+ID+"'"+')">'+name+'</a>';
+					row.appendChild(cell);
+					// find related boundaries
+					var cell = document.createElement("td");
+					var cellContent = '';
+					for (x of related) {
+						[matchFeature,stats] = x;
+						var ID2 = matchFeature.getId();
+						var name = matchFeature.getProperties()['shapeName'];
+						var getFeature1Js = 'comparisonLayer.getSource().getFeatureById('+ID+')';
+						var getFeature2Js = 'gbLayer.getSource().getFeatureById('+ID2+')';
+						var onclick = 'openFeatureComparePopup('+getFeature2Js+','+getFeature1Js+')';
 						var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
 						var share = (stats.within * 100).toFixed(1) + '%';
 						cellContent += share + ' ' + nameLink + '<br>';
