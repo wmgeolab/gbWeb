@@ -539,6 +539,10 @@ ul li{
 										<td>Last Update:</td>
 										<td id="stats-gb-updated" class="stats-value"></td>
 									</tr>
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-gb-admincount" class="stats-value"></td>
+									</tr>
 								</table>
 							</div>
 
@@ -571,6 +575,10 @@ ul li{
 										<td>Last Update:</td>
 										<td id="stats-comp-updated" class="stats-value"></td>
 									</tr>
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-comp-admincount" class="stats-value"></td>
+									</tr>
 								</table>
 							</div>
 						</div>
@@ -588,10 +596,6 @@ ul li{
 							<br>
 							<div id="stats-gb-container">
 								<table style="table-layout:fixed; width:100%">
-									<tr>
-										<td>Administrative Units:</td>
-										<td id="stats-gb-admincount" class="stats-value"></td>
-									</tr>
 									<tr>
 										<td>Area:</td>
 										<td id="stats-gb-area" class="stats-value"></td>
@@ -621,10 +625,6 @@ ul li{
 							<br>
 							<div id="stats-comp-container">
 								<table style="table-layout:fixed; width:100%">
-									<tr>
-										<td>Administrative Units:</td>
-										<td id="stats-comp-admincount" class="stats-value"></td>
-									</tr>
 									<tr>
 										<td>Area:</td>
 										<td id="stats-comp-area" class="stats-value"></td>
@@ -2402,12 +2402,14 @@ ul li{
 			geom2 = geoj2turf(turf.simplify(feat2.geometry, {tolerance:0.01}));
 
 			// exit early if no overlap
+			/*
 			var [xmin1,ymin1,xmax1,ymax1] = turf.bbox(geom1);
 			var [xmin2,ymin2,xmax2,ymax2] = turf.bbox(geom2);
 			var boxoverlap = (xmin1 <= xmax2 & xmax1 >= xmin2 & ymin1 <= ymax2 & ymax1 >= ymin2)
 			if (!boxoverlap) {
 				return {'equality':0, 'within':0, 'contains':0}
 			};
+			*/
 
 			// calc intersection
 			//alert('calc intersection');
@@ -2452,12 +2454,18 @@ ul li{
 
 		function calcSpatialRelations(feat, features) {
 			var geojWriter = new ol.format.GeoJSON();
-			geoj1 = geojWriter.writeFeatureObject(feat);
+			var geoj1 = geojWriter.writeFeatureObject(feat);
 			var matches = [];
 			for (feat2 of features) {
+				if (!ol.extent.intersects(feat.getGeometry().getExtent(), feat2.getGeometry().getExtent())) {
+					continue;
+				};
 				geoj2 = geojWriter.writeFeatureObject(feat2);
 				simil = similarity(geoj1, geoj2);
-				matches.push([feat2,simil]);
+				if (simil.equality > 0.0) {
+					matches.push([feat2,simil]);
+				};
+				i++;
 			};
 			return matches;
 		};
