@@ -2133,20 +2133,11 @@ ul li{
 			// construct data url from params
 			url = 'https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gb'+license+'/'+iso3+'/'+level+'/geoBoundaries-'+iso3+'-'+level+'.topojson';
 			//alert(url);
-			// get the source
+			// create new source
 			var source = new ol.source.Vector({
-				url: url,
-				format: new ol.format.TopoJSON({}),
 				overlaps: false,
 			});
 			gbLayer.setSource(source);
-			// add feature ids after source has finished loading
-			var i = 1;
-			source.on('addfeature', function(e) {
-				//alert('comparison loaded, add feature ids');
-				e.feature.setId(i);
-				i++;
-			});
 			// zoom to new source after source has finished loading
 			if (zoomToExtent) {
 				source.on('change', function() {
@@ -2168,8 +2159,33 @@ ul li{
 			});
 			// notify if failed to load source
 			source.on(['error','featuresloaderror'], function() {
-				alert('Failed to load source from '+source.getUrl()+'. Please choose another source.');
+				alert('Failed to load features from '+source.getUrl()+'. Please choose another source.');
 			});
+			// manually load features from url
+			function loadFromTopoJSON(source, topoj) {
+				//alert('reading features...');
+				var format = new ol.format.TopoJSON({});
+				var features = format.readFeatures(topoj, {
+															dataProjection: 'EPSG:4326',
+															featureProjection: map.getView().getProjection()
+														}
+													);
+				//alert(features.length + ' features fetched');
+				// set ids
+				var i = 1;
+				for (feat of features) {
+					feat.setId(i);
+					i++;
+				};
+				// add
+				source.addFeatures(features);
+				//alert('features added');
+			};
+			// fetch the data
+			fetch(url)
+				.then(resp => resp.json())
+				.then(out => loadFromTopoJSON(source, out))
+				.catch(err => alert('Failed to load source from '+source.getUrl()+'. Please choose another source. Error: '+JSON.stringify(err)));
 		};
 		
 		function clearComparisonLayer() {
@@ -2210,20 +2226,11 @@ ul li{
 				};
 			};
 			//alert(url);
-			// get the source
+			// create new source
 			var source = new ol.source.Vector({
-				url: url,
-				format: new ol.format.TopoJSON({}),
 				overlaps: false,
 			});
 			comparisonLayer.setSource(source);
-			// add feature ids after source has finished loading
-			var i = 1;
-			source.on('addfeature', function(e) {
-				//alert('comparison loaded, add feature ids');
-				e.feature.setId(i);
-				i++;
-			});
 			// update the table after source has finished loading
 			if (zoomToExtent) {
 				source.on('change', function() {
@@ -2246,8 +2253,33 @@ ul li{
 			});
 			// notify if failed to load source
 			source.on(['error','featuresloaderror'], function() {
-				alert('Failed to load source from '+source.getUrl()+'. Please choose another source.');
+				alert('Failed to load features from '+source.getUrl()+'. Please choose another source.');
 			});
+			// manually load features from url
+			function loadFromTopoJSON(source, topoj) {
+				//alert('reading features...');
+				var format = new ol.format.TopoJSON({});
+				var features = format.readFeatures(topoj, {
+															dataProjection: 'EPSG:4326',
+															featureProjection: map.getView().getProjection()
+														}
+													);
+				//alert(features.length + ' features fetched');
+				// set ids
+				var i = 1;
+				for (feat of features) {
+					feat.setId(i);
+					i++;
+				};
+				// add
+				source.addFeatures(features);
+				//alert('features added');
+			};
+			// fetch the data
+			fetch(url)
+				.then(resp => resp.json())
+				.then(out => loadFromTopoJSON(source, out))
+				.catch(err => alert('Failed to load source from '+source.getUrl()+'. Please choose another source. Error: '+JSON.stringify(err)));
 		};
 		
 		function updateComparisonLayerFromGeoJSON(source, zoomToExtent=false) {
@@ -3049,13 +3081,14 @@ ul li{
 				// update the boundary name
 				document.getElementById('feature-details-name').innerText = name;
 				// update the source name and color
-				var source = document.getElementById('stats-comp-name').innerText;
-				document.getElementById('feature-details-source').innerText = source;
 				if (whichLayer == 'gb') {
+					var source = document.getElementById('stats-gb-name').innerText;
 					var color = '#319FD3';
 				} else {
+					var source = document.getElementById('stats-comp-name').innerText;
 					var color = 'rgb(255,0,0)';
 				};
+				document.getElementById('feature-details-source').innerText = source;
 				document.getElementById('feature-details-colorbar').style['border-color'] = color;
 				document.getElementById('feature-details-colorbar').style['background-color'] = color;
 				// calc spatial stats
