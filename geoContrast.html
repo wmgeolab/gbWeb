@@ -445,7 +445,7 @@ ul li{
 														mapCanvas.height = size[1];
 														const mapContext = mapCanvas.getContext('2d');
 														Array.prototype.forEach.call(
-															document.querySelectorAll('.ol-layer canvas'),
+															document.querySelectorAll('#map .ol-layer canvas'),
 															function (canvas) {
 																if (canvas.width > 0) {
 																	const opacity = canvas.parentNode.style.opacity;
@@ -505,10 +505,8 @@ ul li{
 							<h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
 						</div>
 					</div>
-
-					<br>
 					
-					<div id="source-overview" class="row box" style="width:100%; margin:15px 0px; page-break-after:always">
+					<div id="source-overview" class="row box" style="width:100%; margin:30px 0px; page-break-after:always">
 						<div id="source-overview-banner" style="width:100%; text-align:center">
 							<h2>Source Overview</h2>
 						</div>
@@ -584,9 +582,7 @@ ul li{
 						</div>
 					</div>
 
-					<br>
-
-					<div id="source-stats" class="row box" style="width:100%; margin:15px 0px">
+					<div id="source-stats" class="row box" style="width:100%; margin:30px 0px">
 						<div id="source-stats-banner" style="width:100%; text-align:center">
 							<h2>Source Statistics</h2>
 						</div>
@@ -650,9 +646,7 @@ ul li{
 						</div>
 					</div>
 
-					<br>
-
-					<div id="source-contents" class="row box" style="width:100%; margin:15px 0px">
+					<div id="source-contents" class="row box" style="width:100%; margin:30px 0px">
 						<div id="source-contents-banner" style="width:100%; text-align:center">
 							<h2 style="margin-bottom:5px">Source Boundaries</h2>
 							<button onclick="calcBoundaryMakeupTables()">
@@ -752,7 +746,7 @@ ul li{
 				<div class="popup-content">
 				  
 				  <div style="text-align:right">
-					  <a id="close-contribute-popup" class="close-popup" onclick="closeContributePopup()">&times;</a>
+					  <a id="close-contribute-popup" class="popup-close" onclick="closeContributePopup()">&times;</a>
 				  </div>
 
 				  <!--
@@ -830,7 +824,7 @@ ul li{
 				<div class="popup-content">
 
 					<div style="text-align:right">
-						<a id="close-compare-popup" class="close-popup" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
+						<a id="close-compare-popup" class="popup-close" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
 					</div>
 
 					<script>
@@ -959,7 +953,7 @@ ul li{
 				<div class="popup-content">
 
 					<div style="text-align:right">
-						<a id="close-feature-popup" class="close-popup" onclick="document.getElementById('feature-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
+						<a id="close-feature-popup" class="popup-close" onclick="document.getElementById('feature-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
 					</div>
 
 					<script>
