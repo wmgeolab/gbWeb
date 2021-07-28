@@ -23,7 +23,6 @@ for i, r in gitatt.iterrows():
     splAtt = r[0].split("/")
     if(splAtt[0] == "releaseData"):
         lfsFiles.append(splAtt[4])
-print(lfsFiles)
 
 allADM = {}
 allADM["gbOpen"] = {}
@@ -67,8 +66,14 @@ all["gbHumanitarian"] = []
 all["gbAuthoritative"] = []
 
 def LFSconversion(fPath):
-    print(fPath.split("/"))
-    sys.exit()
+    if(fPath.split("/")[10] in lfsFiles):
+        old = fPath
+        newA = fPath.replace("raw.githubusercontent.com/", "media.githubusercontent.com/media/")
+        print(newA)
+        return(newA)
+    else:
+        return(fPath)
+    
 
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
@@ -86,6 +91,7 @@ for i, r in openDta.iterrows():
     apiData = {}
     apiData = r.to_dict()
     apiData["downloadURL"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip")
+    sys.exit()
     apiData["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
     apiData["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
     apiData["simplifiedGeometryGeoJSON"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson"
