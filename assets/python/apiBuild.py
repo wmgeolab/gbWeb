@@ -127,7 +127,7 @@ for i, r in openDta.iterrows():
     
     if(humMatch.shape[0]==1):
         allADM["gbHumanitarian"][r["boundaryType"]].append(apiData["gbHumanitarian"])
-        if(r["boundaryISO"] in allISO["gbOpen"]):
+        if(r["boundaryISO"] in allISO["gbHumanitarian"]):
             allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
         else:
             allISO["gbHumanitarian"][r["boundaryISO"]] = []
