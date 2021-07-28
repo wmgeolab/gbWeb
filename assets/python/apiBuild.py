@@ -15,6 +15,14 @@ openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-m
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 
+#Check for LFS cases
+gitatt = pd.read_csv("//__w/gbWeb/geoBoundaries/.gitattributes", delim_whitespace=True, header=None)
+
+lfsFiles = []
+for i, r in gitatt.iterrows():
+    splAtt = r[0].split("/")
+    if(splAtt[0] == "releaseData"):
+        lfsFiles.append(splAtt[4])
 
 allADM = {}
 allADM["gbOpen"] = {}
@@ -57,6 +65,14 @@ all["gbOpen"] = []
 all["gbHumanitarian"] = []
 all["gbAuthoritative"] = []
 
+def LFSconversion(fPath):
+    if(fPath.split("/")[10] in lfsFiles):
+        newA = fPath.replace("raw.githubusercontent.com/", "media.githubusercontent.com/media/")
+        print(newA)
+        return(newA)
+    else:
+        return(fPath)
+    
 
 for i, r in openDta.iterrows():
     gbIDPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(r["boundaryID"]) + "/"
@@ -73,19 +89,20 @@ for i, r in openDta.iterrows():
     #Build library we'll translate into a json
     apiData = {}
     apiData = r.to_dict()
-    apiData["downloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
-    apiData["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
-    apiData["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
-    apiData["simplifiedGeometryGeoJSON"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson"
+    apiData["downloadURL"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip")
+    apiData["gjDownloadURL"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson")
+    apiData["imagePreview"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png")
+    apiData["simplifiedGeometryGeoJSON"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson")
+    
     #Match on authoritative 
     authMatch = authDta[(authDta["boundaryISO"]==r["boundaryISO"]) & (authDta["boundaryType"]==r["boundaryType"])]
     
     if(authMatch.shape[0] == 1):
         apiData["gbAuthoritative"] = authMatch.to_dict('r')[0]
-        apiData["gbAuthoritative"]["downloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
-        apiData["gbAuthoritative"]["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
-        apiData["gbAuthoritative"]["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
-        apiData["gbAuthoritative"]["simplifiedGeometryGeoJSON"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson"
+        apiData["gbAuthoritative"]["downloadURL"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip")
+        apiData["gbAuthoritative"]["gjDownloadURL"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson")
+        apiData["gbAuthoritative"]["imagePreview"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png")
+        apiData["gbAuthoritative"]["simplifiedGeometryGeoJSON"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbAuthoritative/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson")
     else:
         apiData["gbAuthoritative"] = "No authoritative boundary exists for this ISO/ADM."
 
@@ -93,45 +110,52 @@ for i, r in openDta.iterrows():
     humMatch = humDta[(humDta["boundaryISO"]==r["boundaryISO"]) & (humDta["boundaryType"]==r["boundaryType"])]
     if(humMatch.shape[0]==1):
         apiData["gbHumanitarian"] = humMatch.to_dict('r')[0]
-        apiData["gbHumanitarian"]["downloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip"
-        apiData["gbHumanitarian"]["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
-        apiData["gbHumanitarian"]["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
-        apiData["gbHumanitarian"]["simplifiedGeometryGeoJSON"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson"
-
-    else:
-        #If no humanitarian exists, we just duplicate the open product links.
-        t = copy.deepcopy(apiData)
-        apiData["gbHumanitarian"] = t
-
-    
+        apiData["gbHumanitarian"]["downloadURL"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-all.zip")
+        apiData["gbHumanitarian"]["gjDownloadURL"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson")
+        apiData["gbHumanitarian"]["imagePreview"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png")
+        apiData["gbHumanitarian"]["simplifiedGeometryGeoJSON"] = LFSconversion("https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson")
+   
     #Append to master ADM and ISO lists
     curOpen = copy.deepcopy(apiData)
     try:
         del curOpen["gbHumanitarian"]
+    except:
+        pass
+    try:
         del curOpen["gbAuthoritative"]
     except:
         pass
     allADM["gbOpen"][r["boundaryType"]].append(curOpen)
-    allADM["gbHumanitarian"][r["boundaryType"]].append(apiData["gbHumanitarian"])
+    
 
     if(r["boundaryISO"] in allISO["gbOpen"]):
         allISO["gbOpen"][r["boundaryISO"]].append(curOpen)
-        allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
     else:
         allISO["gbOpen"][r["boundaryISO"]] = []
-        allISO["gbHumanitarian"][r["boundaryISO"]] = []
         allISO["gbOpen"][r["boundaryISO"]].append(curOpen)
-        allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
 
     all["gbOpen"].append(curOpen)
-    all["gbHumanitarian"].append(apiData["gbHumanitarian"])
+    
 
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
     
-    with open(currentHumPath + "index.json", "w") as f:
-        json.dump(apiData["gbHumanitarian"], f)
+
     
+    if(humMatch.shape[0]==1):
+        allADM["gbHumanitarian"][r["boundaryType"]].append(apiData["gbHumanitarian"])
+        if(r["boundaryISO"] in allISO["gbHumanitarian"]):
+            allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
+        else:
+            allISO["gbHumanitarian"][r["boundaryISO"]] = []
+            allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
+
+        all["gbHumanitarian"].append(apiData["gbHumanitarian"])
+
+        with open(currentHumPath + "index.json", "w") as f:
+            json.dump(apiData["gbHumanitarian"], f)
+        
+
     if(authMatch.shape[0] == 1):
         allADM["gbAuthoritative"][r["boundaryType"]].append(apiData["gbAuthoritative"])
         all["gbAuthoritative"].append(apiData["gbAuthoritative"])
@@ -161,14 +185,6 @@ for i, r in openDta.iterrows():
     apiData["gjDownloadURL"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+openSha+"/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
     apiData["imagePreview"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+openSha+"/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
     apiData["simplifiedGeometryGeoJSON"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+openSha+"/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson"
-
-    #If there is no humanitarian,
-    #we need to re-copy the Open over.
-    if(humMatch.shape[0]!=1):
-        t = copy.deepcopy(apiData)
-        del t["gbHumanitarian"]
-        del t["gbAuthoritative"]
-        apiData["gbHumanitarian"] = t
 
     with open(gbIDPath + "index.json", "w") as f:
         json.dump(apiData, f)
@@ -207,8 +223,7 @@ for i, r in openDta.iterrows():
         humPath = "//__w/gbWeb/gbWeb/api/gbID/" + str(hApiData["boundaryID"]) + "/"
         os.makedirs(humPath, exist_ok=True)
         with open(humPath + "index.json", "w") as f:
-            json.dump(hApiData, f)    
-    
+            json.dump(hApiData, f)       
 #Add the "ALL" folders for ADMs and save the relevant jsons
 for releaseType in allADM:
     for level in allADM[releaseType]:

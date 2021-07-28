@@ -1,12 +1,18 @@
 import pandas as pd
 import requests
 import json
+import sys
 
 allBounds = pd.read_csv("//__w/gbWeb/geoBoundaryBot/dta/iso_3166_1_alpha_3.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 
 allOpen = requests.get("https://www.geoboundaries.org/api/current/gbOpen/ALL/ALL/").json()
 allHum = requests.get("https://www.geoboundaries.org/api/current/gbHumanitarian/ALL/ALL/").json()
 allAuth = requests.get("https://www.geoboundaries.org/api/current/gbAuthoritative/ALL/ALL/").json()
+
+noADM1 = ["ATA", "VAT"]
+
+adm2Exclusions = pd.read_csv("//__w/gbWeb/geoBoundaryBot/dta/noADM2.csv", encoding='utf8')
+noADM2 = adm2Exclusions["ISO"].values
 
 #Convert our list into a dict
 allOpenDict = {}
@@ -169,7 +175,15 @@ for _, bound in allBounds.iterrows():
         
         if(ISO in webJSON):
             if(adm in webJSON[ISO]):
-                webJSONlist.append(webJSON[ISO][adm])
-        
+                if(adm == "ADM2"):
+                    if(ISO not in noADM2):
+                        webJSONlist.append(webJSON[ISO][adm])
+                elif(adm == "ADM1"):
+                    if(ISO not in noADM1):
+                        webJSONlist.append(webJSON[ISO][adm])
+                else:
+                        webJSONlist.append(webJSON[ISO][adm])
+
+
 with open("//__w/gbWeb/gbWeb/api/index.json", 'w') as f:
     json.dump(webJSONlist, f)

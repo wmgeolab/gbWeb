@@ -4,7 +4,7 @@ on:
   
 name: Build Web Downloads
 jobs:
-  buildAPI:
+  buildIndexAPIforWeb:
     runs-on: ubuntu-latest
     container: docker://geogdan/geoboundaries:A
     steps:        
