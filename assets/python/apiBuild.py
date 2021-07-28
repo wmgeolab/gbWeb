@@ -15,6 +15,13 @@ openDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesOpen-m
 humDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesHumanitarian-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 authDta = pd.read_csv("//__w/gbWeb/geoBoundaries/releaseData/geoBoundariesAuthoritative-meta.csv", encoding='utf8').astype(str).dropna(axis=1,how='all')
 
+#Check for LFS cases
+lfsFiles = pd.read_csv("//__w/gbWeb/geoBoundaries/.gitattributes", delim_whitespace=True)
+
+for i, r in lfsFiles.iterrows():
+    print(r)
+    print(r[0])
+    sys.exit()
 
 allADM = {}
 allADM["gbOpen"] = {}
