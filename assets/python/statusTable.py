@@ -175,17 +175,15 @@ for _, bound in allBounds.iterrows():
         
         if(ISO in webJSON):
             if(adm in webJSON[ISO]):
-                webJSONlist.append(webJSON[ISO][adm])
+                if(adm == "ADM2"):
+                    if(ISO not in noADM2):
+                        webJSONlist.append(webJSON[ISO][adm])
+                elif(adm == "ADM1"):
+                    if(ISO not in noADM1):
+                        webJSONlist.append(webJSON[ISO][adm])
+                else:
+                        webJSONlist.append(webJSON[ISO][adm])
 
-print(noADM2)
-for i in noADM2:
-    print(i)
-    del webJSON[i]["ADM2"]
-
-print(noADM1)
-for i in noADM1:
-    print(i)
-    del webJSON[i]["ADM1"]
 
 with open("//__w/gbWeb/gbWeb/api/index.json", 'w') as f:
     json.dump(webJSONlist, f)
