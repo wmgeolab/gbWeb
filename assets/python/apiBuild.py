@@ -97,41 +97,48 @@ for i, r in openDta.iterrows():
         apiData["gbHumanitarian"]["gjDownloadURL"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
         apiData["gbHumanitarian"]["imagePreview"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
         apiData["gbHumanitarian"]["simplifiedGeometryGeoJSON"] = "https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbHumanitarian/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson"
-
-    else:
-        #If no humanitarian exists, we just duplicate the open product links.
-        t = copy.deepcopy(apiData)
-        apiData["gbHumanitarian"] = t
-
-    
+   
     #Append to master ADM and ISO lists
     curOpen = copy.deepcopy(apiData)
     try:
         del curOpen["gbHumanitarian"]
+    except:
+        pass
+    try:
         del curOpen["gbAuthoritative"]
     except:
         pass
     allADM["gbOpen"][r["boundaryType"]].append(curOpen)
-    allADM["gbHumanitarian"][r["boundaryType"]].append(apiData["gbHumanitarian"])
+    
 
     if(r["boundaryISO"] in allISO["gbOpen"]):
         allISO["gbOpen"][r["boundaryISO"]].append(curOpen)
-        allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
     else:
         allISO["gbOpen"][r["boundaryISO"]] = []
-        allISO["gbHumanitarian"][r["boundaryISO"]] = []
         allISO["gbOpen"][r["boundaryISO"]].append(curOpen)
-        allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
 
     all["gbOpen"].append(curOpen)
-    all["gbHumanitarian"].append(apiData["gbHumanitarian"])
+    
 
     with open(currentPath + "index.json", "w") as f:
         json.dump(apiData, f)
     
-    with open(currentHumPath + "index.json", "w") as f:
-        json.dump(apiData["gbHumanitarian"], f)
+
     
+    if(humMatch.shape[0]==1):
+        allADM["gbHumanitarian"][r["boundaryType"]].append(apiData["gbHumanitarian"])
+        if(r["boundaryISO"] in allISO["gbOpen"]):
+            allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
+        else:
+            allISO["gbHumanitarian"][r["boundaryISO"]] = []
+            allISO["gbHumanitarian"][r["boundaryISO"]].append(apiData["gbHumanitarian"])
+
+        all["gbHumanitarian"].append(apiData["gbHumanitarian"])
+
+        with open(currentHumPath + "index.json", "w") as f:
+            json.dump(apiData["gbHumanitarian"], f)
+        
+
     if(authMatch.shape[0] == 1):
         allADM["gbAuthoritative"][r["boundaryType"]].append(apiData["gbAuthoritative"])
         all["gbAuthoritative"].append(apiData["gbAuthoritative"])
@@ -161,14 +168,6 @@ for i, r in openDta.iterrows():
     apiData["gjDownloadURL"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+openSha+"/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+".geojson"
     apiData["imagePreview"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+openSha+"/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"-PREVIEW.png"
     apiData["simplifiedGeometryGeoJSON"] = "https://github.com/wmgeolab/geoBoundaries/raw/"+openSha+"/releaseData/gbOpen/"+r["boundaryISO"]+"/"+r["boundaryType"]+"/geoBoundaries-"+r["boundaryISO"]+"-"+r["boundaryType"]+"_simplified.geojson"
-
-    #If there is no humanitarian,
-    #we need to re-copy the Open over.
-    if(humMatch.shape[0]!=1):
-        t = copy.deepcopy(apiData)
-        del t["gbHumanitarian"]
-        del t["gbAuthoritative"]
-        apiData["gbHumanitarian"] = t
 
     with open(gbIDPath + "index.json", "w") as f:
         json.dump(apiData, f)
