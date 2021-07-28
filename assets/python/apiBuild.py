@@ -22,8 +22,8 @@ lfsFiles = []
 for i, r in gitatt.iterrows():
     splAtt = r[0].split("/")
     if(splAtt[0] == "releaseData"):
-        ISO = splAtt[2].split("0")[0]
-        ADM = ISO = splAtt[2].split("0")[1]
+        ISO = splAtt[2].split("_")[0]
+        ADM = splAtt[2].split("_")[1]
         lfsFiles.append(str(ISO + "_" + ADM))
 print(lfsFiles)
 sys.exit()
