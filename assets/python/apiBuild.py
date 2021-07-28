@@ -67,7 +67,6 @@ all["gbAuthoritative"] = []
 
 def LFSconversion(fPath):
     if(fPath.split("/")[10] in lfsFiles):
-        old = fPath
         newA = fPath.replace("raw.githubusercontent.com/", "media.githubusercontent.com/media/")
         print(newA)
         return(newA)
