@@ -90,7 +90,9 @@
 						returns all metadata available for that boundary in the gBOpen release, including a link to both the full-resolution, large-file size
 						and the minor simplification (~5%), small-file size versions.  In cases where a gbHumanitarian or gbAuthoritative release is available
 						for a boundary, that information is provided in sub-objects within the returned json. Users can additionally replace "gbOpen" with either 
-						"gbAuthoritative" or "gbHumanitarian" to filter results to only include boundaries from those two respective releases.
+						"gbAuthoritative" or "gbHumanitarian" to filter results to only include boundaries from those two respective releases.  Finally, "current" can
+						be replaced with a major version to retrieve information specific to that major release (e.g., "v4" will provide the IDs of v4 boundaries, which 
+						can be used with the below historic API to retrieve the boundary metadata for a specific version).
 					</p>
 					
 					<b>To find information on any geoBoundary, past or present, based on the geoBoundary ID:</b>
