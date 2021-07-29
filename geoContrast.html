@@ -167,23 +167,23 @@ ul li{
 
 
 
-#gb-names-table {
+.gb-table {
   border-collapse: collapse;
   width: 100%;
 }
 
-#gb-names-table td, #gb-names-table th {
+.gb-table td, .gb-table th {
   max-width: 150px;
   word-wrap: break-word;
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-#gb-names-table tr:nth-child(even){background-color: #f2f2f2;}
+.gb-table tr:nth-child(even){background-color: #f2f2f2;}
 
-#gb-names-table tr:hover {background-color: #ddd;}
+.gb-table tr:hover {background-color: #ddd;}
 
-#gb-names-table th {
+.gb-table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
@@ -193,23 +193,23 @@ ul li{
 
 
 
-#comparison-names-table {
+.comparison-table {
   border-collapse: collapse;
   width: 100%;
 }
 
-#comparison-names-table td, #comparison-names-table th {
+.comparison-table td, .comparison-table th {
   max-width: 150px;
   word-wrap: break-word;
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-#comparison-names-table tr:nth-child(even){background-color: #f2f2f2;}
+.comparison-table tr:nth-child(even){background-color: #f2f2f2;}
 
-#comparison-names-table tr:hover {background-color: #ddd;}
+.comparison-table tr:hover {background-color: #ddd;}
 
-#comparison-names-table th {
+.comparison-table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
@@ -445,7 +445,7 @@ ul li{
 														mapCanvas.height = size[1];
 														const mapContext = mapCanvas.getContext('2d');
 														Array.prototype.forEach.call(
-															document.querySelectorAll('.ol-layer canvas'),
+															document.querySelectorAll('#map .ol-layer canvas'),
 															function (canvas) {
 																if (canvas.width > 0) {
 																	const opacity = canvas.parentNode.style.opacity;
@@ -505,10 +505,8 @@ ul li{
 							<h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
 						</div>
 					</div>
-
-					<br>
 					
-					<div id="source-overview" class="row box" style="width:100%; margin:15px 0px; page-break-after:always">
+					<div id="source-overview" class="row box" style="width:100%; margin:30px 0px; page-break-after:always">
 						<div id="source-overview-banner" style="width:100%; text-align:center">
 							<h2>Source Overview</h2>
 						</div>
@@ -538,6 +536,10 @@ ul li{
 									<tr>
 										<td>Last Update:</td>
 										<td id="stats-gb-updated" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-gb-admincount" class="stats-value"></td>
 									</tr>
 								</table>
 							</div>
@@ -571,14 +573,16 @@ ul li{
 										<td>Last Update:</td>
 										<td id="stats-comp-updated" class="stats-value"></td>
 									</tr>
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-comp-admincount" class="stats-value"></td>
+									</tr>
 								</table>
 							</div>
 						</div>
 					</div>
 
-					<br>
-
-					<div id="source-stats" class="row box" style="width:100%; margin:15px 0px">
+					<div id="source-stats" class="row box" style="width:100%; margin:30px 0px">
 						<div id="source-stats-banner" style="width:100%; text-align:center">
 							<h2>Source Statistics</h2>
 						</div>
@@ -588,10 +592,6 @@ ul li{
 							<br>
 							<div id="stats-gb-container">
 								<table style="table-layout:fixed; width:100%">
-									<tr>
-										<td>Administrative Units:</td>
-										<td id="stats-gb-admincount" class="stats-value"></td>
-									</tr>
 									<tr>
 										<td>Area:</td>
 										<td id="stats-gb-area" class="stats-value"></td>
@@ -622,10 +622,6 @@ ul li{
 							<div id="stats-comp-container">
 								<table style="table-layout:fixed; width:100%">
 									<tr>
-										<td>Administrative Units:</td>
-										<td id="stats-comp-admincount" class="stats-value"></td>
-									</tr>
-									<tr>
 										<td>Area:</td>
 										<td id="stats-comp-area" class="stats-value"></td>
 									</tr>
@@ -650,21 +646,23 @@ ul li{
 						</div>
 					</div>
 
-					<br>
-
-					<div id="source-contents" class="row box" style="width:100%; margin:15px 0px">
+					<div id="source-contents" class="row box" style="width:100%; margin:30px 0px">
 						<div id="source-contents-banner" style="width:100%; text-align:center">
-							<h2>Source Contents</h2>
+							<h2 style="margin-bottom:5px">Source Boundaries</h2>
+							<button onclick="calcBoundaryMakeupTables()">
+								Calculate Relationships
+							</button>
+							<br><br>
 						</div>
 						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
 							<br>
 							<div id="gb-names-table-div" style="margin-top:10px">
-								<table id="gb-names-table" style="margin-left:10px">
+								<table id="gb-names-table" class="gb-table" style="margin-left:10px">
 									<thead>
 										<th style="height:52px">shapeName</th>
-										<th>Action</th>
+										<th>Related To</th>
 									</thhead>
 									<tbody id="gb-names-table-tbody">
 									</tbody>
@@ -676,14 +674,14 @@ ul li{
 							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
 							<br>
 							<div id="comparison-names-table-div" style="margin-top:10px">
-								<table id="comparison-names-table" style="margin-left:10px">
+								<table id="comparison-names-table" class="comparison-table" style="margin-left:10px">
 									<thead>
 										<th>
 											<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
 												<option selected>(Select name field)</option>
 											</select>
 										</th>
-										<th>Action</th>
+										<th>Related to</th>
 									</thhead>
 									<tbody id="comparison-names-table-tbody">
 									</tbody>
@@ -692,10 +690,46 @@ ul li{
 						</div>
 					</div>
 
-					<div id="relations-box" class="row box" style="display:none; width:100%; margin:15px 0px">
-						<div id="relations-box-banner" style="width:100%; text-align:center">
-							<h2>Boundary Comparisons</h2>
+					<br>
+
+					<div id="boundary-relations" class="row box" style="display:none; width:100%; margin:15px 0px">
+						<div id="boundary-relations-banner" style="width:100%; text-align:center">
+							<h2 style="margin-bottom:5px">Boundary Relationships</h2>
+							<br><br>
 						</div>
+
+						<div id="left-table-div" style="width:45%">
+							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
+							<br>
+							<div style="margin-top:10px">
+								<table id="gb-relations-makeup-table" class="gb-table" style="display:none; margin-left:10px">
+									<thead>
+										<th style="height:52px">Boundary</th>
+										<th>Related to</th>
+									</thhead>
+									<tbody id="gb-relations-makeup-table-tbody">
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div id="right-table-div" style="width:45%">
+							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<br>
+							<div style="margin-top:10px">
+								<table id="comparison-relations-makeup-table" class="comparison-table" style="display:none; margin-left:10px">
+									<thead>
+										<th style="height:52px">Boundary</th>
+										<th>Related to</th>
+									</thhead>
+									<tbody id="comparison-relations-makeup-table-tbody">
+									</tbody>
+								</table>
+							</div>
+						</div>
+
 					</div>
 
 				</section>
@@ -712,7 +746,7 @@ ul li{
 				<div class="popup-content">
 				  
 				  <div style="text-align:right">
-					  <a id="close-contribute-popup" class="close-popup" onclick="closeContributePopup()">&times;</a>
+					  <a id="close-contribute-popup" class="popup-close" onclick="closeContributePopup()">&times;</a>
 				  </div>
 
 				  <!--
@@ -790,7 +824,7 @@ ul li{
 				<div class="popup-content">
 
 					<div style="text-align:right">
-						<a id="close-contribute-popup" class="close-popup" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
+						<a id="close-compare-popup" class="popup-close" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
 					</div>
 
 					<script>
@@ -810,7 +844,10 @@ ul li{
 
 						<div id="feature-compare-left-div" style="width:49%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 id="feature-compare-left-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
+							<div>
+								<a id="feature-compare-left-clear" class="popup-close" style="display:none">x</a>
+								<h3 id="feature-compare-left-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
+							</div>
 							<span style="font-style:italic; color:gray; margin-left:15px;">geoBoundary</span>
 							<br>
 							<table id="feature-compare-left-table" style="margin-left:15px">
@@ -838,11 +875,26 @@ ul li{
 									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
 									<td id="feature-compare-stats-gb-avglineres" class="stats-value"></td>
 								</tr>
+								<tr style="display:none">
+									<td>Relationship (<span class="tooltip" data-text="If both feature's boundary overlap exceed 99% then they are considered equal. If either feature exceeds 99% then the one with the highest share is considered FULLY INSIDE the other, while the one with the lowest share CONTAINS ALL OF the other one. If the highest share is above 66.6% then this is modified to MOSTLY INSIDE and CONTAINS MOST OF; above 0% is modified to PARTLY INSIDE and CONTAINS PARTS OF.">?</span>):</td>
+									<td id="feature-compare-stats-gb-relation" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
+									<td id="feature-compare-stats-gb-overlap" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Related Boundaries:</td>
+									<td id="feature-compare-stats-gb-related"></td>
+								</tr>
 							</table>
 						</div>
 						<div id="feature-compare-right-div" style="width:49%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-							<h3 id="feature-compare-right-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
+							<div>
+								<a id="feature-compare-right-clear" class="popup-close" style="display:none">x</a>
+								<h3 id="feature-compare-right-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
+							</div>
 							<span style="font-style:italic; color:gray; margin-left:15px;">Comparison Boundary</span>
 							<br>
 							<table id="feature-compare-right-table" style="margin-left:15px">
@@ -869,6 +921,18 @@ ul li{
 								<tr>
 									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
 									<td id="feature-compare-stats-comp-avglineres" class="stats-value"></td>
+								</tr>
+								<tr style="display:none">
+									<td>Relationship (<span class="tooltip" data-text="If both feature's boundary overlap exceed 99% then they are considered equal. If either feature exceeds 99% then the one with the highest share is considered FULLY INSIDE the other, while the one with the lowest share CONTAINS ALL OF the other one. If the highest share is above 66.6% then this is modified to MOSTLY INSIDE and CONTAINS MOST OF; above 0% is modified to PARTLY INSIDE and CONTAINS PARTS OF.">?</span>):</td>
+									<td id="feature-compare-stats-comp-relation" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
+									<td id="feature-compare-stats-comp-overlap" class="stats-value"></td>
+								</tr>
+								<tr>
+									<td>Related Boundaries:</td>
+									<td id="feature-compare-stats-comp-related"></td>
 								</tr>
 							</table>
 						</div>
@@ -898,7 +962,6 @@ ul li{
 					
 				</div>
 			</div>
-
 		</div>
 
 		<script>
@@ -1275,12 +1338,14 @@ ul li{
 				// name
 				var cell = document.createElement("td");
 				var name = feature.getProperties()['shapeName'];
-				cell.innerText = name;
-				row.appendChild(cell);
-				// some button?
-				var cell = document.createElement("td");
 				var ID = feature.getId();
-				cell.innerHTML = '<a href="#map" onclick="zoomGbFeature('+"'"+ID+"'"+')">View</a>';
+				var getFeatureJs = 'gbLayer.getSource().getFeatureById('+ID+')';
+				var onclick = 'openFeatureComparePopup('+getFeatureJs+',null)';
+				cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
+				row.appendChild(cell);
+				// empty relation
+				var cell = document.createElement("td");
+				cell.innerText = '-';
 				row.appendChild(cell);
 				// add row
 				tbody.appendChild(row);
@@ -1625,12 +1690,14 @@ ul li{
 				// name
 				var cell = document.createElement("td");
 				var name = feature.getProperties()[nameField];
-				cell.innerText = name;
-				row.appendChild(cell);
-				// some button?
-				var cell = document.createElement("td");
 				var ID = feature.getId();
-				cell.innerHTML = '<a href="#map" onclick="zoomComparisonFeature('+"'"+ID+"'"+')">View</a>';
+				var getFeatureJs = 'comparisonLayer.getSource().getFeatureById('+ID+')';
+				var onclick = 'openFeatureComparePopup(null,'+getFeatureJs+')';
+				cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
+				row.appendChild(cell);
+				// empty relation
+				var cell = document.createElement("td");
+				cell.innerText = '-';
 				row.appendChild(cell);
 				// add row
 				tbody.appendChild(row);
@@ -1998,20 +2065,11 @@ ul li{
 			// construct data url from params
 			url = 'https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gb'+license+'/'+iso3+'/'+level+'/geoBoundaries-'+iso3+'-'+level+'.topojson';
 			//alert(url);
-			// get the source
+			// create new source
 			var source = new ol.source.Vector({
-				url: url,
-				format: new ol.format.TopoJSON({}),
 				overlaps: false,
 			});
 			gbLayer.setSource(source);
-			// add feature ids after source has finished loading
-			var i = 1;
-			source.on('addfeature', function(e) {
-				//alert('comparison loaded, add feature ids');
-				e.feature.setId(i);
-				i++;
-			});
 			// zoom to new source after source has finished loading
 			if (zoomToExtent) {
 				source.on('change', function() {
@@ -2033,8 +2091,33 @@ ul li{
 			});
 			// notify if failed to load source
 			source.on(['error','featuresloaderror'], function() {
-				alert('Failed to load source from '+source.getUrl()+'. Please choose another source.');
+				alert('Failed to load features from '+source.getUrl()+'. Please choose another source.');
 			});
+			// manually load features from url
+			function loadFromTopoJSON(source, topoj) {
+				//alert('reading features...');
+				var format = new ol.format.TopoJSON({});
+				var features = format.readFeatures(topoj, {
+															dataProjection: 'EPSG:4326',
+															featureProjection: map.getView().getProjection()
+														}
+													);
+				//alert(features.length + ' features fetched');
+				// set ids
+				var i = 1;
+				for (feat of features) {
+					feat.setId(i);
+					i++;
+				};
+				// add
+				source.addFeatures(features);
+				//alert('features added');
+			};
+			// fetch the data
+			fetch(url)
+				.then(resp => resp.json())
+				.then(out => loadFromTopoJSON(source, out))
+				.catch(err => alert('Failed to load source from '+source.getUrl()+'. Please choose another source. Error: '+JSON.stringify(err)));
 		};
 		
 		function clearComparisonLayer() {
@@ -2075,20 +2158,11 @@ ul li{
 				};
 			};
 			//alert(url);
-			// get the source
+			// create new source
 			var source = new ol.source.Vector({
-				url: url,
-				format: new ol.format.TopoJSON({}),
 				overlaps: false,
 			});
 			comparisonLayer.setSource(source);
-			// add feature ids after source has finished loading
-			var i = 1;
-			source.on('addfeature', function(e) {
-				//alert('comparison loaded, add feature ids');
-				e.feature.setId(i);
-				i++;
-			});
 			// update the table after source has finished loading
 			if (zoomToExtent) {
 				source.on('change', function() {
@@ -2111,8 +2185,33 @@ ul li{
 			});
 			// notify if failed to load source
 			source.on(['error','featuresloaderror'], function() {
-				alert('Failed to load source from '+source.getUrl()+'. Please choose another source.');
+				alert('Failed to load features from '+source.getUrl()+'. Please choose another source.');
 			});
+			// manually load features from url
+			function loadFromTopoJSON(source, topoj) {
+				//alert('reading features...');
+				var format = new ol.format.TopoJSON({});
+				var features = format.readFeatures(topoj, {
+															dataProjection: 'EPSG:4326',
+															featureProjection: map.getView().getProjection()
+														}
+													);
+				//alert(features.length + ' features fetched');
+				// set ids
+				var i = 1;
+				for (feat of features) {
+					feat.setId(i);
+					i++;
+				};
+				// add
+				source.addFeatures(features);
+				//alert('features added');
+			};
+			// fetch the data
+			fetch(url)
+				.then(resp => resp.json())
+				.then(out => loadFromTopoJSON(source, out))
+				.catch(err => alert('Failed to load source from '+source.getUrl()+'. Please choose another source. Error: '+JSON.stringify(err)));
 		};
 		
 		function updateComparisonLayerFromGeoJSON(source, zoomToExtent=false) {
@@ -2139,7 +2238,7 @@ ul li{
 		};
 		</script>
 
-		<script>
+		<script type="text/javascript">
 		//-----------------------------------
 		// this chunk defines boundary comparisons
 
@@ -2235,12 +2334,14 @@ ul li{
 			geom2 = geoj2turf(turf.simplify(feat2.geometry, {tolerance:0.01}));
 
 			// exit early if no overlap
+			/*
 			var [xmin1,ymin1,xmax1,ymax1] = turf.bbox(geom1);
 			var [xmin2,ymin2,xmax2,ymax2] = turf.bbox(geom2);
 			var boxoverlap = (xmin1 <= xmax2 & xmax1 >= xmin2 & ymin1 <= ymax2 & ymax1 >= ymin2)
 			if (!boxoverlap) {
 				return {'equality':0, 'within':0, 'contains':0}
 			};
+			*/
 
 			// calc intersection
 			//alert('calc intersection');
@@ -2282,6 +2383,240 @@ ul li{
 			// next
 			// ...
 		};*/
+
+		function calcSpatialRelations(feat, features) {
+			var geojWriter = new ol.format.GeoJSON();
+			var geoj1 = geojWriter.writeFeatureObject(feat);
+			var matches = [];
+			for (feat2 of features) {
+				if (!ol.extent.intersects(feat.getGeometry().getExtent(), feat2.getGeometry().getExtent())) {
+					continue;
+				};
+				geoj2 = geojWriter.writeFeatureObject(feat2);
+				simil = similarity(geoj1, geoj2);
+				if (simil.equality > 0.0) {
+					matches.push([feat2,simil]);
+				};
+				i++;
+			};
+			return matches;
+		};
+
+		function calcAllSpatialRelations(features1, features2) {
+			// calc relations from 1 to 2
+			var matches1 = [];
+			for (feature1 of features1) {
+				var related = calcSpatialRelations(feature1, features2);
+				matches1.push([feature1,related]);
+			};
+			// then reverse the calcs so they go from 2 to 1
+			var matches2 = [];
+			for (feature2 of features2) {
+				var related2 = [];
+				for (m1 of matches1) {
+					var [f1,related1] = m1;
+					for (r1 of related1) {
+						var [f2,stats] = r1;
+						if (feature2 === f2) {
+							// reverse and add the stats to related
+							newStats = {contains:stats.within, within:stats.contains, equality:stats.equality}
+							related2.push([f1,newStats]);
+						};
+					};
+				};
+				matches2.push([feature2,related2]);
+			};
+			// return both results
+			return [matches1, matches2];
+		};
+
+		function sortSpatialRelations(matches, sort_by, thresh, reverse=true) {
+			// sort
+			function sortFunc(a, b) {
+				if (reverse == false) {
+					var trueVal = 1;
+				} else {
+					var trueVal = -1;
+				};
+				if (a[1][sort_by] < b[1][sort_by]) {
+					// a is less than b by some ordering criterion
+					return -trueVal;
+				};
+				if (a[1][sort_by] > b[1][sort_by]) {
+					// a is greater than b by the ordering criterion
+					return trueVal;
+				};
+				// a must be equal to b
+				return 0;
+			};
+			matches.sort(sortFunc);
+
+			// filter by threshold
+			newMatches = [];
+			for (m of matches) {
+				if (m[1][sort_by] >= thresh) {
+					newMatches.push(m);
+				};
+			};
+
+			return newMatches;
+		};
+
+		function calcBoundaryMakeupTables() {
+			var features = gbLayer.getSource().getFeatures();
+			var comparisonFeatures = comparisonLayer.getSource().getFeatures();
+
+			// calculate relations
+			var [matches1,matches2] = calcAllSpatialRelations(features, comparisonFeatures);
+
+			// update tables
+			updateGbMakeupTable(matches1);
+			updateComparisonMakeupTable(matches2);
+		};
+
+		function updateGbMakeupTable(matches) {
+			// sort by name
+			matches.sort(function (a,b) {
+							if (a[0].getProperties()['shapeName'] < b[0].getProperties()['shapeName']) {
+								return -1;
+							} else {
+								return 1;
+							};
+						});
+
+			// sort and filter matches above threshold
+			var makeup = [];
+			for (match of matches) {
+				var [feature,related] = match;
+				// sort
+				related = sortSpatialRelations(related, 'within', 0);
+				// keep any that are significant from the perspective of either boundary (>1% of area)
+				var significantRelated = [];
+				for (x of related) {
+					if ((x[1].within >= 0.01) | (x[1].contains >= 0.01)) { // x[1] is the stats dict
+						significantRelated.push(x)
+					};
+				};
+				if (significantRelated.length > 0) {
+					makeup.push([feature,significantRelated]);
+				};
+			};
+			
+			// populate tables
+			var comparisonSelect = document.getElementById('comparison-names-table-select');
+			
+			// populate makeup table
+			var table = document.getElementById('gb-names-table')
+			// clear old table rows if exists
+			var tbody = document.getElementById('gb-names-table-tbody');
+			tbody.innerHTML = "";
+			// if any related
+			if (makeup.length) {
+				// add rows
+				for (x of makeup) {
+					var [feature,related] = x;
+					var row = document.createElement("tr");
+					// name
+					var cell = document.createElement("td");
+					var name = feature.getProperties()['shapeName'];
+					var ID = feature.getId();
+					var getFeatureJs = 'gbLayer.getSource().getFeatureById('+ID+')';
+					var onclick = 'openFeatureComparePopup('+getFeatureJs+',null)';
+					cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
+					row.appendChild(cell);
+					// find related boundaries
+					var cell = document.createElement("td");
+					var cellContent = '';
+					for (x of related) {
+						[matchFeature,stats] = x;
+						var ID2 = matchFeature.getId();
+						var name2 = matchFeature.getProperties()[comparisonSelect.value];
+						var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
+						var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
+						var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
+						var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name2+'</a>';
+						var share = (stats.within * 100).toFixed(1) + '%';
+						cellContent += share + ' ' + nameLink + '<br>';
+					};
+					cell.innerHTML = cellContent;
+					row.appendChild(cell);
+					// add row
+					tbody.appendChild(row);
+				};
+			};
+		};
+
+		function updateComparisonMakeupTable(matches) {
+			var comparisonSelect = document.getElementById('comparison-names-table-select');
+
+			// sort by name
+			matches.sort(function (a,b) {
+							if (a[0].getProperties()[comparisonSelect.value] < b[0].getProperties()[comparisonSelect.value]) {
+								return -1;
+							} else {
+								return 1;
+							};
+						});
+
+			// sort and filter matches above threshold
+			var makeup = [];
+			for (match of matches) {
+				var [feature,related] = match;
+				// sort
+				related = sortSpatialRelations(related, 'within', 0);
+				// keep any that are significant from the perspective of either boundary (>1% of area)
+				var significantRelated = [];
+				for (x of related) {
+					if ((x[1].within >= 0.01) | (x[1].contains >= 0.01)) { // x[1] is the stats dict
+						significantRelated.push(x)
+					};
+				};
+				if (significantRelated.length > 0) {
+					makeup.push([feature,significantRelated]);
+				};
+			};
+			
+			// populate tables
+			// populate makeup table
+			var table = document.getElementById('comparison-names-table')
+			// clear old table rows if exists
+			var tbody = document.getElementById('comparison-names-table-tbody');
+			tbody.innerHTML = "";
+			// if any related
+			if (makeup.length) {
+				// add rows
+				for (x of makeup) {
+					var [feature,related] = x;
+					var row = document.createElement("tr");
+					// name
+					var cell = document.createElement("td");
+					var name2 = feature.getProperties()[comparisonSelect.value];
+					var ID2 = feature.getId();
+					var getFeatureJs = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
+					var onclick = 'openFeatureComparePopup(null,'+getFeatureJs+')';
+					cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name2+'</a>';
+					row.appendChild(cell);
+					// find related boundaries
+					var cell = document.createElement("td");
+					var cellContent = '';
+					for (x of related) {
+						[matchFeature,stats] = x;
+						var ID = matchFeature.getId();
+						var name = matchFeature.getProperties()['shapeName'];
+						var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
+						var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
+						var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
+						var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
+						var share = (stats.within * 100).toFixed(1) + '%';
+						cellContent += share + ' ' + nameLink + '<br>';
+					};
+					cell.innerHTML = cellContent;
+					row.appendChild(cell);
+					// add row
+					tbody.appendChild(row);
+				};
+			};
+		};
 
 		</script>
 
@@ -2353,14 +2688,41 @@ ul li{
 			let comparisonName = '-';
 			var comparisonSelect = document.getElementById('comparison-names-table-select');
 			if (feat1 != null) {
-				mainName = feat1.getProperties()['shapeName']
+				mainName = feat1.getProperties()['shapeName'];
 			};
 			if (feat2 != null) {
-				comparisonName = feat2.getProperties()[comparisonSelect.value]
+				comparisonName = feat2.getProperties()[comparisonSelect.value];
 			};
 			// update the names
 			document.getElementById('feature-compare-left-name').innerText = mainName;
 			document.getElementById('feature-compare-right-name').innerText = comparisonName;
+			// update drop buttons
+			if (feat1 != null & feat2 != null) {
+				// enable clear feat1
+				var leftbut = document.getElementById('feature-compare-left-clear');
+				leftbut.style.display = 'block';
+				var onclick = function() {
+					document.getElementById('close-compare-popup').click();
+					openFeatureComparePopup(null,feat2);
+				};
+				leftbut.onclick = onclick;
+				// enable clear feat2
+				var rightbut = document.getElementById('feature-compare-right-clear');
+				rightbut.style.display = 'block';
+				var onclick = function() {
+					document.getElementById('close-compare-popup').click();
+					openFeatureComparePopup(feat1,null);
+				};
+				rightbut.onclick = onclick;
+			} else {
+				// hide both clear buttons
+				var leftbut = document.getElementById('feature-compare-left-clear');
+				leftbut.style.display = 'none';
+				leftbut.onclick = null;
+				var rightbut = document.getElementById('feature-compare-right-clear');
+				rightbut.style.display = 'none';
+				rightbut.onclick = null;
+			};
 			// calc spatial stats
 			if (feat1 != null) {
 				stats1 = calcSpatialStats([feat1]);
@@ -2377,6 +2739,15 @@ ul li{
 				document.getElementById('feature-compare-stats-gb-vertices').innerText = stats1.vertices.toLocaleString('en-US');
 				document.getElementById('feature-compare-stats-gb-avglinedens').innerText = stats1.avgLineDensity.toFixed(1) + ' / km';
 				document.getElementById('feature-compare-stats-gb-avglineres').innerText = stats1.avgLineResolution.toFixed(1) + ' m';
+			} else {
+				document.getElementById('feature-compare-stats-gb-level').innerText = '-';
+				document.getElementById('feature-compare-stats-gb-area').innerText = '-';
+				document.getElementById('feature-compare-stats-gb-circumf').innerText = '-';
+				document.getElementById('feature-compare-stats-gb-vertices').innerText = '-';
+				document.getElementById('feature-compare-stats-gb-avglinedens').innerText = '-';
+				document.getElementById('feature-compare-stats-gb-avglineres').innerText = '-';
+				document.getElementById('feature-compare-stats-gb-overlap').innerText = '-';
+				document.getElementById('feature-compare-stats-gb-related').innerHTML = '-';
 			};
 			if (feat2 != null) {
 				var lvl = document.getElementById('comparison-admin-level-select').value;
@@ -2386,6 +2757,96 @@ ul li{
 				document.getElementById('feature-compare-stats-comp-vertices').innerText = stats2.vertices.toLocaleString('en-US', {maximumFractionDigits:0});
 				document.getElementById('feature-compare-stats-comp-avglinedens').innerText = stats2.avgLineDensity.toFixed(1) + ' / km';
 				document.getElementById('feature-compare-stats-comp-avglineres').innerText = stats2.avgLineResolution.toFixed(1) + ' m';
+			} else {
+				document.getElementById('feature-compare-stats-comp-level').innerText = '-';
+				document.getElementById('feature-compare-stats-comp-area').innerText = '-';
+				document.getElementById('feature-compare-stats-comp-circumf').innerText = '-';
+				document.getElementById('feature-compare-stats-comp-vertices').innerText = '-';
+				document.getElementById('feature-compare-stats-comp-avglinedens').innerText = '-';
+				document.getElementById('feature-compare-stats-comp-avglineres').innerText = '-';
+				document.getElementById('feature-compare-stats-comp-overlap').innerText = '-';
+				document.getElementById('feature-compare-stats-comp-related').innerHTML = '-';
+			};
+			// calc relations stats
+			if (feat1 != null) {
+				var features2 = comparisonLayer.getSource().getFeatures();
+				related = calcSpatialRelations(feat1, features2);
+				// sort
+				related = sortSpatialRelations(related, 'within', 0);
+				// keep any that are significant from the perspective of either boundary (>1% of area)
+				var significantRelated1 = [];
+				for (x of related) {
+					if ((x[1].within >= 0.01) | (x[1].contains >= 0.01)) { // x[1] is the stats dict
+						significantRelated1.push(x)
+					};
+				};
+				// update the list of related boundaries
+				var cellContent = '';
+				var ID = feat1.getId();
+				for (x of significantRelated1) {
+					[matchFeature,stats] = x;
+					var ID2 = matchFeature.getId();
+					var name2 = matchFeature.getProperties()[comparisonSelect.value];
+					var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
+					var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
+					var onclick = "document.getElementById('close-compare-popup').click(); " + 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
+					var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name2+'</a>';
+					var share = (stats.within * 100).toFixed(1) + '%';
+					cellContent += share + ' ' + nameLink + '<br>';
+				};
+				document.getElementById('feature-compare-stats-gb-related').innerHTML = cellContent;
+			};
+			if (feat2 != null) {
+				var features1 = gbLayer.getSource().getFeatures();
+				related = calcSpatialRelations(feat2, features1);
+				// sort
+				related = sortSpatialRelations(related, 'within', 0);
+				// keep any that are significant from the perspective of either boundary (>1% of area)
+				var significantRelated2 = [];
+				for (x of related) {
+					if ((x[1].within >= 0.01) | (x[1].contains >= 0.01)) { // x[1] is the stats dict
+						significantRelated2.push(x)
+					};
+				};
+				// update the list of related boundaries
+				var cellContent = '';
+				var ID2 = feat2.getId();
+				for (x of significantRelated2) {
+					[matchFeature,stats] = x;
+					var ID = matchFeature.getId();
+					var name1 = matchFeature.getProperties()['shapeName'];
+					var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
+					var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
+					var onclick = "document.getElementById('close-compare-popup').click(); " + 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
+					var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name1+'</a>';
+					var share = (stats.within * 100).toFixed(1) + '%';
+					cellContent += share + ' ' + nameLink + '<br>';
+				};
+				document.getElementById('feature-compare-stats-comp-related').innerHTML = cellContent;
+			};
+			// prep for map
+			var geojWriter = new ol.format.GeoJSON();
+			if (feat1 != null) {
+				var geoj1 = geojWriter.writeFeatureObject(feat1);
+				var geojColl1 = {type:'FeatureCollection', features:[geoj1]};
+			} else {
+				var geojColl1 = {type:'FeatureCollection', features:[]};
+				for (x of significantRelated2) {
+					[matchFeature,stats] = x;
+					var matchGeoj = geojWriter.writeFeatureObject(matchFeature);
+					geojColl1.features.push(matchGeoj);
+				};
+			};
+			if (feat2 != null) {
+				var geoj2 = geojWriter.writeFeatureObject(feat2);
+				var geojColl2 = {type:'FeatureCollection', features:[geoj2]};
+			} else {
+				var geojColl2 = {type:'FeatureCollection', features:[]};
+				for (x of significantRelated1) {
+					[matchFeature,stats] = x;
+					var matchGeoj = geojWriter.writeFeatureObject(matchFeature);
+					geojColl2.features.push(matchGeoj);
+				};
 			};
 			// calc similarity stats
 			var geojWriter = new ol.format.GeoJSON();
@@ -2402,15 +2863,53 @@ ul li{
 			};
 			// update the stats entries
 			if (feat1 != null & feat2 != null) {
-				document.getElementById('feature-compare-equality').innerText = (stats.equality*100).toFixed(1) + '%';
-				document.getElementById('feature-compare-contains').innerText = (stats.contains*100).toFixed(1) + '%';
-				document.getElementById('feature-compare-within').innerText = (stats.within*100).toFixed(1) + '%';
+				//document.getElementById('feature-compare-equality').innerText = (stats.equality*100).toFixed(1) + '%';
+				//document.getElementById('feature-compare-contains').innerText = (stats.contains*100).toFixed(1) + '%';
+				//document.getElementById('feature-compare-within').innerText = (stats.within*100).toFixed(1) + '%';
+				document.getElementById('feature-compare-stats-gb-overlap').innerText = (stats.within*100).toFixed(1) + '%';
+				document.getElementById('feature-compare-stats-comp-overlap').innerText = (stats.contains*100).toFixed(1) + '%';
+				// figure out relationship
+				if ((stats.within >= 0.99) & (stats.contains >= 0.99)) {
+					var rel1 = 'EQUALS';
+					var rel2 = 'EQUALS';
+				} else if ((stats.within >= 0.99) | (stats.contains >= 0.99)) {
+					// either is >99%
+					if (stats.within > stats.contains) {
+						var rel2 = 'CONTAINS ALL OF';
+						var rel1 = 'FULLY INSIDE';
+					} else {
+						var rel1 = 'CONTAINS ALL OF';
+						var rel2 = 'FULLY INSIDE';
+					};
+				} else if ((stats.within >= 0.666) | (stats.contains >= 0.666)) {
+					// either is >66%
+					if (stats.within > stats.contains) {
+						var rel2 = 'CONTAINS MOST OF';
+						var rel1 = 'MOSTLY INSIDE';
+					} else {
+						var rel1 = 'CONTAINS MOST OF';
+						var rel2 = 'MOSTLY INSIDE';
+					};
+				} else {
+					// both are 0-66%
+					if (stats.within > stats.contains) {
+						var rel2 = 'CONTAINS PARTS OF';
+						var rel1 = 'PARTLY INSIDE';
+					} else {
+						var rel1 = 'CONTAINS PARTS OF';
+						var rel2 = 'PARTLY INSIDE';
+					};
+				};
+				document.getElementById('feature-compare-stats-gb-relation').innerText = rel1;
+				document.getElementById('feature-compare-stats-comp-relation').innerText = rel2;
 			};
 			// show popup
 			document.getElementById('feature-compare-popup').className = 'popup';
 			featureCompareMap.updateSize(); // otherwise will remain hidden until window resize
+			// scroll to the top
+			document.getElementById('close-compare-popup').scrollIntoView(true);
 			// add feats to the popup comparison map
-			updateFeatureComparisonMap(geoj1, geoj2);
+			updateFeatureComparisonMap(geojColl1, geojColl2);
 		};
 
 		map.on('singleclick', function(evt) {
@@ -2533,6 +3032,7 @@ ul li{
 				// zoom out a little
 				featureCompareMap.getView().setZoom(featureCompareMap.getView().getZoom()-1);
 			};
+
 		</script>
 
 </body>
