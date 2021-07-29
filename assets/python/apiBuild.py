@@ -193,12 +193,10 @@ for i, r in openDta.iterrows():
             json.dump(apiData["gbAuthoritative"], f)
 
 
-
     with open(gbIDPath + "index.json", "w") as f:
         json.dump(apiData, f)
 
     if(authMatch.shape[0] > 0):
-        #Modify authoritative links to point to the sha
         tApiData = apiData["gbAuthoritative"]
         try:
             del tApiData["gbHumanitarian"]
@@ -210,8 +208,6 @@ for i, r in openDta.iterrows():
             json.dump(tApiData, f)
 
     if(humMatch.shape[0] > 0):
-        #Modify humanitarian links to point to the sha
-        
         hApiData = apiData["gbHumanitarian"]
         try:
             del hApiData["gbAuthoritative"]
@@ -221,6 +217,7 @@ for i, r in openDta.iterrows():
         os.makedirs(humPath, exist_ok=True)
         with open(humPath + "index.json", "w") as f:
             json.dump(hApiData, f)       
+            
 #Add the "ALL" folders for ADMs and save the relevant jsons
 for releaseType in allADM:
     for level in allADM[releaseType]:
