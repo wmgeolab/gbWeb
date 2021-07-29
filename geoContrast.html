@@ -1835,11 +1835,6 @@ ul li{
 			};
 			// sort
 			sources.sort()
-			// first add empty choice
-			opt = document.createElement('option');
-			opt.value = 'none';
-			opt.textContent = '<None>';
-			select.appendChild(opt);
 			// add new options from geoContrastMetadata
 			for (source of sources) {
 				var opt = document.createElement("option");
