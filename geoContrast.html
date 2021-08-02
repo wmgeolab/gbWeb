@@ -1451,6 +1451,12 @@ ul li{
 				opt.textContent = country.name;
 				select.appendChild(opt);
 			};
+			// set the country to get-param if specified
+			const urlParams = new URLSearchParams(window.location.search);
+			var iso = urlParams.get('country');
+			if ((iso != null) & (iso != select.value)) {
+				select.value = iso;
+			};
 		};
 		
 		function updateGbCountries(license=null) {
@@ -1535,8 +1541,14 @@ ul li{
 				select.appendChild(opt);
 			};
 			// keep the select on the same value (if still available)
-			if (adminLevels.includes(selectVal)) {
-				select.value = selectVal; 
+			//if (adminLevels.includes(selectVal)) {
+			//	select.value = selectVal; 
+			//};
+			// set the adm level to get-param if specified
+			const urlParams = new URLSearchParams(window.location.search);
+			var lvl = urlParams.get('mainLevel');
+			if ((lvl != null) & (lvl != select.value[3])) {
+				select.value = 'ADM'+lvl;
 			};
 			// force dropdown change
 			gbAdminLevelChanged();
@@ -1848,8 +1860,14 @@ ul li{
 			opt.textContent = 'Custom: Your Own Boundary';
 			select.appendChild(opt);
 			// keep the select on the same value (if still available)
-			if (sources.includes(selectVal)) {
-				select.value = selectVal; 
+			//if (sources.includes(selectVal)) {
+			//	select.value = selectVal; 
+			//};
+			// set the source to get-param if specified
+			const urlParams = new URLSearchParams(window.location.search);
+			var source = urlParams.get('comparisonSource');
+			if ((source != null) & (source != select.value)) {
+				select.value = source;
 			};
 			// force dropdown change
 			comparisonBoundaryChanged();
@@ -1898,8 +1916,14 @@ ul li{
 				select.appendChild(opt);
 			};
 			// keep the select on the same value (if still available)
-			if (adminLevels.includes(selectVal)) {
-				select.value = selectVal; 
+			//if (adminLevels.includes(selectVal)) {
+			//	select.value = selectVal; 
+			//};
+			// set the adm level to get-param if specified
+			const urlParams = new URLSearchParams(window.location.search);
+			var lvl = urlParams.get('comparisonLevel');
+			if ((lvl != null) & (lvl != select.value[3])) {
+				select.value = 'ADM'+lvl;
 			};
 			// force dropdown change
 			comparisonAdminLevelChanged();
@@ -1960,6 +1984,36 @@ ul li{
 		
 		
 		// dropdown change behavior
+
+		function updateGetParams() { //param, selectId) {
+			const urlParams = new URLSearchParams(window.location.search);
+			// set value
+			//var select = document.getElementById(selectId);
+			//urlParams.set(param, select.value);
+			// set country
+			var select = document.getElementById('country-select');
+			if (select.value == '') {return}; // to avoid errors at startup when not all selects have been populated
+			urlParams.set('country', select.value);
+			// set main source
+			// ... 
+			// set comparison source
+			var select = document.getElementById('comparison-boundary-select');
+			if (select.value == '') {return}; // to avoid errors at startup when not all selects have been populated
+			urlParams.set('comparisonSource', select.value);
+			// set main adm level
+			var select = document.getElementById('admin-level-select');
+			if (select.value == '') {return}; // to avoid errors at startup when not all selects have been populated
+			urlParams.set('mainLevel', select.value[3]); // only the adm number
+			// set comparison adm level
+			var select = document.getElementById('comparison-admin-level-select');
+			if (select.value == '') {return}; // to avoid errors at startup when not all selects have been populated
+			urlParams.set('comparisonLevel', select.value[3]); // only the adm number
+			// update url
+			//window.location.search = urlParams;
+			var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + urlParams.toString();
+			//alert(newUrl);
+			window.history.pushState({path:newUrl}, '', newUrl);
+		};
 		
 		function gbLicenseChanged() {
 			//alert('license changed');
@@ -1973,16 +2027,18 @@ ul li{
 			updateGbAdminLevelDropdown();
 			updateGbLayer(zoomToExtent=true);
 			updateComparisonBoundaries();
+			updateGetParams();
 		};
 		
 		function gbAdminLevelChanged() {
-			//alert('admin-level changed');
+			//alert('main admin-level changed');
 			updateGbLayer(zoomToExtent=true);
 			updateComparisonBoundaries();
+			updateGetParams();
 		};
 
 		function comparisonBoundaryChanged() {
-			//alert('comparison-boundary changed');
+			//alert('comparison source changed');
 			comparison = document.getElementById('comparison-boundary-select').value;
 			// check which comparison source was selected
 			if (comparison == 'none') {
@@ -2007,16 +2063,18 @@ ul li{
 				// update admin dropdown
 				updateComparisonAdminLevelDropdown();
 			};
+			updateGetParams();
 		};
 		
 		function comparisonAdminLevelChanged() {
-			//alert('admin-level changed');
+			//alert('comparison admin-level changed');
 			// if a geoContrast source is selected
 			comparison = document.getElementById('comparison-boundary-select').value;
 			if ((comparison != 'none') & (comparison != 'upload')) {
 				// update comparison layer with external geoContrast topojson
 				updateComparisonLayerWithGeoContrast(zoomToExtent=true);
 			};
+			updateGetParams();
 		};
 		
 		
