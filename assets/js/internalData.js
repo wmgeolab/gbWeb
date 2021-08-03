@@ -37,16 +37,16 @@ function loadGeoContrastSource(source, iso, level, sourceName) {
         var currentSource = row[6];
         if ((sourceName == currentSource) & (iso == currentIso) & (level == currentLevel)) {
             // get the data url from the table entry
-            var url = row[18];
+            var apiUrl = row[18];
             break;
         };
     };
     //alert('loading from geocontrast: '+url);
     // manually load topojson from url
-    fetch(url)
+    fetch(apiUrl)
         .then(resp => resp.json())
         .then(out => loadFromTopoJSON(source, out))
-        //.catch(err => alert('Failed to load data from '+url+'. Please choose another source. Error: '+JSON.stringify(err)));
+        //.catch(err => alert('Failed to load data from '+apiUrl+'. Please choose another source. Error: '+JSON.stringify(err)));
 };
 
 function loadGeoContrastMetadata() {
@@ -61,11 +61,11 @@ function loadGeoContrastMetadata() {
         //alert('load success');
         // add the downloaded metadata to gbMetadata
         geoContrastMetadata = result['data'];
-        // update country dropdowns
+        // update countries
         updateCountryDropdown();
-        // update main
+        // update main sources
         updateGbSourceDropdown();
-        // update comparison
+        // update comparison sources
         updateComparisonSourceDropdown();
     };
     // parse

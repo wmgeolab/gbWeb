@@ -37,12 +37,12 @@ function updateGbInfo(features) {
             if (row[7] != '') {
                 gbSource += ' / ' + row[7];
             };
-            var gbSourceUrl = row[11];
+            var gbSourceUrl = parseURL(row[11]);
             var gbLicense = row[8];
-            var gbLicenseUrl = row[10];
+            var gbLicenseUrl = parseURL(row[10]);
             var gbYear = row[3];
             var gbUpdated = row[12];
-            var gbDownloadUrl = 'https://raw.githubusercontent.com/wmgeolab/geoContrast/main/releaseData/'+sourceName+'/'+iso+'/'+level+'/'+sourceName+'_'+iso+'_'+level+'.topojson'; // should point to zipfile? also maybe use csv apiUrl once that's fixed? 
+            var gbDownloadUrl = parseURL(row[18]);
             break;
         };
     };
@@ -85,12 +85,12 @@ function updateComparisonInfo(features) {
             if (row[7] != '') {
                 comparisonSource += ' / ' + row[7];
             };
-            var comparisonSourceUrl = row[11];
+            var comparisonSourceUrl = parseURL(row[11]);
             var comparisonLicense = row[8];
-            var comparisonLicenseUrl = row[10];
+            var comparisonLicenseUrl = parseURL(row[10]);
             var comparisonYear = row[3];
             var comparisonUpdated = row[12];
-            var comparisonDownloadUrl = 'https://raw.githubusercontent.com/wmgeolab/geoContrast/main/releaseData/'+sourceName+'/'+iso+'/'+level+'/'+sourceName+'_'+iso+'_'+level+'.topojson'; // should point to zipfile? also maybe use csv apiUrl once that's fixed? 
+            var comparisonDownloadUrl =  parseURL(row[18]);
             break;
         };
     };
