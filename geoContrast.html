@@ -88,7 +88,7 @@
 								
 								
 									<ul class='etabs'>
-										<li class='tab'><a href="#compare">Compare geoBoundaries</a></li>
+										<li class='tab'><a href="#compare">Compare Boundaries</a></li>
 										<li class='tab'><a href="#yourBound">Compare Your Boundaries</a></li>
 										<li class='tab' style="display:none"><a href="#makeMap">Make a Map</a></li>
 									</ul>
@@ -107,18 +107,24 @@
 									
 										<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 											
-										Compare this geoBoundary (<span class="tooltip" data-text="There are three versions of the geoBoundaries database: (1) Open - These boundaries are fully open licensed. (2) Humanitarian - These boundaries are the most up to date. (3) Authoritative - These boundaries are the most accurate.">?</span>):
-											
-										<select id="license-select" style="width:96%;display:inline;font-size:10pt;" onchange="gbLicenseChanged();">
+										Compare boundary for:
+										
+										<!--
+										<select id="license-select" style="width:96%;display:none;font-size:10pt;" onchange="gbLicenseChanged();">
 											<option value="Open" selected>Open (Fully Open Licenses)</option>
 											<option value="Humanitarian">Humanitarian (Most Up-To-Date)</option>
 											<option value="Authoritative">Authoritative (Government Sources)</option>
 										</select>
+										-->
+
+										<select id="country-select" style="width:96%;display:inline;font-size:10pt;" onchange="countryChanged()">
+											<!--options should get dynamically populated here-->
+										</select>
 										<div style="display:block;">
-											<select id="country-select" style="width:55%;display:inline;font-size:10pt;" onchange="gbCountryChanged()">
+											<select id="gb-boundary-select" style="width:55%;display:inline;font-size:10pt;" onchange="gbSourceChanged()">
 												<!--options should get dynamically populated here-->
 											</select>
-											<select id="admin-level-select" style="width:40%;display:inline;font-size:10pt;" onchange="gbAdminLevelChanged()">
+											<select id="gb-admin-level-select" style="width:40%;display:inline;font-size:10pt;" onchange="gbAdminLevelChanged()">
 												<!--options should get dynamically populated here-->
 											</select>
 										</div>
@@ -134,7 +140,7 @@
 									
 										<span>
 											<span style="display:inline-block">To:</span>
-											<select id="comparison-boundary-select" style="display:inline; width:45%" onchange="comparisonBoundaryChanged()">
+											<select id="comparison-boundary-select" style="display:inline; width:45%" onchange="comparisonSourceChanged()">
 												<!--options should get dynamically populated here-->
 											</select>
 											<select id="comparison-admin-level-select" style="display:inline; width:40%; font-size:10pt;" onchange="comparisonAdminLevelChanged()">
@@ -253,8 +259,8 @@
 						</div>
 						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
-							<span id="stats-gb-name" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br><br>
 							<div id="stats-gb-container">
 								<table style="table-layout:fixed; width:100%">
@@ -290,7 +296,7 @@
 						<div id="right-table-div" style="width:45%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-							<span id="stats-comp-name" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br><br>
 							<div id="stats-comp-container">
 								<table style="table-layout:fixed; width:100%">
@@ -329,7 +335,8 @@
 						</div>
 						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
+							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br>
 							<div id="stats-gb-container">
 								<table style="table-layout:fixed; width:100%">
@@ -359,6 +366,7 @@
 						<div id="right-table-div" style="width:45%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br>
 							<div id="stats-comp-container">
 								<table style="table-layout:fixed; width:100%">
@@ -397,12 +405,17 @@
 						</div>
 						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
+							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br>
 							<div id="gb-names-table-div" style="margin-top:10px">
 								<table id="gb-names-table" class="gb-table" style="margin-left:10px">
 									<thead>
-										<th style="height:52px">shapeName</th>
+										<th>
+											<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
+												<option selected>(Select name field)</option>
+											</select>
+										</th>
 										<th>Related To</th>
 									</thhead>
 									<tbody id="gb-names-table-tbody">
@@ -413,6 +426,7 @@
 						<div id="right-table-div" style="width:45%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
 							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br>
 							<div id="comparison-names-table-div" style="margin-top:10px">
 								<table id="comparison-names-table" class="comparison-table" style="margin-left:10px">
@@ -429,48 +443,6 @@
 								</table>
 							</div>
 						</div>
-					</div>
-
-					<br>
-
-					<div id="boundary-relations" class="row box" style="display:none; width:100%; margin:15px 0px">
-						<div id="boundary-relations-banner" style="width:100%; text-align:center">
-							<h2 style="margin-bottom:5px">Boundary Relationships</h2>
-							<br><br>
-						</div>
-
-						<div id="left-table-div" style="width:45%">
-							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">geoBoundary:</h3>
-							<br>
-							<div style="margin-top:10px">
-								<table id="gb-relations-makeup-table" class="gb-table" style="display:none; margin-left:10px">
-									<thead>
-										<th style="height:52px">Boundary</th>
-										<th>Related to</th>
-									</thhead>
-									<tbody id="gb-relations-makeup-table-tbody">
-									</tbody>
-								</table>
-							</div>
-						</div>
-
-						<div id="right-table-div" style="width:45%">
-							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-							<br>
-							<div style="margin-top:10px">
-								<table id="comparison-relations-makeup-table" class="comparison-table" style="display:none; margin-left:10px">
-									<thead>
-										<th style="height:52px">Boundary</th>
-										<th>Related to</th>
-									</thhead>
-									<tbody id="comparison-relations-makeup-table-tbody">
-									</tbody>
-								</table>
-							</div>
-						</div>
-
 					</div>
 
 				</section>
@@ -589,7 +561,7 @@
 								<a id="feature-compare-left-clear" class="popup-close" style="display:none">x</a>
 								<h3 id="feature-compare-left-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
 							</div>
-							<span style="font-style:italic; color:gray; margin-left:15px;">geoBoundary</span>
+							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br>
 							<table id="feature-compare-left-table" style="margin-left:15px">
 								<tr>
@@ -636,7 +608,7 @@
 								<a id="feature-compare-right-clear" class="popup-close" style="display:none">x</a>
 								<h3 id="feature-compare-right-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
 							</div>
-							<span style="font-style:italic; color:gray; margin-left:15px;">Comparison Boundary</span>
+							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br>
 							<table id="feature-compare-right-table" style="margin-left:15px">
 								<tr>
@@ -799,6 +771,14 @@
 
 	<script src="assets/js/ol.js"></script>
 	<script src="assets/js/extra.js"></script>
+
+	<script src="assets/js/internalData.js"></script>
+	<script src="assets/js/internalSpatial.js"></script>
+	<script src="assets/js/geoContrastOverview.js"></script>
+	<script src="assets/js/geoContrastStats.js"></script>
+	<script src="assets/js/geoContrastBoundaryUnits.js"></script>
+	<script src="assets/js/geoContrastFeatureCompare.js"></script>
+	<script src="assets/js/geoContrastToolbox.js"></script>
 
 </body>
 
