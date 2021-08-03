@@ -13,15 +13,10 @@ function clearComparisonInfo() {
 
 function updateGbInfo(features) {
     //alert('update comparison info');
-    // remove old div if exists
-    var div = document.getElementById('gb-file-info');
-    if (div) {
-        div.remove();
-    };
     // info div
-    var div = document.createElement("div");
-    div.id = 'gb-file-info';
-    document.getElementById('gb-info-div').appendChild(div);
+    var div = document.getElementById('gb-info-div');
+    // clear
+    div.innerHTML = '';
     // get geoContrast metadata
     var iso = document.getElementById('country-select').value;
     var level = document.getElementById('gb-admin-level-select').value;

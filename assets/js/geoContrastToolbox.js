@@ -528,10 +528,6 @@ function updateGbSourceDropdown() {
     opt.value = 'upload';
     opt.textContent = 'Custom: Your Own Boundary';
     select.appendChild(opt);
-    // keep the select on the same value (if still available)
-    //if (sources.includes(selectVal)) {
-    //	select.value = selectVal; 
-    //};
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('mainSource');
@@ -591,10 +587,6 @@ function updateComparisonSourceDropdown() {
     opt.value = 'upload';
     opt.textContent = 'Custom: Your Own Boundary';
     select.appendChild(opt);
-    // keep the select on the same value (if still available)
-    //if (sources.includes(selectVal)) {
-    //	select.value = selectVal; 
-    //};
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('comparisonSource');
@@ -652,10 +644,6 @@ function updateGbAdminLevelDropdown() {
         opt.textContent = lvl;
         select.appendChild(opt);
     };
-    // keep the select on the same value (if still available)
-    //if (adminLevels.includes(selectVal)) {
-    //	select.value = selectVal; 
-    //};
     // set the adm level to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var lvl = urlParams.get('mainLevel');
@@ -711,10 +699,6 @@ function updateComparisonAdminLevelDropdown() {
         opt.textContent = lvl;
         select.appendChild(opt);
     };
-    // keep the select on the same value (if still available)
-    //if (adminLevels.includes(selectVal)) {
-    //	select.value = selectVal; 
-    //};
     // set the adm level to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var lvl = urlParams.get('comparisonLevel');
@@ -785,7 +769,6 @@ function gbSourceChanged() {
     if (source == 'none') {
         // empty choice selection, clear elements
         clearGbInfo();
-        clearGbTable();
         // clear comparison layer
         clearGbLayer();
         // update admin dropdown
@@ -793,7 +776,6 @@ function gbSourceChanged() {
     } else if (source == 'upload') {
         // clear previous elements
         clearGbInfo();
-        clearGbTable();
         // setup the file input elements
         initFileUploadComparisonInfo();
         // clear comparison layer
@@ -814,7 +796,6 @@ function comparisonSourceChanged() {
     if (source == 'none') {
         // empty choice selection, clear elements
         clearComparisonInfo();
-        clearComparisonTable();
         // clear comparison layer
         clearComparisonLayer();
         // update admin dropdown
@@ -822,7 +803,6 @@ function comparisonSourceChanged() {
     } else if (source == 'upload') {
         // clear previous elements
         clearComparisonInfo();
-        clearComparisonTable();
         // setup the file input elements
         initFileUploadComparisonInfo();
         // clear comparison layer
