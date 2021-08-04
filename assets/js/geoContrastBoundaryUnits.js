@@ -1,4 +1,22 @@
 
+function clearGbNames() {
+    // clear old table rows
+    var tbody = document.getElementById('gb-names-table-tbody');
+    tbody.innerHTML = "";
+    // clear name fields dropdown
+    var sel = document.getElementById('gb-names-table-select');
+    sel.innerHTML = "";
+};
+
+function clearComparisonNames() {
+    // clear old table rows
+    var tbody = document.getElementById('comparison-names-table-tbody');
+    tbody.innerHTML = "";
+    // clear name fields dropdown
+    var sel = document.getElementById('comparison-names-table-select');
+    sel.innerHTML = "";
+};
+
 function updateGbNames(features) {
     ////////////////////
     // table div

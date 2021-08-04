@@ -160,39 +160,27 @@ function openFeatureComparePopup(feat1, feat2) {
     // update the spatial stats
     if (feat1 != null) {
         var lvl = document.getElementById('gb-admin-level-select').value;
+        if (lvl == '9') {
+            lvl = 'Unknown';
+        };
         document.getElementById('feature-compare-stats-gb-level').innerText = lvl;
         document.getElementById('feature-compare-stats-gb-area').innerText = stats1.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
         document.getElementById('feature-compare-stats-gb-circumf').innerText = stats1.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
         document.getElementById('feature-compare-stats-gb-vertices').innerText = stats1.vertices.toLocaleString('en-US');
         document.getElementById('feature-compare-stats-gb-avglinedens').innerText = stats1.avgLineDensity.toFixed(1) + ' / km';
         document.getElementById('feature-compare-stats-gb-avglineres').innerText = stats1.avgLineResolution.toFixed(1) + ' m';
-    } else {
-        document.getElementById('feature-compare-stats-gb-level').innerText = '-';
-        document.getElementById('feature-compare-stats-gb-area').innerText = '-';
-        document.getElementById('feature-compare-stats-gb-circumf').innerText = '-';
-        document.getElementById('feature-compare-stats-gb-vertices').innerText = '-';
-        document.getElementById('feature-compare-stats-gb-avglinedens').innerText = '-';
-        document.getElementById('feature-compare-stats-gb-avglineres').innerText = '-';
-        document.getElementById('feature-compare-stats-gb-overlap').innerText = '-';
-        document.getElementById('feature-compare-stats-gb-related').innerHTML = '-';
     };
     if (feat2 != null) {
         var lvl = document.getElementById('comparison-admin-level-select').value;
+        if (lvl == '9') {
+            lvl = 'Unknown';
+        };
         document.getElementById('feature-compare-stats-comp-level').innerText = lvl;
         document.getElementById('feature-compare-stats-comp-area').innerText = stats2.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
         document.getElementById('feature-compare-stats-comp-circumf').innerText = stats2.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
         document.getElementById('feature-compare-stats-comp-vertices').innerText = stats2.vertices.toLocaleString('en-US', {maximumFractionDigits:0});
         document.getElementById('feature-compare-stats-comp-avglinedens').innerText = stats2.avgLineDensity.toFixed(1) + ' / km';
         document.getElementById('feature-compare-stats-comp-avglineres').innerText = stats2.avgLineResolution.toFixed(1) + ' m';
-    } else {
-        document.getElementById('feature-compare-stats-comp-level').innerText = '-';
-        document.getElementById('feature-compare-stats-comp-area').innerText = '-';
-        document.getElementById('feature-compare-stats-comp-circumf').innerText = '-';
-        document.getElementById('feature-compare-stats-comp-vertices').innerText = '-';
-        document.getElementById('feature-compare-stats-comp-avglinedens').innerText = '-';
-        document.getElementById('feature-compare-stats-comp-avglineres').innerText = '-';
-        document.getElementById('feature-compare-stats-comp-overlap').innerText = '-';
-        document.getElementById('feature-compare-stats-comp-related').innerHTML = '-';
     };
     // calc relations stats
     if (feat1 != null) {
