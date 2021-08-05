@@ -159,7 +159,7 @@
 
 										</div>
 
-										<div id="compare-print-report" style="width:100%; text-align:center; margin-top:5px">
+										<div id="compare-print-report" style="width:100%; text-align:center; margin-top:0px">
 											<script type="text/javascript">
 												function setImageDataAndPrintPDF(imgData) {
 													//alert('processing img data');
@@ -348,19 +348,19 @@
 										<td id="stats-gb-area" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+										<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
 										<td id="stats-gb-circumf" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
 										<td id="stats-gb-vertices" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
 										<td id="stats-gb-avglinedens" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
 										<td id="stats-gb-avglineres" class="stats-value"></td>
 									</tr>
 								</table>
@@ -378,19 +378,19 @@
 										<td id="stats-comp-area" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+										<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
 										<td id="stats-comp-circumf" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
 										<td id="stats-comp-vertices" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
 										<td id="stats-comp-avglinedens" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
 										<td id="stats-comp-avglineres" class="stats-value"></td>
 									</tr>
 								</table>
@@ -576,19 +576,19 @@
 									<td id="feature-compare-stats-gb-area" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+									<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
 									<td id="feature-compare-stats-gb-circumf" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+									<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
 									<td id="feature-compare-stats-gb-vertices" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+									<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
 									<td id="feature-compare-stats-gb-avglinedens" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
 									<td id="feature-compare-stats-gb-avglineres" class="stats-value"></td>
 								</tr>
 								<tr style="display:none">
@@ -601,11 +601,11 @@
 								</tr>
 								<tr>
 									<td>Related Boundaries:</td>
-									<td id="feature-compare-stats-gb-related"></td>
+									<td id="feature-compare-stats-gb-related" class="stats-value"></td>
 								</tr>
 							</table>
 						</div>
-						<div id="feature-compare-right-div" style="width:49%">
+						<div id="feature-compare-right-div" style="width:50%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
 							<div>
 								<a id="feature-compare-right-clear" class="popup-close" style="display:none">x</a>
@@ -623,19 +623,19 @@
 									<td id="feature-compare-stats-comp-area" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Circumference (<span class="tooltip" data-text="The total length of all exterior boundaries.">?</span>):</td>
+									<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
 									<td id="feature-compare-stats-comp-circumf" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all exterior boundaries.">?</span>):</td>
+									<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
 									<td id="feature-compare-stats-comp-vertices" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every 1 km of line distance. Calculated as the total number of vertices of all exterior boundaries divided by the total perimeter.">?</span>):</td>
+									<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
 									<td id="feature-compare-stats-comp-avglinedens" class="stats-value"></td>
 								</tr>
 								<tr>
-									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all exterior boundaries divided by the total number of vertices.">?</span>):</td>
+									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
 									<td id="feature-compare-stats-comp-avglineres" class="stats-value"></td>
 								</tr>
 								<tr style="display:none">
@@ -648,7 +648,7 @@
 								</tr>
 								<tr>
 									<td>Related Boundaries:</td>
-									<td id="feature-compare-stats-comp-related"></td>
+									<td id="feature-compare-stats-comp-related" class="stats-value"></td>
 								</tr>
 							</table>
 						</div>

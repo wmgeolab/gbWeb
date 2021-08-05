@@ -205,9 +205,10 @@ function openFeatureComparePopup(feat1, feat2) {
             var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
             var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
             var onclick = "document.getElementById('close-compare-popup').click(); " + 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
-            var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name2+'</a>';
+            var nameLink = '<span class="link" onclick="'+onclick+'">'+name2+'</span>';
             var share = (stats.within * 100).toFixed(1) + '%';
-            cellContent += share + ' ' + nameLink + '<br>';
+            var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+            cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
         };
         document.getElementById('feature-compare-stats-gb-related').innerHTML = cellContent;
     };
@@ -233,9 +234,10 @@ function openFeatureComparePopup(feat1, feat2) {
             var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
             var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
             var onclick = "document.getElementById('close-compare-popup').click(); " + 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
-            var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name1+'</a>';
+            var nameLink = '<span class="link" onclick="'+onclick+'">'+name1+'</span>';
             var share = (stats.within * 100).toFixed(1) + '%';
-            cellContent += share + ' ' + nameLink + '<br>';
+            var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+            cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
         };
         document.getElementById('feature-compare-stats-comp-related').innerHTML = cellContent;
     };

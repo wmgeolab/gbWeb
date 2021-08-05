@@ -283,7 +283,8 @@ function updateGbMakeupTable(matches) {
                 var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
                 var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name2+'</a>';
                 var share = (stats.within * 100).toFixed(1) + '%';
-                cellContent += share + ' ' + nameLink + '<br>';
+                var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+                cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
             };
             cell.innerHTML = cellContent;
             row.appendChild(cell);
@@ -356,7 +357,8 @@ function updateComparisonMakeupTable(matches) {
                 var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
                 var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
                 var share = (stats.within * 100).toFixed(1) + '%';
-                cellContent += share + ' ' + nameLink + '<br>';
+                var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+                cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
             };
             cell.innerHTML = cellContent;
             row.appendChild(cell);
