@@ -552,7 +552,7 @@ function updateComparisonSourceDropdown() {
         select.value = source;
     } else {
         // default comparison source
-        select.value = 'GADM v3.4';
+        select.value = 'GADM v3.6';
     };
     // force dropdown change
     comparisonSourceChanged();

@@ -256,9 +256,9 @@
 						</div>
 					</div>
 					
-					<div id="source-overview" class="row box" style="width:100%; margin:30px 0px; page-break-after:always">
+					<div id="source-overview" class="row box" style="width:100%; margin:25px 0px; page-break-after:always">
 						<div id="source-overview-banner" style="width:100%; text-align:center">
-							<h2>Source Overview</h2>
+							<h2>Overview</h2>
 						</div>
 						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
@@ -332,9 +332,9 @@
 						</div>
 					</div>
 
-					<div id="source-stats" class="row box" style="width:100%; margin:30px 0px">
+					<div id="source-stats" class="row box" style="width:100%; margin:25px 0px">
 						<div id="source-stats-banner" style="width:100%; text-align:center">
-							<h2>Source Statistics</h2>
+							<h2>Statistics</h2>
 						</div>
 						<div id="left-table-div" style="width:45%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
@@ -398,9 +398,9 @@
 						</div>
 					</div>
 
-					<div id="source-contents" class="row box" style="width:100%; margin:30px 0px">
+					<div id="source-contents" class="row box" style="width:100%; margin:25px 0px">
 						<div id="source-contents-banner" style="width:100%; text-align:center">
-							<h2 style="margin-bottom:5px">Source Boundaries</h2>
+							<h2 style="margin-bottom:5px">Matching</h2>
 							<button onclick="calcBoundaryMakeupTables()">
 								Calculate Relationships
 							</button>
@@ -599,11 +599,10 @@
 									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
 									<td id="feature-compare-stats-gb-overlap" class="stats-value"></td>
 								</tr>
-								<tr>
-									<td>Related Boundaries:</td>
-									<td id="feature-compare-stats-gb-related" class="stats-value"></td>
-								</tr>
 							</table>
+							<div id="feature-compare-left-empty" style="margin-left:15px; margin-top:10px">
+								<div id="feature-compare-stats-gb-related" class="stats-value"></div>
+							</div>
 						</div>
 						<div id="feature-compare-right-div" style="width:50%">
 							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
@@ -646,11 +645,10 @@
 									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
 									<td id="feature-compare-stats-comp-overlap" class="stats-value"></td>
 								</tr>
-								<tr>
-									<td>Related Boundaries:</td>
-									<td id="feature-compare-stats-comp-related" class="stats-value"></td>
-								</tr>
 							</table>
+							<div id="feature-compare-right-empty" style="margin-left:15px; margin-top:10px">
+								<div id="feature-compare-stats-comp-related" class="stats-value"></div>
+							</div>
 						</div>
 
 						<div style="display:none; width:100%">

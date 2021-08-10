@@ -150,6 +150,21 @@ function openFeatureComparePopup(feat1, feat2) {
         rightbut.style.display = 'none';
         rightbut.onclick = null;
     };
+    // hide or show related boundaries if only showing one feat
+    if (feat1 == null) {
+        document.getElementById('feature-compare-left-empty').style.display = 'block';
+        document.getElementById('feature-compare-left-table').style.display = 'none';
+    } else {
+        document.getElementById('feature-compare-left-empty').style.display = 'none';
+        document.getElementById('feature-compare-left-table').style.display = 'block';
+    };
+    if (feat2 == null) {
+        document.getElementById('feature-compare-right-empty').style.display = 'block';
+        document.getElementById('feature-compare-right-table').style.display = 'none';
+    } else {
+        document.getElementById('feature-compare-right-empty').style.display = 'none';
+        document.getElementById('feature-compare-right-table').style.display = 'block';
+    };
     // calc spatial stats
     if (feat1 != null) {
         stats1 = calcSpatialStats([feat1]);
@@ -183,7 +198,7 @@ function openFeatureComparePopup(feat1, feat2) {
         document.getElementById('feature-compare-stats-comp-avglineres').innerText = stats2.avgLineResolution.toFixed(1) + ' m';
     };
     // calc relations stats
-    if (feat1 != null) {
+    if (feat2 == null) {
         var features2 = comparisonLayer.getSource().getFeatures();
         related = calcSpatialRelations(feat1, features2);
         // sort
@@ -210,9 +225,9 @@ function openFeatureComparePopup(feat1, feat2) {
             var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
             cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
         };
-        document.getElementById('feature-compare-stats-gb-related').innerHTML = cellContent;
+        document.getElementById('feature-compare-stats-comp-related').innerHTML = cellContent;
     };
-    if (feat2 != null) {
+    if (feat1 == null) {
         var features1 = gbLayer.getSource().getFeatures();
         related = calcSpatialRelations(feat2, features1);
         // sort
@@ -239,7 +254,7 @@ function openFeatureComparePopup(feat1, feat2) {
             var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
             cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
         };
-        document.getElementById('feature-compare-stats-comp-related').innerHTML = cellContent;
+        document.getElementById('feature-compare-stats-gb-related').innerHTML = cellContent;
     };
     // prep for map
     var geojWriter = new ol.format.GeoJSON();
@@ -283,8 +298,12 @@ function openFeatureComparePopup(feat1, feat2) {
         //document.getElementById('feature-compare-equality').innerText = (stats.equality*100).toFixed(1) + '%';
         //document.getElementById('feature-compare-contains').innerText = (stats.contains*100).toFixed(1) + '%';
         //document.getElementById('feature-compare-within').innerText = (stats.within*100).toFixed(1) + '%';
-        document.getElementById('feature-compare-stats-gb-overlap').innerText = (stats.within*100).toFixed(1) + '%';
-        document.getElementById('feature-compare-stats-comp-overlap').innerText = (stats.contains*100).toFixed(1) + '%';
+        var share = (stats.within * 100).toFixed(1) + '%';
+        var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+        document.getElementById('feature-compare-stats-gb-overlap').innerHTML = shareDiv;
+        var share = (stats.contains * 100).toFixed(1) + '%';
+        var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.contains*100+'%"></span><p>'+share+'</p></div>';
+        document.getElementById('feature-compare-stats-comp-overlap').innerHTML = shareDiv;
         // figure out relationship
         if ((stats.within >= 0.99) & (stats.contains >= 0.99)) {
             var rel1 = 'EQUALS';
