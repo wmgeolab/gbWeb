@@ -428,8 +428,8 @@ function updateCountryDropdown() {
             i++;
             continue;
         };
-        var name = row[1];
-        var iso = row[2];
+        var name = row.boundaryName;
+        var iso = row.boundaryISO;
         var country = {'name':name, 'iso':iso};
         if (!(countriesSeen.includes(country.iso))) {
             // only add if hasn't already been added
@@ -480,9 +480,9 @@ function updateGbSourceDropdown() {
             i++;
             continue;
         };
-        var source = row[6];
-        var iso = row[2];
-        var level = row[4];
+        var source = row['boundarySource-1'];
+        var iso = row.boundaryISO;
+        var level = row.boundaryType;
         if (iso==currentIso) {
             if (!(sourcesSeen.includes(source))) {
                 // only add if hasn't already been added
@@ -539,9 +539,9 @@ function updateComparisonSourceDropdown() {
             i++;
             continue;
         };
-        var source = row[6];
-        var iso = row[2];
-        var level = row[4];
+        var source = row['boundarySource-1'];
+        var iso = row.boundaryISO;
+        var level = row.boundaryType;
         if (iso==currentIso) {
             if (!(sourcesSeen.includes(source))) {
                 // only add if hasn't already been added
@@ -612,9 +612,9 @@ function updateGbAdminLevelDropdown() {
             i++;
             continue;
         };
-        var iso = row[2];
-        var lvl = row[4];
-        var source = row[6];
+        var iso = row.boundaryISO;
+        var lvl = row.boundaryType;
+        var source = row['boundarySource-1'];
         if ((iso == currentIso) & (source == currentSource)) {
             if (!(adminLevelsSeen.includes(lvl))) {
                 // only add if hasn't already been added
@@ -678,9 +678,9 @@ function updateComparisonAdminLevelDropdown() {
             i++;
             continue;
         };
-        var iso = row[2];
-        var lvl = row[4];
-        var source = row[6];
+        var iso = row.boundaryISO;
+        var lvl = row.boundaryType;
+        var source = row['boundarySource-1'];
         if ((iso == currentIso) & (source == currentSource)) {
             if (!(adminLevelsSeen.includes(lvl))) {
                 // only add if hasn't already been added

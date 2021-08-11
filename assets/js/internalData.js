@@ -50,12 +50,12 @@ function loadGeoContrastSource(source, iso, level, sourceName) {
             i++;
             continue;
         };
-        var currentIso = row[2];
-        var currentLevel = row[4];
-        var currentSource = row[6];
+        var currentIso = row.boundaryISO;
+        var currentLevel = row.boundaryType;
+        var currentSource = row['boundarySource-1'];
         if ((sourceName == currentSource) & (iso == currentIso) & (level == currentLevel)) {
             // get the data url from the table entry
-            var apiUrl = row[18];
+            var apiUrl = row.apiURL;
             break;
         };
     };

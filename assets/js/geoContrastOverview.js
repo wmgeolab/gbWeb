@@ -34,20 +34,20 @@ function updateGbInfo(features) {
         // loop metadata table until reach row matching current iso and level
         var metadata = geoContrastMetadata;
         for (row of metadata) {
-            var rowIso = row[2];
-            var rowLevel = row[4];
-            var rowSource = row[6];
+            var rowIso = row.boundaryISO;
+            var rowLevel = row.boundaryType;
+            var rowSource = row['boundarySource-1'];
             if (rowSource == sourceName & rowIso == iso & rowLevel == level) {
-                var gbSource = row[6];
-                if (row[7] != '') {
-                    gbSource += ' / ' + row[7];
+                var gbSource = row['boundarySource-1'];
+                if (row['boundarySource-2'] != '') {
+                    gbSource += ' / ' + row['boundarySource-2'];
                 };
-                var gbSourceUrl = parseURL(row[11]);
-                var gbLicense = row[8];
-                var gbLicenseUrl = parseURL(row[10]);
-                var gbYear = row[3];
-                var gbUpdated = row[12];
-                var gbDownloadUrl = parseURL(row[18]);
+                var gbSourceUrl = parseURL(row.boundarySourceURL);
+                var gbLicense = row.boundaryLicense;
+                var gbLicenseUrl = parseURL(row.licenseSource);
+                var gbYear = row.boundaryYearRepresented;
+                var gbUpdated = row.sourceDataUpdateDate;
+                var gbDownloadUrl = parseURL(row.apiURL);
                 break;
             };
         };
@@ -118,20 +118,20 @@ function updateComparisonInfo(features) {
         // loop metadata table until reach row matching current iso and level
         var metadata = geoContrastMetadata;
         for (row of metadata) {
-            var rowIso = row[2];
-            var rowLevel = row[4];
-            var rowSource = row[6];
+            var rowIso = row.boundaryISO;
+            var rowLevel = row.boundaryType;
+            var rowSource = row['boundarySource-1'];
             if (rowSource == sourceName & rowIso == iso & rowLevel == level) {
-                var comparisonSource = row[6];
-                if (row[7] != '') {
-                    comparisonSource += ' / ' + row[7];
+                var comparisonSource = row['boundarySource-1'];
+                if (row['boundarySource-2'] != '') {
+                    comparisonSource += ' / ' + row['boundarySource-2'];
                 };
-                var comparisonSourceUrl = parseURL(row[11]);
-                var comparisonLicense = row[8];
-                var comparisonLicenseUrl = parseURL(row[10]);
-                var comparisonYear = row[3];
-                var comparisonUpdated = row[12];
-                var comparisonDownloadUrl = parseURL(row[18]);
+                var comparisonSourceUrl = parseURL(row.boundarySourceURL);
+                var comparisonLicense = row.boundaryLicense;
+                var comparisonLicenseUrl = parseURL(row.licenseSource);
+                var comparisonYear = row.boundaryYearRepresented;
+                var comparisonUpdated = row.sourceDataUpdateDate;
+                var comparisonDownloadUrl = parseURL(row.apiURL);
                 break;
             };
         };
