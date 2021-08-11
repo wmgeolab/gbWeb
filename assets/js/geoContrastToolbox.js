@@ -73,7 +73,26 @@ map.on('singleclick', function(evt) {
     };
 });
 
-loadGeoContrastMetadata();
+
+
+
+
+
+// ------------------------------
+// this loads and stores the geocontrast metadata csv
+
+var geoContrastMetadata = null;
+
+function onSuccess (data) {
+    geoContrastMetadata = data;
+    // update countries
+    updateCountryDropdown();
+    // update main sources
+    updateGbSourceDropdown();
+    // update comparison sources
+    updateComparisonSourceDropdown();
+};
+loadGeoContrastMetadata(onSuccess);
 
 
 
