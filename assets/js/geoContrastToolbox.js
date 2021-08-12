@@ -455,15 +455,128 @@ function updateCountryDropdown() {
         // default country
         select.value = 'AFG';
     };
+    // force dropdown change
+    countryChanged();
+};
+
+// admin level
+
+function updateGbAdminLevelDropdown() {
+    // NOTE: requires that geoContrastMetadata has already been populated
+    // get admin-level dropdown
+    var select = document.getElementById('gb-admin-level-select');
+    var selectVal = select.value;
+    // clear all existing dropdown options
+    select.innerHTML = '';
+    // get geoContrast metadata
+    var metadata = geoContrastMetadata;
+    // get current country and comparison source
+    var currentIso = document.getElementById('country-select').value;
+    var currentSource = document.getElementById('gb-boundary-select').value;
+    // find available admin-levels for country
+    var adminLevelsSeen = [];
+    var adminLevels = [];
+    for (var i = 1; i < metadata.length; i++) {
+        var row = metadata[i];
+        if (row.length <= 1) {
+            // ignore empty rows
+            i++;
+            continue;
+        };
+        var iso = row.boundaryISO;
+        var lvl = row.boundaryType;
+        if (iso == currentIso) {
+            if (!(adminLevelsSeen.includes(lvl))) {
+                // only add if hasn't already been added
+                adminLevels.push(lvl);
+                adminLevelsSeen.push(lvl);
+            };
+        };
+    };
+    // sort
+    adminLevels.sort();
+    // add new options from geoContrastMetadata
+    for (lvl of adminLevels) {
+        var opt = document.createElement("option");
+        opt.value = lvl;
+        opt.textContent = lvl;
+        select.appendChild(opt);
+    };
+    // set the adm level to get-param if specified
+    const urlParams = new URLSearchParams(window.location.search);
+    var lvl = urlParams.get('mainLevel');
+    if ((lvl != null) & (lvl != select.value[3])) {
+        select.value = 'ADM'+lvl;
+    } else {
+        // default main level
+        select.value = 'ADM1';
+    };
+    // force dropdown change
+    gbAdminLevelChanged();
+};
+
+function updateComparisonAdminLevelDropdown() {
+    // NOTE: requires that geoContrastMetadata has already been populated
+    // get admin-level dropdown
+    var select = document.getElementById('comparison-admin-level-select');
+    var selectVal = select.value;
+    // clear all existing dropdown options
+    select.innerHTML = '';
+    // get geoContrast metadata
+    var metadata = geoContrastMetadata;
+    // get current country and comparison source
+    var currentIso = document.getElementById('country-select').value;
+    var currentSource = document.getElementById('comparison-boundary-select').value;
+    // find available admin-levels for country
+    var adminLevelsSeen = [];
+    var adminLevels = [];
+    for (var i = 1; i < metadata.length; i++) {
+        var row = metadata[i];
+        if (row.length <= 1) {
+            // ignore empty rows
+            i++;
+            continue;
+        };
+        var iso = row.boundaryISO;
+        var lvl = row.boundaryType;
+        if (iso == currentIso) {
+            if (!(adminLevelsSeen.includes(lvl))) {
+                // only add if hasn't already been added
+                adminLevels.push(lvl);
+                adminLevelsSeen.push(lvl);
+            };
+        };
+    };
+    // sort
+    adminLevels.sort();
+    // add new options from geoContrastMetadata
+    for (lvl of adminLevels) {
+        var opt = document.createElement("option");
+        opt.value = lvl;
+        opt.textContent = lvl;
+        select.appendChild(opt);
+    };
+    // set the adm level to get-param if specified
+    const urlParams = new URLSearchParams(window.location.search);
+    var lvl = urlParams.get('comparisonLevel');
+    if ((lvl != null) & (lvl != select.value[3])) {
+        select.value = 'ADM'+lvl;
+    } else {
+        // default comparison level
+        select.value = 'ADM1';
+    };
+    // force dropdown change
+    comparisonAdminLevelChanged();
 };
 
 // sources
 
 function updateGbSourceDropdown() {
     //alert('update gb boundary dropdown');
-    // get current country
+    // get current country and level
     var currentIso = document.getElementById('country-select').value;
-    // get admin-level dropdown
+    var currentLevel = document.getElementById('gb-admin-level-select').value;
+    // get source dropdown
     var select = document.getElementById('gb-boundary-select');
     var selectVal = select.value;
     // clear all existing dropdown options
@@ -483,7 +596,7 @@ function updateGbSourceDropdown() {
         var source = row['boundarySource-1'];
         var iso = row.boundaryISO;
         var level = row.boundaryType;
-        if (iso==currentIso) {
+        if ((iso==currentIso) & (level==currentLevel)) {
             if (!(sourcesSeen.includes(source))) {
                 // only add if hasn't already been added
                 sourcesSeen.push(source);
@@ -508,7 +621,7 @@ function updateGbSourceDropdown() {
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('mainSource');
-    if ((source != null) & (source != select.value)) {
+    if (source != null & sources.includes(source)) {
         select.value = source;
     } else {
         // default main source
@@ -520,9 +633,10 @@ function updateGbSourceDropdown() {
 
 function updateComparisonSourceDropdown() {
     //alert('update comparison boundary dropdown');
-    // get current country
+    // get current country and level
     var currentIso = document.getElementById('country-select').value;
-    // get admin-level dropdown
+    var currentLevel = document.getElementById('comparison-admin-level-select').value;
+    // get source dropdown
     var select = document.getElementById('comparison-boundary-select');
     var selectVal = select.value;
     // clear all existing dropdown options
@@ -542,7 +656,7 @@ function updateComparisonSourceDropdown() {
         var source = row['boundarySource-1'];
         var iso = row.boundaryISO;
         var level = row.boundaryType;
-        if (iso==currentIso) {
+        if ((iso==currentIso) & (level==currentLevel)) {
             if (!(sourcesSeen.includes(source))) {
                 // only add if hasn't already been added
                 sourcesSeen.push(source);
@@ -567,7 +681,7 @@ function updateComparisonSourceDropdown() {
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('comparisonSource');
-    if ((source != null) & (source != select.value)) {
+    if (source != null & sources.includes(source)) {
         select.value = source;
     } else {
         // default comparison source
@@ -575,140 +689,6 @@ function updateComparisonSourceDropdown() {
     };
     // force dropdown change
     comparisonSourceChanged();
-};
-
-// admin level
-
-function updateGbAdminLevelDropdown() {
-    // NOTE: requires that geoContrastMetadata has already been populated
-    // get admin-level dropdown
-    var select = document.getElementById('gb-admin-level-select');
-    var selectVal = select.value;
-    // clear all existing dropdown options
-    select.innerHTML = '';
-    // get geoContrast metadata
-    var metadata = geoContrastMetadata;
-    // get current country and comparison source
-    var currentIso = document.getElementById('country-select').value;
-    var currentSource = document.getElementById('gb-boundary-select').value;
-    // if upload, exit early
-    if (currentSource == 'upload') {
-        // add and set ? option
-        var opt = document.createElement("option");
-        opt.value = '9';
-        opt.textContent = 'Unknown';
-        select.appendChild(opt);
-        // force dropdown change
-        gbAdminLevelChanged();
-        return;
-    };
-    // find available admin-levels for country
-    var adminLevelsSeen = [];
-    var adminLevels = [];
-    for (var i = 1; i < metadata.length; i++) {
-        var row = metadata[i];
-        if (row.length <= 1) {
-            // ignore empty rows
-            i++;
-            continue;
-        };
-        var iso = row.boundaryISO;
-        var lvl = row.boundaryType;
-        var source = row['boundarySource-1'];
-        if ((iso == currentIso) & (source == currentSource)) {
-            if (!(adminLevelsSeen.includes(lvl))) {
-                // only add if hasn't already been added
-                adminLevels.push(lvl);
-                adminLevelsSeen.push(lvl);
-            };
-        };
-    };
-    // sort
-    adminLevels.sort();
-    // add new options from geoContrastMetadata
-    for (lvl of adminLevels) {
-        var opt = document.createElement("option");
-        opt.value = lvl;
-        opt.textContent = lvl;
-        select.appendChild(opt);
-    };
-    // set the adm level to get-param if specified
-    const urlParams = new URLSearchParams(window.location.search);
-    var lvl = urlParams.get('mainLevel');
-    if ((lvl != null) & (lvl != '9') & (lvl != select.value[3])) {
-        select.value = 'ADM'+lvl;
-    } else {
-        // default main level
-        select.value = 'ADM1';
-    };
-    // force dropdown change
-    gbAdminLevelChanged();
-};
-
-function updateComparisonAdminLevelDropdown() {
-    // NOTE: requires that geoContrastMetadata has already been populated
-    // get admin-level dropdown
-    var select = document.getElementById('comparison-admin-level-select');
-    var selectVal = select.value;
-    // clear all existing dropdown options
-    select.innerHTML = '';
-    // get geoContrast metadata
-    var metadata = geoContrastMetadata;
-    // get current country and comparison source
-    var currentIso = document.getElementById('country-select').value;
-    var currentSource = document.getElementById('comparison-boundary-select').value;
-    // if upload, exit early
-    if (currentSource == 'upload') {
-        // add and set ? option
-        var opt = document.createElement("option");
-        opt.value = '9';
-        opt.textContent = 'Unknown';
-        select.appendChild(opt);
-        // force dropdown change
-        comparisonAdminLevelChanged();
-        return;
-    };
-    // find available admin-levels for country
-    var adminLevelsSeen = [];
-    var adminLevels = [];
-    for (var i = 1; i < metadata.length; i++) {
-        var row = metadata[i];
-        if (row.length <= 1) {
-            // ignore empty rows
-            i++;
-            continue;
-        };
-        var iso = row.boundaryISO;
-        var lvl = row.boundaryType;
-        var source = row['boundarySource-1'];
-        if ((iso == currentIso) & (source == currentSource)) {
-            if (!(adminLevelsSeen.includes(lvl))) {
-                // only add if hasn't already been added
-                adminLevels.push(lvl);
-                adminLevelsSeen.push(lvl);
-            };
-        };
-    };
-    // sort
-    adminLevels.sort();
-    // add new options from geoContrastMetadata
-    for (lvl of adminLevels) {
-        var opt = document.createElement("option");
-        opt.value = lvl;
-        opt.textContent = lvl;
-        select.appendChild(opt);
-    };
-    // set the adm level to get-param if specified
-    const urlParams = new URLSearchParams(window.location.search);
-    var lvl = urlParams.get('comparisonLevel');
-    if ((lvl != null) & (lvl != '9') & (lvl != select.value[3])) {
-        select.value = 'ADM'+lvl;
-    } else {
-        // default comparison level
-        select.value = 'ADM1';
-    };
-    // force dropdown change
-    comparisonAdminLevelChanged();
 };
 
 
@@ -754,94 +734,76 @@ function updateGetParams() {
 
 function countryChanged() {
     //alert('country changed');
-    updateGbSourceDropdown();
-    updateComparisonSourceDropdown();
-    updateGetParams();
-};
-
-// sources
-
-function gbSourceChanged() {
-    //alert('comparison source changed');
-    // check which comparison source was selected
-    source = document.getElementById('gb-boundary-select').value;
-    if (source == 'none') {
-        // update admin dropdown
-        updateGbAdminLevelDropdown();
-        // hide and reset file button
-        document.getElementById('gb-file-input').value = null;
-        document.getElementById('gb-file-div').style.display = 'none';
-    } else if (source == 'upload') {
-        // update admin dropdown (clears all)
-        updateGbAdminLevelDropdown();
-        // show file button div
-        document.getElementById('gb-file-div').style.display = 'block';
-    } else {
-        // update admin dropdown
-        updateGbAdminLevelDropdown();
-        // hide and reset file button
-        document.getElementById('gb-file-input').value = null;
-        document.getElementById('gb-file-div').style.display = 'none';
-    };
-    updateGetParams();
-};
-
-function comparisonSourceChanged() {
-    //alert('comparison source changed');
-    // check which comparison source was selected
-    source = document.getElementById('comparison-boundary-select').value;
-    if (source == 'none') {
-        // update admin dropdown
-        updateComparisonAdminLevelDropdown();
-        // hide and reset file button
-        document.getElementById('comparison-file-input').value = null;
-        document.getElementById('comparison-file-div').style.display = 'none';
-    } else if (source == 'upload') {
-        // update admin dropdown (clears all)
-        updateComparisonAdminLevelDropdown();
-        // show file button div
-        document.getElementById('comparison-file-div').style.display = 'block';
-    } else {
-        // update admin dropdown
-        updateComparisonAdminLevelDropdown();
-        // hide and reset file button
-        document.getElementById('comparison-file-input').value = null;
-        document.getElementById('comparison-file-div').style.display = 'none';
-    };
-    updateGetParams();
+    updateGbAdminLevelDropdown();
+    updateComparisonAdminLevelDropdown();
+    //updateGetParams();
 };
 
 // admin levels
 
 function gbAdminLevelChanged() {
-    //alert('main admin-level changed');
+    //alert('comparison admin-level changed');
+    updateGbSourceDropdown();
+    //updateGetParams();
+};
+
+function comparisonAdminLevelChanged() {
+    //alert('comparison admin-level changed');
+    updateComparisonSourceDropdown();
+    //updateGetParams();
+};
+
+// sources
+
+function gbSourceChanged() {
+    //alert('main source changed');
     // empty misc info
     clearGbInfo();
     clearGbStats();
     clearGbNames();
     // clear comparison layer
     clearGbLayer();
-    // if a geoContrast source is selected
+    // check which comparison source was selected
     source = document.getElementById('gb-boundary-select').value;
-    if ((source != 'none') & (source != 'upload')) {
+    if (source == 'none' | source == '') {
+        // hide and reset file button
+        document.getElementById('gb-file-input').value = null;
+        document.getElementById('gb-file-div').style.display = 'none';
+    } else if (source == 'upload') {
+        // show file button div
+        document.getElementById('gb-file-div').style.display = 'block';
+    } else {
+        // hide and reset file button
+        document.getElementById('gb-file-input').value = null;
+        document.getElementById('gb-file-div').style.display = 'none';
         // update main layer with external geoContrast topojson
         updateGbLayer(zoomToExtent=true);
     };
     updateGetParams();
 };
 
-function comparisonAdminLevelChanged() {
-    //alert('comparison admin-level changed');
+function comparisonSourceChanged() {
+    //alert('comparison source changed');
     // clear misc info
     clearComparisonInfo();
     clearComparisonStats();
     clearComparisonNames();
     // clear comparison layer
     clearComparisonLayer();
-    // if a geoContrast source is selected
+    // check which comparison source was selected
     source = document.getElementById('comparison-boundary-select').value;
-    if ((source != 'none') & (source != 'upload')) {
-        // update comparison layer with external geoContrast topojson
+    if (source == 'none' | source == '') {
+        // hide and reset file button
+        document.getElementById('comparison-file-input').value = null;
+        document.getElementById('comparison-file-div').style.display = 'none';
+    } else if (source == 'upload') {
+        // show file button div
+        document.getElementById('comparison-file-div').style.display = 'block';
+    } else {
+        // hide and reset file button
+        document.getElementById('comparison-file-input').value = null;
+        document.getElementById('comparison-file-div').style.display = 'none';
+        // update main layer with external geoContrast topojson
         updateComparisonLayer(zoomToExtent=true);
     };
     updateGetParams();

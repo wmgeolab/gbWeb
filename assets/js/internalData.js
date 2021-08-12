@@ -59,7 +59,6 @@ function loadGeoContrastSource(source, iso, level, sourceName) {
             break;
         };
     };
-    //alert('loading from geocontrast: '+url);
     // manually load topojson from url
     fetch(apiUrl)
         .then(resp => resp.json())
