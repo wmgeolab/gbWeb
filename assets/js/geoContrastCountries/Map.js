@@ -11,20 +11,14 @@ var outline = new ol.style.Stroke({
 })
 var missingStyle = new ol.style.Style({
     fill: new ol.style.Fill({
-        color: 'rgba(5,37,26,0.7)',
+        color: 'rgba(63,46,6,0.7)',
     })
     //stroke: outline,
 });
 var styleCategories = [
     new ol.style.Style({
         fill: new ol.style.Fill({
-            color: 'rgb(6,75,52)',
-        }),
-        stroke: outline,
-    }),
-    new ol.style.Style({
-        fill: new ol.style.Fill({
-            color: 'rgb(7,124,96)',
+            color: 'rgb(151,111,14)',
         }),
         stroke: outline,
     }),
@@ -36,7 +30,13 @@ var styleCategories = [
     }),
     new ol.style.Style({
         fill: new ol.style.Fill({
-            color: 'rgb(151,111,14)',
+            color: 'rgb(7,124,96)',
+        }),
+        stroke: outline,
+    }),
+    new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgb(6,75,52)',
         }),
         stroke: outline,
     })
