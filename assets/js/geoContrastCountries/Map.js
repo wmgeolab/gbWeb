@@ -56,17 +56,33 @@ function calcEqualBreaks(values) {
     return breaks;
 };
 
-function getValueBin(value, breaks) {
-    for (i=0; i<breaks.length; i++) {
+function calcValueBins(breaksFunc, values) {
+    var breaks = breaksFunc(values);
+    var bins = [];
+    for (i=0; i<(breaks.length-1); i++) {
         var binstart = breaks[i];
         var binend = breaks[i+1];
+        var bin = {min:binstart, max:binend};
+        bins.push(bin);
+    };
+    return bins;
+};
+
+function getValueBin(value, bins) {
+    if (value === null | value === 'Unknown' | value === '') {
+        return null;
+    };
+    for (i=0; i<bins.length; i++) {
+        var bin = bins[i];
+        var binstart = bin.min;
+        var binend = bin.max;
         if (value >= binstart & value <= binend) {
             return i;
         };
     };
 };
 
-function updateStyleLegend(breaks) {
+function updateStyleLegend(bins) {
     var legend = document.getElementById('map-legend');
     // clear legend
     legend.innerHTML = '';
@@ -90,32 +106,36 @@ function updateStyleLegend(breaks) {
     var text = 'None';
     var entry = createEntry(color, text);
     legend.appendChild(entry);
-    // add breaks
-    for (i=0; i<(breaks.length-1); i++) {
-        var binstart = breaks[i];
-        var binend = breaks[i+1];
+    // add bins
+    for (i=0; i<bins.length; i++) {
+        var bin = bins[i];
+        var binstart = bin.min;
+        var binend = bin.max;
         var color = styleCategories[i].getFill().getColor();
-        var text = binstart + ' to ' + binend;
+        var text = binstart.toFixed(1) + ' to ' + binend.toFixed(1);
         var entry = createEntry(color, text);
         legend.appendChild(entry);
     };
 };
 
-function updateStyleBreaks(layer, key) {
+function updateStyleBreaks(layer, key, reverse=false) {
     // get values
     var values = [];
     for (feat of layer.getSource().getFeatures()) {
         var val = feat.get(key);
-        if (val != null & val != 0 & val != 'Unknown' & val != '') {
+        if (val === 0 | (val != null & val != 'Unknown' & val != '')) {
             values.push(val);
         };
     };
-    // calc breaks
-    var breaks = calcEqualBreaks(values);
+    // calc bins
+    var bins = calcValueBins(calcEqualBreaks, values);
+    if (reverse == true) {
+        bins = bins.reverse();
+    };
     // define style dynamically
     var dynamicStyle = function(feature, resolution){
         var val = feature.get(key);
-        var bin = getValueBin(val, breaks);
+        var bin = getValueBin(val, bins);
         if (bin != null) {
             var binStyle = styleCategories[bin];
         } else {
@@ -128,12 +148,18 @@ function updateStyleBreaks(layer, key) {
         feature.setStyle(dynamicStyle);
     });
     // update legend
-    updateStyleLegend(breaks);
+    updateStyleLegend(bins);
 };
 
 function updateMapCountryStyle() {
     var key = document.getElementById('map-compare').value;
-    updateStyleBreaks(countryLayer, key);
+    var revKeys = ['avgYearLag','minLineRes'];
+    if (revKeys.includes(key)) {
+        reverse = true;
+    } else {
+        reverse = false;
+    };
+    updateStyleBreaks(countryLayer, key, reverse);
 };
 
 function updateMapCountryProperties() {
@@ -154,7 +180,16 @@ function updateMapCountryProperties() {
     };
 };
 
+function updateMapDescription() {
+    // update map description
+    var key = document.getElementById('map-compare').value;
+    var text = countryDataLookup[key]['descr'];
+    var elem = document.getElementById('map-description');
+    elem.innerText = text;
+};
+
 function updateMapCountries() {
+    updateMapDescription();
     updateMapCountryProperties();
     updateMapCountryStyle();
 };

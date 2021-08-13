@@ -21,38 +21,29 @@ function openCountryPopup (feat) {
         sourceNameLink.href = "geoContrast.html?country="+sourceRow.boundaryISO+'&mainSource='+sourceRow['boundarySource-1']+'&mainLevel='+sourceRow.boundaryType[3];
         td.appendChild(sourceNameLink);
         tr.appendChild(td);
-        // year
-        var td = document.createElement('td');
-        td.innerText = sourceRow.boundaryYearRepresented;
-        tr.appendChild(td);
-        // unit count
-        var td = document.createElement('td');
-        tr.appendChild(td);
         // license
         var td = document.createElement('td');
         td.innerText = sourceRow.boundaryLicense;
         tr.appendChild(td);
-        //
-        table.appendChild(tr);
-    };
-
-    // clear feature properties table
-    var table = document.getElementById('country-info-table');
-    table.innerHTML = '';
-    // add feature properties as table rows
-    var props = feat.getProperties();
-    for (key in props) {
-        if (key == 'geometry' | key == 'sourceRows' | key.includes('shape')) {
-            continue;
-        };
-        var tr = document.createElement('tr');
-        // key
+        // year
         var td = document.createElement('td');
-        td.innerText = key;
+        td.innerText = sourceRow.boundaryYearRepresented;
         tr.appendChild(td);
-        // value
+        // updated
         var td = document.createElement('td');
-        td.innerText = props[key];
+        td.innerText = sourceRow.sourceDataUpdateDate;
+        tr.appendChild(td);
+        // unit count
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryCount;
+        tr.appendChild(td);
+        // min line res
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsLineResolution).toFixed(1) + ' m';
+        tr.appendChild(td);
+        // max vert dens
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsVertexDensity).toFixed(1) + ' / km';
         tr.appendChild(td);
         //
         table.appendChild(tr);

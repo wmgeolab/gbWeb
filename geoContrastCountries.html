@@ -74,8 +74,8 @@
 						<span><h1>Visualize & Compare Boundaries</h1></span>
 					</header>
 
-					<div id="map-and-toolbox-div" class="row gtr-200">
-						<div class="col-7 col-12-medium">
+					<div id="map-and-toolbox-div" class="row gtr-200" style="width:100%; margin-left:0; margin-bottom:25px">
+						<div class="col-7 col-12-medium" style="padding-left:0">
 							<div id="fullscreen" class="fullscreen">
 								<div id="map" class="map">
 								</div>
@@ -111,11 +111,9 @@
                                         <div class="row">
                                             <span>Compare:</span>
                                             <select id='map-compare' style="margin-left:20px" onchange="updateCountriesTable(); updateMapCountries()">
-                                                <option value="numSources" selected>Num of Sources</option>
-                                                <option value="maxYear">Latest Year</option>
                                             </select>
                                         </div>
-                                        <span style="font-size:0.7em">Description goes here...</span>
+                                        <p id="map-description" style="font-size:0.7em; padding:0; margin:20px 10px">Description goes here...</p>
                                         <div style="width:100%; margin-top:10px">
                                             <div id="map-legend" style="margin-left:20%; display:flex; flex-direction:column-reverse;">
                                             </div>
@@ -148,11 +146,8 @@
 						<div style="width:100%">
                             <table id="countries-table" style="margin-left:10px">
                                 <thead>
-                                    <th>Country</th>
-                                    <th>Latest Year</th>
-                                    <th>Sources</th>
-                                </thhead>
-                                <tbody id="countries-table-tbody">
+                                </thead>
+                                <tbody>
                                 </tbody>
                             </table>
 						</div>
@@ -193,20 +188,21 @@
                     </div>
 
                     <h4>Sources:</h4>
-                    <table id="country-sources-table" class="table" style="margin-left:20px">
-                        <thead>
-                            <th>Source</th>
-                            <th>Year</th>
-                            <th>Boundary Units</th>
-                            <th>License</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-
-                    <h4>Statistics:</h4>
-                    <table id="country-info-table" class="table" style="margin-left:20px">
-                    </table>
+                    <div style="width:100%; margin:0; padding:0; overflow:auto">
+                        <table id="country-sources-table" class="table" style="margin-left:20px">
+                            <thead>
+                                <th>Source</th>
+                                <th>License</th>
+                                <th>Year</th>
+                                <th>Updated</th>
+                                <th>Administrative Units</th>
+                                <th>Line Resolution</th>
+                                <th>Vertex Density</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
 
@@ -310,7 +306,7 @@
 	<script src="assets/js/internalHelpers.js"></script>
 	<script src="assets/js/internalData.js"></script>
 	<script src="assets/js/internalSpatial.js"></script>
-    <script src="assets/data/gb-countries-simple.geojson"></script>
+    <script src="assets/data/gb-countries-simple.js"></script>
     <script src="assets/js/geoContrastCountries/Map.js"></script>
     <script src="assets/js/geoContrastCountries/Country.js"></script>
     <script src="assets/js/geoContrastCountries/Countries.js"></script>

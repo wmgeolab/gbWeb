@@ -28,9 +28,10 @@ print('output features', len(new_features))
 
 # write to geojson file
 print('writing to output')
-output = '../data/gb-countries-simple.geojson'
+output = '../data/gb-countries-simple.js'
 with open(output, 'w', encoding='utf8') as fobj:
     raw = json.dumps(geoj)
+    raw = 'var countryBoundaries = ' + raw
     fobj.write(raw)
 
 ### TOPOJSON VERSION
