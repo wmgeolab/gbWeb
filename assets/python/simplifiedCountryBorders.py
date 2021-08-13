@@ -17,7 +17,10 @@ print('original features', len(features))
 new_features = []
 for feat in features:
     if feat['properties']['shapeISO'] == 'None':
-        continue
+        # fixes bug with philippines
+        feat['properties']['shapeISO'] = 'PHL'
+        feat['properties']['shapeName'] = 'Philippines'
+    print(feat['properties']['shapeISO'], feat['properties']['shapeName'])
     # simplify geometry
     geom = asShape(feat['geometry'])
     simpler = geom.simplify(thresh)
