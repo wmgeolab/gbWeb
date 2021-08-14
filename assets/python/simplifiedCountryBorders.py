@@ -17,9 +17,13 @@ print('original features', len(features))
 new_features = []
 for feat in features:
     if feat['properties']['shapeISO'] == 'None':
+        print('fixing',feat['properties'])
         # fixes bug with philippines
-        feat['properties']['shapeISO'] = 'PHL'
-        feat['properties']['shapeName'] = 'Philippines'
+        feat['properties']['shapeISO'] = feat['properties']['shapeGroup']
+        if feat['properties']['shapeISO'] == 'CHE':
+            feat['properties']['shapeName'] = 'Switzerland'
+        elif feat['properties']['shapeISO'] == 'PHL':
+            feat['properties']['shapeName'] = 'Philippines'
     print(feat['properties']['shapeISO'], feat['properties']['shapeName'])
     # simplify geometry
     geom = asShape(feat['geometry'])
