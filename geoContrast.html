@@ -31,19 +31,19 @@
 
   
 	<!-- Global site tag (gtag.js) - Google Ads: 984002936 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
 
-  gtag('config', 'AW-984002936');
-</script>
+	gtag('config', 'AW-984002936');
+	</script>
 
-<!-- Event snippet for Website traffic conversion page -->
-<script>
-	gtag('event', 'conversion', {'send_to': 'AW-984002936/BycZCJ_8kdMBEPjimtUD'});
-  </script>
+	<!-- Event snippet for Website traffic conversion page -->
+	<script>
+		gtag('event', 'conversion', {'send_to': 'AW-984002936/BycZCJ_8kdMBEPjimtUD'});
+	</script>
   
 </head>
 
@@ -110,13 +110,15 @@
 													<!--options should get dynamically populated here-->
 												</select>
 											</div>
-											<div id="gb-file-div">
+											<div id="gb-file-div" style="padding-top:5px">
 												<span class="fas fa-file" style="padding:0px 3px important!; width:auto">
 													<input id="gb-file-input" class="fas" type="file" accept=".geojson,.zip">
 												</span>
 												<span data-text="Upload a zipped shapefile, geoJSON or topoJSON.  Expects WGS84 (EPSG 4326)." class="tooltip">
 													(?)
 												</span>
+												<select id="gb-file-select" onchange="gbFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
+												</select>
 											</div>
 											
 											<div id="gb-info-div" style="padding:5px; height:60%; overflow:auto">
@@ -177,6 +179,55 @@
 													// disable the map image div
 													topBannerDiv.style.display = 'none';
 												};
+
+												function setImageDataAndMakePDF(imgData) {
+													//alert('processing img data');
+													// hide some elements
+													var ignoreElements = ['map-and-toolbox-div','feature-compare-popup','contribute-popup'];
+													// enable the top banner div for printing
+													var topBannerDiv = document.getElementById('top-banner-for-printing');
+													topBannerDiv.style.display = 'block';
+													// set img src
+													var mapImg = document.getElementById('map-image-for-printing');
+													mapImg.src = imgData;
+													// set country header
+													var countrySelect = document.getElementById('country-select');
+													var country = countrySelect.options[countrySelect.selectedIndex].text;
+													document.getElementById('country-header-for-printing').innerText = country;
+													// create pdf
+													//alert('creating pdf');
+													var elem = document.getElementById('main');
+													var config = {'ignoreElements': function(e){return ignoreElements.includes(e.id)}
+													};
+													html2canvas(elem, config).then(function (canvas) {
+														// canvas to image (creates one tall image of entire page)
+														var imgData = canvas.toDataURL("image/png");
+														// define doc
+														var imgWidth = 210; 
+														var pageHeight = 295; 
+														var imgHeight = canvas.height * imgWidth / canvas.width;
+														var heightLeft = imgHeight;
+														var doc = new jsPDF('p', 'mm');
+														var position = 0;
+
+														// loop parts of the image and crop to each page
+														doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+														heightLeft -= pageHeight;
+														while (heightLeft >= 0) {
+															position = heightLeft - imgHeight;
+															doc.addPage();
+															doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+															heightLeft -= pageHeight;
+														};
+
+														// show or save pdf
+														//doc.output('datauri');
+														//doc.save('test.pdf');
+														window.open(doc.output('bloburl'));
+													});
+													// disable the map image div
+													topBannerDiv.style.display = 'none';
+												};
 												
 												function renderMapToImgData(processdata) {
 													map.once('rendercomplete', function () {
@@ -217,7 +268,7 @@
 												function printPageToPDF() {
 													// render the map to image data
 													// on success, set image data to img src and print the pdf
-													var onsuccess = setImageDataAndPrintPDF; 
+													var onsuccess = setImageDataAndMakePDF; 
 													renderMapToImgData(onsuccess);
 												};
 											</script>
@@ -393,7 +444,7 @@
 						<div id="source-contents-banner" style="width:100%; text-align:center">
 							<h2 style="margin-bottom:5px">Matching</h2>
 							<button onclick="calcBoundaryMakeupTables()">
-								Calculate Relationships
+								Match Boundaries
 							</button>
 							<br><br>
 						</div>
@@ -452,76 +503,166 @@
 				<!-- popup content -->
 				<div class="popup-content">
 				  
-				  <div style="text-align:right">
-					  <a id="close-contribute-popup" class="popup-close" onclick="closeContributePopup()">&times;</a>
-				  </div>
+				<div style="text-align:right">
+					<a id="close-contribute-popup" class="popup-close" onclick="closeContributePopup()">&times;</a>
+				</div>
 
-				  <!--
-				  <script>
-					  // When the user clicks anywhere outside of the popup, close it
-					  window.onclick = function(event) {
-						  //alert('click '+event.target.className+' '+event.target.id);
-						  if (event.target.id == 'contribute-popup') {
-							  //alert('should close');
-							  event.target.className = "popup is-hidden is-visually-hidden";
-						  };
-					  };
-				  </script>
-				  -->
+				<!--
+				<script>
+					// When the user clicks anywhere outside of the popup, close it
+					window.onclick = function(event) {
+						//alert('click '+event.target.className+' '+event.target.id);
+						if (event.target.id == 'contribute-popup') {
+							//alert('should close');
+							event.target.className = "popup is-hidden is-visually-hidden";
+						};
+					};
+				</script>
+				-->
 				  
-				  <h3>Contribute your boundary file:</h3>
+				<h3>Contribute your boundary file:</h3>
 				  
-				  <form>
-					  <div style="height:80%; overflow:auto">
-						  <table style="width:97%; margin:10px;">
-							  <tr>
-								  <td>Source*:</td>
-								  <td>
-									  <input name="source" type="text">
-								  </td>
-							  </tr>
-							  <tr>
-								  <td>License*:</td>
-								  <td>
-									  <input name="license" type="text">
-								  </td>
-							  </tr>
-							  <tr>
-								  <td>Administrative level*:</td>
-								  <td>
-									  <input name="admin-level" type="text">
-								  </td>
-							  </tr>
-							  <tr>
-								  <td>Year of boundaries*:</td>
-								  <td>
-									  <input name="year" type="text">
-								  </td>
-							  </tr>
-							  <tr>
-								  <td>Organization*:</td>
-								  <td>
-									  <input name="organization" type="text">
-								  </td>
-							  </tr>
-							  <tr>
-								  <td>Contact email*:</td>
-								  <td>
-									  <input name="email" type="email">
-								  </td>
-							  </tr>
-							  <tr>
-								  <td>Notes/comment:</td>
-								  <td>
-									  <input name="notes" type="text">
-								  </td>
-							  </tr>
-						  </table>
-					  </div>
-					  
-					  <div style="text-align:right; margin-top:10px">
-						  <button type="submit">Submit!</button>
-					  </div>
+				<form>
+					<div id="contribute-tab-container" class="tab-container" style="height:80%; overflow:auto">
+
+						<ul class='etabs'>
+							<li class='tab active'><a href="#contribute-metadata">Metadata</a></li>
+							<li class='tab'><a href="#contribute-data">Data files</a></li>
+							<li class='tab'><a href="#contribute-contact">Contact info</a></li>
+						</ul>
+
+						<div id="contribute-metadata" class="box">
+							<table style="width:97%; margin:10px;">
+								<tr>
+									<td>ISO*:</td>
+									<td>
+										<input name="iso" type="text" required disabled>
+									</td>
+								</tr>
+								<tr>
+									<td>Year the boundary represents*:</td>
+									<td>
+										<input name="year" type="text" required>
+									</td>
+								</tr>
+								<tr>
+									<td>Source*:</td>
+									<td>
+										<input name="source" type="text" required>
+									</td>
+								</tr>
+								<tr>
+									<td>Source URL*:</td>
+									<td>
+										<input name="source_url" type="text" required>
+									</td>
+								</tr>
+								<tr>
+									<td>License*:</td>
+									<td>
+										<input name="license" type="text" required>
+									</td>
+								</tr>
+								<tr>
+									<td>License URL*:</td>
+									<td>
+										<input name="license_url" type="text" required>
+									</td>
+								</tr>
+								<tr>
+									<td>License details:</td>
+									<td>
+										<input name="license_detail" type="text">
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div id="contribute-data" class="box">
+							<div id="input-forms">
+								<div id="empty-input-form" style="width:97%; margin:10px; display:none">
+									<table>
+										<tr>
+											<td>File*:</td>
+											<td>
+												<select name="path" onchange="contributeFileDropdownChanged(this)" required>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>Administrative level*:</td>
+											<td>
+												<select name="level" required>
+													<option value='ADM0'>ADM0</option>
+													<option value='ADM1'>ADM1</option>
+													<option value='ADM2'>ADM2</option>
+													<option value='ADM3'>ADM3</option>
+													<option value='ADM4'>ADM4</option>
+													<option value='ADM5'>ADM5</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>Boundary type:</td>
+											<td>
+												<input name="type" type="text">
+												</input>
+											</td>
+										</tr>
+										<tr>
+											<td>Name field*:</td>
+											<td>
+												<select name="name_field" class="field-dropdown" required>
+												</select>
+											</td>
+										</tr>
+									</table>
+									<div style="width:95%; margin-left:5%; height:200px; overflow:auto">
+										<table class="table file-preview-table">
+											<thead></thead>
+											<tbody></tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div style="width:100%; text-align:center">
+								<a href="">Add another boundary data file</a>
+							</div>
+						</div>
+
+						<div id="contribute-contact" class="box">
+							<table style="width:97%; margin:10px;">
+								<tr>
+									<td>Your Name*:</td>
+									<td>
+										<input name="contributor_name" type="text" required>
+									</td>
+								</tr>
+								<tr>
+									<td>Affiliation*:</td>
+									<td>
+										<input name="contributor_affiliation" type="text" required>
+									</td>
+								</tr>
+								<tr>
+									<td>Contact email*:</td>
+									<td>
+										<input name="contributor_email" type="email" required>
+									</td>
+								</tr>
+								<tr>
+									<td>Notes/comment:</td>
+									<td>
+										<input name="notes" type="text">
+									</td>
+								</tr>
+							</table>
+						
+							<div style="text-align:right; margin-top:10px">
+								<button type="submit" onclick="submitBoundary()">Submit!</button>
+							</div>
+
+						</div>
 					  
 				  </form>
 				</div>
@@ -755,9 +896,13 @@
 
 	<!--this is for printing pdf reports-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js" integrity="sha512-/fgTphwXa3lqAhN+I8gG8AvuaTErm1YxpUjbdCvwfTMyv8UZnFyId7ft5736xQ6CyQN4Nzr21lBuWWA9RTCXCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.1/html2canvas.min.js" integrity="sha512-Ki6BxhTDkeY2+bERO2RGKOGh6zvje2DxN3zPsNg4XhJGhkXiVXxIi1rkHUeZgZrf+5voBQJErceuCHtCCMuqTw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+	<script src="assets/js/html2canvas.js"></script> <!--this local file includes a patch for image object-fit from https://github.com/niklasvh/html2canvas/issues/2541-->
 
 	<script type="text/javascript">
 		$(document).ready(function () { $('#tab-container').easytabs({animate:false}); });
+		$(document).ready(function () { $('#contribute-tab-container').easytabs({animate:false}); });
 	</script>
 
 	<script src="assets/js/ol.js"></script>

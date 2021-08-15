@@ -60,12 +60,12 @@ function updateGbInfo(features) {
     info.innerHTML += '<div>';
     info.innerHTML += '<b style="vertical-align:middle">Actions: </b>'
     if (sourceName == 'upload') {
-        info.innerHTML += '<a id="open-gb-contribute-popup" style="cursor:pointer" onclick="openContributePopup()">Share This Data</a>';
+        info.innerHTML += '<a id="open-gb-contribute-popup" style="cursor:pointer" onclick="openContributePopup()">Submit to Boundary Repository?</a>';
     } else {
         info.innerHTML += '<a href="'+gbDownloadUrl+'" download><img src="https://icons-for-free.com/iconfiles/png/512/file+download+24px-131985219323992544.png" height="20px" style="vertical-align:middle"></a>';
     };
     info.innerHTML += '</div>';
-    info.innerHTML += '</br>';
+    info.innerHTML += '<br>';
     // info
     if (gbSourceUrl != '') {
         var sourceEntry = '<a href="'+gbSourceUrl+'" target="_blank">'+gbSource+'</a>';
@@ -77,16 +77,18 @@ function updateGbInfo(features) {
     } else {
         var licenseEntry = gbLicense;
     };
-    info.innerHTML += '<b>Source: </b>';
-    info.innerHTML += sourceEntry;
-    info.innerHTML += '<br>';
-    info.innerHTML += '<b>License: </b>';
-    info.innerHTML += licenseEntry;
-    info.innerHTML += '<br>';
-    info.innerHTML += '<b>Year the Boundary Represents: </b>'+gbYear;
-    info.innerHTML += '<br>';
-    info.innerHTML += '<b>Last Update: </b>'+gbUpdated;
-    info.innerHTML += '<br>';
+    if (sourceName != 'upload') {
+        info.innerHTML += '<b>Source: </b>';
+        info.innerHTML += sourceEntry;
+        info.innerHTML += '<br>';
+        info.innerHTML += '<b>License: </b>';
+        info.innerHTML += licenseEntry;
+        info.innerHTML += '<br>';
+        info.innerHTML += '<b>Year the Boundary Represents: </b>'+gbYear;
+        info.innerHTML += '<br>';
+        info.innerHTML += '<b>Last Update: </b>'+gbUpdated;
+        info.innerHTML += '<br>';
+    };
     div.appendChild(info);
     // also update some redundant fields in the stats tables
     document.getElementById('stats-gb-source').innerHTML = sourceEntry;

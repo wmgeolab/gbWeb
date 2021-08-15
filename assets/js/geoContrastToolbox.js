@@ -132,21 +132,24 @@ function handleGbFileUpload(evt) {
         // read as data url
         reader.readAsText(file);
     } else if (fileExtension == 'zip') {
-        loadshp({
-                url: file, // path or your upload file
-                encoding: 'utf-8', // default utf-8
-                EPSG: 4326, // default 4326
-                },
-                function(geojson) {
-                    // geojson returned
-                    source = new ol.source.Vector({
-                        format: new ol.format.GeoJSON({}),
-                        overlaps: false,
-                    });
-                    // update the layer
-                    updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
-                }
-        );
+        // experiment with zipfile reading
+        // https://stuk.github.io/jszip/documentation/examples/read-local-file-api.html
+        reader = new FileReader();
+        reader.onload = function(e) {
+            // use reader results to create new source
+            var raw = reader.result;
+            var zip = new JSZip(raw);
+            var paths = [];
+            for (filename in zip.files) {
+                if (filename.endsWith('.shp')) {
+                    var path = file.name + '/' + filename;
+                    var displayName = filename;
+                    paths.push([path,displayName]);
+                };
+            };
+            updateGbFileDropdown(paths);
+        };
+        reader.readAsBinaryString(file);
     };
 };
 
@@ -192,6 +195,56 @@ function handleComparisonFileUpload(evt) {
 };
 
 
+
+
+
+
+
+////////////////////////
+// update file dropdown stuff
+
+function updateGbFileDropdown(paths) {
+    // activate and clear the dropdown
+    var select = document.getElementById('gb-file-select');
+    select.disabled = false;
+    select.innerHTML = '';
+    // populate the dropdown
+    for ([path,displayName] of paths) {
+        var opt = document.createElement('option');
+        opt.value = path;
+        opt.innerText = displayName;
+        select.appendChild(opt);
+    };
+    // force change
+    gbFileDropdownChanged();
+};
+
+
+
+
+
+
+
+//////////////////////
+// file dropdown changed
+function gbFileDropdownChanged() {
+    var file = document.getElementById('gb-file-input').files[0];
+    loadshp({
+        url: file, // path or your upload file
+        encoding: 'utf-8', // default utf-8
+        EPSG: 4326, // default 4326
+        },
+        function(geojson) {
+            // geojson returned
+            source = new ol.source.Vector({
+                format: new ol.format.GeoJSON({}),
+                overlaps: false,
+            });
+            // update the layer
+            updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
+        }
+    );
+};
 
 
 
@@ -618,6 +671,7 @@ function updateGbSourceDropdown() {
     opt.value = 'upload';
     opt.textContent = 'Custom: Your Own Boundary';
     select.appendChild(opt);
+    sources.push('upload');
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('mainSource');
@@ -678,6 +732,7 @@ function updateComparisonSourceDropdown() {
     opt.value = 'upload';
     opt.textContent = 'Custom: Your Own Boundary';
     select.appendChild(opt);
+    sources.push('upload');
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('comparisonSource');
@@ -766,15 +821,23 @@ function gbSourceChanged() {
     // check which comparison source was selected
     source = document.getElementById('gb-boundary-select').value;
     if (source == 'none' | source == '') {
-        // hide and reset file button
-        document.getElementById('gb-file-input').value = null;
+        // activate admin level button
+        document.getElementById('gb-admin-level-select').disabled = false;
+        // hide file button div
         document.getElementById('gb-file-div').style.display = 'none';
     } else if (source == 'upload') {
+        // disable admin level button
+        document.getElementById('gb-admin-level-select').disabled = true;
+        // reset
+        document.getElementById('gb-file-input').value = null;
+        document.getElementById('gb-file-select').innerHTML = '<option value="" disabled selected hidden>(Please select a boundary)</option>';
+        document.getElementById('gb-file-select').disabled = true;
         // show file button div
         document.getElementById('gb-file-div').style.display = 'block';
     } else {
-        // hide and reset file button
-        document.getElementById('gb-file-input').value = null;
+        // activate admin level button
+        document.getElementById('gb-admin-level-select').disabled = false;
+        // hide file button div
         document.getElementById('gb-file-div').style.display = 'none';
         // update main layer with external geoContrast topojson
         updateGbLayer(zoomToExtent=true);
