@@ -34,6 +34,21 @@ function openContributePopup() {
     contributeFileDropdownChanged(fileSelect);
 };
 
+function addFileInputForm() {
+    var inputForms = document.getElementById('input-forms');
+    var inputForm = document.getElementById('empty-input-form').cloneNode(true);
+    inputForm.id = '';
+    inputForm.className = 'input-form';
+    inputForm.style.display = 'block';
+    inputForms.appendChild(inputForm);
+    // populate the file dropdown in the new input form
+    var options = document.getElementById('gb-file-select').innerHTML;
+    var fileSelect = inputForm.querySelector('select[name="path"]');
+    fileSelect.innerHTML = options;
+    // force dropdown change
+    contributeFileDropdownChanged(fileSelect);
+};
+
 function contributeFileDropdownChanged(select) {
     // get the dropdown value
     var path = select.value;
@@ -60,7 +75,14 @@ function contributeFileLoaded(data, dummy=null) {
     var fields = Object.keys(rows[0]);
     var popup = document.getElementById('contribute-popup');
     for (elem of popup.querySelectorAll('.field-dropdown')) {
-        elem.innerHTML = ''; // clear it
+        // clear it
+        elem.innerHTML = ''; 
+        // add initial empty
+        var opt = document.createElement('option');
+        opt.value = '';
+        opt.selected = true;
+        elem.appendChild(opt);
+        // add fields
         for (field of fields) {
             var opt = document.createElement('option');
             opt.value = field;

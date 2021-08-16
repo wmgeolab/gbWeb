@@ -229,6 +229,9 @@ function updateGbFileDropdown(paths) {
 // file dropdown changed
 function gbFileDropdownChanged() {
     var file = document.getElementById('gb-file-input').files[0];
+    var path = document.getElementById('gb-file-select').value;
+    var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
+    /*
     loadshp({
         url: file, // path or your upload file
         encoding: 'utf-8', // default utf-8
@@ -244,6 +247,35 @@ function gbFileDropdownChanged() {
             updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
         }
     );
+    */
+    reader = new FileReader();
+    reader.onload = function(e) {
+        // open zipfile
+        var raw = reader.result;
+        var zip = new JSZip(raw);
+        // prep args
+        var shpString = subPath;
+        var dbfString = subPath.replace('.shp', '.dbf');
+        var encoding = 'utf8';
+        var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+        // define projection (the EPSGUser var must be set here so it can be used internally by shp2geojson)
+        EPSGUser = proj4('EPSG:4326'); // ignore prj for now
+        
+        function processData(geojson) {
+            // geojson returned
+            source = new ol.source.Vector({
+                format: new ol.format.GeoJSON({}),
+                overlaps: false,
+            });
+            // update the layer
+            updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
+        };
+
+        // load dbf and shp, calling returnData once both are loaded
+        SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, processData);
+        DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, processData);
+    };
+    reader.readAsBinaryString(file);
 };
 
 

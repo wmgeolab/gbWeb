@@ -520,7 +520,7 @@
 				</script>
 				-->
 				  
-				<h3>Contribute your boundary file:</h3>
+				<h3>Contribute a boundary file:</h3>
 				  
 				<form>
 					<div id="contribute-tab-container" class="tab-container" style="height:80%; overflow:auto">
@@ -543,6 +543,17 @@
 									<td>Year the boundary represents*:</td>
 									<td>
 										<input name="year" type="text" required>
+									</td>
+								</tr>
+								<tr>
+									<td>Boundary Collection*:</td>
+									<td>
+										<input type="text" name="collection" list="collectionList" required>
+										<datalist id="collectionList">
+											<option value="OCHA">  
+											<option value="SALB">
+											<option value="WFP">
+										</datalist>
 									</td>
 								</tr>
 								<tr>
@@ -580,19 +591,20 @@
 
 						<div id="contribute-data" class="box">
 							<div id="input-forms">
-								<div id="empty-input-form" style="width:97%; margin:10px; display:none">
-									<table>
-										<tr>
-											<td>File*:</td>
-											<td>
+								<div id="empty-input-form" style="width:97%; margin:20px; display:none">
+									<div>
+										<div style="display:flex; flex-direction:row; align-items:center">
+											<div style="flex:0 0 30%">File*:</div>
+											<div style="flex:0 0 70%">
 												<select name="path" onchange="contributeFileDropdownChanged(this)" required>
 												</select>
-											</td>
-										</tr>
-										<tr>
-											<td>Administrative level*:</td>
-											<td>
+											</div>
+										</div>
+										<div style="display:flex; flex-direction:row; align-items:center">
+											<div style="flex:0 0 30%">Administrative level*:</div>
+											<div style="flex:0 0 30%">
 												<select name="level" required>
+													<option value='' selected></option>
 													<option value='ADM0'>ADM0</option>
 													<option value='ADM1'>ADM1</option>
 													<option value='ADM2'>ADM2</option>
@@ -600,24 +612,34 @@
 													<option value='ADM4'>ADM4</option>
 													<option value='ADM5'>ADM5</option>
 												</select>
-											</td>
-										</tr>
-										<tr>
-											<td>Boundary type:</td>
-											<td>
+											</div>
+											<div style="flex:0 0 20%" style="text-align:right">Or field name:</div>
+											<div style="flex:0 0 20%">
+												<select name="level_field" class="field-dropdown">
+												</select>
+											</div>
+										</div>
+										<div style="display:flex; flex-direction:row; align-items:center">
+											<div style="flex:0 0 30%">Boundary type:</div>
+											<div style="flex:0 0 30%">
 												<input name="type" type="text">
 												</input>
-											</td>
-										</tr>
-										<tr>
-											<td>Name field*:</td>
-											<td>
-												<select name="name_field" class="field-dropdown" required>
+											</div>
+											<div style="flex:0 0 20%" style="text-align:right">Or field name:</div>
+											<div style="flex:0 0 20%">
+												<select name="type_field" class="field-dropdown">
 												</select>
-											</td>
-										</tr>
-									</table>
-									<div style="width:95%; margin-left:5%; height:200px; overflow:auto">
+											</div>
+										</div>
+										<div style="display:flex; flex-direction:row; align-items:center">
+											<div style="flex:0 0 30%">Name field*:</div>
+											<div style="flex:0 0 70%">
+												<select name="name_field" class="field-dropdown">
+												</select>
+											</div>
+										</div>
+									</div>
+									<div style="width:95%; margin-left:5%; margin-top:20px; height:200px; overflow:auto">
 										<table class="table file-preview-table">
 											<thead></thead>
 											<tbody></tbody>
@@ -626,7 +648,7 @@
 								</div>
 							</div>
 							<div style="width:100%; text-align:center">
-								<a href="">Add another boundary data file</a>
+								<a style="cursor:pointer" onclick="addFileInputForm()">Add another boundary data file</a>
 							</div>
 						</div>
 
