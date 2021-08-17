@@ -506,15 +506,17 @@ function updateCountryDropdown() {
     // get list of unique countries
     var countriesSeen = [];
     var countries = [];
-    for (var i = 1; i < geoContrastMetadata.length; i++) {
-        var row = geoContrastMetadata[i];
+    for (row of geoContrastMetadata) {
         if (row.length <= 1) {
             // ignore empty rows
-            i++;
             continue;
         };
         var name = row.boundaryName;
         var iso = row.boundaryISO;
+        if (iso === undefined) {
+            // must be other empty rows? 
+            continue;
+        };
         var country = {'name':name, 'iso':iso};
         if (!(countriesSeen.includes(country.iso))) {
             // only add if hasn't already been added
