@@ -1,66 +1,4 @@
 
-function getVals(xs, key) {
-    var vals = [];
-    for (x of xs) {
-        val = x[key];
-        vals.push(val);
-    };
-    return vals;
-};
-
-function groupBy(xs, key) {
-    return xs.reduce(function(rv, x) {
-        (rv[x[key]] = rv[x[key]] || []).push(x);
-        return rv;
-    }, {});
-};
-
-function filterBy(xs, key, value) {
-    var filtered = [];
-    for (x of xs) {
-        if (x[key] == value) {
-            filtered.push(x);
-        };
-    };
-    return filtered;
-};
-
-function filterByFunc(xs, func) {
-    var filtered = [];
-    for (x of xs) {
-        if (func(x) == true) {
-            filtered.push(x);
-        };
-    };
-    return filtered;
-};
-
-function sortBy(xs, key, reversed=false) {
-    if (reversed == true) {
-        var isTrue = -1;
-    } else {
-        var isTrue = 1;
-    };
-    xs.sort(function( a,b ){
-        if (a[key] == null) {
-            return 1; // not sure if this is right
-        } else if (b[key] == null) {
-            return -1; // not sure if this is right
-        } else if (a[key] > b[key]) {
-            return isTrue;
-        } else if (a[key] < b[key]) {
-            return -isTrue;
-        } else {
-            return 0;
-        };
-    });
-};
-
-function calcMean(values) {
-    var mean = values.reduce((a, b) => a + b, 0) / values.length;
-    return mean;
-};
-
 var countryDataLookup = {
     // defines display name and long description for countryData entries
     numSources: {label: 'Num of Sources',
@@ -91,29 +29,32 @@ function updateCountryDataDropdown() {
     select.value = 'numSources';
 };
 
-updateCountryDataDropdown();
-
 function getCountryData(sortKey='name', sortReverse=false) {
     // aggregate country meta
+    var collection = document.getElementById('collection').value;
     var adminLevel = document.getElementById('admin-level').value;
     var countryData = [];
     var isoGroups = groupBy(geoContrastMetadata, 'boundaryISO');
     for (iso in isoGroups) {
         if (iso == 'undefined') {continue};
         var isoRows = isoGroups[iso];
-        var adminRows = filterBy(isoRows, 'boundaryType', adminLevel);
+        var rows = isoRows;
+        if (collection != '') {
+            rows = filterBy(rows, 'boundaryCollection', collection);
+        };
+        var rows = filterBy(rows, 'boundaryType', adminLevel);
         // aggregate row info
         var info = {'iso':iso,
                     'adminLevel':adminLevel,
                     'name':isoRows[0].boundaryName,
-                    'sourceRows':adminRows,
-                    'numSources':adminRows.length};
+                    'sourceRows':rows,
+                    'numSources':rows.length};
         if (info['numSources'] == 0) {
             // in order to exclude 0-counts from map
             info['numSources'] = null;
         };
         // max year
-        var years = getVals(adminRows, 'boundaryYearRepresented');
+        var years = getVals(rows, 'boundaryYearRepresented');
         years = filterByFunc(years, function(yr){return yr!='Unknown'});
         if (years.length) {
             var maxYear = Math.max.apply(Math, years);
@@ -123,7 +64,7 @@ function getCountryData(sortKey='name', sortReverse=false) {
         info['maxYear'] = maxYear;
         // max updated
         var pattern = /([0-9]{4})/;
-        var updateds = getVals(adminRows, 'sourceDataUpdateDate');
+        var updateds = getVals(rows, 'sourceDataUpdateDate');
         var updatedYears = [];
         for (updated of updateds) {
             var updatedYearMatch = updated.match(pattern);
@@ -141,7 +82,7 @@ function getCountryData(sortKey='name', sortReverse=false) {
         // avg year lag
         var pattern = /([0-9]{4})/;
         var yrLags = [];
-        for (row of adminRows) {
+        for (row of rows) {
             var yr = row['boundaryYearRepresented'];
             if (yr != 'Unknown') {
                 var updated = row['sourceDataUpdateDate'];
@@ -160,7 +101,7 @@ function getCountryData(sortKey='name', sortReverse=false) {
         };
         info['avgYearLag'] = avgYearLag
         // boundary count
-        var counts = getVals(adminRows, 'boundaryCount');
+        var counts = getVals(rows, 'boundaryCount');
         counts = counts.map(elem => parseInt(elem, 10)); // str to int
         var newCounts = [];
         for (count of counts) {
@@ -176,7 +117,7 @@ function getCountryData(sortKey='name', sortReverse=false) {
         };
         info['avgBoundaryCount'] = avgCount;
         // min line res
-        var lineResVals = getVals(adminRows, 'statsLineResolution');
+        var lineResVals = getVals(rows, 'statsLineResolution');
         lineResVals = lineResVals.map(elem => parseFloat(elem)); // str to float
         var minLineRes = Math.min.apply(Math, lineResVals);
         if (lineResVals.length > 0) {
@@ -186,7 +127,7 @@ function getCountryData(sortKey='name', sortReverse=false) {
         };
         info['minLineRes'] = minLineRes;
         // max vert dens
-        var vertDensVals = getVals(adminRows, 'statsVertexDensity');
+        var vertDensVals = getVals(rows, 'statsVertexDensity');
         vertDensVals = vertDensVals.map(elem => parseFloat(elem)); // str to float
         if (vertDensVals.length > 0) {
             var maxVertDens = Math.max.apply(Math, vertDensVals);

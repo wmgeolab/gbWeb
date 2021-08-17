@@ -103,7 +103,7 @@ function updateStyleLegend(bins) {
     };
     // add missing
     var color = missingStyle.getFill().getColor();
-    var text = 'None';
+    var text = 'No Data';
     var entry = createEntry(color, text);
     legend.appendChild(entry);
     // add bins
