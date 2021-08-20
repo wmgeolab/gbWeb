@@ -22,8 +22,35 @@ function clearComparisonStats() {
 };
 
 function updateGbStats(features) {
-    // calc stats
-    var stats = calcSpatialStats(features);
+    var source = document.getElementById('gb-boundary-select').value;
+    if (source == 'upload') {
+        // calc stats
+        var stats = calcSpatialStats(features);
+    } else {
+        // fetch stats from metadata csv
+        var iso = document.getElementById('country-select').value;
+        var level = document.getElementById('gb-admin-level-select').value;
+        for (row of geoContrastMetadata) {
+            if (row.length <= 1) {
+                // ignore empty rows
+                continue;
+            };
+            var rowSource = row['boundarySource-1'];
+            var rowIso = row.boundaryISO;
+            var rowLevel = row.boundaryType;
+            if (rowSource == source & rowIso == iso & rowLevel == level) {
+                var stats = {
+                    adminCount: features.length,
+                    area: parseFloat(row.statsArea),
+                    circumf: parseFloat(row.statsPerimeter),
+                    vertices: parseFloat(row.statsVertices),
+                    avgLineResolution: parseFloat(row.statsLineResolution),
+                    avgLineDensity: parseFloat(row.statsVertexDensity),
+                };
+                break;
+            };
+        };
+    };
     //alert(JSON.stringify(stats));
     // show in display
     var name = document.getElementById('gb-boundary-select').value;
@@ -49,8 +76,35 @@ function updateGbStats(features) {
 };
 
 function updateComparisonStats(features) {
-    // calc stats
-    var stats = calcSpatialStats(features);
+    var source = document.getElementById('comparison-boundary-select').value;
+    if (source == 'upload') {
+        // calc stats
+        var stats = calcSpatialStats(features);
+    } else {
+        // fetch stats from metadata csv
+        var iso = document.getElementById('country-select').value;
+        var level = document.getElementById('comparison-admin-level-select').value;
+        for (row of geoContrastMetadata) {
+            if (row.length <= 1) {
+                // ignore empty rows
+                continue;
+            };
+            var rowSource = row['boundarySource-1'];
+            var rowIso = row.boundaryISO;
+            var rowLevel = row.boundaryType;
+            if (rowSource == source & rowIso == iso & rowLevel == level) {
+                var stats = {
+                    adminCount: features.length,
+                    area: parseFloat(row.statsArea),
+                    circumf: parseFloat(row.statsPerimeter),
+                    vertices: parseFloat(row.statsVertices),
+                    avgLineResolution: parseFloat(row.statsLineResolution),
+                    avgLineDensity: parseFloat(row.statsVertexDensity),
+                };
+                break;
+            };
+        };
+    };
     //alert(JSON.stringify(stats));
     // show in display
     var name = document.getElementById('comparison-boundary-select').value;
