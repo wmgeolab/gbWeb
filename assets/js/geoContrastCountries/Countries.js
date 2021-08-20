@@ -119,6 +119,7 @@ function getCountryData(sortKey='name', sortReverse=false) {
         // min line res
         var lineResVals = getVals(rows, 'statsLineResolution');
         lineResVals = lineResVals.map(elem => parseFloat(elem)); // str to float
+        lineResVals = filterByFunc(lineResVals, function(v){return !Number.isNaN(v)})
         var minLineRes = Math.min.apply(Math, lineResVals);
         if (lineResVals.length > 0) {
             var minLineRes = Math.min.apply(Math, lineResVals);
@@ -129,6 +130,7 @@ function getCountryData(sortKey='name', sortReverse=false) {
         // max vert dens
         var vertDensVals = getVals(rows, 'statsVertexDensity');
         vertDensVals = vertDensVals.map(elem => parseFloat(elem)); // str to float
+        vertDensVals = filterByFunc(vertDensVals, function(v){return !Number.isNaN(v)})
         if (vertDensVals.length > 0) {
             var maxVertDens = Math.max.apply(Math, vertDensVals);
         } else {

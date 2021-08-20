@@ -69,7 +69,7 @@ function calcValueBins(breaksFunc, values) {
 };
 
 function getValueBin(value, bins) {
-    if (value === null | value === 'Unknown' | value === '') {
+    if (value === null | value === 'Unknown' | value === '' | Number.isNaN(value)) {
         return null;
     };
     for (i=0; i<bins.length; i++) {
@@ -123,7 +123,7 @@ function updateStyleBreaks(layer, key, reverse=false) {
     var values = [];
     for (feat of layer.getSource().getFeatures()) {
         var val = feat.get(key);
-        if (val === 0 | (val != null & val != 'Unknown' & val != '')) {
+        if (val === 0 | (val != null & val != 'Unknown' & val != '' & !Number.isNaN(val))) {
             values.push(val);
         };
     };
