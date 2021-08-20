@@ -540,7 +540,7 @@ function updateCountryDropdown() {
         select.value = iso;
     } else {
         // default country
-        select.value = 'AFG';
+        select.value = 'NIC';
     };
     // force dropdown change
     countryChanged();
