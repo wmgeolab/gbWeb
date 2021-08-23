@@ -26,7 +26,14 @@ function updateCountryDataDropdown() {
         opt.innerText = entry['label'];
         select.appendChild(opt);
     };
-    select.value = 'numSources';
+    // set from get params if specified
+    const urlParams = new URLSearchParams(window.location.search);
+    var compareField = urlParams.get('compare');
+    if ((compareField != null) & (compareField != select.value)) {
+        select.value = compareField;
+    } else {
+        select.value = 'numSources';
+    };
 };
 
 function getCountryData(sortKey='name', sortReverse=false) {
