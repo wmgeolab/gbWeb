@@ -2,7 +2,7 @@ on:
   schedule:
     - cron: '0 23 * * *'
     
-name: DeployAPI
+name: DeploySite
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
@@ -18,8 +18,8 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@4.1.0
       with:
-        ftp-server: ftp://ftp.geoboundaries.org/geoboundaries.org/api/
-        ftp-username: geologs
-        ftp-password: ${{ secrets.FTP_PASSWORD }}
+        server: ftp://ftp.geoboundaries.org/geoboundaries.org/api/
+        username: geologs
+        password: ${{ secrets.FTP_PASSWORD }}
         local-dir: api
         #git-ftp-args: --dry-run
