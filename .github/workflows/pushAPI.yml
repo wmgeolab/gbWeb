@@ -1,8 +1,7 @@
-on:
-  schedule:
-    - cron: '0 23 * * *'
+on: 
+  workflow_dispatch
     
-name: DeployAPI
+name: DeploySite
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
