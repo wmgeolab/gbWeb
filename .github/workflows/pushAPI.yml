@@ -1,5 +1,6 @@
-on: 
-  workflow_dispatch
+on:
+  schedule:
+    - cron: '0 23 * * *'
     
 name: DeploySite
 jobs:
