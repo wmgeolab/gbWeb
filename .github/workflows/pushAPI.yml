@@ -21,5 +21,5 @@ jobs:
         server: ftp://ftp.geoboundaries.org/geoboundaries.org/api/
         username: geologs
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: api
+        local-dir: api/
         #git-ftp-args: --dry-run
