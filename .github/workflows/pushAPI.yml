@@ -19,7 +19,7 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@4.1.0
       with:
-        server: ftp://ftp.geoboundaries.org/
+        server: ftp.geoboundaries.org
         username: geologs
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: geoboundaries.org/api/
