@@ -191,13 +191,13 @@
 					<div class="form-check" style="margin-top:-0.15cm;">
 						<input class="form-check-input" type="checkbox" value="" id="gbHum" onClick="checkCall()">
 						<label class="form-check-label" for="gbHum" style="font-size:10px;">
-							gbHumanitarian - The most recent UN OCHA COD boundaries, integrated with our most recent data for all countries.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.
+							gbHumanitarian - The most recent UN OCHA COD boundaries, standardized to the same schema as the geoBoundaries open database.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.
 						</label>
 					</div>
 					<div class="form-check" style="margin-top:-0.15cm;">
 						<input class="form-check-input" type="checkbox" value="" id="gbAuth" onClick="checkCall()">
 						<label class="form-check-label" for="gbAuth" style="font-size:10px;">
-							gbAuthoritative - Show authoritative data approved through the UN SALB process, integrated with other official country sources. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage.
+							gbAuthoritative - Show authoritative data approved through the UN SALB process, standardized to the same schema as the geoBoundaries open database. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage.
 						</label>
 					  </div>
 				
@@ -241,7 +241,7 @@
 
 						};
 						var tableA = new Tabulator("#dataTableRep", {
-							ajaxURL: "https://www.geoboundaries.org/api/", //ajax URL
+							ajaxURL: "https://www.geoboundaries.org/api/index.json", //ajax URL
 							height: screen.height * 0.60,
 							layout: "fitDataFill",
 							resizableColumns: true,
