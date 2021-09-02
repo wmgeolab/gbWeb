@@ -116,19 +116,8 @@
 						</ul>
 					</div>
 
-					<div class="image object" id="imageRotate"
-						style="max-height:250px;max-width:400px;height:auto;width:auto;">
-						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
-								src="images/europe.jpg" alt="" /></div>
-						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
-								src="images/pic10.jpg" alt="" /></div>
-						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
-								src="images/africa.jpg" alt="" /></div>
-						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
-								src="images/middleeast.jpg" alt="" /></div>
-						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
-								src="images/samerica.jpg" alt="" /></div>
-					</div>
+				
+
 
 
 				</section>
@@ -259,7 +248,6 @@
 									title: "geoBoundaries",
 									cssClass: "openHighlight",
 									columns: [
-										{ title: "Available", field: "openAvailable", formatter: "tickCross", align: "center", headerVertical: true, cssClass: "openHighlight" },
 										{ formatter: downloadSingleIcon, cssClass: "openHighlight", title: "Full Release", align: "center", field: "openDownloadURL", headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
 										{ formatter: downloadSimpleIcon, cssClass: "openHighlight", title: "Simplified geoJSON", field: "openSimplified", align: "center", visible: false, headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
 										{ title: "Year Represented", cssClass: "openHighlight", field: "openBoundaryYearRepresented", headerVertical: true, },
@@ -273,7 +261,6 @@
 									title: "UN OCHA CODs",
 									cssClass: "ochaHighlight",
 									columns: [
-										{ title: "Available", field: "humAvailable", formatter: "tickCross", align: "center", headerVertical: true, cssClass: "ochaHighlight", visible: true },
 										{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field: "humDownloadURL", headerVertical: true, responsive: 0, visible: true, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
 										{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field: "humSimplified", align: "center", headerVertical: true, responsive: 0, visible: false, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
 										{ title: "Year Represented", field: "humBoundaryYearRepresented", headerVertical: true, visible: true, cssClass: "ochaHighlight" },
@@ -287,10 +274,9 @@
 									title: "UN SALB",
 									cssClass: "salbHighlight",
 									columns: [
-										{ title: "Available", field: "authAvailable", formatter: "tickCross", align: "center", visible: true, headerVertical: true, cssClass: "salbHighlight" },
 										{ formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
-										{ title: "Year Represented", cssClass: "salbHighlight", field: "authBoundaryYearRepresented", visible: true, headerVertical: true, },
-										{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", formatter: iconFormatter, visible: true, visible: true, variableHeight: true, headerVertical: true, },
+										{ title: "Year Represented", cssClass: "salbHighlight", field: "authBoundaryYearRepresented", visible: true, responsive:1, headerVertical: true, },
+										{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", formatter: iconFormatter, responsive: 0, visible: true, visible: true, variableHeight: true, headerVertical: true, },
 										{ title: "Primary Source", cssClass: "salbHighlight", field: "authBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
 										{ title: "License", cssClass: "salbHighlight", field: "authBoundaryLicense", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
 									],
