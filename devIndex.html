@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/js/slick/slick.css" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<link rel="stylesheet" href="assets/css/tabulator.css">
-    <script type="text/javascript" src="assets/js/tabulator.js"></script>
+	<script type="text/javascript" src="assets/js/tabulator.js"></script>
 	<!-- Scripts -->
 	<script async defer src="https://buttons.github.io/buttons.js"></script>
 	<style>
@@ -37,21 +37,33 @@
 
 		gtag('config', 'UA-9276981-3');
 	</script>
-<!-- Global site tag (gtag.js) - Google Ads: 984002936 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	<!-- Global site tag (gtag.js) - Google Ads: 984002936 -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
 
-  gtag('config', 'AW-984002936');
-</script>
+		gtag('config', 'AW-984002936');
+	</script>
 
-<style>
-	.lightHighlight {
-		background-color: #789f9023;
-	}
-</style>
+	<style>
+		.lightHighlight {
+			background-color: #eefcc7a9;
+		}
+
+		.openHighlight {
+			background-color: #cdfac2a9 !important;
+		}
+
+		.ochaHighlight {
+			background-color: #fcbcbca9 !important;
+		}
+
+		.salbHighlight {
+			background-color: #becdffa9 !important;
+		}
+	</style>
 
 
 </head>
@@ -75,7 +87,10 @@
 						<li><a href="https://www.linkedin.com/company/51598643/"
 								class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
 						<li>
-<a class="github-button" href="https://github.com/wmgeolab/geoBoundaries" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star wmgeolab/geoBoundaries on GitHub"><span class="label">Star</span></a></li>
+							<a class="github-button" href="https://github.com/wmgeolab/geoBoundaries"
+								data-icon="octicon-star" data-size="large" data-show-count="true"
+								aria-label="Star wmgeolab/geoBoundaries on GitHub"><span class="label">Star</span></a>
+						</li>
 					</ul>
 				</header>
 
@@ -90,8 +105,10 @@
 						<p>Produced and maintained by the William & Mary <a href="http://geolab.wm.edu">geoLab</a> since
 							2017, the geoBoundaries Global Database of Political Administrative Boundaries Database is
 							an online, open license resource of boundaries (i.e., state, county) for every country in
-							the world. We currently track approximately 1 million boundaries within over 200 entities, including all 195 UN member states. 
-							All boundaries are available to view or download in common file formats, including shapefiles; 
+							the world. We currently track approximately 1 million boundaries within over 200 entities,
+							including all 195 UN member states.
+							All boundaries are available to view or download in common file formats, including
+							shapefiles;
 							the only requirement for use is <a href="index.html#citation">acknowledgement</a>.</p>
 						<ul class="actions">
 							<li><a href="index.html#getdata" class="button big">Download the Data</a></li>
@@ -100,7 +117,7 @@
 					</div>
 
 					<div class="image object" id="imageRotate"
-						style="max-height:250px;max-width:500px;height:auto;width:auto;">
+						style="max-height:250px;max-width:400px;height:auto;width:auto;">
 						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
 								src="images/europe.jpg" alt="" /></div>
 						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
@@ -156,7 +173,8 @@
 							<div class="content">
 								<h3>Peer Review & Community Contributions</h3>
 								<p> Anyone can participate in conversations about - or contribute to - geoBoundaries by
-									visiting our <a href="https://github.com/wmgeolab/geoBoundaries">public repository</a>.
+									visiting our <a href="https://github.com/wmgeolab/geoBoundaries">public
+										repository</a>.
 									You can also learn more about the procedures used to build geoBoundaries by reading
 									our <a
 										href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0231866">peer
@@ -170,73 +188,58 @@
 				<section>
 					<header class="major">
 						<span>
-							<h2 id="getdata" style="display:inline;">Download geoBoundaries</h2> 
+							<h2 id="getdata" style="display:inline;">Download geoBoundaries</h2>
 						</span>
-						
 					</header>
-					<p> <b><a href="index.html#citation">Acknowledgement</a> is required for use of these products.</b> Users should be aware of the following usage notes:
-                        <ul style="margin-top:-.75cm; margin-bottom:0.25cm;">
-                            <li>We seek to represent countries as they would represent themselves in the case of conflicted boundaries.  This can result in overlaps between countries.  If you need a single, seamless global boundary, please consider our <a href="downloadCGAZ.html">CGAZ dataset.</a></li>
-                            <li>Each boundary is the most recent, most accurate open license product we could create or retrieve from sources with clearly defined licenses.</li>
-                            <li>Every boundary has a unique ID across the entire globe.  Boundary IDs only change when some element of the underlying data changes.</li>
-							<li>The data available on this website and through our <a href="api.html">API</a> are the most recent available.  If you require a versioned release (i.e., for research replication), please visit our <a href="https://github.com/wmgeolab/geoBoundaries/releases">historic releases page.</a></li>
-                        </ul>
-					<div style="font-size:15px" style="margin-top:0.05cm;">Choose Data Product(s):</header>
-					<div class="form-check" style="margin-top:-0.03cm; font-size:10px;">
-						<input class="form-check-input" type="checkbox" value="" id="gbOpen" onClick="checkCall()" checked>
-						<label class="form-check-label" for="gbOpen" style="font-size:10px;">
-							<b>gbOpen - Recommended for most users.</b> For users that require an open license - if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.
-						</label>
-					</div>
-					<div class="form-check" style="margin-top:-0.15cm;">
-						<input class="form-check-input" type="checkbox" value="" id="gbHum" onClick="checkCall()">
-						<label class="form-check-label" for="gbHum" style="font-size:10px;">
-							gbHumanitarian - The most recent UN OCHA COD boundaries, standardized to the same schema as the geoBoundaries open database.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.
-						</label>
-					</div>
-					<div class="form-check" style="margin-top:-0.15cm;">
-						<input class="form-check-input" type="checkbox" value="" id="gbAuth" onClick="checkCall()">
-						<label class="form-check-label" for="gbAuth" style="font-size:10px;">
-							gbAuthoritative - Show authoritative data approved through the UN SALB process, standardized to the same schema as the geoBoundaries open database. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage.
-						</label>
-					  </div>
-				
 					
-					<br />
-					
-					<div class="row" id="dataTable" style="max-width: 100%;">
-						
-						<div class="col-twelve tab-full" id="dataTableRep">
+					<p> <b><a href="index.html#citation">Acknowledgement</a> is required for use of these products.</b>
+						Users should be aware of the following usage notes:
+					<ul style="margin-top:-.75cm; margin-bottom:0.25cm;">
+						<li>We seek to represent countries as they would represent themselves in the case of conflicted
+							boundaries. This can result in overlaps between countries. If you need a single, seamless
+							global boundary, please consider our <a href="downloadCGAZ.html">CGAZ dataset.</a></li>
+						<li>Each boundary is the most recent, most accurate open license product we could create or
+							retrieve from sources with clearly defined licenses.</li>
+						<li>In addition to the open geoBoundaries data, we also offer UN OCHA CODs (Humanitarian) and UN
+							SALB (Authoritative) data, where available, standardized to an identical schema.</li>
+						<li>The data available on this website are the most recent available. If you require a versioned
+							release (i.e., for research replication), please visit our <a
+								href="https://github.com/wmgeolab/geoBoundaries/releases">historic releases page</a>, or
+							use one of our <a href="api.html">versioned APIs.</a></li>
+					</ul>
+
+
+
+					<p>
+						<div id="dataTableRep" style="max-width:100%;">
 
 							Loading...
 
 						</div>
-					</div>
+					</p>
 
-					
+					<br />
+
+
 					<script>
 						var downloadSingleIcon = function (cell, formatterParams) {
-							if(typeof cell.getValue() != "undefined")
-							{
-							return "<i class='fa fa-download'></i>";
+							if (typeof cell.getValue() != "undefined") {
+								return "<i class='fa fa-download'></i>";
 							}
 						}
 						var downloadSimpleIcon = function (cell, formatterParams) {
-							if(typeof cell.getValue() != "undefined")
-							{
-							return "<i class='fa fa-save'></i>";
+							if (typeof cell.getValue() != "undefined") {
+								return "<i class='fa fa-save'></i>";
 							}
 						}
 						var interactivePreview = function (cell, formatterParams) {
-							if(typeof cell.getValue() != "undefined")
-							{
-							return "<i class='fa fa-map-marked'></i>";
+							if (typeof cell.getValue() != "undefined") {
+								return "<i class='fa fa-map-marked'></i>";
 							}
 						}
 						var iconFormatter = function (cell, row, formatterParams) { //plain text value
-							if(typeof cell.getValue() != "undefined")
-							{
-							return "<a href='" + cell.getValue() + "' target='_blank'><img width=50px src='" + cell.getValue() + "'></a>";
+							if (typeof cell.getValue() != "undefined") {
+								return "<a href='" + cell.getValue() + "' target='_blank'><img width=50px src='" + cell.getValue() + "'></a>";
 							}
 
 						};
@@ -245,50 +248,52 @@
 							height: screen.height * 0.60,
 							layout: "fitDataFill",
 							resizableColumns: true,
-							responsiveLayout: false,
-							groupBy: ["Continent","boundaryName"],
+							responsiveLayout: true,
+							groupBy: ["Continent", "boundaryName"],
 							//autoColumns:true,
 							columns: [                 //define the table columns
-								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input', headerVertical:false, cssClass:"lightHighlight"},
-								{title: "ISO-3", field:"ISO", visible:true, responsive:0, headerVertical:true, cssClass:"lightHighlight"},
-								{title: "Level", field:"ADM", visible:true, responsive:0, headerVertical:true, cssClass:"lightHighlight"},
+								{ title: "Name", field: "boundaryName", visible: true, responsive: 0, headerFilter: 'input', width: "20px", headerVertical: false },
+								{ title: "ISO-3", field: "ISO", visible: true, responsive: 0, headerFilter: 'input', width: "10px", headerVertical: false },
+								{ title: "Level", field: "ADM", visible: true, responsive: 0, headerVertical: false },
 								{
-									title:"gBOpen",
-									columns:[
-								{title: "Available", field:"openAvailable", formatter:"tickCross", align:"center", headerVertical: true, },
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"openDownloadURL", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"openSimplified", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
-								{title: "Year Represented", field:"openBoundaryYearRepresented", headerVertical: true, },
-								{title: "Image Preview", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
-								{ formatter: interactivePreview, title:"Interactive Preview", field:"openSimpInteractive", align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
-								{title: "Primary Source", field:"openBoundarySource-1", headerVertical: true, responsive:1,  width:"30%"},
-								{title: "License", field:"openBoundaryLicense", headerVertical:true, responsive:1,  width:"30%"},
-								],
+									title: "geoBoundaries",
+									cssClass: "openHighlight",
+									columns: [
+										{ title: "Available", field: "openAvailable", formatter: "tickCross", align: "center", headerVertical: true, cssClass: "openHighlight" },
+										{ formatter: downloadSingleIcon, cssClass: "openHighlight", title: "Full Release", align: "center", field: "openDownloadURL", headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
+										{ formatter: downloadSimpleIcon, cssClass: "openHighlight", title: "Simplified geoJSON", field: "openSimplified", align: "center", visible: false, headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
+										{ title: "Year Represented", cssClass: "openHighlight", field: "openBoundaryYearRepresented", headerVertical: true, },
+										{ title: "Image Preview", cssClass: "openHighlight", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
+										{ formatter: interactivePreview, cssClass: "openHighlight", title: "Interactive Preview", field: "openSimpInteractive", align: "center", headerVertical: true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
+										{ title: "Primary Source", cssClass: "openHighlight", field: "openBoundarySource-1", headerVertical: true, responsive: 1, width: "30%", visible: false },
+										{ title: "License", cssClass: "openHighlight", field: "openBoundaryLicense", headerVertical: true, responsive: 1, width: "30%", visible: false },
+									],
 								},
 								{
-									title:"gBHumanitarian",
-									cssClass:"lightHighlight",
-									columns:[
-								{title: "Available", field:"humAvailable", formatter:"tickCross", align:"center", headerVertical: true, cssClass:"lightHighlight", visible:false},
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"humDownloadURL", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"humSimplified", align: "center", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
-								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true, visible:false, cssClass:"lightHighlight"},
-								{title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, cssClass:"lightHighlight"},
-								{ formatter: interactivePreview, title:"Interactive Preview", field:"humSimpInteractive", visible:false, align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
-								{title: "Primary Source", field:"humBoundarySource-1", headerVertical: true, responsive:1, visible:false, width:"30%",cssClass:"lightHighlight"},
-								{title: "License", field:"humBoundaryLicense", headerVertical:true, responsive:1,  width:"30%", visible:false, cssClass:"lightHighlight"},
-								],
+									title: "UN OCHA CODs",
+									cssClass: "ochaHighlight",
+									columns: [
+										{ title: "Available", field: "humAvailable", formatter: "tickCross", align: "center", headerVertical: true, cssClass: "ochaHighlight", visible: true },
+										{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field: "humDownloadURL", headerVertical: true, responsive: 0, visible: true, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
+										{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field: "humSimplified", align: "center", headerVertical: true, responsive: 0, visible: false, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
+										{ title: "Year Represented", field: "humBoundaryYearRepresented", headerVertical: true, visible: true, cssClass: "ochaHighlight" },
+										{ title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible: true, variableHeight: true, headerVertical: true, cssClass: "ochaHighlight" },
+										{ formatter: interactivePreview, title: "Interactive Preview", field: "humSimpInteractive", visible: true, align: "center", cssClass: "ochaHighlight", headerVertical: true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
+										{ title: "Primary Source", field: "humBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", cssClass: "ochaHighlight", visible: false },
+										{ title: "License", field: "humBoundaryLicense", headerVertical: true, responsive: 1, width: "30%", visible: false, cssClass: "ochaHighlight", visible: false },
+									],
 								},
 								{
-									title:"gBAuthoritative",
-									columns:[
-								{title: "Available", field:"authAvailable", formatter:"tickCross", align:"center", visible:false, headerVertical: true, },
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"authDownloadURL", headerVertical:true, visible:false, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{title: "Year Represented", field:"authBoundaryYearRepresented", visible:false, headerVertical: true, },
-								{title: "Preview", field: "authPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, },
-								{title: "Primary Source", field:"authBoundarySource-1", headerVertical: true, responsive:1,  visible:false, width:"30%"},
-								{title: "License", field:"authBoundaryLicense", headerVertical:true, responsive:1,  visible:false, width:"30%"},
-								],
+									title: "UN SALB",
+									cssClass: "salbHighlight",
+									columns: [
+										{ title: "Available", field: "authAvailable", formatter: "tickCross", align: "center", visible: true, headerVertical: true, cssClass: "salbHighlight" },
+										{ formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
+										{ title: "Year Represented", cssClass: "salbHighlight", field: "authBoundaryYearRepresented", visible: true, headerVertical: true, },
+										{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", formatter: iconFormatter, visible: true, visible: true, variableHeight: true, headerVertical: true, },
+										{ title: "Primary Source", cssClass: "salbHighlight", field: "authBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
+										{ title: "License", cssClass: "salbHighlight", field: "authBoundaryLicense", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
+									],
 								}
 
 								//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
@@ -302,68 +307,7 @@
 							]
 						});
 
-						function checkCall() {
-							var checkBoxOpen = document.getElementById("gbOpen");
-							var checkBoxHum = document.getElementById("gbHum");
-							var checkBoxAuth = document.getElementById("gbAuth");
-							
-							//toggle columns
-							if (checkBoxOpen.checked == false){
-								tableA.getColumns()[3].hide()
-								tableA.getColumns()[4].hide()
-								tableA.getColumns()[5].hide()
-								tableA.getColumns()[6].hide()
-								tableA.getColumns()[7].hide()
-								tableA.getColumns()[8].hide()
-								tableA.getColumns()[9].hide()
-								tableA.getColumns()[10].hide()
-							} else {
-								tableA.getColumns()[3].show()
-								tableA.getColumns()[4].show()
-								tableA.getColumns()[5].show()
-								tableA.getColumns()[6].show()
-								tableA.getColumns()[7].show()
-								tableA.getColumns()[8].show()
-								tableA.getColumns()[9].show()
-								tableA.getColumns()[10].show()
-							}
-
-							if (checkBoxHum.checked == false){
-								tableA.getColumns()[11].hide()
-								tableA.getColumns()[12].hide()
-								tableA.getColumns()[13].hide()
-								tableA.getColumns()[14].hide()
-								tableA.getColumns()[15].hide()
-								tableA.getColumns()[16].hide()
-								tableA.getColumns()[17].hide()
-								tableA.getColumns()[18].hide()
-							} else {
-								tableA.getColumns()[11].show()
-								tableA.getColumns()[12].show()
-								tableA.getColumns()[13].show()
-								tableA.getColumns()[14].show()
-								tableA.getColumns()[15].show()
-								tableA.getColumns()[16].show()
-								tableA.getColumns()[17].show()
-								tableA.getColumns()[18].show()
-							}
-
-							if (checkBoxAuth.checked == false){
-								tableA.getColumns()[19].hide()
-								tableA.getColumns()[20].hide()
-								tableA.getColumns()[21].hide()
-								tableA.getColumns()[22].hide()
-								tableA.getColumns()[23].hide()
-								tableA.getColumns()[24].hide()
-							} else {
-								tableA.getColumns()[19].show()
-								tableA.getColumns()[20].show()
-								tableA.getColumns()[21].show()
-								tableA.getColumns()[22].show()
-								tableA.getColumns()[23].show()
-								tableA.getColumns()[24].show()
-							}
-							}
+						
 					</script>
 
 				</section>
@@ -377,8 +321,9 @@
 						</header>
 						<p><b>We require an acknowledgement in any products you produce which use our data.</b> The
 							geoBoundaries team is primarily judged on it's citations: it is how our users, funders and
-							peers track our progress and impact. In most uses, you should cite two sources: geoBoundaries,
-						    and the underlying source we provide in the metadata for a given file. </p>
+							peers track our progress and impact. In most uses, you should cite two sources:
+							geoBoundaries,
+							and the underlying source we provide in the metadata for a given file. </p>
 
 						<div class="features">
 							<article>
@@ -389,7 +334,7 @@
 										<li class='tab'><a href="#tabs1-js">Website</a></li>
 										<li class='tab'><a href="#tabs1-css">Leaflet</a></li>
 									</ul>
-									
+
 
 									<div id="tabs1-html" class="box">
 										For academic papers that use geoBoundaries in analysis, we ask that you cite our
@@ -456,20 +401,25 @@ L.tileLayer(
 					<div class="content" id="sponsors">
 						<header>
 							<h1>Partners, Sponsors & Contributors</h1>
-							<p>Thanks to our partners, sponsors, and <a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">community of contributors</a> for making geoBoundaries possible. </p>
+							<p>Thanks to our partners, sponsors, and <a
+									href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">community of
+									contributors</a> for making geoBoundaries possible. </p>
 						</header>
-					
+
 						<span>
-							
+
 							<div class="image object" id="sponsorBox"
-							style="max-height:250px;max-width:1000;height:auto;width:auto;">
-							<div><img style="max-height:100px;max-width:300px;height:auto;width:auto;" src="images/mcGovern.png" alt=""></div>
-							<div><img style="max-height:100px;max-width:300px;height:auto;width:auto;" src="images/ciesin_grid3_logo.png" alt=""></div>
-							<div><img style="max-height:90px;max-width:300px;height:auto;width:auto;" src="images/wm.png" alt=""></div>
-						</div>
-					
-					</span>
-				</div>
+								style="max-height:250px;max-width:1000;height:auto;width:auto;">
+								<div><img style="max-height:100px;max-width:300px;height:auto;width:auto;"
+										src="images/mcGovern.png" alt=""></div>
+								<div><img style="max-height:100px;max-width:300px;height:auto;width:auto;"
+										src="images/ciesin_grid3_logo.png" alt=""></div>
+								<div><img style="max-height:90px;max-width:300px;height:auto;width:auto;"
+										src="images/wm.png" alt=""></div>
+							</div>
+
+						</span>
+					</div>
 				</section>
 
 
@@ -494,7 +444,8 @@ L.tileLayer(
 						<li><a href="index.html#citation">Requirements for Use</a></li>
 						<li><a href="https://github.com/wmgeolab/geoBoundaries/issues">Known Issues</a></li>
 						<li><a href="https://github.com/wmgeolab/geoBoundaries#getting-involved">Get Involved</a></li>
-						<li><a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">We Made This</a></li>
+						<li><a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">We Made This</a>
+						</li>
 					</ul>
 					<br />
 					<div id="mc_embed_signup">
@@ -514,8 +465,8 @@ L.tileLayer(
 								<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
 								<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
 										name="b_fa7c8b27d1a61c13a67dc3f25_1415921471" tabindex="-1" value=""></div>
-								<div class="clear" style="margin-top:5px;"><input type="submit" value="Submit Email" name="subscribe"
-										id="mc-embedded-subscribe" class="button"></div>
+								<div class="clear" style="margin-top:5px;"><input type="submit" value="Submit Email"
+										name="subscribe" id="mc-embedded-subscribe" class="button"></div>
 							</div>
 						</form>
 					</div>
@@ -572,8 +523,8 @@ L.tileLayer(
 			arrows: false
 		});
 	</script>
-		<script>
-$('#sponsorBox').slick({
+	<script>
+		$('#sponsorBox').slick({
 			dots: false,
 			infinite: true,
 			autoplaySpeed: 2000,
@@ -585,15 +536,15 @@ $('#sponsorBox').slick({
 			accessibility: false,
 			arrows: false,
 			responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 1,
-      }
-    }
-  ]
+				{
+					breakpoint: 1024,
+					settings: {
+						slidesToShow: 1,
+					}
+				}
+			]
 		});
-		</script>
+	</script>
 </body>
 
 </html>
