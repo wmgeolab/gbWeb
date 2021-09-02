@@ -22,7 +22,7 @@ lfsFiles = []
 for i, r in gitatt.iterrows():
     splAtt = r[0].split("/")
     if(splAtt[0] == "releaseData"):
-        if(spltAtt[1] != "CGAZ"):
+        if(splAtt[1] != "CGAZ"):
             lfsFiles.append(splAtt[4])
 
 allADM = {}
