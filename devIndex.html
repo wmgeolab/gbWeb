@@ -1,0 +1,599 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license - html5up.net/license
+-->
+<html>
+
+<head>
+	<title>geoBoundaries</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="assets/js/slick/slick.css" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/tabulator.css">
+    <script type="text/javascript" src="assets/js/tabulator.js"></script>
+	<!-- Scripts -->
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
+	<style>
+		@media only screen and (max-width: 736px) {
+			#imageRotate {
+				display: none;
+			}
+
+			#banner .image {
+				display: none;
+			}
+		}
+	</style>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-9276981-3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-9276981-3');
+	</script>
+<!-- Global site tag (gtag.js) - Google Ads: 984002936 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-984002936');
+</script>
+
+<style>
+	.lightHighlight {
+		background-color: #789f9023;
+	}
+</style>
+
+
+</head>
+
+<body class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+
+				<!-- Header -->
+				<header id="header">
+					<span class="logo"><a href="index.html"><strong>geoBoundaries</strong></a> by the <a
+							href="http://geolab.wm.edu">William & Mary geoLab</a></span>
+					<ul class="icons">
+						<li><a href="https://twitter.com/wmgeolab?lang=en" class="icon brands fa-twitter"><span
+									class="label">Twitter</span></a></li>
+						<li><a href="https://www.linkedin.com/company/51598643/"
+								class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+						<li>
+<a class="github-button" href="https://github.com/wmgeolab/geoBoundaries" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star wmgeolab/geoBoundaries on GitHub"><span class="label">Star</span></a></li>
+					</ul>
+				</header>
+
+				<!-- Banner -->
+				<section id="banner">
+					<div class="content">
+						<header>
+							<h1>geoBoundaries</h1>
+							<p>The world's largest open, free and research-ready database of political administrative
+								boundaries.</p>
+						</header>
+						<p>Produced and maintained by the William & Mary <a href="http://geolab.wm.edu">geoLab</a> since
+							2017, the geoBoundaries Global Database of Political Administrative Boundaries Database is
+							an online, open license resource of boundaries (i.e., state, county) for every country in
+							the world. We currently track approximately 1 million boundaries within over 200 entities, including all 195 UN member states. 
+							All boundaries are available to view or download in common file formats, including shapefiles; 
+							the only requirement for use is <a href="index.html#citation">acknowledgement</a>.</p>
+						<ul class="actions">
+							<li><a href="index.html#getdata" class="button big">Download the Data</a></li>
+							<li><a href="geoContrast.html" class="button big">Visualize the Data</a></li>
+						</ul>
+					</div>
+
+					<div class="image object" id="imageRotate"
+						style="max-height:250px;max-width:500px;height:auto;width:auto;">
+						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
+								src="images/europe.jpg" alt="" /></div>
+						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
+								src="images/pic10.jpg" alt="" /></div>
+						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
+								src="images/africa.jpg" alt="" /></div>
+						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
+								src="images/middleeast.jpg" alt="" /></div>
+						<div><img style="max-height:500px;max-width:500px;height:auto;width:auto;"
+								src="images/samerica.jpg" alt="" /></div>
+					</div>
+
+
+				</section>
+
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Why do we produce geoBoundaries?</h2>
+					</header>
+					<div class="features">
+						<article>
+							<span class="icon fa-gem"></span>
+							<div class="content">
+								<h3>Transparency & Research Replication</h3>
+								<p>While many countries provide public domain information on where their boundaries are,
+									a majority do not provide an authoritative, open digital source. We strongly believe
+									that every global citizen should have access to information about the legal
+									political boundaries they live within, without having to pay for the access.</p>
+							</div>
+						</article>
+						<article>
+							<span class="icon solid fa-paper-plane"></span>
+							<div class="content">
+								<h3>Precision & Consistency Matter</h3>
+								<p>Small shifts in legal boundaries can drive huge changes, but are rarely tracked or
+									recognized. We collate or create the highest geographic precision open data possible
+									to promote precise results, and keep all of our previous versions available online.
+									geoBoundaries has been around since 2017, providing annual updates each year. </p>
+							</div>
+						</article>
+						<article>
+							<span class="icon solid fa-rocket"></span>
+							<div class="content">
+								<h3>Ease of Use</h3>
+								<p>Every one of our boundaries is available as a Shapefile and geoJSON, with globally
+									unique identifiers and consistent attributes. We provide both manual download and
+									API access to support most users preferred mode of access.</p>
+							</div>
+						</article>
+						<article>
+							<span class="icon solid fa-signal"></span>
+							<div class="content">
+								<h3>Peer Review & Community Contributions</h3>
+								<p> Anyone can participate in conversations about - or contribute to - geoBoundaries by
+									visiting our <a href="https://github.com/wmgeolab/geoBoundaries">public repository</a>.
+									You can also learn more about the procedures used to build geoBoundaries by reading
+									our <a
+										href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0231866">peer
+										reviewed (<i>PLoS One</i>) publication. </a> </p>
+							</div>
+						</article>
+					</div>
+				</section>
+
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<span>
+							<h2 id="getdata" style="display:inline;">Download geoBoundaries</h2> 
+						</span>
+						
+					</header>
+					<p> <b><a href="index.html#citation">Acknowledgement</a> is required for use of these products.</b> Users should be aware of the following usage notes:
+                        <ul style="margin-top:-.75cm; margin-bottom:0.25cm;">
+                            <li>We seek to represent countries as they would represent themselves in the case of conflicted boundaries.  This can result in overlaps between countries.  If you need a single, seamless global boundary, please consider our <a href="downloadCGAZ.html">CGAZ dataset.</a></li>
+                            <li>Each boundary is the most recent, most accurate open license product we could create or retrieve from sources with clearly defined licenses.</li>
+                            <li>Every boundary has a unique ID across the entire globe.  Boundary IDs only change when some element of the underlying data changes.</li>
+							<li>The data available on this website and through our <a href="api.html">API</a> are the most recent available.  If you require a versioned release (i.e., for research replication), please visit our <a href="https://github.com/wmgeolab/geoBoundaries/releases">historic releases page.</a></li>
+                        </ul>
+					<div style="font-size:15px" style="margin-top:0.05cm;">Choose Data Product(s):</header>
+					<div class="form-check" style="margin-top:-0.03cm; font-size:10px;">
+						<input class="form-check-input" type="checkbox" value="" id="gbOpen" onClick="checkCall()" checked>
+						<label class="form-check-label" for="gbOpen" style="font-size:10px;">
+							<b>gbOpen - Recommended for most users.</b> For users that require an open license - if you ever need to use the data in a public report, website, or to make your own modifications, you should start here.
+						</label>
+					</div>
+					<div class="form-check" style="margin-top:-0.15cm;">
+						<input class="form-check-input" type="checkbox" value="" id="gbHum" onClick="checkCall()">
+						<label class="form-check-label" for="gbHum" style="font-size:10px;">
+							gbHumanitarian - The most recent UN OCHA COD boundaries, standardized to the same schema as the geoBoundaries open database.  Many licenses do not allow open use; thus, we recommend this data only for field humanitarian uses.
+						</label>
+					</div>
+					<div class="form-check" style="margin-top:-0.15cm;">
+						<input class="form-check-input" type="checkbox" value="" id="gbAuth" onClick="checkCall()">
+						<label class="form-check-label" for="gbAuth" style="font-size:10px;">
+							gbAuthoritative - Show authoritative data approved through the UN SALB process, standardized to the same schema as the geoBoundaries open database. The process to politically approve boundaries can take years; thus, this dataset is generally the slowest to update and lacks global coverage.
+						</label>
+					  </div>
+				
+					
+					<br />
+					
+					<div class="row" id="dataTable" style="max-width: 100%;">
+						
+						<div class="col-twelve tab-full" id="dataTableRep">
+
+							Loading...
+
+						</div>
+					</div>
+
+					
+					<script>
+						var downloadSingleIcon = function (cell, formatterParams) {
+							if(typeof cell.getValue() != "undefined")
+							{
+							return "<i class='fa fa-download'></i>";
+							}
+						}
+						var downloadSimpleIcon = function (cell, formatterParams) {
+							if(typeof cell.getValue() != "undefined")
+							{
+							return "<i class='fa fa-save'></i>";
+							}
+						}
+						var interactivePreview = function (cell, formatterParams) {
+							if(typeof cell.getValue() != "undefined")
+							{
+							return "<i class='fa fa-map-marked'></i>";
+							}
+						}
+						var iconFormatter = function (cell, row, formatterParams) { //plain text value
+							if(typeof cell.getValue() != "undefined")
+							{
+							return "<a href='" + cell.getValue() + "' target='_blank'><img width=50px src='" + cell.getValue() + "'></a>";
+							}
+
+						};
+						var tableA = new Tabulator("#dataTableRep", {
+							ajaxURL: "https://www.geoboundaries.org/api/index.json", //ajax URL
+							height: screen.height * 0.60,
+							layout: "fitDataFill",
+							resizableColumns: true,
+							responsiveLayout: false,
+							groupBy: ["Continent","boundaryName"],
+							//autoColumns:true,
+							columns: [                 //define the table columns
+								{title: "Name", field:"boundaryName", visible:true, responsive:0, headerFilter:'input', headerVertical:false, cssClass:"lightHighlight"},
+								{title: "ISO-3", field:"ISO", visible:true, responsive:0, headerVertical:true, cssClass:"lightHighlight"},
+								{title: "Level", field:"ADM", visible:true, responsive:0, headerVertical:true, cssClass:"lightHighlight"},
+								{
+									title:"gBOpen",
+									columns:[
+								{title: "Available", field:"openAvailable", formatter:"tickCross", align:"center", headerVertical: true, },
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"openDownloadURL", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"openSimplified", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
+								{title: "Year Represented", field:"openBoundaryYearRepresented", headerVertical: true, },
+								{title: "Image Preview", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
+								{ formatter: interactivePreview, title:"Interactive Preview", field:"openSimpInteractive", align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
+								{title: "Primary Source", field:"openBoundarySource-1", headerVertical: true, responsive:1,  width:"30%"},
+								{title: "License", field:"openBoundaryLicense", headerVertical:true, responsive:1,  width:"30%"},
+								],
+								},
+								{
+									title:"gBHumanitarian",
+									cssClass:"lightHighlight",
+									columns:[
+								{title: "Available", field:"humAvailable", formatter:"tickCross", align:"center", headerVertical: true, cssClass:"lightHighlight", visible:false},
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"humDownloadURL", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"humSimplified", align: "center", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
+								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true, visible:false, cssClass:"lightHighlight"},
+								{title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, cssClass:"lightHighlight"},
+								{ formatter: interactivePreview, title:"Interactive Preview", field:"humSimpInteractive", visible:false, align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
+								{title: "Primary Source", field:"humBoundarySource-1", headerVertical: true, responsive:1, visible:false, width:"30%",cssClass:"lightHighlight"},
+								{title: "License", field:"humBoundaryLicense", headerVertical:true, responsive:1,  width:"30%", visible:false, cssClass:"lightHighlight"},
+								],
+								},
+								{
+									title:"gBAuthoritative",
+									columns:[
+								{title: "Available", field:"authAvailable", formatter:"tickCross", align:"center", visible:false, headerVertical: true, },
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"authDownloadURL", headerVertical:true, visible:false, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{title: "Year Represented", field:"authBoundaryYearRepresented", visible:false, headerVertical: true, },
+								{title: "Preview", field: "authPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, },
+								{title: "Primary Source", field:"authBoundarySource-1", headerVertical: true, responsive:1,  visible:false, width:"30%"},
+								{title: "License", field:"authBoundaryLicense", headerVertical:true, responsive:1,  visible:false, width:"30%"},
+								],
+								}
+
+								//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
+								//
+								//{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
+								//{ title: "Level", field: "boundaryType", visible: true, responsive: 0, headerFilter: "select" },
+								//{ title: "License", field: "boundaryLicense", headerFilter: "select", headerFilterParams: { values: true }, visible: true, formatter: "textarea", width: "37%"},
+								//{title:"ID", field:"boundaryID", visible:true},
+								//{ title: "Source", field: "boundarySource-1", visible: true, formatter: "textarea", width: "37%" },
+								//{ title: "ShapefileURL", field: "downloadURL", visible: false },
+							]
+						});
+
+						function checkCall() {
+							var checkBoxOpen = document.getElementById("gbOpen");
+							var checkBoxHum = document.getElementById("gbHum");
+							var checkBoxAuth = document.getElementById("gbAuth");
+							
+							//toggle columns
+							if (checkBoxOpen.checked == false){
+								tableA.getColumns()[3].hide()
+								tableA.getColumns()[4].hide()
+								tableA.getColumns()[5].hide()
+								tableA.getColumns()[6].hide()
+								tableA.getColumns()[7].hide()
+								tableA.getColumns()[8].hide()
+								tableA.getColumns()[9].hide()
+								tableA.getColumns()[10].hide()
+							} else {
+								tableA.getColumns()[3].show()
+								tableA.getColumns()[4].show()
+								tableA.getColumns()[5].show()
+								tableA.getColumns()[6].show()
+								tableA.getColumns()[7].show()
+								tableA.getColumns()[8].show()
+								tableA.getColumns()[9].show()
+								tableA.getColumns()[10].show()
+							}
+
+							if (checkBoxHum.checked == false){
+								tableA.getColumns()[11].hide()
+								tableA.getColumns()[12].hide()
+								tableA.getColumns()[13].hide()
+								tableA.getColumns()[14].hide()
+								tableA.getColumns()[15].hide()
+								tableA.getColumns()[16].hide()
+								tableA.getColumns()[17].hide()
+								tableA.getColumns()[18].hide()
+							} else {
+								tableA.getColumns()[11].show()
+								tableA.getColumns()[12].show()
+								tableA.getColumns()[13].show()
+								tableA.getColumns()[14].show()
+								tableA.getColumns()[15].show()
+								tableA.getColumns()[16].show()
+								tableA.getColumns()[17].show()
+								tableA.getColumns()[18].show()
+							}
+
+							if (checkBoxAuth.checked == false){
+								tableA.getColumns()[19].hide()
+								tableA.getColumns()[20].hide()
+								tableA.getColumns()[21].hide()
+								tableA.getColumns()[22].hide()
+								tableA.getColumns()[23].hide()
+								tableA.getColumns()[24].hide()
+							} else {
+								tableA.getColumns()[19].show()
+								tableA.getColumns()[20].show()
+								tableA.getColumns()[21].show()
+								tableA.getColumns()[22].show()
+								tableA.getColumns()[23].show()
+								tableA.getColumns()[24].show()
+							}
+							}
+					</script>
+
+				</section>
+
+
+				<section id="banner">
+					<div class="content" id="citation">
+						<header>
+							<h1>How to Use</h1>
+							<p>Any uses of geoBoundaries must come with an acknowledgement - we really need it!</p>
+						</header>
+						<p><b>We require an acknowledgement in any products you produce which use our data.</b> The
+							geoBoundaries team is primarily judged on it's citations: it is how our users, funders and
+							peers track our progress and impact. In most uses, you should cite two sources: geoBoundaries,
+						    and the underlying source we provide in the metadata for a given file. </p>
+
+						<div class="features">
+							<article>
+
+								<div id="tab-container" class="tab-container">
+									<ul class='etabs'>
+										<li class='tab'><a href="#tabs1-html">Academic Cite</a></li>
+										<li class='tab'><a href="#tabs1-js">Website</a></li>
+										<li class='tab'><a href="#tabs1-css">Leaflet</a></li>
+									</ul>
+									
+
+									<div id="tabs1-html" class="box">
+										For academic papers that use geoBoundaries in analysis, we ask that you cite our
+										PLoS One Publication. We recommend the below citations, but feel free to adapt
+										to your own citation style.
+										<pre><code>Runfola, Daniel, Austin Anderson, Heather Baier, Matt Crittenden, Elizabeth Dowker, Sydney Fuhrig, Seth Goodman, Grace Grimsley, Rachel Layko, Graham Melville, Maddy Mulder, Rachel Oberman, Joshua Panganiban, Andrew Peck, Leigh Seitz, Sylvia Shea, Hannah Slevin, Rebecca Yougerman, Lauren Hobbs. "geoBoundaries: A global database of political administrative boundaries." Plos one 15, no. 4 (2020): e0231866.</code></pre>
+
+										You can also use our short-form citation:
+										<pre><code>Runfola D, Anderson A, Baier H, Crittenden M, Dowker E, Fuhrig S, et al. (2020) geoBoundaries: A global database of political administrative boundaries. PLoS ONE 15(4): e0231866. https://doi.org/10.1371/journal.pone.0231866</code></pre>
+
+										<!-- content -->
+
+									</div>
+
+									<div id="tabs1-js" class="box">
+										When using geoBoundaries on the web, we ask that you put the name
+										"geoBoundaries" with a link back to this website, www.geoboundaries.org,
+										somewhere prominent on the page that uses the boundaries. This
+										can be a stand-alone link or within a sentence. For example, any of the below
+										would be acceptable:
+										<br /><br />
+										<pre><code>Using the &lt;a href= 'https://www.geoboundaries.org'&gt;geoBoundaries&lt;/a&gt; database, we constructed a time-series illustrating how under 5 child mortality has shifted over time.</code></pre>
+										<pre><code>Administrative boundaries courtesy of &lt;a href= 'https://www.geoboundaries.org'&gt;geoBoundaries&lt;/a&gt;</code></pre>
+										<pre><code>&lt;a href= 'https://www.geoboundaries.org'&gt;geoBoundaries&lt;/a&gt;</code></pre>
+										<!-- content -->
+									</div>
+									<div id="tabs1-css" class="box">
+										When using geoBoundaries on a map produced by leaflet, we ask that you add a
+										link to geoBoundaries in the leaflet attributes. For example:
+										<!-- HTML generated using hilite.me -->
+										<div
+											style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+											<pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">var</span> map = L.map(<span style="color: #0000FF">&#39;map&#39;</span>).setView([<span style="color: #0000FF">51.505</span>, -<span style="color: #0000FF">0.09</span>], <span style="color: #0000FF">13</span>);
+L.tileLayer(
+	<span style="color: #0000FF">&#39;http://{s}.tile.osm.org/{z}/{x}/{y}.png&#39;</span>,
+	{attribution: 
+	<span style="color: #0000FF">&#39;&lt;a href=&quot;www.geoboundaries.org&quot;&gt;geoBoundaries&lt;/a&gt;&#39;</span>}
+	).addTo(map);
+	</pre>
+										</div>
+
+
+
+										For convenience, you can also view a simple <a
+											href="https://jsfiddle.net/geogdan/fmy0Lbvd/5/">example</a>.
+										<!-- content -->
+									</div>
+
+
+
+								</div>
+							</article>
+
+
+						</div>
+
+					</div>
+					<span class="image object">
+						<img src="images/samerica.jpg" alt="" />
+					</span>
+				</section>
+
+				<section id="banner">
+					<div class="content" id="sponsors">
+						<header>
+							<h1>Partners & Sponsors</h1>
+							<p>Thanks to our partners, sponsors, and <a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">community of contributors</a> for making geoBoundaries possible. </p>
+						</header>
+					
+						<span>
+							
+							<div class="image object" id="sponsorBox"
+							style="max-height:250px;max-width:1000;height:auto;width:auto;">
+							<div><img style="max-height:100px;max-width:333px;height:auto;width:auto;" src="images/mcGovern.png" alt=""></div>
+							<div><img style="max-height:100px;max-width:333px;height:auto;width:auto;" src="images/ciesin_grid3_logo.png" alt=""></div>
+							<div><img style="max-height:100px;max-width:333px;height:auto;width:auto;" src="images/wm.png" alt=""></div>
+						</div>
+					
+					</span>
+				</div>
+				</section>
+
+
+			</div>
+		</div>
+
+
+		<!-- Sidebar -->
+		<div id="sidebar" , class="inactive">
+			<div class="inner">
+
+				<!-- Menu -->
+				<nav id="menu" style="padding:2em 0 0em 0 !important; margin:0em 0em 0em 0em;">
+					<header class="major">
+						<h2>Menu</h2>
+					</header>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="index.html#getdata">Download Data</a></li>
+						<li><a href="geoContrast.html">View Data</a></li>
+						<li><a href="api.html">API & Archive</a></li>
+						<li><a href="index.html#citation">Requirements for Use</a></li>
+						<li><a href="https://github.com/wmgeolab/geoBoundaries/issues">Known Issues</a></li>
+						<li><a href="https://github.com/wmgeolab/geoBoundaries#getting-involved">Get Involved</a></li>
+						<li><a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">We Made This</a></li>
+					</ul>
+					<br />
+					<div id="mc_embed_signup">
+						<form
+							action="https://geoboundaries.us18.list-manage.com/subscribe/post?u=fa7c8b27d1a61c13a67dc3f25&amp;id=1415921471"
+							method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+							class="validate" target="_blank" novalidate>
+							<div id="mc_embed_signup_scroll">
+								<div class="mc-field-group">
+									<label style="margin-bottom:0em;">Subscribe to our Announcement List:</label>
+									<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+								</div>
+								<div id="mce-responses" class="clear">
+									<div class="response" id="mce-error-response" style="display:none"></div>
+									<div class="response" id="mce-success-response" style="display:none"></div>
+								</div>
+								<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+								<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
+										name="b_fa7c8b27d1a61c13a67dc3f25_1415921471" tabindex="-1" value=""></div>
+								<div class="clear" style="margin-top:5px;"><input type="submit" value="Submit Email" name="subscribe"
+										id="mc-embedded-subscribe" class="button"></div>
+							</div>
+						</form>
+					</div>
+				</nav>
+
+
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">Design: <a href="https://html5up.net">HTML5 UP</a>. <tiny>With respect to works
+							on or made available through download from the this website, we make no representations or
+							warranties—express, implied, or statutory—as to the validity, accuracy, completeness, or
+							fitness for a particular purpose; nor represent that use of such works would not infringe
+							privately owned rights; nor assume any liability resulting from use of such works; and shall
+							in no way be liable for any costs, expenses, claims, or demands arising out of use of such
+							works.</tiny>
+					</p>
+				</footer>
+
+			</div>
+		</div>
+
+
+
+	</div>
+
+
+
+
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/jquery.easytabs.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () { $('#tab-container').easytabs(); });
+	</script>
+
+
+	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="assets/js/slick/slick.min.js"></script>
+	<script>
+		$('#imageRotate').slick({
+			dots: false,
+			infinite: true,
+			autoplaySpeed: 2000,
+			slidesToShow: 1,
+			centerMode: false,
+			centerPadding: '40px',
+			autoplay: true,
+			variableWidth: false,
+			accessibility: false,
+			arrows: false
+		});
+	</script>
+		<script>
+$('#sponsorBox').slick({
+			dots: false,
+			infinite: true,
+			autoplaySpeed: 2000,
+			slidesToShow: 3,
+			centerMode: true,
+			centerPadding: '0px',
+			autoplay: true,
+			variableWidth: false,
+			accessibility: false,
+			arrows: false,
+			responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 1,
+      }
+    }
+  ]
+		});
+		</script>
+</body>
+
+</html>
