@@ -26,6 +26,7 @@
 				display: none;
 			}
 		}
+
 	</style>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -102,20 +103,24 @@
 							<p>The world's largest open, free and research-ready database of political administrative
 								boundaries.</p>
 						</header>
-						<p>Produced and maintained by the William & Mary <a href="http://geolab.wm.edu">geoLab</a> and 
-							<a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">open data community</a> since	2017, the geoBoundaries Global Database of Political Administrative 
-							Boundaries Database is an online, open license resource of boundaries (i.e., state, county) for every country in
+						<p>Produced and maintained by the William & Mary <a href="http://geolab.wm.edu">geoLab</a> and
+							<a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">open data
+								community</a> since 2017, the geoBoundaries Global Database of Political Administrative
+							Boundaries Database is an online, open license resource of boundaries (i.e., state, county)
+							for every country in
 							the world. We currently track approximately 1 million boundaries within over 200 entities,
-							including all 195 UN member states. All boundaries are available to view or download in common file formats, including
+							including all 195 UN member states. All boundaries are available to view or download in
+							common file formats, including
 							shapefiles;
-							the only requirement for use is <a href="index.html#citation">acknowledgement</a>.</p>
+							the only requirement for use is <a href="index.html#citation">acknowledgement</a>.
+						</p>
 						<ul class="actions">
 							<li><a href="index.html#getdata" class="button big">Download the Data</a></li>
 							<li><a href="geoContrast.html" class="button big">Visualize the Data</a></li>
 						</ul>
 					</div>
 
-				
+
 
 
 
@@ -179,7 +184,7 @@
 							<h2 id="getdata" style="display:inline;">Download geoBoundaries</h2>
 						</span>
 					</header>
-					
+
 					<p> <b><a href="index.html#citation">Acknowledgement</a> is required for use of these products.</b>
 						Users should be aware of the following usage notes:
 					<ul style="margin-top:-.75cm; margin-bottom:0.25cm;">
@@ -199,11 +204,11 @@
 
 
 					<p>
-						<div id="dataTableRep" style="max-width:100%;">
+					<div id="dataTableRep" style="max-width:100%;">
 
-							Loading...
+						Loading...
 
-						</div>
+					</div>
 					</p>
 
 					<br />
@@ -274,7 +279,7 @@
 									cssClass: "salbHighlight",
 									columns: [
 										{ formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
-										{ title: "Year Represented", cssClass: "salbHighlight", field: "authBoundaryYearRepresented", visible: true, responsive:1, headerVertical: true, },
+										{ title: "Year Represented", cssClass: "salbHighlight", field: "authBoundaryYearRepresented", visible: true, responsive: 1, headerVertical: true, },
 										{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", formatter: iconFormatter, responsive: 0, visible: true, visible: true, variableHeight: true, headerVertical: true, },
 										{ title: "Primary Source", cssClass: "salbHighlight", field: "authBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
 										{ title: "License", cssClass: "salbHighlight", field: "authBoundaryLicense", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
@@ -292,7 +297,7 @@
 							]
 						});
 
-						
+
 					</script>
 
 				</section>
@@ -304,7 +309,7 @@
 							<h1>How to Use</h1>
 							<p>Any uses of geoBoundaries must come with an acknowledgement - we really need it!</p>
 						</header>
-						<p><b>We require an acknowledgement in any products you produce which use our data.</b> The
+						<p><b>We require an acknowledgement in any products you produce which use this data.</b> The
 							geoBoundaries team is primarily judged on it's citations: it is how our users, funders and
 							peers track our progress and impact. In most uses, you should cite two sources:
 							geoBoundaries,
@@ -381,7 +386,7 @@ L.tileLayer(
 						<img src="images/samerica.jpg" alt="" />
 					</span>
 				</section>
-<!---
+				
 				<section id="banner">
 					<div class="content" id="sponsors">
 						<header>
@@ -391,26 +396,17 @@ L.tileLayer(
 									contributors</a> for making geoBoundaries possible. </p>
 						</header>
 
-						<span>
+							<span style="width:300px !important; float:left; text-align:center;"><img style="max-height:100px;max-width:300px;height:auto;width:auto;vertical-align:middle;margin:10px 10px 10px 10px;" src="images/mcGovern.png" alt=""></span>
+							<span style="width:300px !important; float:left; text-align:center;"><img style="max-height:100px;max-width:300px;height:auto;width:auto;vertical-align:middle;margin:0px 10px 10px 10px;"
+										src="images/ciesin_grid3_logo.png" alt=""></span>
+							<span style="width:300px !important; float:left; text-align:center;"><img style="max-height:80px;max-width:300px;height:auto;width:auto;vertical-align:middle;margin:10px 10px 10px 10px;"
+										src="images/wm.png" alt=""></span>
+							<span style="width:300px !important; text-align:center; float:left;"><img style="max-height:95px;max-width:300px;height:auto;width:auto;vertical-align:middle;margin:0px 10px 10px 10px;"
+											src="images/unsalblogo.jpg" alt=""></span>
 
-							<div class="image object" id="sponsorBox"
-								style="max-height:250px;max-width:1000;height:auto;width:auto;">
-								<div><img style="max-height:100px;max-width:300px;height:auto;width:auto;"
-										src="images/mcGovern.png" alt=""></div>
-								<div><img style="max-height:100px;max-width:300px;height:auto;width:auto;"
-										src="images/ciesin_grid3_logo.png" alt=""></div>
-								<div><img style="max-height:90px;max-width:300px;height:auto;width:auto;"
-										src="images/wm.png" alt=""></div>
-								<div><img style="max-height:90px;max-width:300px;height:auto;width:auto;"
-											src="images/unsalblogo.jpg" alt=""></div>
-										
-							</div>
-
-						</span>
 					</div>
 				</section>
 
--->
 			</div>
 		</div>
 
