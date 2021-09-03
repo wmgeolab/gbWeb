@@ -8,15 +8,25 @@ function updateCollectionDropdown() {
     // clear previous
     select.innerHTML = '';
     // add 'no collection' as default
-    select.innerHTML = '<option value="" selected>Show all collections</option>';
+    select.innerHTML = '<option value="">Show all collections</option>\
+                        <option value="geoBoundaries (Open)" selected>geoBoundaries (Open)</option>\
+                        <option value="geoBoundaries (Humanitarian)">geoBoundaries (Humanitarian)</option>\
+                        <option value="geoBoundaries (Authoritative)">geoBoundaries (Authoritative)</option>\
+                        ';
     // add entries for each collection
     for (coll of collections) {
         if (coll === undefined | coll == '') {continue};
+        if (coll.includes('geoBoundaries') | coll=='Other') {continue};
         var opt = document.createElement('option');
         opt.value = coll;
         opt.innerText = coll.replace('_', ' ');
         select.appendChild(opt);
     };
+    // finally add Other collection last
+    var opt = document.createElement('option');
+    opt.value = "Other";
+    opt.innerText = "Other";
+    select.appendChild(opt);
     // set from get params if specified
     const urlParams = new URLSearchParams(window.location.search);
     var coll = urlParams.get('collection');
