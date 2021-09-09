@@ -81,7 +81,7 @@
                         </p>
                     
                         <!--https://gbcontributebackend.herokuapp.com-->
-                        <form id="contribute-form" action="http://127.0.0.1:8000/api_contribute/" method="post" enctype="multipart/form-data">
+                        <form id="contribute-form" action="https://gbcontributebackend.herokuapp.com/api_contribute/" method="post" enctype="multipart/form-data">
                             <!--the 'enctype' attribute above is necessary for django to receive the file-->
                             <div id="contribute-tab-container" class="tab-container" style="height:80%; overflow:auto">
         
@@ -196,10 +196,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>License Screenshot<span style="color:red">*</span>:</td>
+                                            <td>License Screenshot:</td>
                                             <td>
                                                 <span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
-                                                    <input name="license_screenshot" class="fas" type="file" accept="image/png" required>
+                                                    <input name="license_screenshot" class="fas" type="file" accept="image/png">
                                                 </span>
                                             </td>
                                         </tr>
