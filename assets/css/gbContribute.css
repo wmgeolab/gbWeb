@@ -1,0 +1,109 @@
+/*
+All extra css not in the original main.css by HTML5 UP
+Karim Bahgat
+*/
+
+.tooltip {
+    position:relative; /* making the .tooltip span a container for the tooltip text */
+    border-bottom:1px dashed #000; /* little indicater to indicate it's hoverable */
+}
+.tooltip:before {
+    content: attr(data-text); /* here's the magic */
+    position:absolute;
+
+    /* move to top */
+    bottom:100%;
+    margin-bottom:10px;
+
+    /* horizontally center */
+    left:50%;
+    margin-left:-100px; /* half the width */
+
+    /* basic styles */
+    width:200px;
+    padding:10px;
+    border-radius:10px;
+    background:#000;
+    color: #fff;
+    text-align:center;
+    font-size:12px;
+
+    display:none; /* hide by default */
+}
+.tooltip:hover:before {
+    display:block;
+}
+
+.sidepanel{
+    height:400px;
+    width:20%;
+    padding:0;
+    margin:0;
+}
+
+.box {
+    border-left:1px solid rgb(240, 179, 35);
+    border-right:1px solid rgb(240, 179, 35);
+    border-bottom:1px solid rgb(240, 179, 35);
+    border-top: 1px solid rgb(240, 179, 35);
+    border-radius:0;
+}
+
+li.tab{
+    top:0px;
+    padding-top:0px;
+    border-bottom:0;
+    border-left: 1px solid rgb(240, 179, 35);
+    border-right: 1px solid rgb(240, 179, 35);
+    border-top: 1px solid rgb(240, 179, 35);
+    border-bottom: 0px;
+}
+
+a{
+    border-bottom:0;
+}
+
+li.tab.active{
+    padding-top:0px;
+    border-bottom:0;
+    border-left: 1px solid rgb(240, 179, 35);
+    border-right: 1px solid rgb(240, 179, 35);
+    border-top: 1px solid rgb(240, 179, 35);
+}
+
+ul li{
+    padding-left: 0;
+}
+
+
+
+/*...*/
+
+.input-form {
+    background-color:#f2f2f29f;
+    border-radius:10px;
+    padding:20px;
+    margin-top:15px;
+}
+
+
+/*...*/
+
+.link {
+    cursor:pointer; 
+    color:rgb(240, 179, 35); 
+    padding:2px;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+
+/* Form input validation */
+
+input:invalid:not(:placeholder-shown):not([type=file]) {
+    border: 1.5px solid red;
+}
+
+

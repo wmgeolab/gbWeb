@@ -117,21 +117,137 @@ function populateFilePreviewTable(rows) {
 };
 
 function submitBoundary() {
-    var dict = {};
-    // first collect named inputs
-    for (elem of document.querySelectorAll('input[name]')) {
-        dict[elem.name] = elem.value;
+    var form = document.getElementById('contribute-form');
+    // collect all inputs into tab groupings
+    var invalidElements = {};
+    // 1 tab group = contribute-data
+    var tabId = 'contribute-data';
+    var tabContainer = document.getElementById(tabId);
+    invalidElements[tabId] = [];
+    for (elem of tabContainer.querySelectorAll('input[name], select[name]')) {
+        // if input fires an invalid event, add to element list
+        elem.addEventListener('invalid', function (event) {
+            invalidElements['contribute-data'].push(elem);
+        });
     };
-    // then collect the input forms as a list
-    var dataInputs = [];
-    for (form of document.querySelectorAll('#file-input-form')) {
-        var dataInput = {};
-        for (elem of form.querySelectorAll('input[name],select[name]')) {
-            dataInput[elem.name] = elem.value;
+    // 2 tab group = contribute-metadata
+    var tabId = 'contribute-metadata';
+    var tabContainer = document.getElementById(tabId);
+    invalidElements[tabId] = [];
+    for (elem of tabContainer.querySelectorAll('input[name], select[name]')) {
+        // if input fires an invalid event, add to element list
+        elem.addEventListener('invalid', function (event) {
+            invalidElements['contribute-metadata'].push(elem);
+        });
+    };
+    // 3 tab group = contribute-contact
+    var tabId = 'contribute-contact';
+    var tabContainer = document.getElementById(tabId);
+    invalidElements[tabId] = [];
+    for (elem of tabContainer.querySelectorAll('input[name], select[name]')) {
+        // if input fires an invalid event, add to element list
+        elem.addEventListener('invalid', function (event) {
+            invalidElements['contribute-contact'].push(elem);
+        });
+    };
+    // fire invalid event for each invalid input
+    form.checkValidity();
+    // switch to tab of first invalid input
+    for (tabId in invalidElements) {
+        if (invalidElements[tabId].length > 0) {
+            $('#contribute-tab-container').easytabs('select', tabId);
+            break;
         };
-        dataInputs.push(dataInput);
     };
-    dict['input'] = dataInputs;
-    // submit
-    alert(JSON.stringify(dict)); // just print for now... 
+    // after this, the default form submit code will execute, ie redirect to post target
+    // finished
 };
+
+function loadLicenses(onSuccess) {
+    // fetch metadata
+    // determine url of metadata csv
+    url = 'https://raw.githubusercontent.com/wmgeolab/geoBoundaryBot/main/dta/gbLicenses.csv';
+    // define error and success
+    function error (err, file, inputElem, reason) {
+        alert('License data failed to load: '+url);
+    };
+    function success (result) {
+        //alert('load success');
+        // process csv data using custom function
+        onSuccess(result['data']);
+    };
+    // parse
+    Papa.parse(url,
+                {'download':true,
+                'header':true,
+                'complete':success,
+                'error':error,
+                }
+    );
+};
+
+function updateLicenseDropdown(data) {
+    var select = document.querySelector('select[name="license"]');
+    // add default empty option
+    var opt = document.createElement('option');
+    opt.value = '';
+    opt.innerText = '';
+    opt.selected = true;
+    select.appendChild(opt);
+    // add license options
+    for (row of data) {
+        var val = row['license_name'];
+        if (val == '') {continue};
+        var opt = document.createElement('option');
+        opt.value = val;
+        opt.innerText = val;
+        select.appendChild(opt);
+    };
+};
+
+function loadCountries(onSuccess) {
+    // fetch metadata
+    // determine url of metadata csv
+    url = 'https://raw.githubusercontent.com/wmgeolab/geoBoundaryBot/main/dta/iso_3166_1_alpha_3.csv';
+    // define error and success
+    function error (err, file, inputElem, reason) {
+        alert('Country data failed to load: '+url);
+    };
+    function success (result) {
+        //alert('load success');
+        // process csv data using custom function
+        onSuccess(result['data']);
+    };
+    // parse
+    Papa.parse(url,
+                {'download':true,
+                'header':true,
+                'complete':success,
+                'error':error,
+                }
+    );
+};
+
+function updateCountryDropdown(data) {
+    var select = document.querySelector('select[name="iso"]');
+    // add default empty option
+    var opt = document.createElement('option');
+    opt.value = '';
+    opt.innerText = '';
+    opt.selected = true;
+    select.appendChild(opt);
+    // sort alphabetically
+    sortBy(data, 'Name');
+    // add country options
+    for (row of data) {
+        if (row['Name'] == '') {continue};
+        var opt = document.createElement('option');
+        opt.value = row['Alpha-3code'];
+        opt.innerText = row['Name'];
+        select.appendChild(opt);
+    };
+};
+
+// load data on startup
+loadLicenses(updateLicenseDropdown);
+loadCountries(updateCountryDropdown);

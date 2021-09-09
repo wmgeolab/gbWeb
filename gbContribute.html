@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" type="text/css" href="assets/js/slick/slick.css" />
 	<link rel="stylesheet" href="assets/css/main.css" />
-	<link rel="stylesheet" href="assets/css/geoContrast.css" />
+	<link rel="stylesheet" href="assets/css/gbContribute.css" />
 	<link rel="stylesheet" href="assets/css/BeerSlider.css" />
 		
 	<!-- Scripts -->
@@ -80,14 +80,15 @@
                         Please review the <a href="https://github.com/wmgeolab/geoBoundaries/blob/main/CONTRIBUTING.md" target='blank'>Guidelines for Submission</a>. 
                         </p>
                     
-                        <form action="https://gbcontributebackend.herokuapp.com/api_contribute/" method="post" enctype="multipart/form-data"> 
+                        <!--https://gbcontributebackend.herokuapp.com-->
+                        <form id="contribute-form" action="http://127.0.0.1:8000/api_contribute/" method="post" enctype="multipart/form-data">
                             <!--the 'enctype' attribute above is necessary for django to receive the file-->
                             <div id="contribute-tab-container" class="tab-container" style="height:80%; overflow:auto">
         
                                 <ul class='etabs'>
-                                    <li class='tab active'><a href="#contribute-data">Data files</a></li>
-                                    <li class='tab'><a href="#contribute-metadata">Metadata</a></li>
-                                    <li class='tab'><a href="#contribute-contact">Contact info</a></li>
+                                    <li class='tab'><a href="#contribute-data">1 - Data files</a></li>
+                                    <li class='tab'><a href="#contribute-metadata">2 - Metadata</a></li>
+                                    <li class='tab'><a href="#contribute-contact">3 - Contact info</a></li>
                                 </ul>
 
                                 <div id="contribute-data" class="box">
@@ -95,21 +96,21 @@
                                     <div style="width:90%; text-align:center; padding-top:20px; margin:auto">
                                         <p>Drag-and-drop or select a zipped shapefile. Data must use WGS84 projection (EPSG 4326).</p>
                                         <span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
-                                            <input id="file-input" name="file" class="fas" type="file" accept=".zip" onchange="zipfileSelected()">
+                                            <input id="file-input" name="file" class="fas" type="file" accept=".zip" onchange="zipfileSelected()" required>
                                         </span>
                                     </div>
 
                                     <div id="file-input-form" style="width:97%; margin:20px; display:none">
                                         <div>
                                             <div style="display:flex; flex-direction:row; align-items:center">
-                                                <div style="flex:0 0 30%">File*:</div>
+                                                <div style="flex:0 0 30%">File<span style="color:red">*</span>:</div>
                                                 <div style="flex:0 0 70%">
                                                     <select name="path" onchange="zipfileFileDropdownChanged(this)" required>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div style="display:flex; flex-direction:row; align-items:center">
-                                                <div style="flex:0 0 30%">Administrative level*:</div>
+                                                <div style="flex:0 0 30%">Administrative level<span style="color:red">*</span>:</div>
                                                 <div style="flex:0 0 70%">
                                                     <select name="level" required>
                                                         <option value='' selected></option>
@@ -123,17 +124,24 @@
                                                 </div>
                                             </div>
                                             <div style="display:flex; flex-direction:row; align-items:center">
+                                                <div style="flex:0 0 30%">Name field<span style="color:red">*</span>:</div>
+                                                <div style="flex:0 0 70%">
+                                                    <select name="name_field" class="field-dropdown" required>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div style="display:flex; flex-direction:row; align-items:center">
+                                                <div style="flex:0 0 30%">ISO 3166-2 field:</div>
+                                                <div style="flex:0 0 70%">
+                                                    <select name="iso_field" class="field-dropdown">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div style="display:flex; flex-direction:row; align-items:center">
                                                 <div style="flex:0 0 30%">Boundary type:</div>
                                                 <div style="flex:0 0 70%">
                                                     <input name="type" type="text">
                                                     </input>
-                                                </div>
-                                            </div>
-                                            <div style="display:flex; flex-direction:row; align-items:center">
-                                                <div style="flex:0 0 30%">Name field*:</div>
-                                                <div style="flex:0 0 70%">
-                                                    <select name="name_field" class="field-dropdown">
-                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,55 +158,55 @@
                                 <div id="contribute-metadata" class="box">
                                     <table style="width:97%; margin:10px;">
                                         <tr>
-                                            <td>Release Type:</td>
+                                            <td>Country<span style="color:red">*</span>:</td>
                                             <td>
-                                                <select name="release_type" required>
-                                                    <option value='gbOpen' selected>gbOpen</option>
-                                                    <option value='gbHumanitarian'>gbHumanitarian</option>
-                                                    <option value='gbAuthoritative'>gbAuthoritative</option>
+                                                <select name="iso" type="text" placeholder=" " required>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>ISO*:</td>
+                                            <td>Year the boundary represents<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="iso" type="text" required>
+                                                <input name="year" type="text" placeholder=" " minlength=4 maxlength=4 pattern="\d{4}" required>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Year the boundary represents*:</td>
+                                            <td>Source<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="year" type="text" required>
+                                                <input name="source" type="text" placeholder=" " required>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Source*:</td>
+                                            <td>Source URL<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="source" type="text" required>
+                                                <input name="source_url" type="url" placeholder=" " required>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Source URL:</td>
+                                            <td>License<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="source_url" type="text">
+                                                <select name="license" type="text" placeholder=" " required>
+                                                </select>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>License*:</td>
+                                            <td>License URL<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="license" type="text" required>
+                                                <input name="license_url" type="url" placeholder=" " required>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>License URL:</td>
+                                            <td>License Screenshot<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="license_url" type="text">
+                                                <span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
+                                                    <input name="license_screenshot" class="fas" type="file" accept="image/png" required>
+                                                </span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>License details:</td>
                                             <td>
-                                                <input name="license_detail" type="text">
+                                                <input name="license_detail" type="text" placeholder=" ">
                                             </td>
                                         </tr>
                                     </table>
@@ -207,30 +215,38 @@
                                 <div id="contribute-contact" class="box">
                                     <table style="width:97%; margin:10px;">
                                         <tr>
-                                            <td>Your Name*:</td>
+                                            <td>Your Name<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="contributor_name" type="text" required>
+                                                <input name="contributor_name" type="text" placeholder=" " required>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Affiliation*:</td>
+                                            <td>Affiliation<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="contributor_affiliation" type="text" required>
+                                                <input name="contributor_affiliation" type="text" placeholder=" " required>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Contact email*:</td>
+                                            <td>Contact email<span style="color:red">*</span>:</td>
                                             <td>
-                                                <input name="contributor_email" type="email" required>
+                                                <input name="contributor_email" type="email" placeholder=" " required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Notes/comment:</td>
                                             <td>
-                                                <input name="notes" type="text">
+                                                <input name="notes" type="text" placeholder=" ">
                                             </td>
                                         </tr>
                                     </table>
+
+                                    <div style="margin-left:5%; width:90%; display:flex; flex-direction:row">
+                                        <input id="agree-to-terms" type="checkbox" name="agree_to_terms" value="agree" required>
+                                        <label for="agree-to-terms"></label>
+                                        <p style="margin-left:10px; font-size:smaller">I understand that by submitting this form the boundary data, metadata, 
+                                            and contact information will be made publicly available
+                                            on the code sharing platform GitHub.</p>
+                                    </div>
                                 
                                     <div style="text-align:right; margin-top:10px">
                                         <button type="submit" onclick="submitBoundary()">Submit!</button>
