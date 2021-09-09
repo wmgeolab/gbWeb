@@ -6,8 +6,11 @@
   font-size: 14px;
   text-align: left;
   overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
   -ms-transform: translatez(0);
   transform: translatez(0);
+  width:795px;
 }
 
 .tabulator[tabulator-layout="fitDataFill"] .tabulator-tableHolder .tabulator-table {
@@ -25,8 +28,8 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  border-bottom: 1px solid #999;
-  background-color: #e6e6e6;
+  border: 0pt;
+  background-color: #ffffff;
   color: #555;
   font-weight: bold;
   white-space: nowrap;
@@ -237,6 +240,8 @@
   white-space: nowrap;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  color:#fff;
+  background-color:#fff;
 }
 
 .tabulator .tabulator-tableHolder:focus {
@@ -697,7 +702,7 @@
   border-top: 1px solid #999;
   padding: 5px;
   padding-left: 10px;
-  background: #ccc;
+  background: rgb(238, 238, 238);
   font-weight: bold;
   min-width: 100%;
 }
