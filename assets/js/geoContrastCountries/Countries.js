@@ -32,7 +32,7 @@ function updateCountryDataDropdown() {
     if ((compareField != null) & (compareField != select.value)) {
         select.value = compareField;
     } else {
-        select.value = 'numSources';
+        select.value = 'maxYear';
     };
 };
 

@@ -88,8 +88,8 @@
 								
 								
 									<ul class='etabs'>
-										<li class='tab active'><a href="geoContrast.html">Compare Boundaries</a></li>
-										<li class='tab'><a href="geoContrastCountries.html">Compare Countries</a></li>
+										<li class='tab'><a href="geoContrastCountries.html">Global Boundaries</a></li>
+										<li class='tab active'><a href="geoContrast.html">Country Boundaries</a></li>
 									</ul>
 
 									<div id="compare" class="box" style="font-size:14pt; height:575px">
@@ -222,8 +222,9 @@
 
 														// show or save pdf
 														//doc.output('datauri');
-														//doc.save('test.pdf');
-														window.open(doc.output('bloburl'));
+														doc.save('geoBoundaries-comparison.pdf');
+														//window.open(doc.output('bloburl'));
+														//doc.output('bloburi');
 													});
 													// disable the map image div
 													topBannerDiv.style.display = 'none';
@@ -329,10 +330,6 @@
 										<td>Last Update:</td>
 										<td id="stats-gb-updated" class="stats-value"></td>
 									</tr>
-									<tr>
-										<td>Administrative Units:</td>
-										<td id="stats-gb-admincount" class="stats-value"></td>
-									</tr>
 								</table>
 							</div>
 
@@ -365,10 +362,6 @@
 										<td>Last Update:</td>
 										<td id="stats-comp-updated" class="stats-value"></td>
 									</tr>
-									<tr>
-										<td>Administrative Units:</td>
-										<td id="stats-comp-admincount" class="stats-value"></td>
-									</tr>
 								</table>
 							</div>
 						</div>
@@ -385,6 +378,10 @@
 							<br>
 							<div id="stats-gb-container">
 								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-gb-admincount" class="stats-value"></td>
+									</tr>
 									<tr>
 										<td>Area:</td>
 										<td id="stats-gb-area" class="stats-value"></td>
@@ -415,6 +412,10 @@
 							<br>
 							<div id="stats-comp-container">
 								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-comp-admincount" class="stats-value"></td>
+									</tr>
 									<tr>
 										<td>Area:</td>
 										<td id="stats-comp-area" class="stats-value"></td>
@@ -498,197 +499,6 @@
 
 		<div>
 			<!--This section defines popups-->
-
-			<div id="contribute-popup" class="popup is-hidden is-visually-hidden">
-				<!-- popup content -->
-				<div class="popup-content">
-				  
-				<div style="text-align:right">
-					<a id="close-contribute-popup" class="popup-close" onclick="closeContributePopup()">&times;</a>
-				</div>
-
-				<!--
-				<script>
-					// When the user clicks anywhere outside of the popup, close it
-					window.onclick = function(event) {
-						//alert('click '+event.target.className+' '+event.target.id);
-						if (event.target.id == 'contribute-popup') {
-							//alert('should close');
-							event.target.className = "popup is-hidden is-visually-hidden";
-						};
-					};
-				</script>
-				-->
-				  
-				<h3>Contribute a boundary file:</h3>
-				  
-				<form>
-					<div id="contribute-tab-container" class="tab-container" style="height:80%; overflow:auto">
-
-						<ul class='etabs'>
-							<li class='tab active'><a href="#contribute-metadata">Metadata</a></li>
-							<li class='tab'><a href="#contribute-data">Data files</a></li>
-							<li class='tab'><a href="#contribute-contact">Contact info</a></li>
-						</ul>
-
-						<div id="contribute-metadata" class="box">
-							<table style="width:97%; margin:10px;">
-								<tr>
-									<td>ISO*:</td>
-									<td>
-										<input name="iso" type="text" required disabled>
-									</td>
-								</tr>
-								<tr>
-									<td>Year the boundary represents*:</td>
-									<td>
-										<input name="year" type="text" required>
-									</td>
-								</tr>
-								<tr>
-									<td>Boundary Collection*:</td>
-									<td>
-										<input type="text" name="collection" list="collectionList" required>
-										<datalist id="collectionList">
-											<option value="OCHA">  
-											<option value="SALB">
-											<option value="WFP">
-										</datalist>
-									</td>
-								</tr>
-								<tr>
-									<td>Source*:</td>
-									<td>
-										<input name="source" type="text" required>
-									</td>
-								</tr>
-								<tr>
-									<td>Source URL*:</td>
-									<td>
-										<input name="source_url" type="text" required>
-									</td>
-								</tr>
-								<tr>
-									<td>License*:</td>
-									<td>
-										<input name="license" type="text" required>
-									</td>
-								</tr>
-								<tr>
-									<td>License URL*:</td>
-									<td>
-										<input name="license_url" type="text" required>
-									</td>
-								</tr>
-								<tr>
-									<td>License details:</td>
-									<td>
-										<input name="license_detail" type="text">
-									</td>
-								</tr>
-							</table>
-						</div>
-
-						<div id="contribute-data" class="box">
-							<div id="input-forms">
-								<div id="empty-input-form" style="width:97%; margin:20px; display:none">
-									<div>
-										<div style="display:flex; flex-direction:row; align-items:center">
-											<div style="flex:0 0 30%">File*:</div>
-											<div style="flex:0 0 70%">
-												<select name="path" onchange="contributeFileDropdownChanged(this)" required>
-												</select>
-											</div>
-										</div>
-										<div style="display:flex; flex-direction:row; align-items:center">
-											<div style="flex:0 0 30%">Administrative level*:</div>
-											<div style="flex:0 0 30%">
-												<select name="level" required>
-													<option value='' selected></option>
-													<option value='ADM0'>ADM0</option>
-													<option value='ADM1'>ADM1</option>
-													<option value='ADM2'>ADM2</option>
-													<option value='ADM3'>ADM3</option>
-													<option value='ADM4'>ADM4</option>
-													<option value='ADM5'>ADM5</option>
-												</select>
-											</div>
-											<div style="flex:0 0 20%" style="text-align:right">Or field name:</div>
-											<div style="flex:0 0 20%">
-												<select name="level_field" class="field-dropdown">
-												</select>
-											</div>
-										</div>
-										<div style="display:flex; flex-direction:row; align-items:center">
-											<div style="flex:0 0 30%">Boundary type:</div>
-											<div style="flex:0 0 30%">
-												<input name="type" type="text">
-												</input>
-											</div>
-											<div style="flex:0 0 20%" style="text-align:right">Or field name:</div>
-											<div style="flex:0 0 20%">
-												<select name="type_field" class="field-dropdown">
-												</select>
-											</div>
-										</div>
-										<div style="display:flex; flex-direction:row; align-items:center">
-											<div style="flex:0 0 30%">Name field*:</div>
-											<div style="flex:0 0 70%">
-												<select name="name_field" class="field-dropdown">
-												</select>
-											</div>
-										</div>
-									</div>
-									<div style="width:95%; margin-left:5%; margin-top:20px; height:200px; overflow:auto">
-										<table class="table file-preview-table">
-											<thead></thead>
-											<tbody></tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<div style="width:100%; text-align:center">
-								<a style="cursor:pointer" onclick="addFileInputForm()">Add another boundary data file</a>
-							</div>
-						</div>
-
-						<div id="contribute-contact" class="box">
-							<table style="width:97%; margin:10px;">
-								<tr>
-									<td>Your Name*:</td>
-									<td>
-										<input name="contributor_name" type="text" required>
-									</td>
-								</tr>
-								<tr>
-									<td>Affiliation*:</td>
-									<td>
-										<input name="contributor_affiliation" type="text" required>
-									</td>
-								</tr>
-								<tr>
-									<td>Contact email*:</td>
-									<td>
-										<input name="contributor_email" type="email" required>
-									</td>
-								</tr>
-								<tr>
-									<td>Notes/comment:</td>
-									<td>
-										<input name="notes" type="text">
-									</td>
-								</tr>
-							</table>
-						
-							<div style="text-align:right; margin-top:10px">
-								<button type="submit" onclick="submitBoundary()">Submit!</button>
-							</div>
-
-						</div>
-					  
-				  </form>
-				</div>
-			</div>
 
 			<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
 				<div class="popup-content">

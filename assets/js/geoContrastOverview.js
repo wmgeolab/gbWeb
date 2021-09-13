@@ -57,37 +57,34 @@ function updateGbInfo(features) {
     info.style = "margin-left:20px; margin-top:10px; font-size:0.7em";
     info.innerHTML = '';
     // action buttons
-    info.innerHTML += '<div>';
-    info.innerHTML += '<b style="vertical-align:middle">Actions: </b>'
     if (sourceName == 'upload') {
-        info.innerHTML += '<a id="open-gb-contribute-popup" style="cursor:pointer" onclick="openContributePopup()">Submit to Boundary Repository?</a>';
+        info.innerHTML += '<div>';
+        info.innerHTML += '<a href="gbContribute.html" target="blank" style="cursor:pointer" onclick="openContributePopup()">Submit to Boundary Repository?</a>';
+        info.innerHTML += '</div>';
     } else {
-        info.innerHTML += '<a href="'+gbDownloadUrl+'" download><img src="https://icons-for-free.com/iconfiles/png/512/file+download+24px-131985219323992544.png" height="20px" style="vertical-align:middle"></a>';
-    };
-    info.innerHTML += '</div>';
-    info.innerHTML += '<br>';
-    // info
-    if (gbSourceUrl != '') {
-        var sourceEntry = '<a href="'+gbSourceUrl+'" target="_blank">'+gbSource+'</a>';
-    } else {
-        var sourceEntry = gbSource;
-    };
-    if (gbLicenseUrl != '') {
-        var licenseEntry = '<a href="'+gbLicenseUrl+'" target="_blank">'+gbLicense+'</a>';
-    } else {
-        var licenseEntry = gbLicense;
-    };
-    if (sourceName != 'upload') {
-        info.innerHTML += '<b>Source: </b>';
-        info.innerHTML += sourceEntry;
-        info.innerHTML += '<br>';
-        info.innerHTML += '<b>License: </b>';
-        info.innerHTML += licenseEntry;
-        info.innerHTML += '<br>';
-        info.innerHTML += '<b>Year the Boundary Represents: </b>'+gbYear;
-        info.innerHTML += '<br>';
-        info.innerHTML += '<b>Last Update: </b>'+gbUpdated;
-        info.innerHTML += '<br>';
+        // info
+        if (gbSourceUrl != '') {
+            var sourceEntry = '<a href="'+gbSourceUrl+'" target="_blank">'+gbSource+'</a>';
+        } else {
+            var sourceEntry = gbSource;
+        };
+        if (gbLicenseUrl != '') {
+            var licenseEntry = '<a href="'+gbLicenseUrl+'" target="_blank">'+gbLicense+'</a>';
+        } else {
+            var licenseEntry = gbLicense;
+        };
+        if (sourceName != 'upload') {
+            info.innerHTML += '<b>Source: </b>';
+            info.innerHTML += sourceEntry;
+            info.innerHTML += '<br>';
+            info.innerHTML += '<b>License: </b>';
+            info.innerHTML += licenseEntry;
+            info.innerHTML += '<br>';
+            info.innerHTML += '<b>Year the Boundary Represents: </b>'+gbYear;
+            info.innerHTML += '<br>';
+            info.innerHTML += '<b>Last Update: </b>'+gbUpdated;
+            info.innerHTML += '<br>';
+        };
     };
     div.appendChild(info);
     // also update some redundant fields in the stats tables
@@ -143,36 +140,33 @@ function updateComparisonInfo(features) {
     info.style = "margin-left:20px; margin-top:10px; font-size:0.7em";
     info.innerHTML = '';
     // action buttons
-    info.innerHTML += '<div>';
-    info.innerHTML += '<b style="vertical-align:middle">Actions: </b>'
     if (sourceName == 'upload') {
-        info.innerHTML += '<a id="open-comparison-contribute-popup" style="cursor:pointer" onclick="openContributePopup()">Share This Data</a>';
+        info.innerHTML += '<div>';
+        info.innerHTML += '<a href="gbContribute.html" target="blank" style="cursor:pointer" onclick="openContributePopup()">Submit to Boundary Repository?</a>';
+        info.innerHTML += '</div>';
     } else {
-        info.innerHTML += '<a href="'+comparisonDownloadUrl+'" download><img src="https://icons-for-free.com/iconfiles/png/512/file+download+24px-131985219323992544.png" height="20px" style="vertical-align:middle"></a>';
+        // info
+        if (comparisonSourceUrl != '') {
+            var sourceEntry = '<a href="'+comparisonSourceUrl+'" target="_blank">'+comparisonSource+'</a>';
+        } else {
+            var sourceEntry = comparisonSource;
+        };
+        if (comparisonLicenseUrl != '') {
+            var licenseEntry = '<a href="'+comparisonLicenseUrl+'" target="_blank">'+comparisonLicense+'</a>';
+        } else {
+            var licenseEntry = comparisonLicense;
+        };
+        info.innerHTML += '<b>Source: </b>';
+        info.innerHTML += sourceEntry;
+        info.innerHTML += '<br>';
+        info.innerHTML += '<b>License: </b>';
+        info.innerHTML += licenseEntry;
+        info.innerHTML += '<br>';
+        info.innerHTML += '<b>Year the Boundary Represents: </b>'+comparisonYear;
+        info.innerHTML += '<br>';
+        info.innerHTML += '<b>Last Update: </b>'+comparisonUpdated;
+        info.innerHTML += '<br>';
     };
-    info.innerHTML += '</div>';
-    info.innerHTML += '</br>';
-    // info
-    if (comparisonSourceUrl != '') {
-        var sourceEntry = '<a href="'+comparisonSourceUrl+'" target="_blank">'+comparisonSource+'</a>';
-    } else {
-        var sourceEntry = comparisonSource;
-    };
-    if (comparisonLicenseUrl != '') {
-        var licenseEntry = '<a href="'+comparisonLicenseUrl+'" target="_blank">'+comparisonLicense+'</a>';
-    } else {
-        var licenseEntry = comparisonLicense;
-    };
-    info.innerHTML += '<b>Source: </b>';
-    info.innerHTML += sourceEntry;
-    info.innerHTML += '<br>';
-    info.innerHTML += '<b>License: </b>';
-    info.innerHTML += licenseEntry;
-    info.innerHTML += '<br>';
-    info.innerHTML += '<b>Year the Boundary Represents: </b>'+comparisonYear;
-    info.innerHTML += '<br>';
-    info.innerHTML += '<b>Last Update: </b>'+comparisonUpdated;
-    info.innerHTML += '<br>';
     div.appendChild(info);
     // also update some redundant fields in the stats tables
     document.getElementById('stats-comp-source').innerHTML = sourceEntry;
