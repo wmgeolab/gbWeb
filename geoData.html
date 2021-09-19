@@ -88,15 +88,22 @@
 								
 								
 									<ul class='etabs'>
-										<li class='tab active'><a href="geoContrastCountries.html">Global Boundaries</a></li>
+										<li class='tab'><a href="geoContrastCountries.html">Global Boundaries</a></li>
 										<li class='tab'><a href="geoContrast.html">Country Boundaries</a></li>
-										<li class='tab'><a href="geoData.html">New Geodata Tab!!!</a></li>
+
+										<li class='tab active'><a href="geoData.html">New Geodata Tab!!!</a></li>
 									</ul>
 									
 									<div id="countries" class="box" style="font-size:14pt; height:575px">
-									
-                                        <div style="padding:15px">
+									  <div style="padding:15px">
 
+									    <div class="row" style="margin-top:10px">
+									      <span>Select csv</span>
+									      <select id="csv_list" style="margin-left:20px"></select>
+									      </div>
+
+
+					<!--  
 											<div class="row" style="margin-top:10px">
 												<span>Boundary Collection:</span>
 												<select id='collection' style="margin-left:20px" onchange="updateGetParams(); updateCountriesTable(); updateMapCountries()">
@@ -121,6 +128,7 @@
                                             </select>
                                         </div>
                                         <p id="map-description" style="font-size:0.7em; padding:0; margin:20px 10px">Description goes here...</p>
+-->
                                         <div style="width:100%; margin-top:10px">
                                             <div id="map-legend" style="margin-left:20%; display:flex; flex-direction:column-reverse;">
                                             </div>
@@ -151,12 +159,14 @@
 							<h2 style="margin-bottom:5px">Countries</h2>
 						</div>
 						<div style="width:100%">
-                            <table id="countries-table" style="margin-left:10px">
+                          <!--  <table id="countries-table" style="margin-left:10px">
                                 <thead>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
+
+			  -->
 						</div>
 					</div>
 
