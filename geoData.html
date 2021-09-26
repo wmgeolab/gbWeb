@@ -47,6 +47,10 @@
   
 </head>
 
+
+<script src="assets/js/geoData.js"></script>
+
+
 <body class="is-preload">
 
 	<!-- Wrapper -->
@@ -99,11 +103,18 @@
 
 									    <div class="row" style="margin-top:10px">
 									      <span>Select csv</span>
-									      <select id="csv_list" style="margin-left:20px"></select>
-									      </div>
+									      <select id="csv_list" style="margin-left:20px">
+									      <option value="ACCNTOWNER">ACCNTOWNER</option>
+									      </select>
+									    </div>
+
+				 						<button type="button" style="font-size:0.6em" onclick="read_geodata_data()">Show data</button>
 
 
-					<!--  
+									<!--	<script src="./assets/js/geoData.js">read_geodata_data()</script> -->
+										
+<!--
+					  
 											<div class="row" style="margin-top:10px">
 												<span>Boundary Collection:</span>
 												<select id='collection' style="margin-left:20px" onchange="updateGetParams(); updateCountriesTable(); updateMapCountries()">
@@ -128,7 +139,14 @@
                                             </select>
                                         </div>
                                         <p id="map-description" style="font-size:0.7em; padding:0; margin:20px 10px">Description goes here...</p>
--->
+					-->
+
+<!-- break -->
+
+
+
+
+					
                                         <div style="width:100%; margin-top:10px">
                                             <div id="map-legend" style="margin-left:20%; display:flex; flex-direction:column-reverse;">
                                             </div>
@@ -159,14 +177,14 @@
 							<h2 style="margin-bottom:5px">Countries</h2>
 						</div>
 						<div style="width:100%">
-                          <!--  <table id="countries-table" style="margin-left:10px">
+                            <table id="countries-table" style="margin-left:10px">
                                 <thead>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
 
-			  -->
+			  
 						</div>
 					</div>
 
@@ -329,6 +347,9 @@
     <script src="assets/js/geoContrastCountries/Countries.js"></script>
     <script src="assets/js/geoContrastCountries/Toolbox.js"></script>
 
+
+
+    
 </body>
 
 </html>
