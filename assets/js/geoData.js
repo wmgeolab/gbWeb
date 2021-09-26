@@ -13,6 +13,8 @@ function read_geodata_data()
 
     var url = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/ADM0/" + selection_val + ".csv";
 
+    console.log(url);
+
     var request = new XMLHttpRequest();
 
     request.open("GET", url, false);
@@ -25,6 +27,7 @@ function read_geodata_data()
     //console.log(rows[0]);
 
     var table = document.getElementById("countries-table");
+    table.innerHTML = ""
     
     for (var i=0;i<rows.length;i++)
     {
