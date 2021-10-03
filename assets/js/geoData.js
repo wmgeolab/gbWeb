@@ -28,11 +28,15 @@ function read_geodata_data()
     request.open("GET", meta_url, false);
     request.send(null);
     var metadata_text = request.responseText;
+    console.log("HERE");
+    console.log(metadata_text);
 
     var desc = document.getElementById("metadata-text");
 
-    desc.innerHTML = metadata_text;
+    //desc.innerHTML = metadata_text;
 
+    desc.innerText = metadata_text;
+    
     var rows = return_object.split("\n");
 
     //console.log(rows[0]);
@@ -287,6 +291,9 @@ function read_geodata_data()
 "ZAF":"South Africa",
 "ZMB":"Zambia",
 "ZWE":"Zimbabwe",
+	"ID":"ID",
+	"SSD":"South Sudan",
+	"XKX":"Kosovo",
     };
 
     //alert(dict["AFG"])
@@ -313,4 +320,14 @@ function read_geodata_data()
     //console.log(return_object);
     
     
+}
+function goto_raw_csv_file()
+{
+    var selection_menu = document.getElementById('csv_list');
+
+    var selection_val = selection_menu.value;
+
+    var url = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/ADM0/" + selection_val + ".csv";
+
+    window.open(url)
 }
