@@ -502,41 +502,6 @@ WWTARIFAVG
 -->
 				 					    <button type="button" style="font-size:0.6em" onclick="goto_raw_csv_file()">View raw data</button>
 
-									<!--	<script src="./assets/js/geoData.js">read_geodata_data()</script> -->
-										
-<!--
-					  
-											<div class="row" style="margin-top:10px">
-												<span>Boundary Collection:</span>
-												<select id='collection' style="margin-left:20px" onchange="updateGetParams(); updateCountriesTable(); updateMapCountries()">
-												</select>
-											</div>
-
-											<div class="row" style="margin-top:10px">
-                                            <span>Administrative level:</span>
-                                            <select id='admin-level' style="margin-left:20px" onchange="updateGetParams(); updateCountriesTable(); updateMapCountries()">
-                                                <option value="ADM0">ADM0</option>
-                                                <option value="ADM1" selected>ADM1</option>
-                                                <option value="ADM2">ADM2</option>
-                                                <option value="ADM3">ADM3</option>
-                                                <option value="ADM4">ADM4</option>
-                                                <option value="ADM5">ADM5</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="row" style="margin-top:10px">
-                                            <span>Compare:</span>
-                                            <select id='map-compare' style="margin-left:20px" onchange="updateGetParams(); updateCountriesTable(); updateMapCountries()">
-                                            </select>
-                                        </div>
-                                        <p id="map-description" style="font-size:0.7em; padding:0; margin:20px 10px">Description goes here...</p>
-					-->
-
-<!-- break -->
-
-
-
-
 					
                                         <div style="width:100%; margin-top:10px">
                                             <div id="map-legend" style="margin-left:20%; display:flex; flex-direction:column-reverse;">
@@ -571,7 +536,8 @@ WWTARIFAVG
 							<h2 style="margin-bottom:5px">Countries</h2>
 						</div>
 						<div style="width:100%">
-                            <table id="countries-table" style="margin-left:10px">
+						  <table id="countries-table" style="margin-left:10px">
+						    <p>Select a csv to show data</p>
                                 <thead>
                                 </thead>
                                 <tbody>
@@ -587,8 +553,9 @@ WWTARIFAVG
 			</div>
 		</div>
 
-        <!-- Popups -->
-        <div id="country-popup" class="popup is-hidden is-visually-hidden">
+		<!-- Popups -->
+		<!--
+		<div id="country-popup" class="popup is-hidden is-visually-hidden">
             <div class="popup-content">
 
                 <div style="text-align:right">
@@ -605,6 +572,7 @@ WWTARIFAVG
                         };
                     };
                 </script>
+
 
                 <h2>Country Details</h2>
 
@@ -637,6 +605,7 @@ WWTARIFAVG
 
             </div>
         </div>
+-->
 
 		<!-- Sidebar -->
 		<div id="sidebar" , class="inactive">

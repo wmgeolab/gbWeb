@@ -1,3 +1,5 @@
+
+// this function read in the data from the github geodata page and displays it as a table when the "show data" button is pressed
 function read_geodata_data()
 {
     var selection_menu = document.getElementById('csv_list');
@@ -281,9 +283,6 @@ function read_geodata_data()
 	"XKX":"Kosovo",
     };
 
-    //alert(dict["AFG"])
-    //alert(dict["AGO"])
-    
     for (var i=0;i<rows.length;i++)
     {
 	if (rows[i] == "")
@@ -303,6 +302,8 @@ function read_geodata_data()
     
     
 }
+
+// this function sends the user to a page with the raw json data when the "view raw data" button is pressed
 function goto_raw_csv_file()
 {
     var selection_menu = document.getElementById('csv_list');
