@@ -103,6 +103,7 @@
 									    <div class="row" style="margin-top:10px">
 									      <span>Select csv</span>
 									      <select id="csv_list" style="margin-left:20px">
+										<!--
 										<option>ACCNTOWNER</option>
 										<option>
 ADPTINVLDC
@@ -491,11 +492,12 @@ WTREFFCHNG
 <option>
 WWTARIFAVG
 </option>
-
+-->
 
 									      </select>
 									    </div>
 
+									    <script>add_options()</script>
 				 					    <button type="button" style="font-size:0.6em" onclick="read_geodata_data()">Show data</button>
 <!--									    
 <a href = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/ADM0/" + document.csv_list.value + ".csv">View raw data</a>
