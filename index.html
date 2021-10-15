@@ -254,7 +254,7 @@
 								{ title: "ISO-3", cssClass:"greyHighlight",field: "ISO", visible: true, responsive: 0, headerFilter: 'input', width: "10px", headerVertical: false },
 								{ title: "Level", cssClass:"greyHighlight",field: "ADM", visible: true, responsive: 0, headerVertical: false },
 								{
-									title: "geoBoundaries",
+									title: "geoBoundaries<br><span style='font-size:x-small;'>Can be used for most purposes, <br/>including academic and commercial.<br />Attribution required.</span>",
 									cssClass: "openHighlight",
 									columns: [
 										{ formatter: downloadSingleIcon, cssClass: "openHighlight", title: "Full Release", align: "center", field: "openDownloadURL", headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
@@ -267,7 +267,8 @@
 									],
 								},
 								{
-									title: "UN OCHA CODs",
+									title: "UN OCHA CODs<br><span style='font-size:x-small;'>For Humanitarian Uses Only.<br />&nbsp;<br />&nbsp;</span>",
+									formatter:"html",
 									cssClass: "ochaHighlight",
 									columns: [
 										{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field: "humDownloadURL", headerVertical: true, responsive: 0, visible: true, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
@@ -280,7 +281,7 @@
 									],
 								},
 								{
-									title: "UN SALB",
+									title: "UN SALB<br><span style='font-size:x-small;'>Authoritative. No <br />commercial use or <br />modification allowed.</span>",
 									cssClass: "salbHighlight",
 									columns: [
 										{ formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
