@@ -345,6 +345,8 @@ function updateGbLayer(zoomToExtent=false) {
         updateGbFieldsDropdown(features);
         updateGbNames(features);
         updateGbInfo(features);
+        calcBoundaryMakeupTables();
+        //calcBoundaryMakeupTables();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
@@ -386,6 +388,8 @@ function updateComparisonLayer(zoomToExtent=false) {
         updateComparisonFieldsDropdown(features);
         updateComparisonNames(features);
         updateComparisonInfo(features);
+        calcBoundaryMakeupTables();
+        //calcBoundaryMakeupTables();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
@@ -850,6 +854,7 @@ function gbSourceChanged() {
     clearGbInfo();
     clearGbStats();
     clearGbNames();
+    clearTotalEquality();
     // clear comparison layer
     clearGbLayer();
     // check which comparison source was selected
@@ -885,6 +890,7 @@ function comparisonSourceChanged() {
     clearComparisonInfo();
     clearComparisonStats();
     clearComparisonNames();
+    clearTotalEquality();
     // clear comparison layer
     clearComparisonLayer();
     // check which comparison source was selected

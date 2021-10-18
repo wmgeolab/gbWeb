@@ -444,9 +444,7 @@
 					<div id="source-contents" class="row box" style="width:100%; margin:25px 0px">
 						<div id="source-contents-banner" style="width:100%; text-align:center">
 							<h2 style="margin-bottom:5px">Matching</h2>
-							<button onclick="calcBoundaryMakeupTables()">
-								Match Boundaries
-							</button>
+							<div id="total-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Finding matches...</p></div>
 							<br><br>
 						</div>
 						<div id="left-table-div" style="width:45%">
@@ -462,7 +460,7 @@
 												<option selected>(Select name field)</option>
 											</select>
 										</th>
-										<th>Related To</th>
+										<th>Most similar</th>
 									</thhead>
 									<tbody id="gb-names-table-tbody">
 									</tbody>
@@ -482,7 +480,7 @@
 												<option selected>(Select name field)</option>
 											</select>
 										</th>
-										<th>Related to</th>
+										<th>Most similar</th>
 									</thhead>
 									<tbody id="comparison-names-table-tbody">
 									</tbody>

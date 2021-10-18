@@ -253,6 +253,18 @@ ul li{
     top:0;
 }
 
+.stats-percent-high span {
+    background-color:rgb(0,172,71);
+}
+
+.stats-percent-mid span {
+    background-color:rgb(252, 227, 0);
+}
+
+.stats-percent-low span {
+    background-color:rgb(241, 145, 0);
+}
+
 .stats-percent-gb span {
     background-color:#319FD3;
 }

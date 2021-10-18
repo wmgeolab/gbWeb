@@ -214,32 +214,44 @@ function calcSpatialRelations(feat, features) {
     return matches;
 };
 
-function calcAllSpatialRelations(features1, features2) {
+function calcAllSpatialRelations(features1, features2, onSuccess) {
     // calc relations from 1 to 2
+    // calculate for each feature sequentially with timeout in between
+    // to avoid locking up the entire gui
     var matches1 = [];
-    for (feature1 of features1) {
+    function processOne(i) {
+        console.log('processing '+i);
+        var feature1 = features1[i];
         var related = calcSpatialRelations(feature1, features2);
         matches1.push([feature1,related]);
-    };
-    // then reverse the calcs so they go from 2 to 1
-    var matches2 = [];
-    for (feature2 of features2) {
-        var related2 = [];
-        for (m1 of matches1) {
-            var [f1,related1] = m1;
-            for (r1 of related1) {
-                var [f2,stats] = r1;
-                if (feature2 === f2) {
-                    // reverse and add the stats to related
-                    newStats = {contains:stats.within, within:stats.contains, equality:stats.equality}
-                    related2.push([f1,newStats]);
+        if (i+1 < features1.length) {
+            // process next one after x milliseconds
+            setTimeout(function(){processOne(i+1)}, 10);
+        } else {
+            // finished
+            // calc relations from 2 to 1 by reversing the calcs
+            var matches2 = [];
+            for (feature2 of features2) {
+                var related2 = [];
+                for (m1 of matches1) {
+                    var [f1,related1] = m1;
+                    for (r1 of related1) {
+                        var [f2,stats] = r1;
+                        if (feature2 === f2) {
+                            // reverse and add the stats to related
+                            newStats = {contains:stats.within, within:stats.contains, equality:stats.equality}
+                            related2.push([f1,newStats]);
+                        };
+                    };
                 };
+                matches2.push([feature2,related2]);
             };
+            // run success func
+            onSuccess(matches1, matches2);
         };
-        matches2.push([feature2,related2]);
     };
-    // return both results
-    return [matches1, matches2];
+    // begin
+    processOne(0);
 };
 
 function sortSpatialRelations(matches, sort_by, thresh, reverse=true) {

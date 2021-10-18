@@ -19,12 +19,12 @@ function Topoj2Geoj(topoj) {
         let x = 0;
         let y = 0;
         for (let i = 0, ii = arc.length; i < ii; ++i) {
-        const vertex = arc[i];
-        x += vertex[0];
-        y += vertex[1];
-        vertex[0] = x;
-        vertex[1] = y;
-        transformVertex(vertex, scale, translate);
+            const vertex = arc[i];
+            x += vertex[0];
+            y += vertex[1];
+            vertex[0] = x;
+            vertex[1] = y;
+            transformVertex(vertex, scale, translate);
         }
     };
     function transformVertex(vertex, scale, translate) {
@@ -54,9 +54,11 @@ function Topoj2Geoj(topoj) {
           };
         }
         // provide fresh copies of coordinate arrays
+        /*
         for (let j = 0, jj = coordinates.length; j < jj; ++j) {
           coordinates[j] = coordinates[j].slice();
         }
+        */
         return coordinates;
     };
     function readPolygonGeometry(object, arcs) {
@@ -135,9 +137,22 @@ function fixTopoJSON(topoj) {
 
 function loadFromTopoJSON(source, topoj) {
     //alert('reading features...');
-    //var format = new ol.format.TopoJSON({});
-    var format = new ol.format.GeoJSON({});
+    
+    // TEMPORARY: 
+    // manually convert to geojson and redirect to geojson loading
+    // fixes call stack error inherent in ol.format.TopoJSON reader
+    console.log('topoj 2 geoj...')
+    var geoj = Topoj2Geoj(topoj);
+    console.log('geoj loaded');
+    // redirect to geojson loader
+    loadFromGeoJSON(source, geoj);
+    // exit early
+    return
 
+    // standard openlayers approach
+    var format = new ol.format.TopoJSON({});
+
+    // debug explore arc lengths as a cause of maximum call stack error
     //console.log('topo objects '+topoj.objects.data.geometries.length)
     //console.log('topo arcs '+topoj.arcs.length)
     /*
@@ -171,14 +186,9 @@ function loadFromTopoJSON(source, topoj) {
     //console.log('topo obj1 arcs '+topoj.objects.data.geometries[0].arcs.length)
     //console.log('topo obj1 total points '+count)
 
-    // TEMPORARY: fix call stack error by truncating long arcs
-    //console.log('topoj 2 geoj...')
-    var geoj = Topoj2Geoj(topoj);
-    //console.log('geoj loaded');
-
     // read the features
     //console.log('loading features...')
-    var features = format.readFeatures(geoj, {
+    var features = format.readFeatures(topoj, {
                                                 dataProjection: 'EPSG:4326',
                                                 featureProjection: 'EPSG:3857'
                                             }
@@ -236,6 +246,10 @@ function loadGeoContrastSource(source, iso, level, sourceName) {
             break;
         };
     };
+    // NOTE: remove this once stable switches from pure .topojson to .topojson.zip
+    if (!apiUrl.includes('geoBoundaries') & !apiUrl.endsWith('.zip')) {
+        apiUrl += '.zip'; 
+    };
     // manually load topojson from url
     if (apiUrl.endsWith('.topojson')) {
         fetch(apiUrl)
@@ -249,6 +263,14 @@ function loadGeoContrastSource(source, iso, level, sourceName) {
         var splitUrl = apiUrl.split('/');
         var extractName = splitUrl[splitUrl.length-1].replace('.zip','');
         if (extractName.endsWith('.topojson')) {
+            /*
+            JSZipUtils.getBinaryContent(apiUrl, function(err, data) {
+                console.log(err);
+                console.log(data);
+                topoj = JSON.parse(getZipFileContent(data, extractName));
+                loadFromTopoJSON(source, topoj);
+            })
+            */
             fetch(apiUrl)
                 .then(resp => resp.arrayBuffer() )
                 .then(out => loadFromTopoJSON( source, JSON.parse(getZipFileContent(out, extractName))) )

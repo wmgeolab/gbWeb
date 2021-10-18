@@ -211,13 +211,66 @@ function comparisonFieldsDropdownChanged() {
 function calcBoundaryMakeupTables() {
     var features = gbLayer.getSource().getFeatures();
     var comparisonFeatures = comparisonLayer.getSource().getFeatures();
+    if (features.length == 0 | comparisonFeatures.length == 0) {
+        return;
+    };
+    console.log('finding matches');
+
+    // define on success
+    function onSuccess(matches1, matches2) {
+        // calc total equality from the perspective of main source only (not for comparison source)
+        updateTotalEquality(matches1);
+
+        // update tables
+        updateGbMakeupTable(matches1);
+        updateComparisonMakeupTable(matches2);
+    };
 
     // calculate relations
-    var [matches1,matches2] = calcAllSpatialRelations(features, comparisonFeatures);
+    calcAllSpatialRelations(features, comparisonFeatures, onSuccess=onSuccess);
+};
 
-    // update tables
-    updateGbMakeupTable(matches1);
-    updateComparisonMakeupTable(matches2);
+function clearTotalEquality() {
+    // set div color
+    var percDiv = document.querySelector('#total-similarity');
+    percDiv.className = 'stats-percent';
+    // set bar width
+    var percSpan = percDiv.querySelector('span');
+    percSpan.style = "--data-width:0%";
+    // set bar text
+    var percP = percDiv.querySelector('p');
+    percP.innerText = "Finding matches...";
+};
+
+function updateTotalEquality(matches) {
+    // calc total equality from the perspective of main source only (not for comparison source)
+    var cumEquality = 0;
+    var possibleEquality = 0;
+    // for each feat add to total equality
+    for (match of matches) {
+        var [feature,related] = match;
+        // sort
+        related = sortSpatialRelations(related, 'equality', 0);
+        // add best equality
+        best = related[0];
+        stats = best[1];
+        cumEquality += stats.equality;
+        possibleEquality += 1;
+    };
+    // update the percent bar
+    percEquality = cumEquality / possibleEquality * 100;
+    // set div color
+    var percDiv = document.querySelector('#total-similarity');
+    if (percEquality > 90) {var colorcat = 'high'}
+    else if (percEquality > 70) {var colorcat = 'mid'}
+    else {var colorcat = 'low'};
+    percDiv.className = 'stats-percent stats-percent-'+colorcat;
+    // set bar width
+    var percSpan = percDiv.querySelector('span');
+    percSpan.style = "--data-width:"+percEquality+"%";
+    // set bar text
+    var percP = percDiv.querySelector('p');
+    percP.innerText = "Source Similarity: " + percEquality.toFixed(1) + "%";
 };
 
 function updateGbMakeupTable(matches) {
@@ -238,7 +291,7 @@ function updateGbMakeupTable(matches) {
     for (match of matches) {
         var [feature,related] = match;
         // sort
-        related = sortSpatialRelations(related, 'within', 0);
+        related = sortSpatialRelations(related, 'equality', 0);
         // keep any that are significant from the perspective of either boundary (>1% of area)
         var significantRelated = [];
         for (x of related) {
@@ -282,9 +335,14 @@ function updateGbMakeupTable(matches) {
                 var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
                 var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
                 var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name2+'</a>';
-                var share = (stats.within * 100).toFixed(1) + '%';
-                var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+                var share = (stats.equality * 100).toFixed(1) + '%';
+                if (stats.equality > 0.9) {var colorcat = 'high'}
+                else if (stats.equality > 0.7) {var colorcat = 'mid'}
+                else {var colorcat = 'low'}
+                var shareDiv = '<div class="stats-percent stats-percent-'+colorcat+'" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
                 cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
+                // only show the first most similar match, exit early
+                break;
             };
             cell.innerHTML = cellContent;
             row.appendChild(cell);
@@ -312,7 +370,7 @@ function updateComparisonMakeupTable(matches) {
     for (match of matches) {
         var [feature,related] = match;
         // sort
-        related = sortSpatialRelations(related, 'within', 0);
+        related = sortSpatialRelations(related, 'equality', 0);
         // keep any that are significant from the perspective of either boundary (>1% of area)
         var significantRelated = [];
         for (x of related) {
@@ -356,9 +414,14 @@ function updateComparisonMakeupTable(matches) {
                 var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
                 var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
                 var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
-                var share = (stats.within * 100).toFixed(1) + '%';
-                var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+                var share = (stats.equality * 100).toFixed(1) + '%';
+                if (stats.equality > 0.9) {var colorcat = 'high'}
+                else if (stats.equality > 0.7) {var colorcat = 'mid'}
+                else {var colorcat = 'low'}
+                var shareDiv = '<div class="stats-percent stats-percent-'+colorcat+'" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
                 cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
+                // only show the first most similar match, exit early
+                break;
             };
             cell.innerHTML = cellContent;
             row.appendChild(cell);
