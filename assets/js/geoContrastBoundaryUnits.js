@@ -252,9 +252,11 @@ function updateTotalEquality(matches) {
         // sort
         related = sortSpatialRelations(related, 'equality', 0);
         // add best equality
-        best = related[0];
-        stats = best[1];
-        cumEquality += stats.equality;
+        if (related.length > 0) {
+            best = related[0];
+            stats = best[1];
+            cumEquality += stats.equality;
+        };
         possibleEquality += 1;
     };
     // update the percent bar
