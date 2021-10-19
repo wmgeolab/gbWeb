@@ -242,10 +242,8 @@ function calcSpatialRelationsInBackground(fid, feat, features, onSuccess) {
     */
 
     // define how to receive results
-    var received = 0;
     function processResults(event) {
         //console.log(fid+' received response from worker: '+event.data);
-        received += 1;
         var i = event.data[1];
         var simil = event.data[2];
         if (simil.equality > 0.0) {

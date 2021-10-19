@@ -13,6 +13,8 @@ function geoj2turf(geoj) {
 function similarity(geoj1, geoj2) {
     // create turf objects
     //alert('creating turf geoms');
+    geoj1 = turf.toWgs84(geoj1) // ol geom web mercator -> turf wgs84
+    geoj2 = turf.toWgs84(geoj2) // ol geom web mercator -> turf wgs84
     geom1 = geoj2turf(geoj1); //turf.simplify(feat1.geometry, {tolerance:0.01}));
     geom2 = geoj2turf(geoj2); //turf.simplify(feat2.geometry, {tolerance:0.01}));
 
@@ -56,7 +58,7 @@ function similarity(geoj1, geoj2) {
 
 self.onmessage = function(event) {
     var args = event.data;
-    console.log('worker received args: '+args);
+    //console.log('worker received args: '+args);
     if (args[0] == 'similarity') {
         var i1 = args[1];
         var i2 = args[2];
