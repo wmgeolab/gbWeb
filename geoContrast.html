@@ -304,7 +304,7 @@
 						<ul class='etabs'>
 							<li class='tab'><a href="#source-overview">Overview</a></li>
 							<li class='tab'><a href="#source-stats">Statistics</a></li>
-							<li class='tab'><a href="#source-contents">Matching</a></li>
+							<li class='tab'><a href="#source-contents">Matches</a></li>
 						</ul>
 						
 						<div id="source-overview" class="row box" style="width:100%; margin:0px 0px; page-break-after:always">
@@ -451,7 +451,7 @@
 
 						<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
 							<div id="source-contents-banner" style="width:100%; text-align:center">
-								<h2 style="margin-bottom:5px">Matching</h2>
+								<h2 style="margin-bottom:5px">Matches</h2>
 								<div id="total-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Finding matches...</p></div>
 								<br><br>
 							</div>
@@ -511,24 +511,25 @@
 			<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
 				<div class="popup-content">
 
-					<div style="text-align:right">
-						<a id="close-compare-popup" class="popup-close" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
-					</div>
+					<div class="row box" style="width:100%; margin:0px 0px">
 
-					<script>
-						// When the user clicks anywhere outside of the popup, close it
-						window.onclick = function(event) {
-							//alert('click '+event.target.className+' '+event.target.id);
-							if (event.target.id == 'feature-compare-popup') {
-								//alert('should close');
-								event.target.className = "popup is-hidden is-visually-hidden";
+						<div id="feature-compare-banner" style="width:100%; text-align:center">
+							<a id="close-compare-popup" style="float:right" class="popup-close" onclick="document.getElementById('feature-compare-popup').className='popup is-hidden is-visually-hidden'">&times;</a>
+							<h2 style="margin-bottom:5px">Feature Comparison</h2>
+							<div id="feature-compare-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Matching...</p></div>
+							<br><br>
+						</div>
+
+						<script>
+							// When the user clicks anywhere outside of the popup, close it
+							window.onclick = function(event) {
+								//alert('click '+event.target.className+' '+event.target.id);
+								if (event.target.id == 'feature-compare-popup') {
+									//alert('should close');
+									event.target.className = "popup is-hidden is-visually-hidden";
+								};
 							};
-						};
-					</script>
-
-					<h2>Feature Comparison</h2>
-
-					<div class="row box" style="width:100%; margin:15px 0px">
+						</script>
 
 						<div id="feature-compare-left-div" style="width:49%">
 							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
@@ -566,10 +567,6 @@
 								<tr style="display:none">
 									<td>Relationship (<span class="tooltip" data-text="If both feature's boundary overlap exceed 99% then they are considered equal. If either feature exceeds 99% then the one with the highest share is considered FULLY INSIDE the other, while the one with the lowest share CONTAINS ALL OF the other one. If the highest share is above 66.6% then this is modified to MOSTLY INSIDE and CONTAINS MOST OF; above 0% is modified to PARTLY INSIDE and CONTAINS PARTS OF.">?</span>):</td>
 									<td id="feature-compare-stats-gb-relation" class="stats-value"></td>
-								</tr>
-								<tr>
-									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
-									<td id="feature-compare-stats-gb-overlap" class="stats-value"></td>
 								</tr>
 							</table>
 							<div id="feature-compare-left-empty" style="margin-left:15px; margin-top:10px">
@@ -612,10 +609,6 @@
 								<tr style="display:none">
 									<td>Relationship (<span class="tooltip" data-text="If both feature's boundary overlap exceed 99% then they are considered equal. If either feature exceeds 99% then the one with the highest share is considered FULLY INSIDE the other, while the one with the lowest share CONTAINS ALL OF the other one. If the highest share is above 66.6% then this is modified to MOSTLY INSIDE and CONTAINS MOST OF; above 0% is modified to PARTLY INSIDE and CONTAINS PARTS OF.">?</span>):</td>
 									<td id="feature-compare-stats-comp-relation" class="stats-value"></td>
-								</tr>
-								<tr>
-									<td>Boundary Overlap (<span class="tooltip" data-text="The percent of this feature's total boundary that overlaps with the comparison feature.">?</span>):</td>
-									<td id="feature-compare-stats-comp-overlap" class="stats-value"></td>
 								</tr>
 							</table>
 							<div id="feature-compare-right-empty" style="margin-left:15px; margin-top:10px">

@@ -266,6 +266,7 @@ function updateTotalEquality(matches) {
     if (percEquality > 90) {var colorcat = 'high'}
     else if (percEquality > 70) {var colorcat = 'mid'}
     else {var colorcat = 'low'};
+    var colorcat = 'high';
     percDiv.className = 'stats-percent stats-percent-'+colorcat;
     // set bar width
     var percSpan = percDiv.querySelector('span');
@@ -341,6 +342,7 @@ function updateGbMakeupTable(matches) {
                 if (stats.equality > 0.9) {var colorcat = 'high'}
                 else if (stats.equality > 0.7) {var colorcat = 'mid'}
                 else {var colorcat = 'low'}
+                var colorcat = 'high';
                 var shareDiv = '<div class="stats-percent stats-percent-'+colorcat+'" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
                 cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
                 // only show the first most similar match, exit early
@@ -420,6 +422,7 @@ function updateComparisonMakeupTable(matches) {
                 if (stats.equality > 0.9) {var colorcat = 'high'}
                 else if (stats.equality > 0.7) {var colorcat = 'mid'}
                 else {var colorcat = 'low'}
+                var colorcat = 'high';
                 var shareDiv = '<div class="stats-percent stats-percent-'+colorcat+'" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
                 cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
                 // only show the first most similar match, exit early

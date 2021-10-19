@@ -100,6 +100,10 @@ function updateFeatureComparisonMap(mainGeoj, comparisonGeoj) {
 
 // opening the feature compare as a popup
 function openFeatureComparePopup(feat1, feat2) {
+    // reset feature similarity
+    var shareDiv = document.getElementById('feature-compare-similarity'); 
+    shareDiv.querySelector('span').style = '--data-width:0%';
+    shareDiv.querySelector('p').innerText = 'Matching...';
     // reset any previous names and stats
     document.getElementById('feature-compare-left-name').innerText = '-';
     for (elem of document.querySelectorAll('#feature-compare-left-table .stats-value')) {
@@ -202,7 +206,7 @@ function openFeatureComparePopup(feat1, feat2) {
         var features2 = comparisonLayer.getSource().getFeatures();
         related = calcSpatialRelations(feat1, features2);
         // sort
-        related = sortSpatialRelations(related, 'within', 0);
+        related = sortSpatialRelations(related, 'equality', 0);
         // keep any that are significant from the perspective of either boundary (>1% of area)
         var significantRelated1 = [];
         for (x of related) {
@@ -221,8 +225,8 @@ function openFeatureComparePopup(feat1, feat2) {
             var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
             var onclick = "document.getElementById('close-compare-popup').click(); " + 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
             var nameLink = '<span class="link" onclick="'+onclick+'">'+name2+'</span>';
-            var share = (stats.within * 100).toFixed(1) + '%';
-            var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+            var share = (stats.equality * 100).toFixed(1) + '%';
+            var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
             cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
         };
         document.getElementById('feature-compare-stats-comp-related').innerHTML = cellContent;
@@ -231,7 +235,7 @@ function openFeatureComparePopup(feat1, feat2) {
         var features1 = gbLayer.getSource().getFeatures();
         related = calcSpatialRelations(feat2, features1);
         // sort
-        related = sortSpatialRelations(related, 'within', 0);
+        related = sortSpatialRelations(related, 'equality', 0);
         // keep any that are significant from the perspective of either boundary (>1% of area)
         var significantRelated2 = [];
         for (x of related) {
@@ -250,8 +254,8 @@ function openFeatureComparePopup(feat1, feat2) {
             var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
             var onclick = "document.getElementById('close-compare-popup').click(); " + 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
             var nameLink = '<span class="link" onclick="'+onclick+'">'+name1+'</span>';
-            var share = (stats.within * 100).toFixed(1) + '%';
-            var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
+            var share = (stats.equality * 100).toFixed(1) + '%';
+            var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
             cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
         };
         document.getElementById('feature-compare-stats-gb-related').innerHTML = cellContent;
@@ -298,12 +302,10 @@ function openFeatureComparePopup(feat1, feat2) {
         //document.getElementById('feature-compare-equality').innerText = (stats.equality*100).toFixed(1) + '%';
         //document.getElementById('feature-compare-contains').innerText = (stats.contains*100).toFixed(1) + '%';
         //document.getElementById('feature-compare-within').innerText = (stats.within*100).toFixed(1) + '%';
-        var share = (stats.within * 100).toFixed(1) + '%';
-        var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.within*100+'%"></span><p>'+share+'</p></div>';
-        document.getElementById('feature-compare-stats-gb-overlap').innerHTML = shareDiv;
-        var share = (stats.contains * 100).toFixed(1) + '%';
-        var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.contains*100+'%"></span><p>'+share+'</p></div>';
-        document.getElementById('feature-compare-stats-comp-overlap').innerHTML = shareDiv;
+        var share = (stats.equality * 100).toFixed(1) + '%';
+        var shareDiv = document.getElementById('feature-compare-similarity'); 
+        shareDiv.querySelector('span').style = '--data-width:'+stats.equality*100+'%';
+        shareDiv.querySelector('p').innerText = share;
         // figure out relationship
         if ((stats.within >= 0.99) & (stats.contains >= 0.99)) {
             var rel1 = 'EQUALS';
