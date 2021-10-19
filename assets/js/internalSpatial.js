@@ -1,4 +1,8 @@
 
+// create background worker that will do spatial computations
+var worker = new Worker('assets/js/internalSpatialWorker.js');
+console.log(worker);
+
 // spatial stats stuff
 function calcSpatialStats(features) {
     var stats = {};
@@ -197,9 +201,32 @@ function similarity(feat1, feat2) {
 };*/
 
 function calcSpatialRelations(feat, features) {
+    //feat = feat.getGeometry().simplify(0.01);
     var geojWriter = new ol.format.GeoJSON();
     var geoj1 = geojWriter.writeFeatureObject(feat);
     var matches = [];
+    for (feat2 of features) {
+        if (!ol.extent.intersects(feat.getGeometry().getExtent(), feat2.getGeometry().getExtent())) {
+            continue;
+        };
+        //feat2 = feat2.getGeometry().simplify(0.01);
+        geoj2 = geojWriter.writeFeatureObject(feat2);
+        simil = similarity(geoj1, geoj2);
+        if (simil.equality > 0.0) {
+            matches.push([feat2,simil]);
+        };
+        i++;
+    };
+    return matches;
+};
+
+function calcSpatialRelationsInBackground(fid, feat, features, onSuccess) {
+    var geojWriter = new ol.format.GeoJSON();
+    var geom = feat.getGeometry().simplify(0.1); 
+    var geoj1 = geojWriter.writeGeometryObject(geom);
+    var matches = [];
+    /*
+    // normal approach
     for (feat2 of features) {
         if (!ol.extent.intersects(feat.getGeometry().getExtent(), feat2.getGeometry().getExtent())) {
             continue;
@@ -212,43 +239,96 @@ function calcSpatialRelations(feat, features) {
         i++;
     };
     return matches;
+    */
+
+    // define how to receive results
+    var received = 0;
+    function processResults(event) {
+        //console.log(fid+' received response from worker: '+event.data);
+        received += 1;
+        var i = event.data[1];
+        var simil = event.data[2];
+        if (simil.equality > 0.0) {
+            var feat2 = features[i];
+            matches.push([feat2,simil]);
+        };
+        // process next one
+        processOne(i+1);
+    };
+    worker.onmessage = processResults;
+
+    // define how to ask for results
+    function processOne(i) {
+        if (i+1 >= features.length) {
+            //finished
+            //console.log(fid+' received all responses, total matches: '+matches.length);
+            onSuccess(matches);
+            return; // dont process any further
+        };
+        //console.log(fid+' processing '+i);
+        var feat2 = features[i];
+        if (!ol.extent.intersects(feat.getGeometry().getExtent(), feat2.getGeometry().getExtent())) {
+            // skip to next one
+            processOne(i+1);
+        } else {
+            // submit to worker
+            geom2 = feat2.getGeometry().simplify(0.1);
+            geoj2 = geojWriter.writeGeometryObject(geom2);
+            worker.postMessage(['similarity',fid,i,geoj1,geoj2]);
+        };
+    };
+
+    // begin
+    processOne(0);
 };
 
 function calcAllSpatialRelations(features1, features2, onSuccess) {
     // calc relations from 1 to 2
     // calculate for each feature sequentially with timeout in between
     // to avoid locking up the entire gui
+    
+    // background worker approach
+
+    // define how to process
     var matches1 = [];
     function processOne(i) {
-        console.log('processing '+i);
+        console.log('processing '+i+' of '+features1.length);
         var feature1 = features1[i];
-        var related = calcSpatialRelations(feature1, features2);
-        matches1.push([feature1,related]);
-        if (i+1 < features1.length) {
-            // process next one after x milliseconds
-            setTimeout(function(){processOne(i+1)}, 10);
-        } else {
-            // finished
-            // calc relations from 2 to 1 by reversing the calcs
-            var matches2 = [];
-            for (feature2 of features2) {
-                var related2 = [];
-                for (m1 of matches1) {
-                    var [f1,related1] = m1;
-                    for (r1 of related1) {
-                        var [f2,stats] = r1;
-                        if (feature2 === f2) {
-                            // reverse and add the stats to related
-                            newStats = {contains:stats.within, within:stats.contains, equality:stats.equality}
-                            related2.push([f1,newStats]);
+        //var related = calcSpatialRelations(feature1, features2);
+        //matches1.push([feature1,related]);
+        function onFeatureFinished(featmatches) {
+            //console.log(i+' feature finished')
+            if (i+1 < features1.length) {
+                // process next one after x milliseconds
+                //console.log('calling on next one')
+                matches1.push([feature1,featmatches]);
+                setTimeout(function(){processOne(i+1)}, 10);
+            } else {
+                // finished
+                console.log('everything finished!')
+                //console.log(matches1);
+                // calc relations from 2 to 1 by reversing the calcs
+                var matches2 = [];
+                for (feature2 of features2) {
+                    var related2 = [];
+                    for (m1 of matches1) {
+                        var [f1,related1] = m1;
+                        for (r1 of related1) {
+                            var [f2,stats] = r1;
+                            if (feature2 === f2) {
+                                // reverse and add the stats to related
+                                newStats = {contains:stats.within, within:stats.contains, equality:stats.equality}
+                                related2.push([f1,newStats]);
+                            };
                         };
                     };
+                    matches2.push([feature2,related2]);
                 };
-                matches2.push([feature2,related2]);
+                // run success func
+                onSuccess(matches1, matches2);
             };
-            // run success func
-            onSuccess(matches1, matches2);
         };
+        calcSpatialRelationsInBackground(i, feature1, features2, onFeatureFinished);
     };
     // begin
     processOne(0);
