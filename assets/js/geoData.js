@@ -1,6 +1,4 @@
-// https://api.github.com/repos/wmgeolab/geoDataWeb/git/trees/33011ba?recursive=1
-
-// TODO: make it so that list and list_vals generate automatically and aren't hardcoded
+// TODO: make script lag less
 
 // populate csv list with variable name options
 function add_options()
@@ -11,10 +9,14 @@ function add_options()
 	"ACCNTOWNER","ADPTINVLDC","AGORGINDEX","AIRPOLDTHS","ATMSPERPOP","BANKPERPOP","BASELCONVN","BIOMASSTON","BIRTHREGIS","CELLOWNERS","CENSUSDONE","CLNENGYFIN","CORNPRANOM","CROPCONSPC","DEATHREGIS","DEGRADLAND","DISLOSSGDP","DISRISKPLN","DISTDISRUP","EMISSVALADD","ENGYINTGDP","FFUELFPTON","FFUELMFPPC","FFUNSTPLAN","FRWTRWDRAW","FUNPOSTATS","FVOLAIRTKM","FVOLRTKM","GOVEXPBDGT","GOVTREVGDP","GRHHEXPDPC","GRTGDPEMPL","GWRREALGDP","HLTHEXPTFP","HTECHVALUE","HTECHVAMAN","ILLFISHLAW","INDPMGMTFR","INTHOMVCTM","INTNETSUBS","LBRDNORISK","LBRDUKRISK","LBREEDRISK","LRPLTRECON","LTMGMTFORP","MARINEPROT","MARPREEGTN","MARPREFITN","MARTECHBGT","MATFPPERCAP","MATHMORRATE","MATHPROFIC","MFPBMASSPC","MFPTOTALPC","MILLPRANOM","MONTREALC","MORTBADWTR","MTGREENIDX","NEONATMORT","NFUNSTPLAN","NMETALCPRC","NMETALFPPC","NONMETALTON","NOPARISPRI","ODAAGRICUL","ODAAIDTRAD","ODABIODIVR","ODAGROSSDSP","ODASCHOLAR","ORECONPERC","OREMFPPERC","OREMTFPTON","PARISHRINT","PCHLDABUSE","PERPOPELEC","POISONMORT","POPCLNENGY","POPDISTDAP","POPEXPRFGM","POPSAFEWTR","PRBRTSKHEL","PREMALNUTR","PREVSTUNFV","PREVUNDNOR","PRNDEXPGDP","PROBIODIVR","PROINTUSER","PROSAFEWTR","PROSSCRDIT","PROSSINDVA","PROTECTFOR","PRPBDGTTAX","PVOLAIRPKM","PVOLRPKM","RAWMTFPTON","RECYCLETON","RECYCLRATE","REGISBIRTH","RENEWENGCON","RESEARCHER","RICEPRANOM","RORGPREDUM","RORGPREEDU","RORGPREEDUF","ROTTERDAMC","RTHOMOCIDE","SAFEWSTWTR","SCPNACTPLN","SEXVIOLENC","SEXVIOLENF","SEXVIOLENM","SHREXPORTS","SORGPRANOM","STKHLDPROG","STKHOLDPLN","STORGENELR","STPLNEXFUN","SUSFORMGMT","TBAQUFMNGD","TODAHEALTH","TWOMINMTHF","TWOMINMTHM","TWOMINREAD","UNEMPYOUTH","UNSENDETAIN","URBPOPSLUM","VALSTATCAP","WHTPRIANOM","WTREFFCHNG","WWTARIFAVG"
 
 
-];*/
+	];*/
+
+    
     var url = "https://api.github.com/repos/wmgeolab/geoDataWeb/git/trees/33011ba?recursive=1";
 
     var request = new XMLHttpRequest();
+
+    var skip_loop = 1;
 
 
     request.open("GET", url, false);
@@ -23,9 +25,13 @@ function add_options()
     var return_object = request.responseText;
     var json_string = JSON.parse(return_object);
     console.log("42 HERE!");
+    console.log(sessionStorage.getItem("list"));
    // console.log(return_object);
     console.log(json_string.tree);
 
+    if (sessionStorage.getItem("list") == null)
+    {
+	console.log("no session storage");
     var list = [];
     var list_vals = [];
     for(var i=0;i<json_string.tree.length;i++)
@@ -49,16 +55,41 @@ function add_options()
 	    }
     }
     console.log("43 HERE!");
-    console.log(list);
+	console.log(list);
+	sessionStorage.setItem("list",JSON.stringify(list));
+	sessionStorage.setItem("list_vals",JSON.stringify(list_vals));
+
+    }
+    else
+    {
+	var list = JSON.parse(sessionStorage.getItem("list"));
+	var list_vals = JSON.parse(sessionStorage.getItem("list_vals"));
+	skip_loop = 0;
+	console.log("here 44");
+	console.log(list);
+	console.log(list_vals);
+    }
+
+    console.log("middle");
 
     var selection_menu = document.getElementById('csv_list');
+
+    console.log("middle2")
+    console.log(list);
+    console.log(list.length);
+
+    //if (skip_loop != 0)
+    //{
 
     for (var i=0;i<list.length;i++)
     {
 	option = '<option value = "' + list_vals[i] + '">' + list[i] + '</option>';
 	selection_menu.innerHTML += option;
     }
+    //}
+    console.log(selection_menu.innerHTML);
 
+    console.log("end");
 
     //console.log(new_list);
 
@@ -87,6 +118,9 @@ function add_options()
 // this function read in the data from the github geodata page and displays it as a table when the "show data" button is pressed
 function read_geodata_data()
 {
+
+    console.log("start");
+    
     var selection_menu = document.getElementById('csv_list');
 
     var selection_val = selection_menu.value;
