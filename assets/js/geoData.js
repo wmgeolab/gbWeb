@@ -140,6 +140,7 @@ function read_geodata_data()
     request.open("GET", meta_url, false);
     request.send(null);
     var metadata_text = request.responseText;
+    metadata_text = metadata_text.split("==============================================================\n\n")[1]
 
     var desc = document.getElementById("metadata-text");
 
