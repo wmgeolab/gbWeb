@@ -115,11 +115,52 @@ function add_options()
 */
 }
 
+function new_update_map_countries()
+{
+/*
+    console.log("starting map update");
+    // get countryData
+    //var countryData = getCountryData();
+    // loop country features
+    for (feat of countryLayer.getSource().getFeatures()) {
+        var props = feat.getProperties();
+        var iso = feat.get('shapeISO');
+        // get the same entry in countryData
+        for (info of countryData) {
+            if (info.iso == iso) {
+                break;
+            };
+        };
+        // update feature properties
+	console.log("HERE4");
+	console.log(feat);
+	console.log(info);
+        feat.setProperties(info);
+    };
+*/
+
+    console.log("plz");
+    console.log(countryLayer);
+    
+    countryLayer.getSource().forEachFeature(function(feature){
+	//console.log(feature);
+	dynamicStyle = styleCategories[2]
+	console.log(dynamicStyle);
+	console.log(feature);
+	feature.setStyle(dynamicStyle);
+	console.log("ack");
+    });
+
+
+}
+
 // this function read in the data from the github geodata page and displays it as a table when the "show data" button is pressed
 function read_geodata_data()
 {
 
     console.log("start");
+
+    
     
     var selection_menu = document.getElementById('csv_list');
 
