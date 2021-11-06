@@ -1,6 +1,8 @@
 // TODO: make script lag less
 
 // populate csv list with variable name options
+
+
 function add_options()
 {
     /*
@@ -115,40 +117,114 @@ function add_options()
 */
 }
 
-function new_update_map_countries()
+function new_update_map_countries(country_values_dict, min, max)
 {
-/*
-    console.log("starting map update");
-    // get countryData
-    //var countryData = getCountryData();
-    // loop country features
-    for (feat of countryLayer.getSource().getFeatures()) {
-        var props = feat.getProperties();
-        var iso = feat.get('shapeISO');
-        // get the same entry in countryData
-        for (info of countryData) {
-            if (info.iso == iso) {
-                break;
-            };
-        };
-        // update feature properties
-	console.log("HERE4");
-	console.log(feat);
-	console.log(info);
-        feat.setProperties(info);
-    };
-*/
 
-    console.log("plz");
+    var styleCategories = [
+    new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgb(151,111,14)',
+        }),
+        stroke: outline,
+    }),
+    new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgb(189,152,82)',
+        }),
+        stroke: outline,
+    }),
+    new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgb(7,124,96)',
+        }),
+        stroke: outline,
+    }),
+    new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgb(6,75,52)',
+        }),
+        stroke: outline,
+    }),
+
+]
+/*
+var missingStyle = new ol.style.Style({
+    fill: new ol.style.Fill({
+        color: 'rgba(63,46,6,0.7)',
+    })
+    stroke: outline,
+});
+*/
     console.log(countryLayer);
     
     countryLayer.getSource().forEachFeature(function(feature){
 	//console.log(feature);
-	dynamicStyle = styleCategories[2]
-	console.log(dynamicStyle);
+	//dynamicStyle = styleCategories[2]
+
+	var range = max - min;
+	max = parseInt(max,10);
+	var bin_size = range / 4;
+	var bin_1_end = min + bin_size;
+	var bin_2_end = min + bin_size * 2;
+	var bin_3_end = min + bin_size * 3;
+
+	var bin_1 = {min:min, max:bin_1_end};
+
+	var bin_2= {min:bin_1_end, max:bin_2_end};
+
+	var bin_3= {min:bin_2_end, max:bin_3_end};
+
+	var bin_4= {min:bin_3_end, max:max};
+
+	var bins = [bin_1,bin_2,bin_3,bin_4];
+
+	updateStyleLegend(bins);
+	
+//	console.log("style");
+//	console.log(dynamicStyle);
+	console.log("feature");
 	console.log(feature);
+
+	var country_name = feature.values_.shapeISO;
+	console.log("ISO:");
+	console.log(country_name);
+
+	var country_data = country_values_dict[country_name];
+	console.log(country_data);
+
+	if (country_data == "" || isNaN(country_data))
+	{
+	    //dynamicStyle = styleCategories[4];
+	    dynamicStyle = missingStyle;
+	}
+	else if (country_data <= bin_1_end)
+	{
+	    console.log("style 0");
+	    dynamicStyle = styleCategories[0];
+	}
+	else if (country_data <= bin_2_end)
+	{
+	    console.log("style 1");
+	    dynamicStyle = styleCategories[1];
+	}
+	else if (country_data <= bin_3_end)
+	{
+	    dynamicStyle = styleCategories[2];
+	}
+	else if (country_data <= max)
+	{
+	    dynamicStyle = styleCategories[3];
+	}
+	else
+	{
+	    console.log("error");
+	    console.log(country_data);
+	    dynamicStyle = missingStyle;
+	}
+	console.log("style");
+	console.log(dynamicStyle);
+	
 	feature.setStyle(dynamicStyle);
-	console.log("ack");
     });
 
 
@@ -444,6 +520,10 @@ function read_geodata_data()
 	"XKX":"Kosovo",
     };
 
+    var country_values_dict = dict;
+    var max = 0;
+    var min = 0;
+
     for (var i=0;i<rows.length;i++)
     {
 	if (rows[i] == "")
@@ -454,12 +534,30 @@ function read_geodata_data()
 	country = rows[i].split(",")[0];
 	data = rows[i].split(",")[1];
 
-	// change from alpha 3 to name
-	country = dict[country]
+
 	
-	row_string = "<tr><td>" + country + "</td><td>" + data + "</td></tr>";
+	
+	// change from alpha 3 to name
+	var country_name = dict[country]
+	
+	row_string = "<tr><td>" + country_name + "</td><td>" + data + "</td></tr>";
 	table.innerHTML += row_string;
+	data = parseInt(data, 10);
+	if (data > max)
+	{
+	    max = data;
+	}
+	if (data < min)
+	{
+	    min = data;
+	}
+
+	country_values_dict[country] = data
+	
+	
     }
+
+    new_update_map_countries(country_values_dict, min, max);
     
     
 }
