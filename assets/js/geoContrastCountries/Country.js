@@ -73,13 +73,13 @@ function openCountryPopup (feat) {
 
 
     var dict = {
-"ABW":" Aruba",
-"AFG":" Afghanistan",
-"AGO":" Angola",
-"AIA":" Anguilla",
-"ALA":" Aland Islands",
-"ALB":" Albania",
-"AND":" Andorra",
+"ABW":"Aruba",
+"AFG":"Afghanistan",
+"AGO":"Angola",
+"AIA":"Anguilla",
+"ALA":"Aland Islands",
+"ALB":"Albania",
+"AND":"Andorra",
 "ANT":"Netherlands Antilles",
 "ARE":"United Arab Emirates",
 "ARG":"Argentina",
@@ -324,23 +324,37 @@ function openCountryPopup (feat) {
 	"XKX":"Kosovo",
     };
 
+
+
+	var value_spot = document.getElementById('value-entry');
+	value_spot.innerHTML = "";
+
+	
 	var data_table = document.getElementById('countries-table');
 
 	var iso = props.shapeISO;
 	var country_name = dict[iso];
-	var value = "undefined";
+	console.log("name is: ");
+	console.log(country_name);
+	var value = "Country name not found";
 
-	var value_spot = document.getElementById('value-entry');
+	
 	
 	for (let row of data_table.rows)
 	{
 	    if (row.cells[0].innerText == country_name)
 	    {
 		value = row.cells[1].innerText;
-		value_spot.innerHTML = value;
+		//value_spot.innerHTML = value;
+		if (value == "")
+		{
+		    value = "Country data not within dataset"
+		}
 		
 	    }
 	}
+
+	value_spot.innerHTML = value;
 
 	
     }
