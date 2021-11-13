@@ -26,10 +26,10 @@ function add_options()
 
     var return_object = request.responseText;
     var json_string = JSON.parse(return_object);
-    console.log("42 HERE!");
-    console.log(sessionStorage.getItem("list"));
+    //console.log("42 HERE!");
+    //console.log(sessionStorage.getItem("list"));
    // console.log(return_object);
-    console.log(json_string.tree);
+    //console.log(json_string.tree);
 
     /*
 
@@ -76,13 +76,13 @@ function add_options()
 
     */
 
-    console.log("middle");
+    //console.log("middle");
 
     var selection_menu = document.getElementById('csv_list');
 
-    console.log("middle2")
-    console.log(list);
-    console.log(list.length);
+    //console.log("middle2")
+    //console.log(list);
+    //console.log(list.length);
 
     //if (skip_loop != 0)
     //{
@@ -93,9 +93,9 @@ function add_options()
 	selection_menu.innerHTML += option;
     }
     //}
-    console.log(selection_menu.innerHTML);
+    //console.log(selection_menu.innerHTML);
 
-    console.log("end");
+    //console.log("end");
 
     //console.log(new_list);
 
@@ -123,8 +123,8 @@ function add_options()
 
 function new_update_map_countries(country_values_dict, min, max)
 {
-    console.log("new update start");
-    console.log(country_values_dict);
+    //console.log("new update start");
+    //console.log(country_values_dict);
 
     var styleCategories = [
     new ol.style.Style({
@@ -192,12 +192,12 @@ var missingStyle = new ol.style.Style({
 	//console.log(feature);
 
 	var country_name = feature.values_.shapeISO;
-	console.log("ISO:");
-	console.log(country_name);
+	//console.log("ISO:");
+	//console.log(country_name);
 
 	var country_data = country_values_dict[country_name];
 
-	console.log("data:"+country_data+country_name);
+	//console.log("data:"+country_data+country_name);
 /*
 	if (country_data == "" || isNaN(country_data))
 	{
@@ -208,7 +208,7 @@ var missingStyle = new ol.style.Style({
 */
 	if (country_data <= bin_1_end)
 	{
-	    console.log("style 0!"+country_name);
+	    //console.log("style 0!"+country_name);
 	    dynamicStyle = styleCategories[0];
 	}
 	else if (country_data <= bin_2_end)
@@ -226,8 +226,7 @@ var missingStyle = new ol.style.Style({
 	}
 	else
 	{
-	    console.log("error");
-	    console.log(country_data);
+	    //console.log(country_data);
 	    dynamicStyle = missingStyle;
 	}
 	//console.log("style");
@@ -243,7 +242,7 @@ var missingStyle = new ol.style.Style({
 function read_geodata_data()
 {
 
-    console.log("start");
+    //console.log("start");
 
     
     

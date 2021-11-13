@@ -1,15 +1,15 @@
 
 function openCountryPopup (feat) {
     // show popup
-    console.log("feat: ");
-    console.log(feat);
+    //console.log("feat: ");
+    //console.log(feat);
     document.getElementById('country-popup').className = 'popup';
 
     
     // add to sources table
     var props = feat.getProperties();
-    console.log("props: ");
-    console.log(props);
+    //console.log("props: ");
+    //console.log(props);
 
     // Global Boundaries page
     if (typeof props.sourceRows != "undefined")
@@ -65,10 +65,10 @@ function openCountryPopup (feat) {
     // Country Data page
     else
     {
-	console.log("we are hereeee");
+	//console.log("we are hereeee");
     // set title
 	var title = props.shapeName;
-	console.log(title);
+	//console.log(title);
 	document.getElementById('country-info-title').innerText = title;
 
 
@@ -335,8 +335,8 @@ function openCountryPopup (feat) {
 	//var iso = props.shapeISO;
 	var iso = props.shapeGroup;
 	var country_name = dict[iso];
-	console.log("name is: ");
-	console.log(country_name);
+	//console.log("name is: ");
+	//console.log(country_name);
 	var value = "Country name not found";
 
 	
