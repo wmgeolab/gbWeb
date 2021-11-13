@@ -149,7 +149,9 @@ function getCountryData(sortKey='name', sortReverse=false) {
     };
     // determine sort order
     sortBy(countryData, sortKey, sortReverse);
-    //console.log(getVals(countryData, sortKey).join(','))
+    console.log("HERE");
+    console.log(countryData);
+    console.log(getVals(countryData, sortKey).join(','))
     return countryData;
 };
 

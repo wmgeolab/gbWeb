@@ -155,7 +155,7 @@ var missingStyle = new ol.style.Style({
     stroke: outline,
 });
 */
-    console.log(countryLayer);
+    //console.log(countryLayer);
     
     countryLayer.getSource().forEachFeature(function(feature){
 	//console.log(feature);
@@ -182,15 +182,15 @@ var missingStyle = new ol.style.Style({
 	
 //	console.log("style");
 //	console.log(dynamicStyle);
-	console.log("feature");
-	console.log(feature);
+	//console.log("feature");
+	//console.log(feature);
 
 	var country_name = feature.values_.shapeISO;
-	console.log("ISO:");
-	console.log(country_name);
+	//console.log("ISO:");
+	//console.log(country_name);
 
 	var country_data = country_values_dict[country_name];
-	console.log(country_data);
+	//console.log(country_data);
 
 	if (country_data == "" || isNaN(country_data))
 	{
@@ -199,12 +199,12 @@ var missingStyle = new ol.style.Style({
 	}
 	else if (country_data <= bin_1_end)
 	{
-	    console.log("style 0");
+	    //console.log("style 0");
 	    dynamicStyle = styleCategories[0];
 	}
 	else if (country_data <= bin_2_end)
 	{
-	    console.log("style 1");
+	    //console.log("style 1");
 	    dynamicStyle = styleCategories[1];
 	}
 	else if (country_data <= bin_3_end)
@@ -221,8 +221,8 @@ var missingStyle = new ol.style.Style({
 	    console.log(country_data);
 	    dynamicStyle = missingStyle;
 	}
-	console.log("style");
-	console.log(dynamicStyle);
+	//console.log("style");
+	//console.log(dynamicStyle);
 	
 	feature.setStyle(dynamicStyle);
     });
