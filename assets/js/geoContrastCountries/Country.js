@@ -332,7 +332,8 @@ function openCountryPopup (feat) {
 	
 	var data_table = document.getElementById('countries-table');
 
-	var iso = props.shapeISO;
+	//var iso = props.shapeISO;
+	var iso = props.shapeGroup;
 	var country_name = dict[iso];
 	console.log("name is: ");
 	console.log(country_name);

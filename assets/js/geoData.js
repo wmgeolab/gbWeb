@@ -119,6 +119,8 @@ function add_options()
 
 function new_update_map_countries(country_values_dict, min, max)
 {
+    console.log("new update start");
+    console.log(country_values_dict);
 
     var styleCategories = [
     new ol.style.Style({
@@ -186,20 +188,23 @@ var missingStyle = new ol.style.Style({
 	//console.log(feature);
 
 	var country_name = feature.values_.shapeISO;
-	//console.log("ISO:");
-	//console.log(country_name);
+	console.log("ISO:");
+	console.log(country_name);
 
 	var country_data = country_values_dict[country_name];
-	//console.log(country_data);
 
+	console.log("data:"+country_data+country_name);
+/*
 	if (country_data == "" || isNaN(country_data))
 	{
 	    //dynamicStyle = styleCategories[4];
 	    dynamicStyle = missingStyle;
+	    console.log("what "+country_name);
 	}
-	else if (country_data <= bin_1_end)
+*/
+	if (country_data <= bin_1_end)
 	{
-	    //console.log("style 0");
+	    console.log("style 0!"+country_name);
 	    dynamicStyle = styleCategories[0];
 	}
 	else if (country_data <= bin_2_end)
@@ -269,13 +274,13 @@ function read_geodata_data()
     table.innerHTML = "";
 
     var dict = {
-"ABW":" Aruba",
-"AFG":" Afghanistan",
-"AGO":" Angola",
-"AIA":" Anguilla",
-"ALA":" Aland Islands",
-"ALB":" Albania",
-"AND":" Andorra",
+"ABW":"Aruba",
+"AFG":"Afghanistan",
+"AGO":"Angola",
+"AIA":"Anguilla",
+"ALA":"Aland Islands",
+"ALB":"Albania",
+"AND":"Andorra",
 "ANT":"Netherlands Antilles",
 "ARE":"United Arab Emirates",
 "ARG":"Argentina",
