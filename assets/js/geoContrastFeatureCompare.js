@@ -156,14 +156,14 @@ function openFeatureComparePopup(feat1, feat2) {
     };
     // hide or show related boundaries if only showing one feat
     if (feat1 == null) {
-        document.getElementById('feature-compare-left-empty').style.display = 'table';
+        document.getElementById('feature-compare-left-empty').style.display = 'block';
         document.getElementById('feature-compare-left-table').style.display = 'none';
     } else {
         document.getElementById('feature-compare-left-empty').style.display = 'none';
         document.getElementById('feature-compare-left-table').style.display = 'table';
     };
     if (feat2 == null) {
-        document.getElementById('feature-compare-right-empty').style.display = 'table';
+        document.getElementById('feature-compare-right-empty').style.display = 'block';
         document.getElementById('feature-compare-right-table').style.display = 'none';
     } else {
         document.getElementById('feature-compare-right-empty').style.display = 'none';

@@ -319,6 +319,7 @@ function updateGbMakeupTable(matches) {
         for (x of makeup) {
             var [feature,related] = x;
             var row = document.createElement("tr");
+            row.style = "page-break-inside:avoid!important; page-break-after:auto!important";
             // name
             var cell = document.createElement("td");
             var name = feature.getProperties()[mainNameField];
@@ -399,6 +400,7 @@ function updateComparisonMakeupTable(matches) {
         for (x of makeup) {
             var [feature,related] = x;
             var row = document.createElement("tr");
+            row.style = "page-break-inside:avoid!important; page-break-after:auto!important";
             // name
             var cell = document.createElement("td");
             var name2 = feature.getProperties()[comparisonNameField];
