@@ -26,99 +26,14 @@ function add_options()
 
     var return_object = request.responseText;
     var json_string = JSON.parse(return_object);
-    //console.log("42 HERE!");
-    //console.log(sessionStorage.getItem("list"));
-   // console.log(return_object);
-    //console.log(json_string.tree);
-
-    /*
-
-    if (sessionStorage.getItem("list") == null)
-    {
-	console.log("no session storage");
-    var list = [];
-    var list_vals = [];
-    for(var i=0;i<json_string.tree.length;i++)
-    {
-	var path_str = json_string.tree[i].path;
-	if (path_str.includes("ancillaryData/gdOpen/sourceData/ADM0/") && !path_str.includes("meta"))
-	{
-	    var push_str = path_str.split("ancillaryData/gdOpen/sourceData/ADM0/")[1];
-	    push_str = push_str.split(".csv")[0];
-	    list_vals.push(push_str);
-
-	    var request_2 = new XMLHttpRequest();
-	    var url_2 = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/ADM0/meta" + push_str + ".txt";
-	    request_2.open("GET", url_2, false);
-	    request_2.send(null);
-
-	    var text_val = request_2.responseText;
-	    text_val = text_val.split("Full Variable Name: ")[1];
-	    text_val = text_val.split("\n")[0];
-	    list.push(text_val);
-	    }
-    }
-    console.log("43 HERE!");
-	console.log(list);
-	sessionStorage.setItem("list",JSON.stringify(list));
-	sessionStorage.setItem("list_vals",JSON.stringify(list_vals));
-
-    }
-    else
-    {
-	var list = JSON.parse(sessionStorage.getItem("list"));
-	var list_vals = JSON.parse(sessionStorage.getItem("list_vals"));
-	skip_loop = 0;
-	console.log("here 44");
-	console.log(list);
-	console.log(list_vals);
-    }
-
-    */
-
-    //console.log("middle");
-
+ 
     var selection_menu = document.getElementById('csv_list');
-
-    //console.log("middle2")
-    //console.log(list);
-    //console.log(list.length);
-
-    //if (skip_loop != 0)
-    //{
 
     for (var i=0;i<list.length;i++)
     {
 	option = '<option value = "' + list_vals[i] + '">' + list[i] + '</option>';
 	selection_menu.innerHTML += option;
     }
-    //}
-    //console.log(selection_menu.innerHTML);
-
-    //console.log("end");
-
-    //console.log(new_list);
-
-/*
-    var url = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/ADM0/" + selection_val + ".csv";
-
-    var meta_url = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/ADM0/meta" + selection_val + ".txt";
-
-    var request = new XMLHttpRequest();
-
-
-    request.open("GET", url, false);
-    request.send(null);
-
-    var return_object = request.responseText;
-
-    var metadata_request = new XMLHttpRequest();
-    request.open("GET", meta_url, false);
-    request.send(null);
-    var metadata_text = request.responseText;
-
-    var desc = document.getElementById("metadata-text");
-*/
 }
 
 function new_update_map_countries(country_values_dict, min, max)
@@ -153,19 +68,8 @@ function new_update_map_countries(country_values_dict, min, max)
     }),
 
 ]
-/*
-var missingStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
-        color: 'rgba(63,46,6,0.7)',
-    })
-    stroke: outline,
-});
-*/
-    //console.log(countryLayer);
-    
+   
     countryLayer.getSource().forEachFeature(function(feature){
-	//console.log(feature);
-	//dynamicStyle = styleCategories[2]
 
 	var range = max - min;
 	max = parseInt(max,10);
@@ -185,35 +89,17 @@ var missingStyle = new ol.style.Style({
 	var bins = [bin_1,bin_2,bin_3,bin_4];
 
 	updateStyleLegend(bins);
-	
-//	console.log("style");
-//	console.log(dynamicStyle);
-	//console.log("feature");
-	//console.log(feature);
 
 	var country_name = feature.values_.shapeISO;
-	//console.log("ISO:");
-	//console.log(country_name);
 
 	var country_data = country_values_dict[country_name];
 
-	//console.log("data:"+country_data+country_name);
-/*
-	if (country_data == "" || isNaN(country_data))
-	{
-	    //dynamicStyle = styleCategories[4];
-	    dynamicStyle = missingStyle;
-	    console.log("what "+country_name);
-	}
-*/
 	if (country_data <= bin_1_end)
 	{
-	    //console.log("style 0!"+country_name);
 	    dynamicStyle = styleCategories[0];
 	}
 	else if (country_data <= bin_2_end)
 	{
-	    //console.log("style 1");
 	    dynamicStyle = styleCategories[1];
 	}
 	else if (country_data <= bin_3_end)
@@ -226,11 +112,8 @@ var missingStyle = new ol.style.Style({
 	}
 	else
 	{
-	    //console.log(country_data);
 	    dynamicStyle = missingStyle;
 	}
-	//console.log("style");
-	//console.log(dynamicStyle);
 	
 	feature.setStyle(dynamicStyle);
     });
@@ -241,10 +124,6 @@ var missingStyle = new ol.style.Style({
 // this function read in the data from the github geodata page and displays it as a table when the "show data" button is pressed
 function read_geodata_data()
 {
-
-    //console.log("start");
-
-    
     
     var selection_menu = document.getElementById('csv_list');
 
