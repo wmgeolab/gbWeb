@@ -67,7 +67,9 @@ function new_update_map_countries(country_values_dict, min, max)
         stroke: outline,
     }),
 
-]
+    ]
+
+    var data = [];
    
     countryLayer.getSource().forEachFeature(function(feature){
 
@@ -116,10 +118,110 @@ function new_update_map_countries(country_values_dict, min, max)
 	}
 	
 	feature.setStyle(dynamicStyle);
+
+	var datapoint = country_values_dict[country_name];
+	
+	if (!isNaN(datapoint))
+	{
+	    data.push(datapoint);
+	}
     });
 
+    console.log("data: "+data);
+    
+    var mean = find_mean(data);
 
+    console.log("the mean is: "+mean);
+
+    var sdam = 0;
+
+    for (var i=0;i<data.length;i++)
+    {
+	sdam = sdam + ((data[i] - mean) * (data[i] - mean));
+    }
+
+    console.log("the sdam is: "+sdam);
+
+    // sorts by integer value
+    data.sort(function(a,b){return a-b;});
+
+    console.log("sorted is: "+data);
+
+
+    var indicies_test = [data.length / 4, data.length /2, data.length/2*3];
+    var sdcm_test = calc_sdcm(data,indicies_test);
+    console.log("sdcm_test: "+sdcm_test);
+    console.log("gvf test: "+calc_gvf(sdam, sdcm_test));
 }
+
+function calc_gvf(sdam, sdcm)
+{
+    return ((sdam - sdcm) / sdam);
+}
+
+function find_mean(array)
+{
+    if (array.length == 0)
+    {
+	return 0;
+    }
+    
+    var mean = 0;
+    
+    for (var i=0;i<array.length;i++)
+    {
+	mean = mean + array[i];
+    }
+    mean = mean / array.length;
+
+    return mean;
+}
+
+function find_sum_square_dev(array, mean)
+{
+    var val = 0;
+    
+    for (var i=0;i<array.length;i++)
+    {
+	val = val + ((array[i] - mean) * (array[i] - mean));
+    }
+
+    return val;
+}
+
+function calc_sdcm(data, indicies)
+{
+    var arr0 = data.slice(0,indicies[0]);
+    var arr1 = data.slice(indicies[0],indicies[1]);
+    var arr2 = data.slice(indicies[1],indicies[2]);
+    var arr3 = data.slice(indicies[2],data.length);
+    
+    var sdcm = 0;
+
+    var arr0_mean = find_mean(arr0);
+    var arr1_mean = find_mean(arr1);
+    var arr2_mean = find_mean(arr2);
+    var arr3_mean = find_mean(arr3);
+
+    var arr0_sq_dev = find_sum_square_dev(arr0, arr0_mean);
+    var arr1_sq_dev = find_sum_square_dev(arr1, arr1_mean);
+    var arr2_sq_dev = find_sum_square_dev(arr2, arr2_mean);
+    var arr3_sq_dev = find_sum_square_dev(arr3, arr3_mean);
+
+
+    // something like this
+    var highest_sq_arr = 0;
+
+    if (arr1_sq_dev > highest_sq_arr)
+    {
+	highest_sq_arr = 1;
+    }
+
+    return (arr0_sq_dev + arr1_sq_dev + arr2_sq_dev + arr3_sq_dev)
+    
+    
+}
+
 
 // this function read in the data from the github geodata page and displays it as a table when the "show data" button is pressed
 function read_geodata_data()
