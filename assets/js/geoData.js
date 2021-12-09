@@ -72,7 +72,7 @@ function new_update_map_countries(country_values_dict, min, max)
     var data = [];
    
     countryLayer.getSource().forEachFeature(function(feature){
-
+/*
 	var range = max - min;
 	max = parseInt(max,10);
 	var bin_size = range / 4;
@@ -92,7 +92,6 @@ function new_update_map_countries(country_values_dict, min, max)
 
 	updateStyleLegend(bins);
 
-	var country_name = feature.values_.shapeISO;
 
 	var country_data = country_values_dict[country_name];
 
@@ -118,6 +117,8 @@ function new_update_map_countries(country_values_dict, min, max)
 	}
 	
 	feature.setStyle(dynamicStyle);
+*/
+	var country_name = feature.values_.shapeISO;
 
 	var datapoint = country_values_dict[country_name];
 	
@@ -148,10 +149,127 @@ function new_update_map_countries(country_values_dict, min, max)
     console.log("sorted is: "+data);
 
 
-    var indicies_test = [data.length / 4, data.length /2, data.length/2*3];
-    var sdcm_test = calc_sdcm(data,indicies_test);
+    var indicies_test = [Math.floor(data.length / 4), Math.floor(data.length /2), Math.floor(data.length*(3/4))];
+
+    var j = 0;
+
+    var sdcm_test = 0;
+
+    while (j < data.length)
+    {
+
+
+	console.log("top indicies: "+indicies_test);
+    sdcm_test = calc_sdcm(data,indicies_test);
     console.log("sdcm_test: "+sdcm_test);
-    console.log("gvf test: "+calc_gvf(sdam, sdcm_test));
+    console.log("gvf test: "+calc_gvf(sdam, sdcm_test[0]));
+
+    if (sdcm_test[1] == 3)
+    {
+	indicies_test[2] += 1;
+    }
+    else if (sdcm_test[1] == 0)
+    {
+	indicies_test[0] -= 1;
+    }
+    else if (sdcm_test[1] == 1)
+    {
+	var sdcm_2_add = calc_sdcm(data,[indicies_test[0],indicies_test[1]-1,indicies_test[2]]);
+	var sdcm_0_add = calc_sdcm(data,[indicies_test[0]+1,indicies_test[1],indicies_test[2]]);
+
+	if (sdcm_2_add > sdcm_0_add)
+	{
+	    indicies_test[0] += 1;
+	}
+	else
+	{
+	    indicies_test[1] -= 1;
+	}
+	
+    }
+    else if (sdcm_test[1] == 2)
+    {
+	var sdcm_1_add = calc_sdcm(data,[indicies_test[0],indicies_test[1]+1,indicies_test[2]]);
+	var sdcm_3_add = calc_sdcm(data,[indicies_test[0],indicies_test[1],indicies_test[2]-1]);
+
+	if (sdcm_1_add > sdcm_3_add)
+	{
+	    indicies_test[2] -= 1;
+	}
+	else
+	{
+	    indicies_test[1] += 1;
+	}
+	
+    }
+
+
+	var new_sdcm_test = calc_sdcm(data,indicies_test);
+	if (new_sdcm_test[0] > sdcm_test[0])
+	{
+	    break;
+	}
+	j += 1;
+
+	console.log("indicies: "+indicies_test);
+
+    }
+
+    console.log("sdcm test: "+sdcm_test);
+    console.log("indicies: "+indicies_test);
+
+    //var indicies_test = [Math.floor(data.length / 4), Math.floor(data.length /2), Math.floor(data.length*(3/4))];
+
+    var bin_1_end = data[indicies_test[0]];
+    var bin_2_end = data[indicies_test[1]];
+    var bin_3_end = data[indicies_test[2]];
+    
+    max = parseInt(max,10);
+    
+        countryLayer.getSource().forEachFeature(function(feature){
+
+	var bin_1 = {min:min, max:bin_1_end};
+
+	var bin_2= {min:bin_1_end, max:bin_2_end};
+
+	var bin_3= {min:bin_2_end, max:bin_3_end};
+
+	var bin_4= {min:bin_3_end, max:max};
+
+	    var bins = [bin_1,bin_2,bin_3,bin_4];
+
+	    console.log("the bins are: "+min+bin_1_end+bin_2_end+bin_3_end+max);
+
+	updateStyleLegend(bins);
+
+	var country_name = feature.values_.shapeISO;
+
+	var country_data = country_values_dict[country_name];
+
+	if (country_data <= bin_1_end)
+	{
+	    dynamicStyle = styleCategories[0];
+	}
+	else if (country_data <= bin_2_end)
+	{
+	    dynamicStyle = styleCategories[1];
+	}
+	else if (country_data <= bin_3_end)
+	{
+	    dynamicStyle = styleCategories[2];
+	}
+	else if (country_data <= max)
+	{
+	    dynamicStyle = styleCategories[3];
+	}
+	else
+	{
+	    dynamicStyle = missingStyle;
+	}
+	
+	feature.setStyle(dynamicStyle);
+});
+
 }
 
 function calc_gvf(sdam, sdcm)
@@ -208,16 +326,27 @@ function calc_sdcm(data, indicies)
     var arr2_sq_dev = find_sum_square_dev(arr2, arr2_mean);
     var arr3_sq_dev = find_sum_square_dev(arr3, arr3_mean);
 
+    var arr_arr = [arr0_sq_dev, arr1_sq_dev, arr2_sq_dev, arr3_sq_dev,]
 
-    // something like this
+    // TODO: something like this maybe?
     var highest_sq_arr = 0;
 
-    if (arr1_sq_dev > highest_sq_arr)
+    if (arr_arr[1] > arr_arr[highest_sq_arr])
     {
 	highest_sq_arr = 1;
     }
+    if (arr_arr[2] > arr_arr[highest_sq_arr])
+    {
+	highest_sq_arr = 2;
+    }
+    if (arr_arr[3] > arr_arr[highest_sq_arr])
+    {
+	highest_sq_arr = 3;
+    }
 
-    return (arr0_sq_dev + arr1_sq_dev + arr2_sq_dev + arr3_sq_dev)
+    var sdcm = (arr0_sq_dev + arr1_sq_dev + arr2_sq_dev + arr3_sq_dev);
+    
+    return [sdcm,highest_sq_arr];
     
     
 }
