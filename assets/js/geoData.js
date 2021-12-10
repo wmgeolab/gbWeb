@@ -36,11 +36,9 @@ function add_options()
     }
 }
 
+// TODO: fix for integer rounding
 function new_update_map_countries(country_values_dict, min, max)
 {
-    //console.log("new update start");
-    //console.log(country_values_dict);
-
     var styleCategories = [
     new ol.style.Style({
         fill: new ol.style.Fill({
@@ -72,52 +70,7 @@ function new_update_map_countries(country_values_dict, min, max)
     var data = [];
    
     countryLayer.getSource().forEachFeature(function(feature){
-/*
-	var range = max - min;
-	max = parseInt(max,10);
-	var bin_size = range / 4;
-	var bin_1_end = min + bin_size;
-	var bin_2_end = min + bin_size * 2;
-	var bin_3_end = min + bin_size * 3;
-
-	var bin_1 = {min:min, max:bin_1_end};
-
-	var bin_2= {min:bin_1_end, max:bin_2_end};
-
-	var bin_3= {min:bin_2_end, max:bin_3_end};
-
-	var bin_4= {min:bin_3_end, max:max};
-
-	var bins = [bin_1,bin_2,bin_3,bin_4];
-
-	updateStyleLegend(bins);
-
-
-	var country_data = country_values_dict[country_name];
-
-	if (country_data <= bin_1_end)
-	{
-	    dynamicStyle = styleCategories[0];
-	}
-	else if (country_data <= bin_2_end)
-	{
-	    dynamicStyle = styleCategories[1];
-	}
-	else if (country_data <= bin_3_end)
-	{
-	    dynamicStyle = styleCategories[2];
-	}
-	else if (country_data <= max)
-	{
-	    dynamicStyle = styleCategories[3];
-	}
-	else
-	{
-	    dynamicStyle = missingStyle;
-	}
 	
-	feature.setStyle(dynamicStyle);
-*/
 	var country_name = feature.values_.shapeISO;
 
 	var datapoint = country_values_dict[country_name];
@@ -127,12 +80,8 @@ function new_update_map_countries(country_values_dict, min, max)
 	    data.push(datapoint);
 	}
     });
-
-    console.log("data: "+data);
     
     var mean = find_mean(data);
-
-    console.log("the mean is: "+mean);
 
     var sdam = 0;
 
@@ -141,13 +90,8 @@ function new_update_map_countries(country_values_dict, min, max)
 	sdam = sdam + ((data[i] - mean) * (data[i] - mean));
     }
 
-    console.log("the sdam is: "+sdam);
-
     // sorts by integer value
     data.sort(function(a,b){return a-b;});
-
-    console.log("sorted is: "+data);
-
 
     var indicies_test = [Math.floor(data.length / 4), Math.floor(data.length /2), Math.floor(data.length*(3/4))];
 
@@ -157,12 +101,7 @@ function new_update_map_countries(country_values_dict, min, max)
 
     while (j < data.length)
     {
-
-
-	console.log("top indicies: "+indicies_test);
-    sdcm_test = calc_sdcm(data,indicies_test);
-    console.log("sdcm_test: "+sdcm_test);
-    console.log("gvf test: "+calc_gvf(sdam, sdcm_test[0]));
+	sdcm_test = calc_sdcm(data,indicies_test);
 
     if (sdcm_test[1] == 3)
     {
@@ -211,18 +150,25 @@ function new_update_map_countries(country_values_dict, min, max)
 	}
 	j += 1;
 
-	console.log("indicies: "+indicies_test);
-
     }
-
-    console.log("sdcm test: "+sdcm_test);
-    console.log("indicies: "+indicies_test);
-
-    //var indicies_test = [Math.floor(data.length / 4), Math.floor(data.length /2), Math.floor(data.length*(3/4))];
-
+  
     var bin_1_end = data[indicies_test[0]];
     var bin_2_end = data[indicies_test[1]];
     var bin_3_end = data[indicies_test[2]];
+
+    // in case data list is empty
+    if (bin_1_end == null)
+    {
+	bin_1_end = 0;
+    }
+    if (bin_2_end == null)
+    {
+	bin_2_end = 0;
+    }
+    if (bin_3_end == null)
+    {
+	bin_3_end = 0;
+    }
     
     max = parseInt(max,10);
     
@@ -237,8 +183,6 @@ function new_update_map_countries(country_values_dict, min, max)
 	var bin_4= {min:bin_3_end, max:max};
 
 	    var bins = [bin_1,bin_2,bin_3,bin_4];
-
-	    console.log("the bins are: "+min+bin_1_end+bin_2_end+bin_3_end+max);
 
 	updateStyleLegend(bins);
 
@@ -328,7 +272,6 @@ function calc_sdcm(data, indicies)
 
     var arr_arr = [arr0_sq_dev, arr1_sq_dev, arr2_sq_dev, arr3_sq_dev,]
 
-    // TODO: something like this maybe?
     var highest_sq_arr = 0;
 
     if (arr_arr[1] > arr_arr[highest_sq_arr])
