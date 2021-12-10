@@ -732,8 +732,117 @@ function updateComparisonAdminLevelDropdown() {
 
 // sources
 
+function openGbSourcePopup() {
+    popup = document.getElementById('gb-source-popup');
+    popup.className = "popup";
+};
+
+function closeGbSourcePopup() {
+    popup = document.getElementById('gb-source-popup');
+    popup.className = "popup is-hidden is-visually-hidden";
+};
+
+function updateGbSourceTable() {
+    console.log('update gb source table');
+    var currentIso = document.getElementById('country-select').value;
+    var currentLevel = document.getElementById('gb-admin-level-select').value;
+    // clear sources table
+    var table = document.querySelector('#gb-sources-table tbody');
+    table.innerHTML = '';
+    // get geoContrast metadata
+    var metadata = geoContrastMetadata;
+    // get list of sources that match the specified country
+    var sourceRows = [];
+    for (var i = 1; i < metadata.length; i++) {
+        var sourceRow = metadata[i];
+        if (sourceRow.length <= 1) {
+            // ignore empty rows
+            i++;
+            continue;
+        };
+        // skip any rows that don't match the country and level
+        if (!(sourceRow['boundaryISO']==currentIso & sourceRow['boundaryType']==currentLevel)) {
+            continue;
+        };
+        sourceRows.push(sourceRow);
+    };
+    
+    // sort alphabetically
+    sortBy(sourceRows, 'boundarySource-1');
+    var currentSource = document.getElementById("gb-boundary-select").value;
+    /*
+    for (sourceRow of sourceRows) {
+        if (sourceRow['boundarySource-1']==currentSource) {
+            break;
+        };
+    };
+    console.log(sourceRows);
+    sourceRows.splice(sourceRows.indexOf(sourceRow), 1); // remove old
+    sourceRows.splice(0, 0, sourceRow); // add to start
+    console.log(sourceRows);
+    */
+
+    // begin adding data to sources table
+    for (sourceRow of sourceRows) {
+        var tr = document.createElement('tr');
+        if (sourceRow['boundarySource-1']==currentSource) {
+            tr.style.backgroundColor = 'rgba(255,213,128,0.4)';
+        };
+        // select button
+        var td = document.createElement('td');
+        var but = document.createElement('button');
+        but.innerHTML = '&#x2714';
+        but.data = sourceRow['boundarySource-1'];
+        function onclick() {
+            var sel = document.getElementById("gb-boundary-select");
+            sel.value = this.data;
+            // force dropdown change
+            gbSourceChanged();
+            // close
+            closeGbSourcePopup();
+        };
+        but.onclick = onclick;
+        //but.setAttribute('onclick', onclick);
+        //but.style.padding = '5px'
+        //but.style.margin = 0;
+        td.appendChild(but);
+        tr.appendChild(td);
+        // source name
+        var td = document.createElement('td');
+        td.innerText = sourceRow['boundarySource-1'];
+        tr.appendChild(td);
+        // license
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryLicense;
+        tr.appendChild(td);
+        // year
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryYearRepresented;
+        tr.appendChild(td);
+        // updated
+        var td = document.createElement('td');
+        td.innerText = sourceRow.sourceDataUpdateDate;
+        tr.appendChild(td);
+        // unit count
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryCount;
+        tr.appendChild(td);
+        // min line res
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsLineResolution).toFixed(1) + ' m';
+        tr.appendChild(td);
+        // max vert dens
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsVertexDensity).toFixed(1) + ' / km';
+        tr.appendChild(td);
+        //
+        table.appendChild(tr);
+    };
+};
+
 function updateGbSourceDropdown() {
     //alert('update gb boundary dropdown');
+    updateGbSourceTable();
     // get current country and level
     var currentIso = document.getElementById('country-select').value;
     var currentLevel = document.getElementById('gb-admin-level-select').value;
@@ -920,6 +1029,8 @@ function comparisonAdminLevelChanged() {
 
 function gbSourceChanged() {
     //alert('main source changed');
+    // update source table
+    updateGbSourceTable();
     // empty misc info
     clearGbInfo();
     clearGbStats();

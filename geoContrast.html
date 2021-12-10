@@ -109,6 +109,12 @@
 												<select id="gb-boundary-select" style="width:65%;display:inline;font-size:10pt;" onchange="gbSourceChanged()">
 													<!--options should get dynamically populated here-->
 												</select>
+												<script>
+													document.getElementById('gb-boundary-select').onmousedown = function(event) {
+														openGbSourcePopup();
+														event.preventDefault(); // This prevents the drop-down menu from displaying
+													};
+												</script>
 											</div>
 											<div id="gb-file-div" style="padding-top:5px">
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
@@ -123,6 +129,40 @@
 											
 											<div id="gb-info-div" style="padding:5px; height:60%; overflow:auto">
 											</div>
+
+											<div id="gb-source-popup" class="popup is-hidden is-visually-hidden">
+												<script>
+													// When the user clicks anywhere outside of the popup, close it
+													window.addEventListener('click', function(event) {
+														//alert('click '+event.target.className+' '+event.target.id);
+														if (event.target.id == 'gb-source-popup') {
+															//alert('should close');
+															event.target.className = "popup is-hidden is-visually-hidden";
+														};
+													});
+												</script>
+												<div class="popup-content" style="height:90%; overflow:auto; font-size:medium">
+													<div class="box">
+														<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+														<h3>Select a source for the main boundary:</h3>
+														<table id="gb-sources-table" class="table">
+															<thead>
+																<th></th>
+																<th>Source</th>
+																<th>License</th>
+																<th>Year</th>
+																<th>Updated</th>
+																<th>Administrative Units</th>
+																<th>Line Resolution</th>
+																<th>Vertex Density</th>
+															</thead>
+															<tbody>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+
 										</div>
 											
 										<div id="compare-comparison" style="height:40%; margin-top:20px">
