@@ -985,7 +985,7 @@ function comparisonSourceChanged() {
         // hide file button div
         document.getElementById('comparison-file-div').style.display = 'none';
         // update main layer with external geoContrast topojson
-        updateGbLayer(zoomToExtent=true);
+        updateComparisonLayer(zoomToExtent=true);
     };
     updateGetParams();
 };
