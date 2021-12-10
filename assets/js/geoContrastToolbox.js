@@ -176,21 +176,24 @@ function handleComparisonFileUpload(evt) {
         // read as data url
         reader.readAsText(file);
     } else if (fileExtension == 'zip') {
-        loadshp({
-                url: file, // path or your upload file
-                encoding: 'utf-8', // default utf-8
-                EPSG: 4326, // default 4326
-                },
-                function(geojson) {
-                    // geojson returned
-                    source = new ol.source.Vector({
-                        format: new ol.format.GeoJSON({}),
-                        overlaps: false,
-                    });
-                    // update the layer
-                    updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=true);
-                }
-        );
+        // experiment with zipfile reading
+        // https://stuk.github.io/jszip/documentation/examples/read-local-file-api.html
+        reader = new FileReader();
+        reader.onload = function(e) {
+            // use reader results to create new source
+            var raw = reader.result;
+            var zip = new JSZip(raw);
+            var paths = [];
+            for (filename in zip.files) {
+                if (filename.endsWith('.shp')) {
+                    var path = file.name + '/' + filename;
+                    var displayName = filename;
+                    paths.push([path,displayName]);
+                };
+            };
+            updateComparisonFileDropdown(paths);
+        };
+        reader.readAsBinaryString(file);
     };
 };
 
@@ -217,6 +220,22 @@ function updateGbFileDropdown(paths) {
     };
     // force change
     gbFileDropdownChanged();
+};
+
+function updateComparisonFileDropdown(paths) {
+    // activate and clear the dropdown
+    var select = document.getElementById('comparison-file-select');
+    select.disabled = false;
+    select.innerHTML = '';
+    // populate the dropdown
+    for ([path,displayName] of paths) {
+        var opt = document.createElement('option');
+        opt.value = path;
+        opt.innerText = displayName;
+        select.appendChild(opt);
+    };
+    // force change
+    comparisonFileDropdownChanged();
 };
 
 
@@ -269,6 +288,57 @@ function gbFileDropdownChanged() {
             });
             // update the layer
             updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
+        };
+
+        // load dbf and shp, calling returnData once both are loaded
+        SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, processData);
+        DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, processData);
+    };
+    reader.readAsBinaryString(file);
+};
+
+function comparisonFileDropdownChanged() {
+    var file = document.getElementById('comparison-file-input').files[0];
+    var path = document.getElementById('comparison-file-select').value;
+    var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
+    /*
+    loadshp({
+        url: file, // path or your upload file
+        encoding: 'utf-8', // default utf-8
+        EPSG: 4326, // default 4326
+        },
+        function(geojson) {
+            // geojson returned
+            source = new ol.source.Vector({
+                format: new ol.format.GeoJSON({}),
+                overlaps: false,
+            });
+            // update the layer
+            updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
+        }
+    );
+    */
+    reader = new FileReader();
+    reader.onload = function(e) {
+        // open zipfile
+        var raw = reader.result;
+        var zip = new JSZip(raw);
+        // prep args
+        var shpString = subPath;
+        var dbfString = subPath.replace('.shp', '.dbf');
+        var encoding = 'utf8';
+        var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+        // define projection (the EPSGUser var must be set here so it can be used internally by shp2geojson)
+        EPSGUser = proj4('EPSG:4326'); // ignore prj for now
+        
+        function processData(geojson) {
+            // geojson returned
+            source = new ol.source.Vector({
+                format: new ol.format.GeoJSON({}),
+                overlaps: false,
+            });
+            // update the layer
+            updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=true);
         };
 
         // load dbf and shp, calling returnData once both are loaded
@@ -896,18 +966,26 @@ function comparisonSourceChanged() {
     // check which comparison source was selected
     source = document.getElementById('comparison-boundary-select').value;
     if (source == 'none' | source == '') {
-        // hide and reset file button
-        document.getElementById('comparison-file-input').value = null;
+        // activate admin level button
+        document.getElementById('comparison-admin-level-select').disabled = false;
+        // hide file button div
         document.getElementById('comparison-file-div').style.display = 'none';
     } else if (source == 'upload') {
+        // disable admin level button
+        document.getElementById('comparison-admin-level-select').disabled = true;
+        // reset
+        document.getElementById('comparison-file-input').value = null;
+        document.getElementById('comparison-file-select').innerHTML = '<option value="" disabled selected hidden>(Please select a boundary)</option>';
+        document.getElementById('comparison-file-select').disabled = true;
         // show file button div
         document.getElementById('comparison-file-div').style.display = 'block';
     } else {
-        // hide and reset file button
-        document.getElementById('comparison-file-input').value = null;
+        // activate admin level button
+        document.getElementById('comparison-admin-level-select').disabled = false;
+        // hide file button div
         document.getElementById('comparison-file-div').style.display = 'none';
         // update main layer with external geoContrast topojson
-        updateComparisonLayer(zoomToExtent=true);
+        updateGbLayer(zoomToExtent=true);
     };
     updateGetParams();
 };
