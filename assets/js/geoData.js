@@ -36,7 +36,6 @@ function add_options()
     }
 }
 
-// TODO: fix for integer rounding
 function new_update_map_countries(country_values_dict, min, max)
 {
     var styleCategories = [
@@ -67,6 +66,7 @@ function new_update_map_countries(country_values_dict, min, max)
 
     ]
 
+    // we add every datapoint in the dataset to the data array
     var data = [];
    
     countryLayer.getSource().forEachFeature(function(feature){
@@ -99,8 +99,11 @@ function new_update_map_countries(country_values_dict, min, max)
 
     var sdcm_test = 0;
 
+    // we only run the loop at most data.length times in order to avoid lag/infinite loop
     while (j < data.length)
     {
+	// here we optimize which datapoints are in which of the 4 color-coded legend bins.
+	// we use a version of the jenks natural breaks algorithm.
 	sdcm_test = calc_sdcm(data,indicies_test);
 
     if (sdcm_test[1] == 3)
@@ -215,6 +218,7 @@ function new_update_map_countries(country_values_dict, min, max)
 });
 
 }
+
 
 function calc_gvf(sdam, sdcm)
 {
@@ -603,7 +607,7 @@ function read_geodata_data()
 	
 	row_string = "<tr><td>" + country_name + "</td><td>" + data + "</td></tr>";
 	table.innerHTML += row_string;
-	data = parseInt(data, 10);
+	data = parseFloat(data);
 	if (data > max)
 	{
 	    max = data;
