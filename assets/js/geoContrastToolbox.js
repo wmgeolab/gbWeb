@@ -744,8 +744,20 @@ function closeGbSourcePopup() {
     popup.className = "popup is-hidden is-visually-hidden";
 };
 
+function openComparisonSourcePopup() {
+    popup = document.getElementById('comparison-source-popup');
+    popup.className = "popup";
+    content = popup.querySelector('.popup-content');
+    content.scrollTop = 0;
+};
+
+function closeComparisonSourcePopup() {
+    popup = document.getElementById('comparison-source-popup');
+    popup.className = "popup is-hidden is-visually-hidden";
+};
+
 function updateGbSourceTable() {
-    console.log('update gb source table');
+    //console.log('update gb source table');
     var currentIso = document.getElementById('country-select').value;
     var currentLevel = document.getElementById('gb-admin-level-select').value;
     // clear sources table
@@ -928,8 +940,127 @@ function updateGbSourceDropdown() {
     gbSourceChanged();
 };
 
+function updateComparisonSourceTable() {
+    //console.log('update comparison source table');
+    var currentIso = document.getElementById('country-select').value;
+    var currentLevel = document.getElementById('comparison-admin-level-select').value;
+    // clear sources table
+    var table = document.querySelector('#comparison-sources-table tbody');
+    table.innerHTML = '';
+    // get geoContrast metadata
+    var metadata = geoContrastMetadata;
+    // get list of sources that match the specified country
+    var sourceRows = [];
+    for (var i = 1; i < metadata.length; i++) {
+        var sourceRow = metadata[i];
+        if (sourceRow.length <= 1) {
+            // ignore empty rows
+            i++;
+            continue;
+        };
+        // skip any rows that don't match the country and level
+        if (!(sourceRow['boundaryISO']==currentIso & sourceRow['boundaryType']==currentLevel)) {
+            continue;
+        };
+        sourceRows.push(sourceRow);
+    };
+    
+    // sort alphabetically
+    sortBy(sourceRows, 'boundarySource-1');
+    var currentSource = document.getElementById("comparison-boundary-select").value;
+    /*
+    for (sourceRow of sourceRows) {
+        if (sourceRow['boundarySource-1']==currentSource) {
+            break;
+        };
+    };
+    console.log(sourceRows);
+    sourceRows.splice(sourceRows.indexOf(sourceRow), 1); // remove old
+    sourceRows.splice(0, 0, sourceRow); // add to start
+    console.log(sourceRows);
+    */
+
+    // add row at bottom for local file upload
+    uploadRow = {'boundarySource-1':'upload', // 'upload' is the value expected for the dropdown to work
+            'boundaryLicense':'-',
+            'boundaryYearRepresented':'-',
+            'sourceDataUpdateDate':'-',
+            'boundaryCount':'-',
+            'statsLineResolution':'-',
+            'statsVertexDensity':'-'
+            };
+    sourceRows.push(uploadRow);
+
+    // begin adding data to sources table
+    for (sourceRow of sourceRows) {
+        var tr = document.createElement('tr');
+        if (sourceRow['boundarySource-1']==currentSource) {
+            tr.style.backgroundColor = '#F0B323'; //'rgba(255,213,128,0.4)';
+            tr.style.color = 'white';
+        };
+        // select button
+        var td = document.createElement('td');
+        var but = document.createElement('button');
+        but.innerHTML = '&#x2714';
+        but.data = sourceRow['boundarySource-1'];
+        if (sourceRow['boundarySource-1']==currentSource) {
+            but.style.filter = 'brightness(1000)';
+        };
+        function onclick() {
+            var sel = document.getElementById("comparison-boundary-select");
+            sel.value = this.data;
+            // force dropdown change
+            comparisonSourceChanged();
+            // close
+            closeComparisonSourcePopup();
+        };
+        but.onclick = onclick;
+        //but.setAttribute('onclick', onclick);
+        //but.style.padding = '5px'
+        //but.style.margin = 0;
+        td.appendChild(but);
+        tr.appendChild(td);
+        // source name
+        var td = document.createElement('td');
+        if (sourceRow['boundarySource-1']=='upload') {
+            td.innerText = 'Custom: Your Own Boundary';
+        } else {
+            td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
+        }
+        tr.appendChild(td);
+        // license
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryLicense;
+        tr.appendChild(td);
+        // year
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryYearRepresented;
+        tr.appendChild(td);
+        // updated
+        var td = document.createElement('td');
+        td.innerText = sourceRow.sourceDataUpdateDate;
+        tr.appendChild(td);
+        // unit count
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryCount;
+        tr.appendChild(td);
+        // min line res
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsLineResolution).toFixed(1) + ' m';
+        tr.appendChild(td);
+        // max vert dens
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsVertexDensity).toFixed(1) + ' / km';
+        tr.appendChild(td);
+        //
+        table.appendChild(tr);
+    };
+};
+
 function updateComparisonSourceDropdown() {
     //alert('update comparison boundary dropdown');
+    // update source table
+    updateComparisonSourceTable();
     // get current country and level
     var currentIso = document.getElementById('country-select').value;
     var currentLevel = document.getElementById('comparison-admin-level-select').value;
@@ -1097,6 +1228,8 @@ function gbSourceChanged() {
 
 function comparisonSourceChanged() {
     //alert('comparison source changed');
+    // update source table
+    updateComparisonSourceTable();
     // clear misc info
     clearComparisonInfo();
     clearComparisonStats();

@@ -181,6 +181,12 @@
 												<select id="comparison-boundary-select" style="display:inline; width:55%" onchange="comparisonSourceChanged()">
 													<!--options should get dynamically populated here-->
 												</select>
+												<script>
+													document.getElementById('comparison-boundary-select').onmousedown = function(event) {
+														openComparisonSourcePopup();
+														event.preventDefault(); // This prevents the drop-down menu from displaying
+													};
+												</script>
 											</span>
 											<div id="comparison-file-div">
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
@@ -194,6 +200,43 @@
 											</div>
 											
 											<div id="comparison-info-div" style="padding:5px; height:75%; overflow:auto">
+											</div>
+
+											<div id="comparison-source-popup" class="popup is-hidden is-visually-hidden">
+												<script>
+													// When the user clicks anywhere outside of the popup, close it
+													window.addEventListener('click', function(event) {
+														//alert('click '+event.target.className+' '+event.target.id);
+														if (event.target.id == 'comparison-source-popup') {
+															//alert('should close');
+															event.target.className = "popup is-hidden is-visually-hidden";
+														};
+													});
+												</script>
+												<div class="popup-content" style="height:90%; overflow:auto; font-size:medium">
+													<div class="box">
+														<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+														<h3>Select a source for the comparison boundary:</h3>
+														<!--
+														<button>From Datasets</button>
+														<button>Local File</button>
+														-->
+														<table id="comparison-sources-table" class="table">
+															<thead>
+																<th></th>
+																<th>Source</th>
+																<th>License</th>
+																<th>Year</th>
+																<th>Updated</th>
+																<th>Admin. Units</th>
+																<th>Line Resolution</th>
+																<th>Vertex Density</th>
+															</thead>
+															<tbody>
+															</tbody>
+														</table>
+													</div>
+												</div>
 											</div>
 
 										</div>
