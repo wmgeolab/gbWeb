@@ -342,10 +342,12 @@ function openFeatureComparePopup(feat1, feat2) {
         document.getElementById('feature-compare-stats-comp-relation').innerText = rel2;
     };
     // show popup
-    document.getElementById('feature-compare-popup').className = 'popup';
+    popup = document.getElementById('feature-compare-popup');
+    popup.className = 'popup';
+    content = popup.querySelector('.popup-content');
+    console.log(content);
+    content.scrollTop = 0;
     featureCompareMap.updateSize(); // otherwise will remain hidden until window resize
-    // scroll to the top
-    document.getElementById('close-compare-popup').scrollIntoView(true);
     // add feats to the popup comparison map
     updateFeatureComparisonMap(geojColl1, geojColl2);
 };

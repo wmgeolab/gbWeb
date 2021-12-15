@@ -735,6 +735,8 @@ function updateComparisonAdminLevelDropdown() {
 function openGbSourcePopup() {
     popup = document.getElementById('gb-source-popup');
     popup.className = "popup";
+    content = popup.querySelector('.popup-content');
+    content.scrollTop = 0;
 };
 
 function closeGbSourcePopup() {
@@ -782,17 +784,32 @@ function updateGbSourceTable() {
     console.log(sourceRows);
     */
 
+    // add row at bottom for local file upload
+    uploadRow = {'boundarySource-1':'upload', // 'upload' is the value expected for the dropdown to work
+            'boundaryLicense':'-',
+            'boundaryYearRepresented':'-',
+            'sourceDataUpdateDate':'-',
+            'boundaryCount':'-',
+            'statsLineResolution':'-',
+            'statsVertexDensity':'-'
+            };
+    sourceRows.push(uploadRow);
+
     // begin adding data to sources table
     for (sourceRow of sourceRows) {
         var tr = document.createElement('tr');
         if (sourceRow['boundarySource-1']==currentSource) {
-            tr.style.backgroundColor = 'rgba(255,213,128,0.4)';
+            tr.style.backgroundColor = '#F0B323'; //'rgba(255,213,128,0.4)';
+            tr.style.color = 'white';
         };
         // select button
         var td = document.createElement('td');
         var but = document.createElement('button');
         but.innerHTML = '&#x2714';
         but.data = sourceRow['boundarySource-1'];
+        if (sourceRow['boundarySource-1']==currentSource) {
+            but.style.filter = 'brightness(1000)';
+        };
         function onclick() {
             var sel = document.getElementById("gb-boundary-select");
             sel.value = this.data;
@@ -809,7 +826,11 @@ function updateGbSourceTable() {
         tr.appendChild(td);
         // source name
         var td = document.createElement('td');
-        td.innerText = sourceRow['boundarySource-1'];
+        if (sourceRow['boundarySource-1']=='upload') {
+            td.innerText = 'Custom: Your Own Boundary';
+        } else {
+            td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
+        }
         tr.appendChild(td);
         // license
         var td = document.createElement('td');
@@ -842,6 +863,7 @@ function updateGbSourceTable() {
 
 function updateGbSourceDropdown() {
     //alert('update gb boundary dropdown');
+    // update source table
     updateGbSourceTable();
     // get current country and level
     var currentIso = document.getElementById('country-select').value;
@@ -892,11 +914,15 @@ function updateGbSourceDropdown() {
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('mainSource');
+    var defaultSource = 'geoBoundaries (Open)';
     if (source != null & sources.includes(source)) {
         select.value = source;
+    } else if (sources.includes(defaultSource)) {
+        // default source
+        select.value = defaultSource;
     } else {
-        // default main source
-        select.value = 'geoBoundaries (Open)';
+        // default not available, use first available source
+        select.value = sources[0];
     };
     // force dropdown change
     gbSourceChanged();
@@ -953,11 +979,15 @@ function updateComparisonSourceDropdown() {
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('comparisonSource');
+    var defaultSource = 'GADM v3.6';
     if (source != null & sources.includes(source)) {
         select.value = source;
+    } else if (sources.includes(defaultSource)) {
+        // default source
+        select.value = defaultSource;
     } else {
-        // default comparison source
-        select.value = 'GADM v3.6';
+        // default not available, use first available source
+        select.value = sources[0];
     };
     // force dropdown change
     comparisonSourceChanged();

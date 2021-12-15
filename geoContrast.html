@@ -118,9 +118,9 @@
 											</div>
 											<div id="gb-file-div" style="padding-top:5px">
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
-													<input id="gb-file-input" class="fas" type="file" accept=".geojson,.zip">
+													<input id="gb-file-input" class="fas" type="file" accept=".zip">
 												</span>
-												<span data-text="Upload a zipped shapefile, geoJSON or topoJSON.  Expects WGS84 (EPSG 4326)." class="tooltip">
+												<span data-text="Upload a zipped shapefile.  Expects WGS84 (EPSG 4326)." class="tooltip">
 													(?)
 												</span>
 												<select id="gb-file-select" onchange="gbFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
@@ -145,6 +145,10 @@
 													<div class="box">
 														<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 														<h3>Select a source for the main boundary:</h3>
+														<!--
+														<button>From Datasets</button>
+														<button>Local File</button>
+														-->
 														<table id="gb-sources-table" class="table">
 															<thead>
 																<th></th>
@@ -152,7 +156,7 @@
 																<th>License</th>
 																<th>Year</th>
 																<th>Updated</th>
-																<th>Administrative Units</th>
+																<th>Admin. Units</th>
 																<th>Line Resolution</th>
 																<th>Vertex Density</th>
 															</thead>
@@ -180,9 +184,9 @@
 											</span>
 											<div id="comparison-file-div">
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
-													<input id="comparison-file-input" class="fas" type="file" accept=".geojson,.zip" onchange="handleComparisonFileUpload(this)">
+													<input id="comparison-file-input" class="fas" type="file" accept=".zip" onchange="handleComparisonFileUpload(this)">
 												</span>
-												<span data-text="Upload a zipped shapefile, geoJSON or topoJSON.  Expects WGS84 (EPSG 4326)." class="tooltip">
+												<span data-text="Upload a zipped shapefile.  Expects WGS84 (EPSG 4326)." class="tooltip">
 													(?)
 												</span>
 												<select id="comparison-file-select" onchange="comparisonFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
@@ -551,7 +555,7 @@
 			<!--This section defines popups-->
 
 			<div id="feature-compare-popup" class="popup is-hidden is-visually-hidden">
-				<div class="popup-content">
+				<div class="popup-content" style="overflow:auto">
 
 					<div class="row box" style="width:100%; margin:0px 0px">
 
