@@ -283,18 +283,6 @@ var map = new ol.Map({
     })
 });
 
-map.on('singleclick', function(evt) {
-    // get feats
-    let clickedFeat = null;
-    map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-        clickedFeat = feature;
-    });
-    // init and open popup for the found features
-    if (clickedFeat != null) {
-        openCountryPopup(clickedFeat);
-    };
-});
-
 map.on('pointermove', function(evt) {
     // get feat at pointer
     let cursorFeat = null;

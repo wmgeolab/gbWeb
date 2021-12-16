@@ -206,6 +206,9 @@ function updateCountriesTable(sortKey=null, sortReverse=false) {
                     break;
                 };
             };
+            document.getElementById('map').scrollIntoView({
+                behavior: "smooth", block: "start", inline: "nearest"
+            });
             openCountryPopup(countryFeat);
         };
         cell.appendChild(link);
