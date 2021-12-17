@@ -275,6 +275,7 @@ function gbFileDropdownChanged() {
         // prep args
         var shpString = subPath;
         var dbfString = subPath.replace('.shp', '.dbf');
+        // note, below args are only relevant if using shp2geojson
         var encoding = 'utf8';
         var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
         // define projection (the EPSGUser var must be set here so it can be used internally by shp2geojson)
@@ -291,8 +292,18 @@ function gbFileDropdownChanged() {
         };
 
         // load dbf and shp, calling returnData once both are loaded
-        SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, processData);
-        DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, processData);
+        // ALT1: shp2geojson
+        //SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, processData);
+        //DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, processData);        
+        // ALT2: shapefile-js
+        // https://github.com/calvinmetcalf/shapefile-js
+        var waiting = Promise.all([shp.parseShp(zip.file(shpString).asArrayBuffer()), 
+                                    shp.parseDbf(zip.file(dbfString).asArrayBuffer())
+                                    ])
+        waiting.then(function(result){
+                        var geoj = shp.combine(result);
+                        processData(geoj);
+                    });
     };
     reader.readAsBinaryString(file);
 };
@@ -326,6 +337,7 @@ function comparisonFileDropdownChanged() {
         // prep args
         var shpString = subPath;
         var dbfString = subPath.replace('.shp', '.dbf');
+        // note, below args are only relevant if using shp2geojson
         var encoding = 'utf8';
         var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
         // define projection (the EPSGUser var must be set here so it can be used internally by shp2geojson)
@@ -342,8 +354,18 @@ function comparisonFileDropdownChanged() {
         };
 
         // load dbf and shp, calling returnData once both are loaded
-        SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, processData);
-        DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, processData);
+        // ALT1: shp2geojson
+        //SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, processData);
+        //DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, processData);        
+        // ALT2: shapefile-js
+        // https://github.com/calvinmetcalf/shapefile-js
+        var waiting = Promise.all([shp.parseShp(zip.file(shpString).asArrayBuffer()), 
+            shp.parseDbf(zip.file(dbfString).asArrayBuffer())
+            ])
+        waiting.then(function(result){
+            var geoj = shp.combine(result);
+            processData(geoj);
+        });
     };
     reader.readAsBinaryString(file);
 };

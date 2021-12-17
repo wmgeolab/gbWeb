@@ -315,33 +315,3 @@ map.on('pointermove', function(evt) {
     };
 });
 
-// country popup map
-
-var countryPopupLayer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-        format: new ol.format.GeoJSON({dataProjection: 'EPSG:4326'}),
-        overlaps: false
-    })
-});
-
-var countryPopupMap = new ol.Map({
-    target: 'country-info-map',
-    controls: ol.control.defaults().extend([new ol.control.FullScreen(),
-                                            new ol.control.ScaleLine({units: 'metric'}),
-                                            ]),
-    layers: [
-    new ol.layer.Tile({
-        source: new ol.source.XYZ({
-            attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
-            url:
-            'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
-            maxZoom: 20,
-            crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
-        })}),
-        countryPopupLayer
-    ],
-    view: new ol.View({
-        center: ol.proj.fromLonLat([0,0]),
-        zoom: 1
-    })
-});
