@@ -534,6 +534,7 @@ function updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
         updateGbFieldsDropdown(features);
         updateGbNames(features);
         updateGbInfo(features);
+        calcBoundaryMakeupTables();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
@@ -571,6 +572,7 @@ function updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
         updateComparisonFieldsDropdown(features);
         updateComparisonNames(features);
         updateComparisonInfo(features);
+        calcBoundaryMakeupTables();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
