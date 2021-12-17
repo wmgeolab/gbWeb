@@ -1,4 +1,18 @@
 
+function clearMatchTable() {
+    // clear old table rows
+    var tbody = document.querySelector('#match-table tbody');
+    tbody.innerHTML = "";
+    // clear name fields dropdown
+    /*
+    var sel = document.getElementById('gb-names-table-select');
+    sel.innerHTML = "";
+    var sel = document.getElementById('comparison-names-table-select');
+    sel.innerHTML = "";
+    */
+};
+
+/*
 function clearGbNames() {
     // clear old table rows
     var tbody = document.getElementById('gb-names-table-tbody');
@@ -16,12 +30,13 @@ function clearComparisonNames() {
     var sel = document.getElementById('comparison-names-table-select');
     sel.innerHTML = "";
 };
+*/
 
 function updateGbNames(features) {
     ////////////////////
     // table div
     // clear old table rows if exists
-    var tbody = document.getElementById('gb-names-table-tbody');
+    var tbody = document.querySelector('#match-table tbody');
     tbody.innerHTML = "";
     // get name from dropdown
     var nameField = document.getElementById('gb-names-table-select').value;
@@ -54,6 +69,7 @@ function updateGbNames(features) {
     };
 };
 
+/*
 function updateComparisonNames(features) {
     ////////////////////
     // table div
@@ -90,6 +106,7 @@ function updateComparisonNames(features) {
         tbody.appendChild(row);
     };
 };
+*/
 
 function percentUniqueField(features, field) {
     var total = features.length;
@@ -104,6 +121,9 @@ function percentUniqueField(features, field) {
 };
 
 function updateGbFieldsDropdown(features) {
+    // clear existing fields dropdown
+    var sel = document.getElementById('gb-names-table-select');
+    sel.innerHTML = "";
     // get all unique text fieldnames
     var feature = features[0];
     var fields = [];
@@ -147,6 +167,9 @@ function updateGbFieldsDropdown(features) {
 };
 
 function updateComparisonFieldsDropdown(features) {
+    // clear existing fields dropdown
+    var sel = document.getElementById('comparison-names-table-select');
+    sel.innerHTML = "";
     // get all unique text fieldnames
     var feature = features[0];
     var fields = [];
@@ -191,12 +214,12 @@ function updateComparisonFieldsDropdown(features) {
 
 function gbFieldsDropdownChanged() {
     var features = gbLayer.getSource().getFeatures();
-    updateGbNames(features);
+    //updateGbNames(features);
 };
 
 function comparisonFieldsDropdownChanged() {
     var features = comparisonLayer.getSource().getFeatures();
-    updateComparisonNames(features);
+    //updateComparisonNames(features);
 };
 
 
@@ -208,6 +231,36 @@ function comparisonFieldsDropdownChanged() {
 ////////////////////////////////////////////////
 // calc and update boundary unit relationships
 
+function calcMatchTable() {
+    // clear old table rows if exists
+    var tbody = document.querySelector('#match-table tbody');
+    tbody.innerHTML = "";
+    
+    // get features 
+    var features = gbLayer.getSource().getFeatures();
+    var comparisonFeatures = comparisonLayer.getSource().getFeatures();
+    if (features.length == 0 | comparisonFeatures.length == 0) {
+        return;
+    };
+    console.log('finding matches');
+
+    // add in main names while calculating
+    updateGbNames(features);
+
+    // define on success
+    function onSuccess(matches) {
+        // calc total equality from the perspective of main source only (not for comparison source)
+        updateTotalEquality(matches);
+
+        // update tables
+        updateMatchTable(matches);
+    };
+
+    // calculate relations
+    calcAllSpatialRelations(features, comparisonFeatures, onSuccess=onSuccess);
+};
+
+/*
 function calcBoundaryMakeupTables() {
     var features = gbLayer.getSource().getFeatures();
     var comparisonFeatures = comparisonLayer.getSource().getFeatures();
@@ -229,6 +282,7 @@ function calcBoundaryMakeupTables() {
     // calculate relations
     calcAllSpatialRelations(features, comparisonFeatures, onSuccess=onSuccess);
 };
+*/
 
 function clearTotalEquality() {
     // set div color
@@ -242,6 +296,43 @@ function clearTotalEquality() {
     percP.innerText = "Finding matches...";
 };
 
+function updateTotalEquality(matches) {
+    // calc total equality from the perspective of main source only (not for comparison source)
+    var cumArea = 0;
+    var possibleArea = 0;
+    // for each feat add to total area
+    for (match of matches) {
+        var [feature,related] = match;
+        area = Math.abs(feature.getGeometry().getArea());
+        // sort
+        related = sortSpatialRelations(related, 'equality', 0);
+        // add best equality
+        if (related.length > 0) {
+            best = related[0];
+            stats = best[1];
+            isecArea = area * stats.equality;
+            cumArea += isecArea;
+        };
+        possibleArea += area;
+    };
+    // update the percent bar
+    percArea = cumArea / possibleArea * 100;
+    // set div color
+    var percDiv = document.querySelector('#total-similarity');
+    if (percArea > 90) {var colorcat = 'high'}
+    else if (percArea > 70) {var colorcat = 'mid'}
+    else {var colorcat = 'low'};
+    var colorcat = 'high';
+    percDiv.className = 'stats-percent stats-percent-'+colorcat;
+    // set bar width
+    var percSpan = percDiv.querySelector('span');
+    percSpan.style = "--data-width:"+percArea+"%";
+    // set bar text
+    var percP = percDiv.querySelector('p');
+    percP.innerText = "Source Similarity: " + percArea.toFixed(1) + "%";
+};
+
+/*
 function updateTotalEquality(matches) {
     // calc total equality from the perspective of main source only (not for comparison source)
     var cumEquality = 0;
@@ -275,7 +366,93 @@ function updateTotalEquality(matches) {
     var percP = percDiv.querySelector('p');
     percP.innerText = "Source Similarity: " + percEquality.toFixed(1) + "%";
 };
+*/
 
+function updateMatchTable(matches) {
+    var mainNameField = document.getElementById('gb-names-table-select').value;
+    var comparisonNameField = document.getElementById('comparison-names-table-select').value;
+
+    // sort by name
+    matches.sort(function (a,b) {
+                    if (a[0].getProperties()[mainNameField] < b[0].getProperties()[mainNameField]) {
+                        return -1;
+                    } else {
+                        return 1;
+                    };
+                });
+
+    // sort and filter matches above threshold
+    var finalMatches = [];
+    for (match of matches) {
+        var [feature,related] = match;
+        // sort
+        related = sortSpatialRelations(related, 'equality', 0);
+        // keep only matches that are significant (>1% equality)
+        var significantRelated = [];
+        for (x of related) {
+            if ((x[1].equality >= 0.01)) { // x[1] is the stats dict
+                significantRelated.push(x)
+            };
+        };
+        finalMatches.push([feature,significantRelated]);
+        /*
+        if (significantRelated.length > 0) {
+            finalMatches.push([feature,significantRelated]);
+        };
+        */
+    };
+    
+    // populate tables
+    // populate match table
+    var table = document.getElementById('match-table')
+    // clear old table rows if exists
+    var tbody = table.querySelector('tbody');
+    tbody.innerHTML = "";
+    // if any related
+    if (finalMatches.length) {
+        // add rows
+        for (x of finalMatches) {
+            var [feature,related] = x;
+            var row = document.createElement("tr");
+            row.style = "page-break-inside:avoid!important; page-break-after:auto!important";
+            // name
+            var cell = document.createElement("td");
+            var name = feature.getProperties()[mainNameField];
+            var ID = feature.getId();
+            var getFeatureJs = 'gbLayer.getSource().getFeatureById('+ID+')';
+            var onclick = 'openFeatureComparePopup('+getFeatureJs+',null)';
+            cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
+            row.appendChild(cell);
+            // find related boundaries
+            var cell = document.createElement("td");
+            var cellContent = '';
+            for (x of related) {
+                [matchFeature,stats] = x;
+                var ID2 = matchFeature.getId();
+                var name2 = matchFeature.getProperties()[comparisonNameField];
+                var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
+                var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
+                var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
+                var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name2+'</a>';
+                var share = (stats.equality * 100).toFixed(1) + '%';
+                if (stats.equality > 0.9) {var colorcat = 'high'}
+                else if (stats.equality > 0.7) {var colorcat = 'mid'}
+                else {var colorcat = 'low'}
+                var colorcat = 'high';
+                var shareDiv = '<div class="stats-percent stats-percent-'+colorcat+'" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
+                cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
+                // only show the first most similar match, exit early
+                break;
+            };
+            cell.innerHTML = cellContent;
+            row.appendChild(cell);
+            // add row
+            tbody.appendChild(row);
+        };
+    };
+};
+
+/*
 function updateGbMakeupTable(matches) {
     var mainNameField = document.getElementById('gb-names-table-select').value;
     var comparisonNameField = document.getElementById('comparison-names-table-select').value;
@@ -437,3 +614,4 @@ function updateComparisonMakeupTable(matches) {
         };
     };
 };
+*/

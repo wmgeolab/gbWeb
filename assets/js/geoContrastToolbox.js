@@ -435,9 +435,9 @@ function updateGbLayer(zoomToExtent=false) {
         features = source.getFeatures();
         updateGbStats(features);
         updateGbFieldsDropdown(features);
-        updateGbNames(features);
+        //updateGbNames(features);
         updateGbInfo(features);
-        calcBoundaryMakeupTables();
+        calcMatchTable();
         //calcBoundaryMakeupTables();
     });
     // notify if failed to load source
@@ -478,9 +478,9 @@ function updateComparisonLayer(zoomToExtent=false) {
         features = source.getFeatures();
         updateComparisonStats(features);
         updateComparisonFieldsDropdown(features);
-        updateComparisonNames(features);
+        //updateComparisonNames(features);
         updateComparisonInfo(features);
-        calcBoundaryMakeupTables();
+        calcMatchTable();
         //calcBoundaryMakeupTables();
     });
     // notify if failed to load source
@@ -532,9 +532,9 @@ function updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
         features = source.getFeatures();
         updateGbStats(features);
         updateGbFieldsDropdown(features);
-        updateGbNames(features);
+        //updateGbNames(features);
         updateGbInfo(features);
-        calcBoundaryMakeupTables();
+        calcMatchTable();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
@@ -570,9 +570,9 @@ function updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
         features = source.getFeatures();
         updateComparisonStats(features);
         updateComparisonFieldsDropdown(features);
-        updateComparisonNames(features);
+        //updateComparisonNames(features);
         updateComparisonInfo(features);
-        calcBoundaryMakeupTables();
+        calcMatchTable();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
@@ -1219,7 +1219,7 @@ function gbSourceChanged() {
     // empty misc info
     clearGbInfo();
     clearGbStats();
-    clearGbNames();
+    clearMatchTable(); //clearGbNames();
     clearTotalEquality();
     // clear comparison layer
     clearGbLayer();
@@ -1257,7 +1257,7 @@ function comparisonSourceChanged() {
     // clear misc info
     clearComparisonInfo();
     clearComparisonStats();
-    clearComparisonNames();
+    clearMatchTable(); //clearComparisonNames();
     clearTotalEquality();
     // clear comparison layer
     clearComparisonLayer();

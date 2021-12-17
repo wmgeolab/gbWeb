@@ -288,6 +288,41 @@ function calcAllSpatialRelations(features1, features2, onSuccess) {
     // background worker approach
 
     // define how to process
+    var matches = [];
+    function processOne(i) {
+        console.log('processing '+i+' of '+features1.length);
+        var feature1 = features1[i];
+        //var related = calcSpatialRelations(feature1, features2);
+        //matches1.push([feature1,related]);
+        function onFeatureFinished(featmatches) {
+            //console.log(i+' feature finished')
+            if (i+1 < features1.length) {
+                // process next one after x milliseconds
+                //console.log('calling on next one')
+                matches.push([feature1,featmatches]);
+                setTimeout(function(){processOne(i+1)}, 10);
+            } else {
+                // finished
+                console.log('everything finished!')
+                // run success func
+                onSuccess(matches);
+            };
+        };
+        calcSpatialRelationsInBackground(i, feature1, features2, onFeatureFinished);
+    };
+    // begin
+    processOne(0);
+};
+
+/*
+function calcAllSpatialRelations(features1, features2, onSuccess) {
+    // calc relations from 1 to 2
+    // calculate for each feature sequentially with timeout in between
+    // to avoid locking up the entire gui
+    
+    // background worker approach
+
+    // define how to process
     var matches1 = [];
     function processOne(i) {
         console.log('processing '+i+' of '+features1.length);
@@ -331,6 +366,7 @@ function calcAllSpatialRelations(features1, features2, onSuccess) {
     // begin
     processOne(0);
 };
+*/
 
 function sortSpatialRelations(matches, sort_by, thresh, reverse=true) {
     // sort
