@@ -3,6 +3,8 @@ function clearMatchTable() {
     // clear old table rows
     var tbody = document.querySelector('#match-table tbody');
     tbody.innerHTML = "";
+    var tbody = document.querySelector('#nomatch-table tbody');
+    tbody.innerHTML = "";
     // clear name fields dropdown
     /*
     var sel = document.getElementById('gb-names-table-select');
@@ -253,7 +255,7 @@ function calcMatchTable() {
         updateTotalEquality(matches, comparisonFeatures);
 
         // update tables
-        updateMatchTable(matches);
+        updateMatchTable(matches, comparisonFeatures);
     };
 
     // calculate relations
@@ -388,7 +390,7 @@ function updateTotalEquality(matches) {
 };
 */
 
-function updateMatchTable(matches) {
+function updateMatchTable(matches, comparisonFeatures) {
     var mainNameField = document.getElementById('gb-names-table-select').value;
     var comparisonNameField = document.getElementById('comparison-names-table-select').value;
 
@@ -413,11 +415,12 @@ function updateMatchTable(matches) {
     
     // populate tables
     // populate match table
-    var table = document.getElementById('match-table')
+    var table = document.getElementById('match-table');
     // clear old table rows if exists
     var tbody = table.querySelector('tbody');
     tbody.innerHTML = "";
     // if any related
+    var matchIDs = [];
     if (finalMatches.length) {
         // add rows
         for (x of finalMatches) {
@@ -438,6 +441,7 @@ function updateMatchTable(matches) {
             for (x of related) {
                 [matchFeature,stats] = x;
                 var ID2 = matchFeature.getId();
+                matchIDs.push(ID2);
                 var name2 = matchFeature.getProperties()[comparisonNameField];
                 var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
                 var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
@@ -456,6 +460,35 @@ function updateMatchTable(matches) {
             cell.innerHTML = cellContent;
             row.appendChild(cell);
             // add row
+            tbody.appendChild(row);
+        };
+    };
+    // populate nomatch table
+    var table = document.getElementById('nomatch-table')
+    // clear old table rows if exists
+    var tbody = table.querySelector('tbody');
+    tbody.innerHTML = "";
+    // loop features that didnt match
+    for (feature of comparisonFeatures) {
+        var ID = feature.getId();
+        if (!matchIDs.includes(ID)) {
+            var row = document.createElement("tr");
+            row.style = "page-break-inside:avoid!important; page-break-after:auto!important";
+            // empty first column
+            var cell = document.createElement("td");
+            row.appendChild(cell);
+            // name
+            var cell = document.createElement("td");
+            var name = feature.getProperties()[comparisonNameField];
+            var getFeatureJs = 'comparisonLayer.getSource().getFeatureById('+ID+')';
+            var onclick = 'openFeatureComparePopup(null,'+getFeatureJs+')';
+            var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
+            var stats = {equality:0}
+            var share = (stats.equality * 100).toFixed(1) + '%';
+            var colorcat = 'low';
+            var shareDiv = '<div class="stats-percent stats-percent-'+colorcat+'" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
+            cell.innerHTML = '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
+            row.appendChild(cell);
             tbody.appendChild(row);
         };
     };
