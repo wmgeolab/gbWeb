@@ -385,21 +385,10 @@ function updateMatchTable(matches) {
     var finalMatches = [];
     for (match of matches) {
         var [feature,related] = match;
-        // sort
-        related = sortSpatialRelations(related, 'equality', 0);
-        // keep only matches that are significant (>1% equality)
-        var significantRelated = [];
-        for (x of related) {
-            if ((x[1].equality >= 0.01)) { // x[1] is the stats dict
-                significantRelated.push(x)
-            };
-        };
-        finalMatches.push([feature,significantRelated]);
-        /*
-        if (significantRelated.length > 0) {
-            finalMatches.push([feature,significantRelated]);
-        };
-        */
+        // sort by level of equality
+        // and keep only matches that have at least some minimum overlap (>1% equality)
+        related = sortSpatialRelations(related, 'equality', 0.01);
+        finalMatches.push([feature,related]);
     };
     
     // populate tables

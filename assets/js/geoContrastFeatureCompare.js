@@ -345,7 +345,6 @@ function openFeatureComparePopup(feat1, feat2) {
     popup = document.getElementById('feature-compare-popup');
     popup.className = 'popup';
     content = popup.querySelector('.popup-content');
-    console.log(content);
     content.scrollTop = 0;
     featureCompareMap.updateSize(); // otherwise will remain hidden until window resize
     // add feats to the popup comparison map

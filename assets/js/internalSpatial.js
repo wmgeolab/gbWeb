@@ -257,7 +257,7 @@ function calcSpatialRelationsInBackground(fid, feat, features, onSuccess) {
 
     // define how to ask for results
     function processOne(i) {
-        if (i+1 >= features.length) {
+        if (i+1 > features.length) {
             //finished
             //console.log(fid+' received all responses, total matches: '+matches.length);
             onSuccess(matches);
@@ -290,7 +290,7 @@ function calcAllSpatialRelations(features1, features2, onSuccess) {
     // define how to process
     var matches = [];
     function processOne(i) {
-        console.log('processing '+i+' of '+features1.length);
+        console.log('processing '+(i+1)+' of '+features1.length);
         var feature1 = features1[i];
         //var related = calcSpatialRelations(feature1, features2);
         //matches1.push([feature1,related]);
