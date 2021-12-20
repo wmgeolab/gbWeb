@@ -302,6 +302,8 @@ function calcAllSpatialRelations(features1, features2, onSuccess) {
                 matches.push([feature1,featmatches]);
                 setTimeout(function(){processOne(i+1)}, 10);
             } else {
+                // add final
+                matches.push([feature1,featmatches]);
                 // finished
                 console.log('everything finished!')
                 // run success func

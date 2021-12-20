@@ -250,7 +250,7 @@ function calcMatchTable() {
     // define on success
     function onSuccess(matches) {
         // calc total equality from the perspective of main source only (not for comparison source)
-        updateTotalEquality(matches);
+        updateTotalEquality(matches, comparisonFeatures);
 
         // update tables
         updateMatchTable(matches);
@@ -296,27 +296,47 @@ function clearTotalEquality() {
     percP.innerText = "Finding matches...";
 };
 
-function updateTotalEquality(matches) {
-    // calc total equality from the perspective of main source only (not for comparison source)
-    var cumArea = 0;
-    var possibleArea = 0;
+function updateTotalEquality(matches, comparisonFeatures) {
+    // calc total equality as the intersection of matching features / union of both sources
+    var mainArea = 0;
+    var comparisonArea = 0;
+    var isecArea = 0;
+    var matchArea = 0;
     // for each feat add to total area
     for (match of matches) {
         var [feature,related] = match;
-        area = Math.abs(feature.getGeometry().getArea());
-        // sort
-        related = sortSpatialRelations(related, 'equality', 0);
-        // add best equality
-        if (related.length > 0) {
-            best = related[0];
-            stats = best[1];
-            isecArea = area * stats.equality;
-            cumArea += isecArea;
+        // calc and add to main area
+        var area = Math.abs(feature.getGeometry().getArea());
+        mainArea += area;
+        // add to the cumulative sum of intersecting areas
+        for (match of related) {
+            var stats = match[1];
+            isecArea += area * stats.within;
         };
-        possibleArea += area;
+        // sort by equality
+        related = sortSpatialRelations(related, 'equality', 0);
+        // add best match/equality
+        if (related.length > 0) {
+            var best = related[0];
+            var stats = best[1];
+            matchArea += area * stats.within;
+        };
     };
+    // calc total comparison area
+    for (feat2 of comparisonFeatures) {
+        var area = Math.abs(feat2.getGeometry().getArea());
+        comparisonArea += area;
+    };
+    // calc union of isecArea, mainArea, and comparisonArea
+    console.log('main area '+mainArea+',comparison area '+comparisonArea);
+    var mainDiffArea = (1 - (isecArea / mainArea)) * mainArea;
+    var comparisonDiffArea = (1 - (isecArea / comparisonArea)) * comparisonArea;
+    var unionArea = mainDiffArea + comparisonDiffArea + isecArea;
+    console.log('Adiff,Bdiff,isec: '+[mainDiffArea, comparisonDiffArea, isecArea]);
+    console.log('union:'+unionArea);
+    console.log('matchArea:'+matchArea);
     // update the percent bar
-    percArea = cumArea / possibleArea * 100;
+    percArea = matchArea / unionArea * 100;
     // set div color
     var percDiv = document.querySelector('#total-similarity');
     if (percArea > 90) {var colorcat = 'high'}
@@ -329,7 +349,7 @@ function updateTotalEquality(matches) {
     percSpan.style = "--data-width:"+percArea+"%";
     // set bar text
     var percP = percDiv.querySelector('p');
-    percP.innerText = "Source Similarity: " + percArea.toFixed(1) + "%";
+    percP.innerText = "Source Overlap: " + percArea.toFixed(1) + "%";
 };
 
 /*
