@@ -250,12 +250,17 @@ function calcMatchTable() {
     updateGbNames(features);
 
     // define on success
-    function onSuccess(matches) {
-        // calc total equality from the perspective of main source only (not for comparison source)
-        updateTotalEquality(matches, comparisonFeatures);
+    function onSuccess(allMatches) {
+        // determine only the best matches
+        var bestMatches = calcBestMatches(allMatches);
+
+        // calc total equality from the perspective of both sources
+        console.log(allMatches)
+        console.log(bestMatches)
+        updateTotalEquality(allMatches, bestMatches, comparisonFeatures);
 
         // update tables
-        updateMatchTable(matches, comparisonFeatures);
+        updateMatchTable(bestMatches, comparisonFeatures);
     };
 
     // calculate relations
@@ -298,30 +303,27 @@ function clearTotalEquality() {
     percP.innerText = "Finding matches...";
 };
 
-function updateTotalEquality(matches, comparisonFeatures) {
+function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {
     // calc total equality as the intersection of matching features / union of both sources
     var mainArea = 0;
     var comparisonArea = 0;
     var isecArea = 0;
     var matchArea = 0;
-    // for each feat add to total area
-    for (match of matches) {
-        var [feature,related] = match;
-        // calc and add to main area
+    // for each feat add various area measurements
+    for (var i=0; i<allMatches.length; i++) {
+        [feature,bestMatchFeature,bestStats] = bestMatches[i];
+        // calc and add to total main area
         var area = Math.abs(feature.getGeometry().getArea());
         mainArea += area;
-        // add to the cumulative sum of intersecting areas
-        for (match of related) {
-            var stats = match[1];
-            isecArea += area * stats.within;
+        // add best match/equality area if a match exists
+        if (bestStats !== null) {
+            matchArea += area * bestStats.within;
         };
-        // sort by equality
-        related = sortSpatialRelations(related, 'equality', 0);
-        // add best match/equality
-        if (related.length > 0) {
-            var best = related[0];
-            var stats = best[1];
-            matchArea += area * stats.within;
+        // add to the cumulative sum of all intersecting areas
+        var related = allMatches[i][1]; // [feat,related]
+        for (x of related) {
+            var stats = x[1];
+            isecArea += area * stats.within;
         };
     };
     // calc total comparison area
@@ -390,28 +392,18 @@ function updateTotalEquality(matches) {
 };
 */
 
-function updateMatchTable(matches, comparisonFeatures) {
+function updateMatchTable(bestMatches, comparisonFeatures) {
     var mainNameField = document.getElementById('gb-names-table-select').value;
     var comparisonNameField = document.getElementById('comparison-names-table-select').value;
 
     // sort by name
-    matches.sort(function (a,b) {
+    bestMatches.sort(function (a,b) {
                     if (a[0].getProperties()[mainNameField] < b[0].getProperties()[mainNameField]) {
                         return -1;
                     } else {
                         return 1;
                     };
                 });
-
-    // sort and filter matches above threshold
-    var finalMatches = [];
-    for (match of matches) {
-        var [feature,related] = match;
-        // sort by level of equality
-        // and keep only matches that have at least some minimum overlap (>1% equality)
-        related = sortSpatialRelations(related, 'equality', 0.01);
-        finalMatches.push([feature,related]);
-    };
     
     // populate tables
     // populate match table
@@ -421,10 +413,10 @@ function updateMatchTable(matches, comparisonFeatures) {
     tbody.innerHTML = "";
     // if any related
     var matchIDs = [];
-    if (finalMatches.length) {
+    if (bestMatches.length) {
         // add rows
-        for (x of finalMatches) {
-            var [feature,related] = x;
+        for (x of bestMatches) {
+            var [feature,matchFeature,stats] = x;
             var row = document.createElement("tr");
             row.style = "page-break-inside:avoid!important; page-break-after:auto!important";
             // name
@@ -435,11 +427,10 @@ function updateMatchTable(matches, comparisonFeatures) {
             var onclick = 'openFeatureComparePopup('+getFeatureJs+',null)';
             cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
             row.appendChild(cell);
-            // find related boundaries
+            // add match name/link in table cell
             var cell = document.createElement("td");
             var cellContent = '';
-            for (x of related) {
-                [matchFeature,stats] = x;
+            if (matchFeature !== null) {
                 var ID2 = matchFeature.getId();
                 matchIDs.push(ID2);
                 var name2 = matchFeature.getProperties()[comparisonNameField];
@@ -454,8 +445,6 @@ function updateMatchTable(matches, comparisonFeatures) {
                 var colorcat = 'high';
                 var shareDiv = '<div class="stats-percent stats-percent-'+colorcat+'" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
                 cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
-                // only show the first most similar match, exit early
-                break;
             };
             cell.innerHTML = cellContent;
             row.appendChild(cell);

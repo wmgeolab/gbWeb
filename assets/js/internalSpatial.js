@@ -402,4 +402,57 @@ function sortSpatialRelations(matches, sort_by, thresh, reverse=true) {
     return newMatches;
 };
 
+function calcBestMatches(matches) {
+    // this should output a simpler match list
+    // with one row for every feat1
+    // in the format feat,bestmatchfeat,stats
+    // where multiple feats cant match to the same feat
+    // UNFINISHED
+    // ... 
+
+    // helper to find features that match another
+    function findFeaturesThatMatch(matchID) {
+        result = [];
+        for (x of matches) {
+            var [feature,related] = x;
+            related = sortSpatialRelations(related, 'equality', 0.01);
+            if (related.length==0) {continue};
+            for (y of related) {
+                var [matchFeat,stats] = y;
+                if (matchFeat.getId() == matchID) {
+                    result.push([feature,stats]);
+                };
+            };
+        };
+        return result;
+    };
+
+    // create best match list
+    var finalMatches = [];
+    for (x of matches) {
+        var [feature,related] = x;
+        // match with highest equality
+        related = sortSpatialRelations(related, 'equality', 0.01);
+        if (related.length==0) {
+            finalMatches.push([feature,null,null]);
+            continue;
+        };
+        [bestMatchFeat,bestStats] = related[0];
+        // make sure this match is the highest among all others
+        // ie only the feature with the best match to another is allowed
+        // ie multiple feats cant match another
+        var othersThatMatch = findFeaturesThatMatch(bestMatchFeat.getId());
+        othersThatMatch = sortSpatialRelations(othersThatMatch, 'equality', 0.01);
+        [bestOtherThatMatches,bestOtherThatMatchesStats] = othersThatMatch[0];
+        if (feature.getId() == bestOtherThatMatches.getId()) {
+            finalMatches.push([feature,bestMatchFeat,bestStats]);
+        } else {
+            finalMatches.push([feature,null,null]);
+        };
+    };
+
+    // return
+    return finalMatches;
+};
+
 
