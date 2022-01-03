@@ -247,6 +247,12 @@ function updateComparisonFileDropdown(paths) {
 //////////////////////
 // file dropdown changed
 function gbFileDropdownChanged() {
+    // first clear previous info
+    clearGbInfo();
+    clearGbStats();
+    clearMatchTable(); //clearGbNames();
+    clearTotalEquality();
+    // get file info
     var file = document.getElementById('gb-file-input').files[0];
     var path = document.getElementById('gb-file-select').value;
     var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
@@ -309,6 +315,12 @@ function gbFileDropdownChanged() {
 };
 
 function comparisonFileDropdownChanged() {
+    // first clear previous info
+    clearComparisonInfo();
+    clearComparisonStats();
+    clearMatchTable(); //clearComparisonNames();
+    clearTotalEquality();
+    // get file info
     var file = document.getElementById('comparison-file-input').files[0];
     var path = document.getElementById('comparison-file-select').value;
     var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
@@ -360,8 +372,8 @@ function comparisonFileDropdownChanged() {
         // ALT2: shapefile-js
         // https://github.com/calvinmetcalf/shapefile-js
         var waiting = Promise.all([shp.parseShp(zip.file(shpString).asArrayBuffer()), 
-            shp.parseDbf(zip.file(dbfString).asArrayBuffer())
-            ])
+                                    shp.parseDbf(zip.file(dbfString).asArrayBuffer())
+                                    ])
         waiting.then(function(result){
             var geoj = shp.combine(result);
             processData(geoj);
@@ -541,10 +553,7 @@ function updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
         alert('Failed to load uploaded file.');
     });
     // load the geojson data
-    var features = new ol.format.GeoJSON().readFeatures(geojson,
-        { featureProjection: map.getView().getProjection() }
-    );
-    source.addFeatures(features);
+    loadFromGeoJSON(source, geojson);
 };
 
 function updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
@@ -579,10 +588,7 @@ function updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
         alert('Failed to load uploaded file.');
     });
     // load the geojson data
-    var features = new ol.format.GeoJSON().readFeatures(geojson,
-        { featureProjection: map.getView().getProjection() }
-    );
-    source.addFeatures(features);
+    loadFromGeoJSON(source, geojson);
 };
 
 
