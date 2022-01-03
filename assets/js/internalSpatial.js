@@ -285,7 +285,7 @@ function calcSpatialRelationsInBackground(fid, feat, features, onSuccess) {
     processOne(0);
 };
 
-function calcAllSpatialRelations(features1, features2, onSuccess) {
+function calcAllSpatialRelations(features1, features2, onSuccess, onProgress=null) {
     // calc relations from 1 to 2
     // calculate for each feature sequentially with timeout in between
     // to avoid locking up the entire gui
@@ -296,6 +296,9 @@ function calcAllSpatialRelations(features1, features2, onSuccess) {
     // define how to process
     function processOne(i, results) {
         console.log('processing '+(i+1)+' of '+features1.length);
+        if (onProgress !== null) {
+            onProgress(i+1, features1.length);
+        };
         var feature1 = features1[i];
         //var related = calcSpatialRelations(feature1, features2);
         //matches1.push([feature1,related]);

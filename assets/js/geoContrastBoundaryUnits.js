@@ -264,7 +264,10 @@ function calcMatchTable() {
     };
 
     // calculate relations
-    calcAllSpatialRelations(features, comparisonFeatures, onSuccess=onSuccess);
+    function onProgress(i, total) {
+        document.querySelector('#total-similarity p').innerText = 'Matching '+i+' of '+total;
+    };
+    calcAllSpatialRelations(features, comparisonFeatures, onSuccess=onSuccess, onProgress=onProgress);
 };
 
 /*
@@ -300,7 +303,7 @@ function clearTotalEquality() {
     percSpan.style = "--data-width:0%";
     // set bar text
     var percP = percDiv.querySelector('p');
-    percP.innerText = "Finding matches...";
+    percP.innerText = "...";
 };
 
 function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {
