@@ -241,20 +241,6 @@ function calcSpatialRelationsInBackground(fid, feat, features, onSuccess) {
     return matches;
     */
 
-    // define how to receive results
-    function processResults(event) {
-        //console.log(fid+' received response from worker: '+event.data);
-        var i = event.data[1];
-        var simil = event.data[2];
-        if (simil.equality > 0.0) {
-            var feat2 = features[i];
-            matches.push([feat2,simil]);
-        };
-        // process next one
-        processOne(i+1);
-    };
-    worker.onmessage = processResults;
-
     // define how to ask for results
     function processOne(i) {
         if (i+1 > features.length) {
@@ -276,6 +262,25 @@ function calcSpatialRelationsInBackground(fid, feat, features, onSuccess) {
         };
     };
 
+    // define how to receive results
+    function processResults(event) {
+        //console.log(fid+' received response from worker: '+event.data);
+        if (event.data[0] != fid) {
+            // results from a different feature id, likely from a previous process
+            // break the old cycle
+            return;
+        };
+        var i = event.data[1];
+        var simil = event.data[2];
+        if (simil.equality > 0.0) {
+            var feat2 = features[i];
+            matches.push([feat2,simil]);
+        };
+        // process next one
+        processOne(i+1);
+    };
+    worker.onmessage = processResults;
+
     // begin
     processOne(0);
 };
@@ -284,12 +289,12 @@ function calcAllSpatialRelations(features1, features2, onSuccess) {
     // calc relations from 1 to 2
     // calculate for each feature sequentially with timeout in between
     // to avoid locking up the entire gui
+    // implemented with linked function calls that stops when reaching the end
     
     // background worker approach
 
     // define how to process
-    var matches = [];
-    function processOne(i) {
+    function processOne(i, results) {
         console.log('processing '+(i+1)+' of '+features1.length);
         var feature1 = features1[i];
         //var related = calcSpatialRelations(feature1, features2);
@@ -299,21 +304,21 @@ function calcAllSpatialRelations(features1, features2, onSuccess) {
             if (i+1 < features1.length) {
                 // process next one after x milliseconds
                 //console.log('calling on next one')
-                matches.push([feature1,featmatches]);
-                setTimeout(function(){processOne(i+1)}, 10);
+                results.push([feature1,featmatches]);
+                setTimeout(function(){processOne(i+1, results)}, 10);
             } else {
                 // add final
-                matches.push([feature1,featmatches]);
+                results.push([feature1,featmatches]);
                 // finished
                 console.log('everything finished!')
                 // run success func
-                onSuccess(matches);
+                onSuccess(results);
             };
         };
         calcSpatialRelationsInBackground(i, feature1, features2, onFeatureFinished);
     };
     // begin
-    processOne(0);
+    processOne(0, []);
 };
 
 /*
@@ -406,9 +411,7 @@ function calcBestMatches(matches) {
     // this should output a simpler match list
     // with one row for every feat1
     // in the format feat,bestmatchfeat,stats
-    // where multiple feats cant match to the same feat
-    // UNFINISHED
-    // ... 
+    // where multiple feats can't match to the same feat
 
     // helper to find features that match another
     function findFeaturesThatMatch(matchID) {
@@ -440,7 +443,7 @@ function calcBestMatches(matches) {
         [bestMatchFeat,bestStats] = related[0];
         // make sure this match is the highest among all others
         // ie only the feature with the best match to another is allowed
-        // ie multiple feats cant match another
+        // ie multiple feats can't match another
         var othersThatMatch = findFeaturesThatMatch(bestMatchFeat.getId());
         othersThatMatch = sortSpatialRelations(othersThatMatch, 'equality', 0.01);
         [bestOtherThatMatches,bestOtherThatMatchesStats] = othersThatMatch[0];

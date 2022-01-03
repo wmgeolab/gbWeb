@@ -484,7 +484,6 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
         };
     };
     // show nomatch table or none notification
-    console.log(noMatchCount);
     if (noMatchCount > 0) {
         document.getElementById('nomatch-none-notification').style.display = 'none';
         document.getElementById('nomatch-div').style.display = 'block';
