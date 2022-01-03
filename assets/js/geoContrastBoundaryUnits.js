@@ -12,6 +12,9 @@ function clearMatchTable() {
     var sel = document.getElementById('comparison-names-table-select');
     sel.innerHTML = "";
     */
+    // clear other match things
+    document.getElementById('nomatch-none-notification').style.display = 'none';
+    document.getElementById('nomatch-div').style.display = 'none';
 };
 
 /*
@@ -492,7 +495,7 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
         document.getElementById('nomatch-div').style.display = 'block';
     } else {
         document.getElementById('nomatch-none-notification').style.display = 'block';
-        document.getElementById('nomatch-div').style.display = 'none';  
+        document.getElementById('nomatch-div').style.display = 'none';
     };
 };
 
