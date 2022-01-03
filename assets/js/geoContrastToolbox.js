@@ -6,7 +6,7 @@
 
 var gbStyle = new ol.style.Style({
     fill: new ol.style.Fill({
-        color: 'rgba(255, 255, 255, 0.4)',
+        color: 'rgba(220, 220, 255, 0.5)',
     }),
     stroke: new ol.style.Stroke({
         color: 'rgb(29,107,191)', //'rgb(49, 127, 211)',

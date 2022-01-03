@@ -540,7 +540,7 @@
 
 						<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
 							<div id="source-contents-banner" style="width:100%; text-align:center">
-								<h2 style="margin-bottom:5px">Matches</h2>
+								<h2 style="margin-bottom:5px">Matches (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>)</h2>
 								<div id="total-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Finding matches...</p></div>
 								<br><br>
 							</div>
@@ -573,21 +573,27 @@
 									</tbody>
 								</table>
 							</div>
-							<div style="width:100%; text-align:center">
-								<h2 style="margin-bottom:5px">No Match</h2>
+							<div id="nomatch-none-notification" style="display:none; margin-left:10px; width:90%; text-align:right">
+								All boundary units in the comparison source were <b>successfully matched</b> to a boundary unit in the main source.
 							</div>
-							<div id="nomatch-table-div" style="width:90%">
-								<table id="nomatch-table" class="table" style="margin-left:10px; page-break-after:auto">
-									<thead>
-										<th style="width:50%">
-										</th>
-										<th style="width:50%">
-										</th>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
+							<div id="nomatch-div" style="display:none; width:100%">
+								<div style="width:100%; text-align:center">
+									<h2 style="margin-bottom:5px">No Match (<span class="tooltip" data-text="Boundary units in the other source that are not considered to have the highest overlapping area with any other boundary unit, are considered not matching.">?</span>)</h2>
+								</div>
+								<div id="nomatch-table-div" style="width:90%">
+									<table id="nomatch-table" class="table" style="margin-left:10px; page-break-after:auto">
+										<thead>
+											<th style="width:50%">
+											</th>
+											<th style="width:50%">
+											</th>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
 							</div>
+							<br>
 							<!--
 							<div id="left-table-div" style="width:45%">
 								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">

@@ -454,6 +454,7 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
     };
     // populate nomatch table
     var table = document.getElementById('nomatch-table')
+    var noMatchCount = 0;
     // clear old table rows if exists
     var tbody = table.querySelector('tbody');
     tbody.innerHTML = "";
@@ -461,6 +462,7 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
     for (feature of comparisonFeatures) {
         var ID = feature.getId();
         if (!matchIDs.includes(ID)) {
+            noMatchCount += 1;
             var row = document.createElement("tr");
             row.style = "page-break-inside:avoid!important; page-break-after:auto!important";
             // empty first column
@@ -480,6 +482,15 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
             row.appendChild(cell);
             tbody.appendChild(row);
         };
+    };
+    // show nomatch table or none notification
+    console.log(noMatchCount);
+    if (noMatchCount > 0) {
+        document.getElementById('nomatch-none-notification').style.display = 'none';
+        document.getElementById('nomatch-div').style.display = 'block';
+    } else {
+        document.getElementById('nomatch-none-notification').style.display = 'block';
+        document.getElementById('nomatch-div').style.display = 'none';  
     };
 };
 
