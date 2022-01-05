@@ -1,5 +1,5 @@
 
-var DEV = 1; // when set to 1, metadata and source data is read from the 'dev' branch
+var DEV = 0; // when set to 1, metadata and source data is read from the 'dev' branch
 
 function getZipFileContent(zipdata, name) {
     console.log('unzipping...');
@@ -245,10 +245,6 @@ function loadGeoContrastSource(source, iso, level, sourceName) {
             var apiUrl = row.apiURL;
             break;
         };
-    };
-    // NOTE: remove this once stable switches from pure .topojson to .topojson.zip
-    if (!apiUrl.includes('geoBoundaries') & !apiUrl.endsWith('.zip')) {
-        apiUrl += '.zip'; 
     };
     // manually load topojson from url
     if (apiUrl.endsWith('.topojson')) {
