@@ -118,6 +118,7 @@
 						<ul class="actions">
 							<li><a href="index.html#getdata" class="button big">Download the Data</a></li>
 							<li><a href="geoContrast.html" class="button big">Visualize the Data</a></li>
+							<li><a href="https://github.com/wmgeolab/geoBoundaries#getting-involved" class="button big">Contribute to the Data</a></li>
 						</ul>
 					</div>
 
@@ -205,7 +206,7 @@
 
 
 					<p>
-					<div id="dataTableRep" style="max-width:100%;">
+					<div id="dataTableRep" style="min-width:96%; max-width:100%;">
 
 						Loading...
 
@@ -239,28 +240,28 @@
 						};
 						var tableA = new Tabulator("#dataTableRep", {
 							ajaxURL: "https://www.geoboundaries.org/api/index.json", //ajax URL
-							height: screen.height * 0.60,
-							layout: "fitData",
-							autoResize:false,
+							height: screen.height * 1.1,
+							layout: "fitColumns",
+							autoResize:true,
 							resizableColumns: true,
 							responsiveLayout: "collapse",
 							groupBy: ["Continent", "boundaryName"],
 							//autoColumns:true,
 							columns: [                 //define the table columns
-								{ title: "Name", cssClass:"greyHighlight", field: "boundaryName", visible: true, responsive: 0, headerFilter: 'input', width: "20px", headerVertical: false },
-								{ title: "ISO-3", cssClass:"greyHighlight",field: "ISO", visible: true, responsive: 0, headerFilter: 'input', width: "10px", headerVertical: false },
-								{ title: "Level", cssClass:"greyHighlight",field: "ADM", visible: true, responsive: 0, headerVertical: false },
+								{ title: "Name", cssClass:"greyHighlight", field: "boundaryName", visible: true, responsive: 0, headerFilter: 'input', width: "20%", headerVertical: false },
+								{ title: "ISO-3", cssClass:"greyHighlight",field: "ISO", visible: true, responsive: 0, headerFilter: 'input', width: "10%", headerVertical: false },
+								{ title: "Level", cssClass:"greyHighlight",field: "ADM", visible: true, responsive: 0, width: "10%", headerVertical: false },
 								{
 									title: "geoBoundaries<br><span style='font-size:x-small;'>Can be used for most purposes, <br/>including academic and commercial.<br />Attribution required.</span>",
 									cssClass: "openHighlight",
 									columns: [
 										{ formatter: downloadSingleIcon, cssClass: "openHighlight", title: "Full Release", align: "center", field: "openDownloadURL", headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
 										{ formatter: downloadSimpleIcon, cssClass: "openHighlight", title: "Simplified geoJSON", field: "openSimplified", align: "center", visible: false, headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
-										{ title: "Year Represented", cssClass: "openHighlight", width:"6px", field: "openBoundaryYearRepresented", headerVertical: true, },
-										{ title: "Image Preview", cssClass: "openHighlight", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
+										{ title: "Year Represented", cssClass: "openHighlight", minWidth:"6px", field: "openBoundaryYearRepresented", align: "center", headerVertical: true, },
+										{ title: "Image Preview", cssClass: "openHighlight", field: "openPreview", align: "center", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
 										{ formatter: interactivePreview, cssClass: "openHighlight", title: "Interactive Preview", field: "openSimpInteractive", align: "center", headerVertical: true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
-										{ title: "Primary Source", cssClass: "openHighlight", field: "openBoundarySource-1", headerVertical: true, responsive: 1, width: "30%", visible: false },
-										{ title: "License", cssClass: "openHighlight", field: "openBoundaryLicense", headerVertical: true, responsive: 1, width: "30%", visible: false },
+										{ title: "Primary Source", cssClass: "openHighlight", field: "openBoundarySource-1", headerVertical: true, responsive: 1, minWidth: "30%", visible: false },
+										{ title: "License", cssClass: "openHighlight", field: "openBoundaryLicense", headerVertical: true, responsive: 1, minWidth: "30%", visible: false },
 									],
 								},
 								{
@@ -270,11 +271,11 @@
 									columns: [
 										{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field: "humDownloadURL", headerVertical: true, responsive: 0, visible: true, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
 										{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field: "humSimplified", align: "center", headerVertical: true, responsive: 0, visible: false, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
-										{ title: "Year Represented", field: "humBoundaryYearRepresented", width:"6px", headerVertical: true, visible: true, cssClass: "ochaHighlight" },
-										{ title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible: true, variableHeight: true, headerVertical: true, cssClass: "ochaHighlight" },
+										{ title: "Year Represented", field: "humBoundaryYearRepresented", align: "center", minWidth:"6px", headerVertical: true, visible: true, cssClass: "ochaHighlight" },
+										{ title: "Image Preview", field: "humPreview", align: "center", formatter: iconFormatter, visible: true, visible: true, variableHeight: true, headerVertical: true, cssClass: "ochaHighlight" },
 										{ formatter: interactivePreview, title: "Interactive Preview", field: "humSimpInteractive", visible: false, align: "center", cssClass: "ochaHighlight", headerVertical: true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
-										{ title: "Primary Source", field: "humBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", cssClass: "ochaHighlight", visible: false },
-										{ title: "License", field: "humBoundaryLicense", headerVertical: true, responsive: 1, width: "30%", visible: false, cssClass: "ochaHighlight", visible: false },
+										{ title: "Primary Source", field: "humBoundarySource-1", headerVertical: true, responsive: 1, visible: false, minWidth: "30%", cssClass: "ochaHighlight", visible: false },
+										{ title: "License", field: "humBoundaryLicense", headerVertical: true, responsive: 1, minWidth: "30%", visible: false, cssClass: "ochaHighlight", visible: false },
 									],
 								},
 								{
@@ -282,10 +283,10 @@
 									cssClass: "salbHighlight",
 									columns: [
 										{ formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
-										{ title: "Year Represented", cssClass: "salbHighlight", width:"6px", field: "authBoundaryYearRepresented", visible: true, responsive: 1, headerVertical: true, },
-										{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", formatter: iconFormatter, responsive: 0, visible: true, visible: true, variableHeight: true, headerVertical: true, },
-										{ title: "Primary Source", cssClass: "salbHighlight", field: "authBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
-										{ title: "License", cssClass: "salbHighlight", field: "authBoundaryLicense", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
+										{ title: "Year Represented", cssClass: "salbHighlight", minWidth:"6px", field: "authBoundaryYearRepresented", align: "center", visible: true, responsive: 1, headerVertical: true, },
+										{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", align: "center", formatter: iconFormatter, responsive: 0, visible: true, visible: true, variableHeight: true, headerVertical: true, },
+										{ title: "Primary Source", cssClass: "salbHighlight", field: "authBoundarySource-1", headerVertical: true, responsive: 1, visible: false, minWidth: "30%", visible: false },
+										{ title: "License", cssClass: "salbHighlight", field: "authBoundaryLicense", headerVertical: true, responsive: 1, visible: false, minWidth: "30%", visible: false },
 									],
 								}
 
