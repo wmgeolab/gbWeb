@@ -765,8 +765,8 @@ function updateComparisonAdminLevelDropdown() {
 function openGbSourcePopup() {
     popup = document.getElementById('gb-source-popup');
     popup.className = "popup";
-    content = popup.querySelector('.popup-content');
-    content.scrollTop = 0;
+    tableDiv = popup.querySelector('#gb-sources-table').parentNode;
+    tableDiv.scrollTop = 0;
 };
 
 function closeGbSourcePopup() {
@@ -777,8 +777,8 @@ function closeGbSourcePopup() {
 function openComparisonSourcePopup() {
     popup = document.getElementById('comparison-source-popup');
     popup.className = "popup";
-    content = popup.querySelector('.popup-content');
-    content.scrollTop = 0;
+    tableDiv = popup.querySelector('#comparison-sources-table').parentNode;
+    tableDiv.scrollTop = 0;
 };
 
 function closeComparisonSourcePopup() {
