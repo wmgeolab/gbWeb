@@ -151,24 +151,46 @@ function updateGbFieldsDropdown(features) {
         opt.textContent = field;
         select.appendChild(opt);
     };
-    // auto set name field
-    fields.sort(function (a,b) {
-        if (a.toLowerCase().includes('name') & b.toLowerCase().includes('name')) {
-            if (a.length < b.length) {
-                return -1;
-            } else {
-                return 1;
-            }
-        } else if (a.toLowerCase().includes('name')) {
-            return -1;
-        } else if (b.toLowerCase().includes('name')) {
-            return 1;
-        } else {
-            return 0;
+    // get geoContrast metadata
+    var iso = document.getElementById('country-select').value;
+    var level = document.getElementById('gb-admin-level-select').value;
+    var sourceName = document.getElementById('gb-boundary-select').value;
+    // get nameField from metadata
+    let nameField = '';
+    if (sourceName != 'upload') {
+        // loop metadata table until reach row matching current iso and level
+        var metadata = geoContrastMetadata;
+        for (row of metadata) {
+            var rowIso = row.boundaryISO;
+            var rowLevel = row.boundaryType;
+            var rowSource = row['boundarySource-1'];
+            if (rowSource == sourceName & rowIso == iso & rowLevel == level) {
+                nameField = row.nameField;
+                break;
+            };
         };
-    });
-    autofield = fields[0];
-    select.value = autofield;
+    };
+    // auto guess name field if missing
+    if (!nameField) {
+        fields.sort(function (a,b) {
+            if (a.toLowerCase().includes('name') & b.toLowerCase().includes('name')) {
+                if (a.length < b.length) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else if (a.toLowerCase().includes('name')) {
+                return -1;
+            } else if (b.toLowerCase().includes('name')) {
+                return 1;
+            } else {
+                return 0;
+            };
+        });
+        nameField = fields[0];
+    };
+    // set name field selector
+    select.value = nameField;
 };
 
 function updateComparisonFieldsDropdown(features) {
@@ -197,24 +219,46 @@ function updateComparisonFieldsDropdown(features) {
         opt.textContent = field;
         select.appendChild(opt);
     };
-    // auto set name field
-    fields.sort(function (a,b) {
-        if (a.toLowerCase().includes('name') & b.toLowerCase().includes('name')) {
-            if (a.length < b.length) {
-                return -1;
-            } else {
-                return 1;
-            }
-        } else if (a.toLowerCase().includes('name')) {
-            return -1;
-        } else if (b.toLowerCase().includes('name')) {
-            return 1;
-        } else {
-            return 0;
+    // get geoContrast metadata
+    var iso = document.getElementById('country-select').value;
+    var level = document.getElementById('comparison-admin-level-select').value;
+    var sourceName = document.getElementById('comparison-boundary-select').value;
+    // get nameField from metadata
+    let nameField = '';
+    if (sourceName != 'upload') {
+        // loop metadata table until reach row matching current iso and level
+        var metadata = geoContrastMetadata;
+        for (row of metadata) {
+            var rowIso = row.boundaryISO;
+            var rowLevel = row.boundaryType;
+            var rowSource = row['boundarySource-1'];
+            if (rowSource == sourceName & rowIso == iso & rowLevel == level) {
+                nameField = row.nameField;
+                break;
+            };
         };
-    });
-    autofield = fields[0];
-    select.value = autofield;
+    };
+    // auto guess name field if missing
+    if (!nameField) {
+        fields.sort(function (a,b) {
+            if (a.toLowerCase().includes('name') & b.toLowerCase().includes('name')) {
+                if (a.length < b.length) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else if (a.toLowerCase().includes('name')) {
+                return -1;
+            } else if (b.toLowerCase().includes('name')) {
+                return 1;
+            } else {
+                return 0;
+            };
+        });
+        nameField = fields[0];
+    };
+    // set name field selector
+    select.value = nameField;
 };
 
 function gbFieldsDropdownChanged() {
