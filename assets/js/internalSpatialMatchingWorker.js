@@ -151,7 +151,7 @@ function loadFeatures(data) {
         feat = turf.toWgs84(feat); // ol geom web mercator -> turf wgs84
         feat = turf.simplify(feat, {tolerance:0.01, mutate:true})
         features[i].geometry = feat.geometry;
-        features[i].properties.area = Math.abs(turf.area(feat));
+        features[i].properties.area = turf.convertArea(Math.abs(turf.area(feat)),'meters','kilometers');
     };
     return features;
 };
@@ -182,8 +182,8 @@ function similarity(geom1, geom2) {
 
     // calc metrics
     //alert('calc areas');
-    var geom1Area = turf.convertArea(Math.abs(turf.area(geom1)),'meters','kilometers');
-    var geom2Area = turf.convertArea(Math.abs(turf.area(geom2)),'meters','kilometers');
+    var geom1Area = geom1.properties.area;
+    var geom2Area = geom2.properties.area;
     var unionArea = turf.convertArea(Math.abs(turf.area(union)), 'meters', 'kilometers');
     var isecArea = turf.convertArea(Math.abs(turf.area(isec)), 'meters', 'kilometers');
     var areas = {'geom1Area':geom1Area, 'geom2Area':geom2Area, 'unionArea':unionArea, 'isecArea':isecArea};
@@ -227,12 +227,17 @@ function calcAllSpatialRelations(features1, features2) {
 self.onmessage = function(event) {
     var args = event.data;
     console.log('worker received args');
+    // load into feature geojsons
     data1 = args[0];
     data2 = args[1];
     features1 = loadFeatures(data1);
     features2 = loadFeatures(data2);
     console.log('worker: data loaded')
-    results = calcAllSpatialRelations(features1, features2);
+    // calc relations
+    matches = calcAllSpatialRelations(features1, features2);
     console.log('worker: matching done')
-    self.postMessage(results);
+    // strip off geometry to avoid returning too much data
+    for (feat1 of features1) {delete feat1['geometry']};
+    for (feat2 of features2) {delete feat2['geometry']};
+    self.postMessage([features1,features2,matches]);
 };

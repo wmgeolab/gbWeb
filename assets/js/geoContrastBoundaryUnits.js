@@ -321,8 +321,9 @@ function calcMatchTable() {
     updateGbNames(features);
 
     // define on success
-    function onSuccess(allMatches) {
+    function onSuccess(results) {
         // determine only the best matches
+        [features1,features2,allMatches] = results;
         var bestMatches = calcBestMatches(allMatches);
         window.allMatches = allMatches;
         window.bestMatches = bestMatches;
@@ -330,10 +331,10 @@ function calcMatchTable() {
         // calc total equality from the perspective of both sources
         console.log(allMatches)
         console.log(bestMatches)
-        updateTotalEquality(allMatches, bestMatches, comparisonFeatures);
+        updateTotalEquality(allMatches, bestMatches, features2);
 
         // update tables
-        updateMatchTable(bestMatches, comparisonFeatures);
+        updateMatchTable(bestMatches, features2);
     };
 
     // prep featuredata by serializing to geojson
@@ -410,7 +411,7 @@ function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {
     };
     // calc total comparison area
     for (feat2 of comparisonFeatures) {
-        var area = Math.abs(feat2.getGeometry().getArea());
+        var area = Math.abs(feat2.properties.area);
         comparisonArea += area;
     };
     // calc union of isecArea, mainArea, and comparisonArea
@@ -542,7 +543,7 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
     tbody.innerHTML = "";
     // loop features that didnt match
     for (feature of comparisonFeatures) {
-        var ID = feature.getId();
+        var ID = feature.id;
         if (!matchIDs.includes(ID)) {
             noMatchCount += 1;
             var row = document.createElement("tr");
@@ -552,7 +553,7 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
             row.appendChild(cell);
             // name
             var cell = document.createElement("td");
-            var name = feature.getProperties()[comparisonNameField];
+            var name = feature.properties[comparisonNameField];
             var getFeatureJs = 'comparisonLayer.getSource().getFeatureById('+ID+')';
             var onclick = 'openFeatureComparePopup(null,'+getFeatureJs+')';
             var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
