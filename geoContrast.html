@@ -318,6 +318,11 @@
 														doc.save('geoBoundaries-comparison.pdf');
 														//window.open(doc.output('bloburl'));
 														//doc.output('bloburi');
+
+														// reactivate pdf button
+														but = document.getElementById('pdf-button');
+														but.disabled = false;
+														but.innerHTML = 'Generate PDF Report';
 													});
 													// disable the map image div
 													topBannerDiv.style.display = 'none';
@@ -360,6 +365,10 @@
 												};
 
 												function printPageToPDF() {
+													// update pdf button
+													but = document.getElementById('pdf-button');
+													but.innerHTML = '<div style="display:flex; flex-direction:row; align-items:center; gap:3px"><span>Generating</span><img src="images/Spinner-1s-200px.gif" style="max-width:30px; margin-right:-15px"/></div>';
+													but.disabled = true;
 													// render the map to image data
 													// on success, set image data to img src and print the pdf
 													var onsuccess = setImageDataAndMakePDF; 
@@ -367,7 +376,7 @@
 												};
 											</script>
 
-											<button type="button" style="font-size:0.6em" onclick="printPageToPDF()">
+											<button id="pdf-button" type="button" style="font-size:0.6em" onclick="printPageToPDF()">
 												Generate PDF Report
 											</button>
 
