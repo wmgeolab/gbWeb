@@ -869,7 +869,7 @@ function updateGbSourceTable() {
         // source name
         var td = document.createElement('td');
         if (sourceRow['boundarySource-1']=='upload') {
-            td.innerText = 'Custom: Your Own Boundary';
+            td.innerText = 'Upload Your Own Boundary';
         } else {
             td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
         }
@@ -950,7 +950,7 @@ function updateGbSourceDropdown() {
     // finally add custom upload boundary choice
     opt = document.createElement('option');
     opt.value = 'upload';
-    opt.textContent = 'Custom: Your Own Boundary';
+    opt.textContent = 'Upload Your Own Boundary';
     select.appendChild(opt);
     sources.push('upload');
     // set the source to get-param if specified
@@ -1053,7 +1053,7 @@ function updateComparisonSourceTable() {
         // source name
         var td = document.createElement('td');
         if (sourceRow['boundarySource-1']=='upload') {
-            td.innerText = 'Custom: Your Own Boundary';
+            td.innerText = 'Upload Your Own Boundary';
         } else {
             td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
         }

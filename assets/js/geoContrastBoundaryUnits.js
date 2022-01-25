@@ -218,13 +218,13 @@ function updateComparisonFieldsDropdown(features) {
 };
 
 function gbFieldsDropdownChanged() {
-    var features = gbLayer.getSource().getFeatures();
-    //updateGbNames(features);
+    var comparisonFeatures = comparisonLayer.getSource().getFeatures();
+    updateMatchTable(window.bestMatches, comparisonFeatures);
 };
 
 function comparisonFieldsDropdownChanged() {
-    var features = comparisonLayer.getSource().getFeatures();
-    //updateComparisonNames(features);
+    var comparisonFeatures = comparisonLayer.getSource().getFeatures();
+    updateMatchTable(window.bestMatches, comparisonFeatures);
 };
 
 
@@ -256,6 +256,8 @@ function calcMatchTable() {
     function onSuccess(allMatches) {
         // determine only the best matches
         var bestMatches = calcBestMatches(allMatches);
+        window.allMatches = allMatches;
+        window.bestMatches = bestMatches;
 
         // calc total equality from the perspective of both sources
         console.log(allMatches)
