@@ -249,6 +249,11 @@ function calcMatchTable() {
     // clear old table rows if exists
     var tbody = document.querySelector('#match-table tbody');
     tbody.innerHTML = "";
+
+    // update status
+    let status = 'Waiting for all data to load...';
+    console.log(status.toLowerCase());
+    document.querySelector('#total-similarity p').innerText = status;
     
     // get features 
     var features = gbLayer.getSource().getFeatures();
@@ -256,7 +261,6 @@ function calcMatchTable() {
     if (features.length == 0 | comparisonFeatures.length == 0) {
         return;
     };
-    console.log('finding matches');
 
     // add in main names while calculating
     updateGbNames(features);
@@ -278,6 +282,11 @@ function calcMatchTable() {
         updateMatchTable(bestMatches, features2);
     };
 
+    // update status
+    status = 'Preparing match data...';
+    console.log(status.toLowerCase());
+    document.querySelector('#total-similarity p').innerText = status;
+
     // prep featuredata by serializing to geojson
     var geojWriter = new ol.format.GeoJSON();
     var data1 = geojWriter.writeFeatures(features);
@@ -285,6 +294,7 @@ function calcMatchTable() {
 
     // calculate relations
     function onProgress(i, total) {
+        console.log('worker: matching '+i+' of '+total);
         document.querySelector('#total-similarity p').innerText = 'Matching '+i+' of '+total;
     };
     calcAllSpatialRelations(data1, data2, onSuccess=onSuccess, onProgress=onProgress);
@@ -299,7 +309,7 @@ function clearTotalEquality() {
     percSpan.style = "--data-width:0%";
     // set bar text
     var percP = percDiv.querySelector('p');
-    percP.innerText = "...";
+    percP.innerText = "Initiating...";
 };
 
 function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {

@@ -75,7 +75,11 @@ function calcAllSpatialRelations(features1, features2) {
     results = [];
     let total = features1.length;
     for (let i=0; i<total; i++) {
-        console.log('worker: matching '+(i+1)+' of '+total);
+        // report progress
+        let status = 'processing';
+        let msg = [i+1,total];
+        self.postMessage([status,msg]);
+        // process
         feat1 = features1[i];
         matches = calcSpatialRelations(feat1, features2);
         results.push([feat1, matches]);
@@ -98,5 +102,7 @@ self.onmessage = function(event) {
     // strip off geometry to avoid returning too much data
     for (feat1 of features1) {delete feat1['geometry']};
     for (feat2 of features2) {delete feat2['geometry']};
-    self.postMessage([features1,features2,matches]);
+    let status = 'finished';
+    let msg = [features1,features2,matches];
+    self.postMessage([status,msg]);
 };

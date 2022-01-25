@@ -220,14 +220,23 @@ function calcAllSpatialRelations(data1, data2, onSuccess, onProgress=null) {
     matchingWorker = new Worker('assets/js/internalMatcherWorker.js');
     console.log(matchingWorker);
     
-    // define how to process results
-    function processResults(event) {
-        var results = event.data;
+    // define how to process messages
+    function processResults(results) {
         console.log('received results:');
         console.log(results);
         onSuccess(results);
     };
-    matchingWorker.onmessage = processResults;
+    function processMessage(event) {
+        let [status,data] = event.data;
+        if (status == 'processing') {
+            let [i,total] = data;
+            onProgress(i, total);
+        } else if (status == 'finished') {
+            let results = data;
+            processResults(results);
+        };
+    };
+    matchingWorker.onmessage = processMessage;
 
     // tell worker to start processing
     matchingWorker.postMessage([data1, data2]);
