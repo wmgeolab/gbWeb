@@ -76,9 +76,10 @@ function updateGbFieldsDropdown(features) {
     var props = feature.getProperties();
     for (key in props) {
         if (key == 'geometry') {continue};
+        console.log(key)
         val = props[key];
         if (typeof val === 'string') {
-            if (percentUniqueField(features, key) > 0.9) {
+            if (percentUniqueField(features, key) > 0.25) {
                 fields.push(key);
             };
         };
@@ -111,8 +112,8 @@ function updateGbFieldsDropdown(features) {
             };
         };
     };
-    // auto guess name field if missing
-    if (!nameField) {
+    // auto guess name field if missing or if it doesnt exist
+    if (!nameField | !fields.includes(nameField)) {
         fields.sort(function (a,b) {
             if (a.toLowerCase().includes('name') & b.toLowerCase().includes('name')) {
                 if (a.length < b.length) {
@@ -146,7 +147,7 @@ function updateComparisonFieldsDropdown(features) {
         if (key == 'geometry') {continue};
         val = props[key];
         if (typeof val === 'string') {
-            if (percentUniqueField(features, key) > 0.9) {
+            if (percentUniqueField(features, key) > 0.25) {
                 fields.push(key);
             };
         };
@@ -179,8 +180,8 @@ function updateComparisonFieldsDropdown(features) {
             };
         };
     };
-    // auto guess name field if missing
-    if (!nameField) {
+    // auto guess name field if missing or if it doesn't exist
+    if (!nameField | !fields.includes(nameField)) {
         fields.sort(function (a,b) {
             if (a.toLowerCase().includes('name') & b.toLowerCase().includes('name')) {
                 if (a.length < b.length) {
@@ -294,7 +295,7 @@ function calcMatchTable() {
 
     // calculate relations
     function onProgress(i, total) {
-        console.log('worker: matching '+i+' of '+total);
+        //console.log('worker: matching '+i+' of '+total);
         document.querySelector('#total-similarity p').innerText = 'Matching '+i+' of '+total;
     };
     calcAllSpatialRelations(data1, data2, onSuccess=onSuccess, onProgress=onProgress);
