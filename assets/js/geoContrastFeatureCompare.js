@@ -103,7 +103,7 @@ function openFeatureComparePopup(feat1, feat2) {
     // reset feature similarity
     var shareDiv = document.getElementById('feature-compare-similarity'); 
     shareDiv.querySelector('span').style = '--data-width:0%';
-    shareDiv.querySelector('p').innerText = 'Matching...';
+    shareDiv.querySelector('p').innerText = 'Please select a comparison...';
     // reset any previous names and stats
     document.getElementById('feature-compare-left-name').innerText = '-';
     for (elem of document.querySelectorAll('#feature-compare-left-table .stats-value')) {
@@ -305,7 +305,7 @@ function openFeatureComparePopup(feat1, feat2) {
         var share = (stats.equality * 100).toFixed(1) + '%';
         var shareDiv = document.getElementById('feature-compare-similarity'); 
         shareDiv.querySelector('span').style = '--data-width:'+stats.equality*100+'%';
-        shareDiv.querySelector('p').innerText = share;
+        shareDiv.querySelector('p').innerText = 'Overlap: ' + share;
         // figure out relationship
         if ((stats.within >= 0.99) & (stats.contains >= 0.99)) {
             var rel1 = 'EQUALS';
