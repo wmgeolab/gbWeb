@@ -280,6 +280,30 @@ function comparisonFieldsDropdownChanged() {
 ////////////////////////////////////////////////
 // calc and update boundary unit relationships
 
+function lookupSourceUrl(iso, level, sourceName) {
+    // get geoContrast metadata
+    var metadata = geoContrastMetadata;
+    // find the data url from the corresponding entry in the meta table
+    let apiUrl = null;
+    for (var i = 1; i < metadata.length; i++) {
+        var row = metadata[i];
+        if (row.length <= 1) {
+            // ignore empty rows
+            i++;
+            continue;
+        };
+        var currentIso = row.boundaryISO;
+        var currentLevel = row.boundaryType;
+        var currentSource = row['boundarySource-1'];
+        if ((sourceName == currentSource) & (iso == currentIso) & (level == currentLevel)) {
+            // get the data url from the table entry
+            apiUrl = row.apiURL;
+            break;
+        };
+    };
+    return apiUrl;
+};
+
 function calcMatchTable() {
     // clear old table rows if exists
     var tbody = document.querySelector('#match-table tbody');
@@ -312,11 +336,17 @@ function calcMatchTable() {
         updateMatchTable(bestMatches, comparisonFeatures);
     };
 
+    // prep featuredata by serializing to geojson
+    var geojWriter = new ol.format.GeoJSON();
+    var data1 = geojWriter.writeFeatures(features);
+    var data2 = geojWriter.writeFeatures(comparisonFeatures);
+
     // calculate relations
     function onProgress(i, total) {
         document.querySelector('#total-similarity p').innerText = 'Matching '+i+' of '+total;
     };
-    calcAllSpatialRelations(features, comparisonFeatures, onSuccess=onSuccess, onProgress=onProgress);
+    //calcAllSpatialRelations(features, comparisonFeatures, onSuccess=onSuccess, onProgress=onProgress);
+    calcAllSpatialRelationsNew(data1, data2, onSuccess=onSuccess, onProgress=onProgress);
 };
 
 /*
@@ -365,7 +395,7 @@ function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {
     for (var i=0; i<allMatches.length; i++) {
         [feature,bestMatchFeature,bestStats] = bestMatches[i];
         // calc and add to total main area
-        var area = Math.abs(feature.getGeometry().getArea());
+        var area = Math.abs(feature.properties.area);
         mainArea += area;
         // add best match/equality area if a match exists
         if (bestStats !== null) {
@@ -450,7 +480,7 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
 
     // sort by name
     bestMatches.sort(function (a,b) {
-                    if (a[0].getProperties()[mainNameField] < b[0].getProperties()[mainNameField]) {
+                    if (a[0].properties[mainNameField] < b[0].properties[mainNameField]) {
                         return -1;
                     } else {
                         return 1;
@@ -473,8 +503,8 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
             row.style = "page-break-inside:avoid!important; page-break-after:auto!important";
             // name
             var cell = document.createElement("td");
-            var name = feature.getProperties()[mainNameField];
-            var ID = feature.getId();
+            var name = feature.properties[mainNameField];
+            var ID = feature.id;
             var getFeatureJs = 'gbLayer.getSource().getFeatureById('+ID+')';
             var onclick = 'openFeatureComparePopup('+getFeatureJs+',null)';
             cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
@@ -483,9 +513,9 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
             var cell = document.createElement("td");
             var cellContent = '';
             if (matchFeature !== null) {
-                var ID2 = matchFeature.getId();
+                var ID2 = matchFeature.id;
                 matchIDs.push(ID2);
-                var name2 = matchFeature.getProperties()[comparisonNameField];
+                var name2 = matchFeature.properties[comparisonNameField];
                 var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
                 var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
                 var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';

@@ -324,6 +324,28 @@ function calcAllSpatialRelations(features1, features2, onSuccess, onProgress=nul
     processOne(0, []);
 };
 
+function calcAllSpatialRelationsNew(data1, data2, onSuccess, onProgress=null) {
+    // calc relations from 1 to 2
+    // calculate everything in background and receive results at end
+    // to avoid locking up the entire gui
+
+    // create worker
+    let worker = new Worker('assets/js/internalSpatialMatchingWorker.js');
+    console.log(worker);
+    
+    // define how to process results
+    function processResults(event) {
+        var results = event.data;
+        console.log('received results:');
+        console.log(results);
+        onSuccess(results);
+    };
+    worker.onmessage = processResults;
+
+    // tell worker to start processing
+    worker.postMessage([data1, data2]);
+};
+
 /*
 function calcAllSpatialRelations(features1, features2, onSuccess) {
     // calc relations from 1 to 2
@@ -425,7 +447,7 @@ function calcBestMatches(matches) {
             if (related.length==0) {continue};
             for (y of related) {
                 var [matchFeat,stats] = y;
-                if (matchFeat.getId() == matchID) {
+                if (matchFeat.id == matchID) {
                     result.push([feature,stats]);
                 };
             };
@@ -447,10 +469,10 @@ function calcBestMatches(matches) {
         // make sure this match is the highest among all others
         // ie only the feature with the best match to another is allowed
         // ie multiple feats can't match another
-        var othersThatMatch = findFeaturesThatMatch(bestMatchFeat.getId());
+        var othersThatMatch = findFeaturesThatMatch(bestMatchFeat.id);
         othersThatMatch = sortSpatialRelations(othersThatMatch, 'equality', 0.01);
         [bestOtherThatMatches,bestOtherThatMatchesStats] = othersThatMatch[0];
-        if (feature.getId() == bestOtherThatMatches.getId()) {
+        if (feature.id == bestOtherThatMatches.id) {
             finalMatches.push([feature,bestMatchFeat,bestStats]);
         } else {
             finalMatches.push([feature,null,null]);
