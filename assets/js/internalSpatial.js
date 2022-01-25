@@ -1,4 +1,7 @@
 
+// create global reference to worker performing source matching
+var matchingWorker = null; 
+
 // spatial stats stuff
 function calcSpatialStats(features) {
     var stats = {};
@@ -208,9 +211,14 @@ function calcAllSpatialRelations(data1, data2, onSuccess, onProgress=null) {
     // calculate everything in background and receive results at end
     // to avoid locking up the entire gui
 
+    // terminate any previous worker
+    if (matchingWorker !== null) {
+        matchingWorker.terminate();
+    };
+
     // create worker
-    let worker = new Worker('assets/js/internalMatcherWorker.js');
-    console.log(worker);
+    matchingWorker = new Worker('assets/js/internalMatcherWorker.js');
+    console.log(matchingWorker);
     
     // define how to process results
     function processResults(event) {
@@ -219,10 +227,10 @@ function calcAllSpatialRelations(data1, data2, onSuccess, onProgress=null) {
         console.log(results);
         onSuccess(results);
     };
-    worker.onmessage = processResults;
+    matchingWorker.onmessage = processResults;
 
     // tell worker to start processing
-    worker.postMessage([data1, data2]);
+    matchingWorker.postMessage([data1, data2]);
 };
 
 function sortSpatialRelations(matches, sort_by, thresh, reverse=true) {

@@ -5,7 +5,7 @@ function loadFeatures(data) {
     // load geojson objects from geojson string
     features = JSON.parse(data)['features']
     // reproject and simplify geometries, plus precalc areas
-    for (i=0; i<features.length; i++) {
+    for (let i=0; i<features.length; i++) {
         feat = features[i];
         feat = turf.toWgs84(feat); // ol geom web mercator -> turf wgs84
         feat = turf.simplify(feat, {tolerance:0.01, mutate:true})
@@ -67,15 +67,15 @@ function calcSpatialRelations(feat, features) {
         if (simil.equality > 0.0) {
             matches.push([feat2,simil]);
         };
-        i++;
     };
     return matches;
 };
 
 function calcAllSpatialRelations(features1, features2) {
     results = [];
-    for (let i=0; i<features1.length; i++) {
-        console.log(i+1+' of '+features1.length)
+    let total = features1.length;
+    for (let i=0; i<total; i++) {
+        console.log('worker: matching '+(i+1)+' of '+total);
         feat1 = features1[i];
         matches = calcSpatialRelations(feat1, features2);
         results.push([feat1, matches]);
