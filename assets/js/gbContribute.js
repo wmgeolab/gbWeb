@@ -253,4 +253,4 @@ loadLicenses(updateLicenseDropdown);
 loadCountries(updateCountryDropdown);
 
 // poke the heroku server to wake it up from its slumber
-fetch('https://gbcontributebackend.herokuapp.com/api_poke/')
+fetch('https://geoboundary-contributions.herokuapp.com/api_poke/')

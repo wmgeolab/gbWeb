@@ -15,6 +15,43 @@ var missingStyle = new ol.style.Style({
     })
     //stroke: outline,
 });
+var countryLabelStyle = new ol.style.Style({
+    geometry: function(feature) {
+        // create a geometry that defines where the label will be display
+        var geom = feature.getGeometry();
+        if (geom.getType() == 'Polygon') {
+            // polygon
+            // place label at the bbox/center of the polygon
+            var extent = feature.getGeometry().getExtent();
+            var newGeom = ol.geom.Polygon.fromExtent(extent);
+        } else {
+            // multi polygon
+            // place label at the bbox/center of the largest polygon
+            var largestGeom = null;
+            var largestArea = null;
+            for (poly of geom.getPolygons()) {
+                var extent = poly.getExtent();
+                var extentGeom = ol.geom.Polygon.fromExtent(extent);
+                var extentArea = extentGeom.getArea();
+                if (extentArea > largestArea) {
+                    largestGeom = extentGeom;
+                    largestArea = extentArea;
+                };
+            };
+            var newGeom = largestGeom;
+            
+        };
+        return newGeom;
+    },
+    text: new ol.style.Text({
+        //font: '12px Calibri,sans-serif',
+        fill: new ol.style.Fill({ color: '#000' }),
+        stroke: new ol.style.Stroke({
+            color: '#fff', width: 2
+        }),
+        overflow: true,
+    }),
+});
 var styleCategories = [
     new ol.style.Style({
         fill: new ol.style.Fill({
@@ -262,45 +299,35 @@ var map = new ol.Map({
     })
 });
 
-map.on('singleclick', function(evt) {
-    // get feats
-    let clickedFeat = null;
+map.on('pointermove', function(evt) {
+    // get feat at pointer
+    let cursorFeat = null;
     map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-        clickedFeat = feature;
+        cursorFeat = feature;
     });
-    // init and open popup for the found features
-    if (clickedFeat != null) {
-        openCountryPopup(clickedFeat);
+    // if any feat was found
+    if (cursorFeat != null) {
+        // clear any existing feature text
+        countryLayer.getSource().forEachFeature(function (feature) {
+            var styleFunc = feature.getStyle();
+            var styles = styleFunc(feature, null); 
+            function dynamicStyle(feature, resolution) {
+                // main style is at pos 0, label style at pos 1
+                // keep only main style, ignoring label style
+                return [styles[0]]; 
+            };
+            feature.setStyle(dynamicStyle);
+        });
+        // update the text style for the found feature
+        var label = cursorFeat.get('shapeName');
+        var labelStyle = countryLabelStyle.clone();
+        labelStyle.getText().setText(label);
+        var geomStyleFunc = cursorFeat.getStyle();
+        var geomStyle = geomStyleFunc(cursorFeat, true)[0];
+        function dynamicStyle(feature, resolution) {
+            return [geomStyle,labelStyle];
+        };
+        cursorFeat.setStyle(dynamicStyle);
     };
 });
 
-// country popup map
-
-var countryPopupLayer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-        format: new ol.format.GeoJSON({dataProjection: 'EPSG:4326'}),
-        overlaps: false
-    })
-});
-
-var countryPopupMap = new ol.Map({
-    target: 'country-info-map',
-    controls: ol.control.defaults().extend([new ol.control.FullScreen(),
-                                            new ol.control.ScaleLine({units: 'metric'}),
-                                            ]),
-    layers: [
-    new ol.layer.Tile({
-        source: new ol.source.XYZ({
-            attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
-            url:
-            'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
-            maxZoom: 20,
-            crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
-        })}),
-        countryPopupLayer
-    ],
-    view: new ol.View({
-        center: ol.proj.fromLonLat([0,0]),
-        zoom: 1
-    })
-});

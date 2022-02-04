@@ -58,9 +58,11 @@ function updateGbInfo(features) {
     info.innerHTML = '';
     // action buttons
     if (sourceName == 'upload') {
-        info.innerHTML += '<div>';
-        info.innerHTML += '<a href="gbContribute.html" target="blank" style="cursor:pointer" onclick="openContributePopup()">Submit to Boundary Repository?</a>';
-        info.innerHTML += '</div>';
+        var html = '';
+        html += '<div>';
+        html += '<a href="gbContribute.html" target="_blank" style="cursor:pointer">Submit this file to geoBoundaries?</a>';
+        html += '</div>';
+        info.innerHTML += html;
     } else {
         // info
         if (gbSourceUrl != '') {
@@ -141,9 +143,11 @@ function updateComparisonInfo(features) {
     info.innerHTML = '';
     // action buttons
     if (sourceName == 'upload') {
-        info.innerHTML += '<div>';
-        info.innerHTML += '<a href="gbContribute.html" target="blank" style="cursor:pointer" onclick="openContributePopup()">Submit to Boundary Repository?</a>';
-        info.innerHTML += '</div>';
+        var html = '';
+        html += '<div>';
+        html += '<a href="gbContribute.html" target="_blank" style="cursor:pointer">Submit this file to geoBoundaries?</a>';
+        html += '</div>';
+        info.innerHTML += html;
     } else {
         // info
         if (comparisonSourceUrl != '') {
