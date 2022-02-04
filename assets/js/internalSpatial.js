@@ -1,4 +1,7 @@
 
+// create global reference to worker performing source matching
+var matchingWorker = null; 
+
 // spatial stats stuff
 function calcSpatialStats(features) {
     var stats = {};
@@ -183,20 +186,8 @@ function similarity(feat1, feat2) {
     return results;
 };
 
-/*function spatialRelation(feat1, feat2, simil) {
-    // unfinished...
-    if (simil.contains >= 0.1 | simil.within >= 0.1) {
-        if (simil.equality >= 0.95) {
-            return 'is equal to';
-        } else {
-            return 'is a subset of';
-        };
-    };
-    // next
-    // ...
-};*/
-
 function calcSpatialRelations(feat, features) {
+    //feat = feat.getGeometry().simplify(0.01);
     var geojWriter = new ol.format.GeoJSON();
     var geoj1 = geojWriter.writeFeatureObject(feat);
     var matches = [];
@@ -204,6 +195,7 @@ function calcSpatialRelations(feat, features) {
         if (!ol.extent.intersects(feat.getGeometry().getExtent(), feat2.getGeometry().getExtent())) {
             continue;
         };
+        //feat2 = feat2.getGeometry().simplify(0.01);
         geoj2 = geojWriter.writeFeatureObject(feat2);
         simil = similarity(geoj1, geoj2);
         if (simil.equality > 0.0) {
@@ -214,32 +206,40 @@ function calcSpatialRelations(feat, features) {
     return matches;
 };
 
-function calcAllSpatialRelations(features1, features2) {
+function calcAllSpatialRelations(data1, data2, onSuccess, onProgress=null) {
     // calc relations from 1 to 2
-    var matches1 = [];
-    for (feature1 of features1) {
-        var related = calcSpatialRelations(feature1, features2);
-        matches1.push([feature1,related]);
+    // calculate everything in background and receive results at end
+    // to avoid locking up the entire gui
+
+    // terminate any previous worker
+    if (matchingWorker !== null) {
+        matchingWorker.terminate();
     };
-    // then reverse the calcs so they go from 2 to 1
-    var matches2 = [];
-    for (feature2 of features2) {
-        var related2 = [];
-        for (m1 of matches1) {
-            var [f1,related1] = m1;
-            for (r1 of related1) {
-                var [f2,stats] = r1;
-                if (feature2 === f2) {
-                    // reverse and add the stats to related
-                    newStats = {contains:stats.within, within:stats.contains, equality:stats.equality}
-                    related2.push([f1,newStats]);
-                };
-            };
+
+    // create worker
+    matchingWorker = new Worker('assets/js/internalMatcherWorker.js');
+    console.log(matchingWorker);
+    
+    // define how to process messages
+    function processResults(results) {
+        console.log('received results:');
+        console.log(results);
+        onSuccess(results);
+    };
+    function processMessage(event) {
+        let [status,data] = event.data;
+        if (status == 'processing') {
+            let [i,total] = data;
+            onProgress(i, total);
+        } else if (status == 'finished') {
+            let results = data;
+            processResults(results);
         };
-        matches2.push([feature2,related2]);
     };
-    // return both results
-    return [matches1, matches2];
+    matchingWorker.onmessage = processMessage;
+
+    // tell worker to start processing
+    matchingWorker.postMessage([data1, data2]);
 };
 
 function sortSpatialRelations(matches, sort_by, thresh, reverse=true) {
@@ -272,6 +272,57 @@ function sortSpatialRelations(matches, sort_by, thresh, reverse=true) {
     };
 
     return newMatches;
+};
+
+function calcBestMatches(matches) {
+    // this should output a simpler match list
+    // with one row for every feat1
+    // in the format feat,bestmatchfeat,stats
+    // where multiple feats can't match to the same feat
+
+    // helper to find features that match another
+    function findFeaturesThatMatch(matchID) {
+        result = [];
+        for (x of matches) {
+            var [feature,related] = x;
+            related = sortSpatialRelations(related, 'equality', 0.01);
+            if (related.length==0) {continue};
+            for (y of related) {
+                var [matchFeat,stats] = y;
+                if (matchFeat.id == matchID) {
+                    result.push([feature,stats]);
+                };
+            };
+        };
+        return result;
+    };
+
+    // create best match list
+    var finalMatches = [];
+    for (x of matches) {
+        var [feature,related] = x;
+        // match with highest equality
+        related = sortSpatialRelations(related, 'equality', 0.01);
+        if (related.length==0) {
+            finalMatches.push([feature,null,null]);
+            continue;
+        };
+        [bestMatchFeat,bestStats] = related[0];
+        // make sure this match is the highest among all others
+        // ie only the feature with the best match to another is allowed
+        // ie multiple feats can't match another
+        var othersThatMatch = findFeaturesThatMatch(bestMatchFeat.id);
+        othersThatMatch = sortSpatialRelations(othersThatMatch, 'equality', 0.01);
+        [bestOtherThatMatches,bestOtherThatMatchesStats] = othersThatMatch[0];
+        if (feature.id == bestOtherThatMatches.id) {
+            finalMatches.push([feature,bestMatchFeat,bestStats]);
+        } else {
+            finalMatches.push([feature,null,null]);
+        };
+    };
+
+    // return
+    return finalMatches;
 };
 
 

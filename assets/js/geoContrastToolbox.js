@@ -6,7 +6,7 @@
 
 var gbStyle = new ol.style.Style({
     fill: new ol.style.Fill({
-        color: 'rgba(255, 255, 255, 0.4)',
+        color: 'rgba(220, 220, 255, 0.5)',
     }),
     stroke: new ol.style.Stroke({
         color: 'rgb(29,107,191)', //'rgb(49, 127, 211)',
@@ -176,21 +176,24 @@ function handleComparisonFileUpload(evt) {
         // read as data url
         reader.readAsText(file);
     } else if (fileExtension == 'zip') {
-        loadshp({
-                url: file, // path or your upload file
-                encoding: 'utf-8', // default utf-8
-                EPSG: 4326, // default 4326
-                },
-                function(geojson) {
-                    // geojson returned
-                    source = new ol.source.Vector({
-                        format: new ol.format.GeoJSON({}),
-                        overlaps: false,
-                    });
-                    // update the layer
-                    updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=true);
-                }
-        );
+        // experiment with zipfile reading
+        // https://stuk.github.io/jszip/documentation/examples/read-local-file-api.html
+        reader = new FileReader();
+        reader.onload = function(e) {
+            // use reader results to create new source
+            var raw = reader.result;
+            var zip = new JSZip(raw);
+            var paths = [];
+            for (filename in zip.files) {
+                if (filename.endsWith('.shp')) {
+                    var path = file.name + '/' + filename;
+                    var displayName = filename;
+                    paths.push([path,displayName]);
+                };
+            };
+            updateComparisonFileDropdown(paths);
+        };
+        reader.readAsBinaryString(file);
     };
 };
 
@@ -219,6 +222,22 @@ function updateGbFileDropdown(paths) {
     gbFileDropdownChanged();
 };
 
+function updateComparisonFileDropdown(paths) {
+    // activate and clear the dropdown
+    var select = document.getElementById('comparison-file-select');
+    select.disabled = false;
+    select.innerHTML = '';
+    // populate the dropdown
+    for ([path,displayName] of paths) {
+        var opt = document.createElement('option');
+        opt.value = path;
+        opt.innerText = displayName;
+        select.appendChild(opt);
+    };
+    // force change
+    comparisonFileDropdownChanged();
+};
+
 
 
 
@@ -228,26 +247,16 @@ function updateGbFileDropdown(paths) {
 //////////////////////
 // file dropdown changed
 function gbFileDropdownChanged() {
+    // first clear previous info
+    clearGbInfo();
+    clearGbStats();
+    clearMatchTable(); //clearGbNames();
+    clearTotalEquality();
+    // get file info
     var file = document.getElementById('gb-file-input').files[0];
     var path = document.getElementById('gb-file-select').value;
     var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
-    /*
-    loadshp({
-        url: file, // path or your upload file
-        encoding: 'utf-8', // default utf-8
-        EPSG: 4326, // default 4326
-        },
-        function(geojson) {
-            // geojson returned
-            source = new ol.source.Vector({
-                format: new ol.format.GeoJSON({}),
-                overlaps: false,
-            });
-            // update the layer
-            updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
-        }
-    );
-    */
+    // read
     reader = new FileReader();
     reader.onload = function(e) {
         // open zipfile
@@ -256,10 +265,17 @@ function gbFileDropdownChanged() {
         // prep args
         var shpString = subPath;
         var dbfString = subPath.replace('.shp', '.dbf');
-        var encoding = 'utf8';
-        var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-        // define projection (the EPSGUser var must be set here so it can be used internally by shp2geojson)
-        EPSGUser = proj4('EPSG:4326'); // ignore prj for now
+        var prjString = subPath.replace('.shp', '.prj');
+        // try to read projection
+        let prjData = null;
+        try {
+            prjRaw = zip.file(prjString).asText();
+            //console.log(prjRaw);
+            prjData = proj4(prjRaw);
+        } catch (err) {
+            console.log('could not read prj file, assuming WGS84');
+            //console.log(err);
+        };
         
         function processData(geojson) {
             // geojson returned
@@ -271,9 +287,69 @@ function gbFileDropdownChanged() {
             updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
         };
 
-        // load dbf and shp, calling returnData once both are loaded
-        SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, processData);
-        DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, processData);
+        // load using shapefile-js
+        // https://github.com/calvinmetcalf/shapefile-js
+        var waiting = Promise.all([shp.parseShp(zip.file(shpString).asArrayBuffer(), prjData), 
+                                    shp.parseDbf(zip.file(dbfString).asArrayBuffer())
+                                    ])
+        waiting.then(function(result){
+                        var geoj = shp.combine(result);
+                        processData(geoj);
+                    });
+    };
+    reader.readAsBinaryString(file);
+};
+
+function comparisonFileDropdownChanged() {
+    // first clear previous info
+    clearComparisonInfo();
+    clearComparisonStats();
+    clearMatchTable(); //clearComparisonNames();
+    clearTotalEquality();
+    // get file info
+    var file = document.getElementById('comparison-file-input').files[0];
+    var path = document.getElementById('comparison-file-select').value;
+    var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
+    // read
+    reader = new FileReader();
+    reader.onload = function(e) {
+        // open zipfile
+        var raw = reader.result;
+        var zip = new JSZip(raw);
+        // prep args
+        var shpString = subPath;
+        var dbfString = subPath.replace('.shp', '.dbf');
+        var prjString = subPath.replace('.shp', '.prj');
+        // try to read projection
+        let prjData = null;
+        try {
+            prjRaw = zip.file(prjString).asText();
+            //console.log(prjRaw);
+            prjData = proj4(prjRaw);
+        } catch (err) {
+            console.log('could not read prj file, assuming WGS84');
+            //console.log(err);
+        };
+        
+        function processData(geojson) {
+            // geojson returned
+            source = new ol.source.Vector({
+                format: new ol.format.GeoJSON({}),
+                overlaps: false,
+            });
+            // update the layer
+            updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=true);
+        };
+
+        // read using shapefile-js
+        // https://github.com/calvinmetcalf/shapefile-js
+        var waiting = Promise.all([shp.parseShp(zip.file(shpString).asArrayBuffer(), prjData), 
+                                    shp.parseDbf(zip.file(dbfString).asArrayBuffer())
+                                    ])
+        waiting.then(function(result){
+            var geoj = shp.combine(result);
+            processData(geoj);
+        });
     };
     reader.readAsBinaryString(file);
 };
@@ -343,8 +419,10 @@ function updateGbLayer(zoomToExtent=false) {
         features = source.getFeatures();
         updateGbStats(features);
         updateGbFieldsDropdown(features);
-        updateGbNames(features);
+        //updateGbNames(features);
         updateGbInfo(features);
+        calcMatchTable();
+        //calcBoundaryMakeupTables();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
@@ -384,8 +462,10 @@ function updateComparisonLayer(zoomToExtent=false) {
         features = source.getFeatures();
         updateComparisonStats(features);
         updateComparisonFieldsDropdown(features);
-        updateComparisonNames(features);
+        //updateComparisonNames(features);
         updateComparisonInfo(features);
+        calcMatchTable();
+        //calcBoundaryMakeupTables();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
@@ -436,18 +516,16 @@ function updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
         features = source.getFeatures();
         updateGbStats(features);
         updateGbFieldsDropdown(features);
-        updateGbNames(features);
+        //updateGbNames(features);
         updateGbInfo(features);
+        calcMatchTable();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
         alert('Failed to load uploaded file.');
     });
     // load the geojson data
-    var features = new ol.format.GeoJSON().readFeatures(geojson,
-        { featureProjection: map.getView().getProjection() }
-    );
-    source.addFeatures(features);
+    loadFromGeoJSON(source, geojson);
 };
 
 function updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
@@ -473,18 +551,16 @@ function updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
         features = source.getFeatures();
         updateComparisonStats(features);
         updateComparisonFieldsDropdown(features);
-        updateComparisonNames(features);
+        //updateComparisonNames(features);
         updateComparisonInfo(features);
+        calcMatchTable();
     });
     // notify if failed to load source
     source.on(['error','featuresloaderror'], function() {
         alert('Failed to load uploaded file.');
     });
     // load the geojson data
-    var features = new ol.format.GeoJSON().readFeatures(geojson,
-        { featureProjection: map.getView().getProjection() }
-    );
-    source.addFeatures(features);
+    loadFromGeoJSON(source, geojson);
 };
 
 
@@ -658,8 +734,151 @@ function updateComparisonAdminLevelDropdown() {
 
 // sources
 
+function openGbSourcePopup() {
+    popup = document.getElementById('gb-source-popup');
+    popup.className = "popup";
+    tableDiv = popup.querySelector('#gb-sources-table').parentNode;
+    tableDiv.scrollTop = 0;
+};
+
+function closeGbSourcePopup() {
+    popup = document.getElementById('gb-source-popup');
+    popup.className = "popup is-hidden is-visually-hidden";
+};
+
+function openComparisonSourcePopup() {
+    popup = document.getElementById('comparison-source-popup');
+    popup.className = "popup";
+    tableDiv = popup.querySelector('#comparison-sources-table').parentNode;
+    tableDiv.scrollTop = 0;
+};
+
+function closeComparisonSourcePopup() {
+    popup = document.getElementById('comparison-source-popup');
+    popup.className = "popup is-hidden is-visually-hidden";
+};
+
+function updateGbSourceTable() {
+    //console.log('update gb source table');
+    var currentIso = document.getElementById('country-select').value;
+    var currentLevel = document.getElementById('gb-admin-level-select').value;
+    // clear sources table
+    var table = document.querySelector('#gb-sources-table tbody');
+    table.innerHTML = '';
+    // get geoContrast metadata
+    var metadata = geoContrastMetadata;
+    // get list of sources that match the specified country
+    var sourceRows = [];
+    for (var i = 1; i < metadata.length; i++) {
+        var sourceRow = metadata[i];
+        if (sourceRow.length <= 1) {
+            // ignore empty rows
+            i++;
+            continue;
+        };
+        // skip any rows that don't match the country and level
+        if (!(sourceRow['boundaryISO']==currentIso & sourceRow['boundaryType']==currentLevel)) {
+            continue;
+        };
+        sourceRows.push(sourceRow);
+    };
+    
+    // sort alphabetically
+    sortBy(sourceRows, 'boundarySource-1');
+    var currentSource = document.getElementById("gb-boundary-select").value;
+    /*
+    for (sourceRow of sourceRows) {
+        if (sourceRow['boundarySource-1']==currentSource) {
+            break;
+        };
+    };
+    console.log(sourceRows);
+    sourceRows.splice(sourceRows.indexOf(sourceRow), 1); // remove old
+    sourceRows.splice(0, 0, sourceRow); // add to start
+    console.log(sourceRows);
+    */
+
+    // add row at bottom for local file upload
+    uploadRow = {'boundarySource-1':'upload', // 'upload' is the value expected for the dropdown to work
+            'boundaryLicense':'-',
+            'boundaryYearRepresented':'-',
+            'sourceDataUpdateDate':'-',
+            'boundaryCount':'-',
+            'statsLineResolution':'-',
+            'statsVertexDensity':'-'
+            };
+    sourceRows.push(uploadRow);
+
+    // begin adding data to sources table
+    for (sourceRow of sourceRows) {
+        var tr = document.createElement('tr');
+        if (sourceRow['boundarySource-1']==currentSource) {
+            tr.style.backgroundColor = '#F0B323'; //'rgba(255,213,128,0.4)';
+            tr.style.color = 'white';
+        };
+        // select button
+        var td = document.createElement('td');
+        var but = document.createElement('button');
+        but.innerHTML = '&#x2714';
+        but.data = sourceRow['boundarySource-1'];
+        if (sourceRow['boundarySource-1']==currentSource) {
+            but.style.filter = 'brightness(1000)';
+        };
+        function onclick() {
+            var sel = document.getElementById("gb-boundary-select");
+            sel.value = this.data;
+            // force dropdown change
+            gbSourceChanged();
+            // close
+            closeGbSourcePopup();
+        };
+        but.onclick = onclick;
+        //but.setAttribute('onclick', onclick);
+        //but.style.padding = '5px'
+        //but.style.margin = 0;
+        td.appendChild(but);
+        tr.appendChild(td);
+        // source name
+        var td = document.createElement('td');
+        if (sourceRow['boundarySource-1']=='upload') {
+            td.innerText = 'Upload Your Own Boundary';
+        } else {
+            td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
+        }
+        tr.appendChild(td);
+        // license
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryLicense;
+        tr.appendChild(td);
+        // year
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryYearRepresented;
+        tr.appendChild(td);
+        // updated
+        var td = document.createElement('td');
+        td.innerText = sourceRow.sourceDataUpdateDate;
+        tr.appendChild(td);
+        // unit count
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryCount;
+        tr.appendChild(td);
+        // min line res
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsLineResolution).toFixed(1) + ' m';
+        tr.appendChild(td);
+        // max vert dens
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsVertexDensity).toFixed(1) + ' / km';
+        tr.appendChild(td);
+        //
+        table.appendChild(tr);
+    };
+};
+
 function updateGbSourceDropdown() {
     //alert('update gb boundary dropdown');
+    // update source table
+    updateGbSourceTable();
     // get current country and level
     var currentIso = document.getElementById('country-select').value;
     var currentLevel = document.getElementById('gb-admin-level-select').value;
@@ -703,24 +922,147 @@ function updateGbSourceDropdown() {
     // finally add custom upload boundary choice
     opt = document.createElement('option');
     opt.value = 'upload';
-    opt.textContent = 'Custom: Your Own Boundary';
+    opt.textContent = 'Upload Your Own Boundary';
     select.appendChild(opt);
     sources.push('upload');
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('mainSource');
+    var defaultSource = 'geoBoundaries (Open)';
     if (source != null & sources.includes(source)) {
         select.value = source;
+    } else if (sources.includes(defaultSource)) {
+        // default source
+        select.value = defaultSource;
     } else {
-        // default main source
-        select.value = 'geoBoundaries (Open)';
+        // default not available, use first available source
+        select.value = sources[0];
     };
     // force dropdown change
     gbSourceChanged();
 };
 
+function updateComparisonSourceTable() {
+    //console.log('update comparison source table');
+    var currentIso = document.getElementById('country-select').value;
+    var currentLevel = document.getElementById('comparison-admin-level-select').value;
+    // clear sources table
+    var table = document.querySelector('#comparison-sources-table tbody');
+    table.innerHTML = '';
+    // get geoContrast metadata
+    var metadata = geoContrastMetadata;
+    // get list of sources that match the specified country
+    var sourceRows = [];
+    for (var i = 1; i < metadata.length; i++) {
+        var sourceRow = metadata[i];
+        if (sourceRow.length <= 1) {
+            // ignore empty rows
+            i++;
+            continue;
+        };
+        // skip any rows that don't match the country and level
+        if (!(sourceRow['boundaryISO']==currentIso & sourceRow['boundaryType']==currentLevel)) {
+            continue;
+        };
+        sourceRows.push(sourceRow);
+    };
+    
+    // sort alphabetically
+    sortBy(sourceRows, 'boundarySource-1');
+    var currentSource = document.getElementById("comparison-boundary-select").value;
+    /*
+    for (sourceRow of sourceRows) {
+        if (sourceRow['boundarySource-1']==currentSource) {
+            break;
+        };
+    };
+    console.log(sourceRows);
+    sourceRows.splice(sourceRows.indexOf(sourceRow), 1); // remove old
+    sourceRows.splice(0, 0, sourceRow); // add to start
+    console.log(sourceRows);
+    */
+
+    // add row at bottom for local file upload
+    uploadRow = {'boundarySource-1':'upload', // 'upload' is the value expected for the dropdown to work
+            'boundaryLicense':'-',
+            'boundaryYearRepresented':'-',
+            'sourceDataUpdateDate':'-',
+            'boundaryCount':'-',
+            'statsLineResolution':'-',
+            'statsVertexDensity':'-'
+            };
+    sourceRows.push(uploadRow);
+
+    // begin adding data to sources table
+    for (sourceRow of sourceRows) {
+        var tr = document.createElement('tr');
+        if (sourceRow['boundarySource-1']==currentSource) {
+            tr.style.backgroundColor = '#F0B323'; //'rgba(255,213,128,0.4)';
+            tr.style.color = 'white';
+        };
+        // select button
+        var td = document.createElement('td');
+        var but = document.createElement('button');
+        but.innerHTML = '&#x2714';
+        but.data = sourceRow['boundarySource-1'];
+        if (sourceRow['boundarySource-1']==currentSource) {
+            but.style.filter = 'brightness(1000)';
+        };
+        function onclick() {
+            var sel = document.getElementById("comparison-boundary-select");
+            sel.value = this.data;
+            // force dropdown change
+            comparisonSourceChanged();
+            // close
+            closeComparisonSourcePopup();
+        };
+        but.onclick = onclick;
+        //but.setAttribute('onclick', onclick);
+        //but.style.padding = '5px'
+        //but.style.margin = 0;
+        td.appendChild(but);
+        tr.appendChild(td);
+        // source name
+        var td = document.createElement('td');
+        if (sourceRow['boundarySource-1']=='upload') {
+            td.innerText = 'Upload Your Own Boundary';
+        } else {
+            td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
+        }
+        tr.appendChild(td);
+        // license
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryLicense;
+        tr.appendChild(td);
+        // year
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryYearRepresented;
+        tr.appendChild(td);
+        // updated
+        var td = document.createElement('td');
+        td.innerText = sourceRow.sourceDataUpdateDate;
+        tr.appendChild(td);
+        // unit count
+        var td = document.createElement('td');
+        td.innerText = sourceRow.boundaryCount;
+        tr.appendChild(td);
+        // min line res
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsLineResolution).toFixed(1) + ' m';
+        tr.appendChild(td);
+        // max vert dens
+        var td = document.createElement('td');
+        td.innerText = parseFloat(sourceRow.statsVertexDensity).toFixed(1) + ' / km';
+        tr.appendChild(td);
+        //
+        table.appendChild(tr);
+    };
+};
+
 function updateComparisonSourceDropdown() {
     //alert('update comparison boundary dropdown');
+    // update source table
+    updateComparisonSourceTable();
     // get current country and level
     var currentIso = document.getElementById('country-select').value;
     var currentLevel = document.getElementById('comparison-admin-level-select').value;
@@ -770,11 +1112,15 @@ function updateComparisonSourceDropdown() {
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('comparisonSource');
+    var defaultSource = 'GADM v3.6';
     if (source != null & sources.includes(source)) {
         select.value = source;
+    } else if (sources.includes(defaultSource)) {
+        // default source
+        select.value = defaultSource;
     } else {
-        // default comparison source
-        select.value = 'GADM v3.6';
+        // default not available, use first available source
+        select.value = sources[0];
     };
     // force dropdown change
     comparisonSourceChanged();
@@ -846,10 +1192,13 @@ function comparisonAdminLevelChanged() {
 
 function gbSourceChanged() {
     //alert('main source changed');
+    // update source table
+    updateGbSourceTable();
     // empty misc info
     clearGbInfo();
     clearGbStats();
-    clearGbNames();
+    clearMatchTable(); //clearGbNames();
+    clearTotalEquality();
     // clear comparison layer
     clearGbLayer();
     // check which comparison source was selected
@@ -881,24 +1230,35 @@ function gbSourceChanged() {
 
 function comparisonSourceChanged() {
     //alert('comparison source changed');
+    // update source table
+    updateComparisonSourceTable();
     // clear misc info
     clearComparisonInfo();
     clearComparisonStats();
-    clearComparisonNames();
+    clearMatchTable(); //clearComparisonNames();
+    clearTotalEquality();
     // clear comparison layer
     clearComparisonLayer();
     // check which comparison source was selected
     source = document.getElementById('comparison-boundary-select').value;
     if (source == 'none' | source == '') {
-        // hide and reset file button
-        document.getElementById('comparison-file-input').value = null;
+        // activate admin level button
+        document.getElementById('comparison-admin-level-select').disabled = false;
+        // hide file button div
         document.getElementById('comparison-file-div').style.display = 'none';
     } else if (source == 'upload') {
+        // disable admin level button
+        document.getElementById('comparison-admin-level-select').disabled = true;
+        // reset
+        document.getElementById('comparison-file-input').value = null;
+        document.getElementById('comparison-file-select').innerHTML = '<option value="" disabled selected hidden>(Please select a boundary)</option>';
+        document.getElementById('comparison-file-select').disabled = true;
         // show file button div
         document.getElementById('comparison-file-div').style.display = 'block';
     } else {
-        // hide and reset file button
-        document.getElementById('comparison-file-input').value = null;
+        // activate admin level button
+        document.getElementById('comparison-admin-level-select').disabled = false;
+        // hide file button div
         document.getElementById('comparison-file-div').style.display = 'none';
         // update main layer with external geoContrast topojson
         updateComparisonLayer(zoomToExtent=true);
