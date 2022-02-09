@@ -48,28 +48,29 @@ function updateZipfileFileDropdown(paths) {
 };
 
 function zipfileFileDropdownChanged(select) {
-    // get the path dropdown value
-    var path = document.querySelector('select[name="path"]').value;
-    var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
-    // read the uploaded file contents to jszip
+    // get file info
     var select = document.getElementById('file-input');
     var file = select.files[0];
+    var path = document.querySelector('select[name="path"]').value;
+    var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
+    // read the uploaded file contents
     reader = new FileReader();
     reader.onload = function(e) {
         // open zipfile
         var raw = reader.result;
         var zip = new JSZip(raw);
-        // parse the dbf file
+        // prep args
         var dbfString = subPath.replace('.shp', '.dbf');
-        var encoding = 'utf8';
-        var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-        DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, fileLoaded, null);
+        // load using shapefile-js
+        // https://github.com/calvinmetcalf/shapefile-js
+        var result = shp.parseDbf(zip.file(dbfString).asArrayBuffer());
+        fileLoaded(result);
     };
     reader.readAsBinaryString(file);
 };
 
 function fileLoaded(data, dummy=null) {
-    var rows = data.records;
+    var rows = data;
     // populate field dropdowns
     var fields = Object.keys(rows[0]);
     for (elem of document.querySelectorAll('.field-dropdown')) {
