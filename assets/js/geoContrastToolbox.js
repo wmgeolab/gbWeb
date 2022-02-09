@@ -1106,7 +1106,7 @@ function updateComparisonSourceDropdown() {
     // finally add custom upload boundary choice
     opt = document.createElement('option');
     opt.value = 'upload';
-    opt.textContent = 'Custom: Your Own Boundary';
+    opt.textContent = 'Upload Your Own Boundary';
     select.appendChild(opt);
     sources.push('upload');
     // set the source to get-param if specified

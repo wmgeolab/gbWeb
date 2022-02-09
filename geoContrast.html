@@ -117,10 +117,11 @@
 												</script>
 											</div>
 											<div id="gb-file-div" style="padding-top:5px">
+												<span style="font-size:small; margin:4px">Drag-and-drop or select a zipped shapefile.</span>
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
 													<input id="gb-file-input" class="fas" type="file" accept=".zip">
 												</span>
-												<span data-text="Upload a zipped shapefile." class="tooltip">
+												<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
 													(?)
 												</span>
 												<select id="gb-file-select" onchange="gbFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
@@ -191,10 +192,11 @@
 												</script>
 											</span>
 											<div id="comparison-file-div">
+												<span style="font-size:small; margin:4px">Drag-and-drop or select a zipped shapefile.</span>
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
 													<input id="comparison-file-input" class="fas" type="file" accept=".zip">
 												</span>
-												<span data-text="Upload a zipped shapefile." class="tooltip">
+												<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
 													(?)
 												</span>
 												<select id="comparison-file-select" onchange="comparisonFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
