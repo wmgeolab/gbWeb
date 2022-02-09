@@ -77,7 +77,7 @@ function openCountryPopup (feat) {
         var td = document.createElement('td');
         var sourceNameLink = document.createElement('a');
         sourceNameLink.innerText = sourceRow['boundarySource-1'];
-        sourceNameLink.href = "geoContrast.html?country="+sourceRow.boundaryISO+'&mainSource='+sourceRow['boundarySource-1']+'&mainLevel='+sourceRow.boundaryType[3];
+        sourceNameLink.href = "geoContrast.html?country="+sourceRow.boundaryISO+'&mainSource='+sourceRow['boundarySource-1']+'&mainLevel='+sourceRow.boundaryType[3]+'&comparisonLevel='+sourceRow.boundaryType[3];
         td.appendChild(sourceNameLink);
         tr.appendChild(td);
         // indicator value
