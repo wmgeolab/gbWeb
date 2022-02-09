@@ -400,258 +400,252 @@
 							<h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
 						</div>
 					</div>
-
-					<div id="tab-container2" class="tab-container">
-										
-						<ul class='etabs'>
-							<li class='tab'><a href="#source-overview">Overview</a></li>
-							<li class='tab'><a href="#source-stats">Statistics</a></li>
-							<li class='tab'><a href="#source-contents">Matches</a></li>
-						</ul>
 						
-						<div id="source-overview" class="row box" style="width:100%; margin:0px 0px; page-break-after:always">
-							<div id="source-overview-banner" style="width:100%; text-align:center">
-								<h2>Overview</h2>
+					<div id="source-overview" class="row box" style="width:100%; margin:0px 0px; page-break-after:always">
+						<div id="source-overview-banner" style="width:100%; text-align:center">
+							<h2>Overview</h2>
+						</div>
+						<div id="left-table-div" style="width:45%">
+							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+							<br><br>
+							<div id="stats-gb-container">
+								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
+										<td><div id="stats-gb-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+									</tr>
+									<tr>
+										<td>License:</td>
+										<td><div id="stats-gb-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+									</tr>
+									<tr>
+										<td>Level:</td>
+										<td id="stats-gb-level" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Year the Boundary Represents:</td>
+										<td id="stats-gb-year" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Last Update:</td>
+										<td id="stats-gb-updated" class="stats-value"></td>
+									</tr>
+								</table>
 							</div>
-							<div id="left-table-div" style="width:45%">
-								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-								<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br><br>
-								<div id="stats-gb-container">
-									<table style="table-layout:fixed; width:100%">
-										<tr>
-											<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
-											<td><div id="stats-gb-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-										</tr>
-										<tr>
-											<td>License:</td>
-											<td><div id="stats-gb-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-										</tr>
-										<tr>
-											<td>Level:</td>
-											<td id="stats-gb-level" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Year the Boundary Represents:</td>
-											<td id="stats-gb-year" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Last Update:</td>
-											<td id="stats-gb-updated" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
 
-							</div>
-							
-							<div id="right-table-div" style="width:45%">
-								<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-								<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br><br>
-								<div id="stats-comp-container">
-									<table style="table-layout:fixed; width:100%">
-										<tr>
-											<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
-											<td><div id="stats-comp-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-										</tr>
-										<tr>
-											<td>License:</td>
-											<td><div id="stats-comp-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-										</tr>
-										<tr>
-											<td>Level:</td>
-											<td id="stats-comp-level" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Year the Boundary Represents:</td>
-											<td id="stats-comp-year" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Last Update:</td>
-											<td id="stats-comp-updated" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
+						</div>
+						
+						<div id="right-table-div" style="width:45%">
+							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+							<br><br>
+							<div id="stats-comp-container">
+								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
+										<td><div id="stats-comp-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+									</tr>
+									<tr>
+										<td>License:</td>
+										<td><div id="stats-comp-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+									</tr>
+									<tr>
+										<td>Level:</td>
+										<td id="stats-comp-level" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Year the Boundary Represents:</td>
+										<td id="stats-comp-year" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Last Update:</td>
+										<td id="stats-comp-updated" class="stats-value"></td>
+									</tr>
+								</table>
 							</div>
 						</div>
+					</div>
 
-						<div id="source-stats" class="row box" style="width:100%; margin:0px 0px">
-							<div id="source-stats-banner" style="width:100%; text-align:center">
-								<h2>Statistics</h2>
-							</div>
-							<div id="left-table-div" style="width:45%">
-								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-								<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br>
-								<div id="stats-gb-container">
-									<table style="table-layout:fixed; width:100%">
-										<tr>
-											<td>Administrative Units:</td>
-											<td id="stats-gb-admincount" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Area:</td>
-											<td id="stats-gb-area" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
-											<td id="stats-gb-circumf" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
-											<td id="stats-gb-vertices" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
-											<td id="stats-gb-avglinedens" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
-											<td id="stats-gb-avglineres" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
-							</div>
-							<div id="right-table-div" style="width:45%">
-								<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-								<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br>
-								<div id="stats-comp-container">
-									<table style="table-layout:fixed; width:100%">
-										<tr>
-											<td>Administrative Units:</td>
-											<td id="stats-comp-admincount" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Area:</td>
-											<td id="stats-comp-area" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
-											<td id="stats-comp-circumf" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
-											<td id="stats-comp-vertices" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
-											<td id="stats-comp-avglinedens" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
-											<td id="stats-comp-avglineres" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
-							</div>
+					<br>
+
+					<div id="source-stats" class="row box" style="width:100%; margin:0px 0px">
+						<div id="source-stats-banner" style="width:100%; text-align:center">
+							<h2>Statistics</h2>
 						</div>
-
-						<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
-							<div id="source-contents-banner" style="width:100%; text-align:center">
-								<h2 style="margin-bottom:5px">Matches (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>)</h2>
-								<div id="total-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Initiating...</p></div>
-								<br><br>
-							</div>
-							<div id="left-table-header" style="width:45%">
-								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-								<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							</div>
-							<div id="right-table-header" style="width:45%">
-								<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-								<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							</div>
+						<div id="left-table-div" style="width:45%">
+							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br>
-							<div id="match-table-div" style="width:90%">
-								<table id="match-table" class="table" style="margin-left:10px; page-break-after:auto">
+							<div id="stats-gb-container">
+								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-gb-admincount" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Area:</td>
+										<td id="stats-gb-area" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
+										<td id="stats-gb-circumf" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
+										<td id="stats-gb-vertices" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
+										<td id="stats-gb-avglinedens" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
+										<td id="stats-gb-avglineres" class="stats-value"></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div id="right-table-div" style="width:45%">
+							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+							<br>
+							<div id="stats-comp-container">
+								<table style="table-layout:fixed; width:100%">
+									<tr>
+										<td>Administrative Units:</td>
+										<td id="stats-comp-admincount" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Area:</td>
+										<td id="stats-comp-area" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
+										<td id="stats-comp-circumf" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
+										<td id="stats-comp-vertices" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
+										<td id="stats-comp-avglinedens" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
+										<td id="stats-comp-avglineres" class="stats-value"></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<br>
+
+					<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
+						<div id="source-contents-banner" style="width:100%; text-align:center">
+							<h2 style="margin-bottom:5px">Matches (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>)</h2>
+							<div id="total-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Initiating...</p></div>
+							<br><br>
+						</div>
+						<div id="left-table-header" style="width:45%">
+							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+						</div>
+						<div id="right-table-header" style="width:45%">
+							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+						</div>
+						<br>
+						<div id="match-table-div" style="width:90%">
+							<table id="match-table" class="table" style="margin-left:10px; page-break-after:auto">
+								<thead>
+									<th style="width:50%">
+										<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
+											<option selected>(Select name field)</option>
+										</select>
+									</th>
+									<th style="width:50%">
+										<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
+											<option selected>(Select name field)</option>
+										</select>
+									</th>
+								</thhead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						<div id="nomatch-none-notification" style="display:none; margin-left:10px; width:90%; text-align:right">
+							All boundary units in the comparison source were <b>successfully matched</b> to a boundary unit in the main source.
+							<br><br>
+						</div>
+						<div id="nomatch-div" style="display:none; width:100%">
+							<div style="width:100%; text-align:center">
+								<h2 style="margin-bottom:5px">No Match (<span class="tooltip" data-text="Boundary units in the other source that are not considered to have the highest overlapping area with any other boundary unit, are considered not matching.">?</span>)</h2>
+							</div>
+							<div id="nomatch-table-div" style="width:90%">
+								<table id="nomatch-table" class="table" style="margin-left:10px; page-break-after:auto">
 									<thead>
 										<th style="width:50%">
-											<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
-												<option selected>(Select name field)</option>
-											</select>
 										</th>
 										<th style="width:50%">
-											<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
-												<option selected>(Select name field)</option>
-											</select>
 										</th>
-									</thhead>
+									</thead>
 									<tbody>
 									</tbody>
 								</table>
 							</div>
-							<div id="nomatch-none-notification" style="display:none; margin-left:10px; width:90%; text-align:right">
-								All boundary units in the comparison source were <b>successfully matched</b> to a boundary unit in the main source.
-								<br><br>
-							</div>
-							<div id="nomatch-div" style="display:none; width:100%">
-								<div style="width:100%; text-align:center">
-									<h2 style="margin-bottom:5px">No Match (<span class="tooltip" data-text="Boundary units in the other source that are not considered to have the highest overlapping area with any other boundary unit, are considered not matching.">?</span>)</h2>
-								</div>
-								<div id="nomatch-table-div" style="width:90%">
-									<table id="nomatch-table" class="table" style="margin-left:10px; page-break-after:auto">
-										<thead>
-											<th style="width:50%">
-											</th>
-											<th style="width:50%">
-											</th>
-										</thead>
-										<tbody>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<br>
-							<!--
-							<div id="left-table-div" style="width:45%">
-								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-								<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br>
-								<div id="gb-names-table-div" style="margin-top:10px">
-									<table id="gb-names-table" class="gb-table" style="margin-left:10px; page-break-after:auto">
-										<thead>
-											<th>
-												<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
-													<option selected>(Select name field)</option>
-												</select>
-											</th>
-											<th>Most similar</th>
-										</thhead>
-										<tbody id="gb-names-table-tbody">
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div id="right-table-div" style="width:45%">
-								<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-								<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br>
-								<div id="comparison-names-table-div" style="margin-top:10px">
-									<table id="comparison-names-table" class="comparison-table" style="margin-left:10px; page-break-after:auto">
-										<thead>
-											<th>
-												<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
-													<option selected>(Select name field)</option>
-												</select>
-											</th>
-											<th>Most similar</th>
-										</thhead>
-										<tbody id="comparison-names-table-tbody">
-										</tbody>
-									</table>
-								</div>
-							</div>
-							-->
 						</div>
-
+						<br>
+						<!--
+						<div id="left-table-div" style="width:45%">
+							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+							<br>
+							<div id="gb-names-table-div" style="margin-top:10px">
+								<table id="gb-names-table" class="gb-table" style="margin-left:10px; page-break-after:auto">
+									<thead>
+										<th>
+											<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
+												<option selected>(Select name field)</option>
+											</select>
+										</th>
+										<th>Most similar</th>
+									</thhead>
+									<tbody id="gb-names-table-tbody">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div id="right-table-div" style="width:45%">
+							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+							<br>
+							<div id="comparison-names-table-div" style="margin-top:10px">
+								<table id="comparison-names-table" class="comparison-table" style="margin-left:10px; page-break-after:auto">
+									<thead>
+										<th>
+											<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
+												<option selected>(Select name field)</option>
+											</select>
+										</th>
+										<th>Most similar</th>
+									</thhead>
+									<tbody id="comparison-names-table-tbody">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						-->
 					</div>
 
 				</section>
@@ -893,8 +887,6 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () { $('#tab-container').easytabs({animate:false}); });
-		$(document).ready(function () { $('#tab-container2').easytabs({animate:false}); });
-		$(document).ready(function () { $('#contribute-tab-container').easytabs({animate:false}); });
 	</script>
 
 	<script src="assets/js/ol.js"></script>
