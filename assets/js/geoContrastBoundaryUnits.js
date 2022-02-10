@@ -255,6 +255,7 @@ function calcMatchTable() {
     let status = 'Waiting for all data to load...';
     console.log(status.toLowerCase());
     document.querySelector('#total-similarity p').innerText = status;
+    document.querySelector('#summary-similarity').innerText = "Waiting";
     
     // get features 
     var features = gbLayer.getSource().getFeatures();
@@ -287,6 +288,7 @@ function calcMatchTable() {
     status = 'Preparing match data...';
     console.log(status.toLowerCase());
     document.querySelector('#total-similarity p').innerText = status;
+    document.querySelector('#summary-similarity').innerText = "Prepping";
 
     // prep featuredata by serializing to geojson
     var geojWriter = new ol.format.GeoJSON();
@@ -297,11 +299,14 @@ function calcMatchTable() {
     function onProgress(i, total) {
         //console.log('worker: matching '+i+' of '+total);
         document.querySelector('#total-similarity p').innerText = 'Matching '+i+' of '+total;
+        document.querySelector('#summary-similarity').innerText = i+' / '+total;
     };
     calcAllSpatialRelations(data1, data2, onSuccess=onSuccess, onProgress=onProgress);
 };
 
 function clearTotalEquality() {
+    // summary
+    document.querySelector('#summary-similarity').innerText = "Initiating";
     // set div color
     var percDiv = document.querySelector('#total-similarity');
     percDiv.className = 'stats-percent';
@@ -351,6 +356,7 @@ function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {
     console.log('matchArea:'+matchArea);
     // update the percent bar
     percArea = matchArea / unionArea * 100;
+    document.querySelector('#summary-similarity').innerText = percArea.toFixed(1)+'%';
     // set div color
     var percDiv = document.querySelector('#total-similarity');
     if (percArea > 90) {var colorcat = 'high'}
