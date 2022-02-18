@@ -173,7 +173,7 @@ function new_update_map_countries(country_values_dict, min, max)
 	bin_3_end = 0;
     }
     
-    max = parseInt(max,10);
+    max = parseInt(max,10) + 1;
     
         countryLayer.getSource().forEachFeature(function(feature){
 
