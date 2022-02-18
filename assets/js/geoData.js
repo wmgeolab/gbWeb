@@ -174,6 +174,12 @@ function new_update_map_countries(country_values_dict, min, max)
     }
     
     max = parseInt(max,10) + 1;
+
+    console.log("bins");
+    console.log(bin_1_end);
+    console.log(bin_2_end);
+    console.log(bin_3_end);
+    console.log(max);
     
         countryLayer.getSource().forEachFeature(function(feature){
 
@@ -193,15 +199,15 @@ function new_update_map_countries(country_values_dict, min, max)
 
 	var country_data = country_values_dict[country_name];
 
-	if (country_data <= bin_1_end)
+	if (country_data < bin_1_end)
 	{
 	    dynamicStyle = styleCategories[0];
 	}
-	else if (country_data <= bin_2_end)
+	else if (country_data < bin_2_end)
 	{
 	    dynamicStyle = styleCategories[1];
 	}
-	else if (country_data <= bin_3_end)
+	else if (country_data < bin_3_end)
 	{
 	    dynamicStyle = styleCategories[2];
 	}
@@ -213,7 +219,11 @@ function new_update_map_countries(country_values_dict, min, max)
 	{
 	    dynamicStyle = missingStyle;
 	}
-	
+
+	    console.log("feat");
+	    console.log(feature);
+	    console.log(dynamicStyle);
+	    
 	feature.setStyle(dynamicStyle);
 });
 
