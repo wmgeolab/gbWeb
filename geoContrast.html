@@ -410,41 +410,53 @@
 							height: 80px;
 							margin: 10px;
 						}
+						.summarystat h2 {
+							margin: 5px;
+						}
 					</style>
 
 					<div id="source-summary" class="row box" style="width:100%; margin:0px 0px">
-						<div id="source-summary-banner" style="display:flex; flex-direction:column; width:100%; align-items:center;">
-							<div style="display:flex; flex-direction:row; align-items:center;">
-								<div style="width:10px; height:10px; background-color:#31add3; margin:10px"></div>
-								<h2 style="margin-bottom: 4px;">
-									<span class="gb-source-title" style="font-style:normal">-</span> 
-								</h2>
+						<div id="source-summary-banner" style="display:none; flex-direction:column; width:100%; align-items:center;">
+							<div style="display:flex; flex-direction:row; align-items:center; width:80%; justify-content:space-evenly;">
+								<div style="display:flex; flex-direction:row; align-items:center">
+									<div style="width:10px; height:10px; background-color:#31add3; margin:10px"></div>
+									<h3 style="margin-bottom: 4px;">
+										<span class="gb-source-title" style="font-style:normal">-</span> 
+									</h3>
+								</div>
+								<div style="display:flex; flex-direction:row; align-items:center">
+									<div style="width:10px; height:10px; background-color:rgb(255,0,0); margin:10px"></div>
+									<h3 style="margin-bottom: 4px;">
+										<span class="comp-source-title" style="font-style:normal">-</span>
+									</h3>
+								</div>
 							</div>
-							<div style="display:flex; flex-direction:row; align-items:center;">
-								<div style="width:10px; height:10px; background-color:rgb(255,0,0); margin:10px"></div>
-								<span style="font-style:italic; color:gray">Compared to <span class="comp-source-title">None</span></span>
-							</div>
+						</div>
+						<div id="source-summary-links" style="display:flex; flex-direction:row; align-items:center; width:100%; justify-content:space-evenly; font-weight:bold">
+							<a href="#source-overview">Metadata</a>
+							<a href="#source-stats">Boundary Stats</a>
+							<a href="#source-contents">Boundary Agreement</a>
 						</div>
 						<div id="source-summary-div" style="width:98%; display:flex; flex-direction:row; justify-content:space-evenly">
 							<div class="summarystat">
 								<h2 id="summary-level">ADM1</h2>
-								<span><a href="#source-overview">Admin level</a></span>
+								<span>Admin level</span>
 							</div>
 							<div class="summarystat">
-								<h2 id="summary-year">+3y</h2>
-								<span><a href="#source-overview">Boundary Year</a></span>
+								<h2 id="summary-year">2009</h2>
+								<span>Boundary Year</span>
 							</div>
 							<div class="summarystat">
-								<h2 id="summary-boundarycount">+25%</h2>
-								<span><a href="#source-stats">Admin count</a></span>
+								<h2 id="summary-boundarycount">12</h2>
+								<span>Admin count</span>
 							</div>
 							<div class="summarystat">
-								<h2 id="summary-lineres">-500m</h2>
-								<span><a href="#source-stats">Line Resolution</a></span>
+								<h2 id="summary-lineres">559m</h2>
+								<span>Line Resolution</span>
 							</div>
 							<div class="summarystat">
 								<h2 id="summary-similarity">-</h2>
-								<span><a href="#source-contents">Similarity</a></span>
+								<span>Similarity</span>
 							</div>
 						</div>
 					</div>
