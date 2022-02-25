@@ -6,7 +6,7 @@
 
 var gbStyle = new ol.style.Style({
     fill: new ol.style.Fill({
-        color: 'rgba(220, 220, 255, 0.5)',
+        color: 'rgba(220, 220, 255, 0.3)',
     }),
     stroke: new ol.style.Stroke({
         color: 'rgb(29,107,191)', //'rgb(49, 127, 211)',
@@ -14,6 +14,7 @@ var gbStyle = new ol.style.Style({
     }),
 });
 var gbLayer = new ol.layer.Vector({
+    title: "Main boundary",
     style: gbStyle,
 });
 
@@ -28,6 +29,7 @@ var comparisonStyle = new ol.style.Style({
     }),
 });
 var comparisonLayer = new ol.layer.Vector({
+    title: "Comparison boundary",
     style: comparisonStyle,
 });
 
@@ -72,6 +74,22 @@ map.on('singleclick', function(evt) {
         openFeatureComparePopup(mainFeat, comparisonFeat);
     };
 });
+
+function toggleMainLayer() {
+    var check = document.getElementById('toggle-layer-main');
+    gbLayer.setVisible(check.checked);
+};
+
+function toggleComparisonLayer() {
+    var check = document.getElementById('toggle-layer-comparison');
+    comparisonLayer.setVisible(check.checked);
+};
+
+var switcher = document.getElementById('layer-switcher');
+var control = new ol.control.Control({
+    element: switcher
+});
+map.addControl(control);
 
 
 

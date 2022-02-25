@@ -79,6 +79,24 @@
 							<div id="fullscreen" class="fullscreen">
 								<div id="map" class="map">
 								</div>
+								<div id="layer-switcher" class="ol-control-panel ol-unselectable ol-control">
+									<ul id="layer-list">
+										<li>
+											<!--note: checkbox class is rendered using a label checkmark character-->
+											<input id="toggle-layer-main" type="checkbox" style="display:none" onchange="toggleMainLayer()" checked/>
+											<label for="toggle-layer-main" style="margin-top:-8px; font-size:0.8em"></label>
+											<hr id="legend-symbol-main"></hr>
+											<span>Main boundary</span>
+										</li>
+										<li>
+											<!--note: checkbox class is rendered using a label checkmark character-->
+											<input id="toggle-layer-comparison" type="checkbox" style="display:none" onchange="toggleComparisonLayer()" checked/>
+											<label for="toggle-layer-comparison" style="margin-top:-8px; font-size:0.8em"></label>
+											<hr id="legend-symbol-comparison"></hr>
+											<span>Comparison boundary</span>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 						<div class="col-5 col-12-medium" style="padding:0; ">
@@ -959,6 +977,7 @@
 	</script>
 
 	<script src="assets/js/ol.js"></script>
+	<script src="assets/js/ol-ext.min.js"></script>
 
 	<script src="assets/js/internalHelpers.js"></script>
 	<script src="assets/js/internalData.js"></script>

@@ -343,3 +343,51 @@ ul li{
     -webkit-filter: blur(2px);
 }
 
+/* map stuff */
+
+.ol-attribution {
+    position: absolute;
+    right: 40px;
+    bottom: 5px;
+}
+
+.ol-full-screen {
+    position: absolute;
+    top: unset;
+    right: 5px;
+    bottom: 5px;
+}
+
+#layer-switcher {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: rgb(50,50,50);
+}
+
+#layer-switcher #layer-list {
+    list-style-type: none;
+    margin: 0;
+}
+
+#layer-switcher #layer-list li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin:5px;
+}
+
+#legend-symbol-main {
+    width: 20px;
+    border-top: 4px solid #319FD3;
+    border-bottom: unset;
+    margin: 5px;
+}
+
+#legend-symbol-comparison {
+    width: 20px;
+    border-top: 4px dashed rgb(255,0,0);
+    border-bottom: unset;
+    margin: 5px;
+}
+
