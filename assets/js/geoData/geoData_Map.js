@@ -115,7 +115,7 @@ function updateStyleLegend(bins) {
         var binend = bin.max;
         var color = styleCategories[i].getFill().getColor();
 	//console.log("style is from: "+i);
-        var text = binstart.toFixed(3) + ' to ' + binend.toFixed(3);
+        var text = parseFloat(binstart.toFixed(3)) + ' to ' + parseFloat(binend.toFixed(3));
 	//console.log(text);
         var entry = createEntry(color, text);
         legend.appendChild(entry);
