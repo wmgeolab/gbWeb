@@ -13,20 +13,32 @@ function add_options()
 
 	];
 
-    
-    var url = "https://api.github.com/repos/wmgeolab/geoDataWeb/git/trees/33011ba?recursive=1";
+/*
+    TODO: add files to geoDataWeb repo and use this code to remove above hardcoding
 
+    var url = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/variables.csv";
     var request = new XMLHttpRequest();
-
-    var skip_loop = 1;
-
-
-    request.open("GET", url, false);
+    request.open("GET",url,false);
     request.send(null);
 
     var return_object = request.responseText;
-    var json_string = JSON.parse(return_object);
- 
+    return_object = return_object.split(",");
+    
+    list = return_object;
+
+    var url = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/abbreviations.csv";
+    var request = new XMLHttpRequest();
+    request.open("GET",url,false);
+    request.send(null);
+
+    var return_object_2 = request.responseText;
+    return_object_2 = return_object_2.split(",");
+    
+    list_vals = return_object_2;
+
+    
+*/
+
     var selection_menu = document.getElementById('csv_list');
 
     for (var i=0;i<list.length;i++)
@@ -175,12 +187,6 @@ function new_update_map_countries(country_values_dict, min, max)
     
     max = parseInt(max,10) + 1;
 
-    console.log("bins");
-    console.log(bin_1_end);
-    console.log(bin_2_end);
-    console.log(bin_3_end);
-    console.log(max);
-    
         countryLayer.getSource().forEachFeature(function(feature){
 
 	var bin_1 = {min:min, max:bin_1_end};
@@ -220,10 +226,6 @@ function new_update_map_countries(country_values_dict, min, max)
 	    dynamicStyle = missingStyle;
 	}
 
-	    console.log("feat");
-	    console.log(feature);
-	    console.log(dynamicStyle);
-	    
 	feature.setStyle(dynamicStyle);
 });
 

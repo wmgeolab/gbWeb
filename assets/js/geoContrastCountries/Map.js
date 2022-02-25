@@ -299,6 +299,7 @@ var map = new ol.Map({
     })
 });
 
+
 map.on('pointermove', function(evt) {
     // get feat at pointer
     let cursorFeat = null;
@@ -310,7 +311,7 @@ map.on('pointermove', function(evt) {
         // clear any existing feature text
         countryLayer.getSource().forEachFeature(function (feature) {
             var styleFunc = feature.getStyle();
-            var styles = styleFunc(feature, null); 
+	    var styles = styleFunc(feature, null); 
             function dynamicStyle(feature, resolution) {
                 // main style is at pos 0, label style at pos 1
                 // keep only main style, ignoring label style
@@ -330,4 +331,3 @@ map.on('pointermove', function(evt) {
         cursorFeat.setStyle(dynamicStyle);
     };
 });
-
