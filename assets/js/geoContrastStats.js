@@ -46,6 +46,7 @@ function updateGbStats(features) {
                     vertices: parseFloat(row.statsVertices),
                     avgLineResolution: parseFloat(row.statsLineResolution),
                     avgLineDensity: parseFloat(row.statsVertexDensity),
+                    year: row.boundaryYearRepresented,
                 };
                 break;
             };
@@ -73,6 +74,10 @@ function updateGbStats(features) {
     document.getElementById('stats-gb-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / km';
     document.getElementById('stats-gb-avglineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
     document.getElementById('stats-gb-admincount').innerText = stats.adminCount;
+    document.getElementById('summary-level').innerText = lvl;
+    document.getElementById('summary-year').innerText = stats.year;
+    document.getElementById('summary-boundarycount').innerText = stats.adminCount;
+    document.getElementById('summary-lineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
 };
 
 function updateComparisonStats(features) {
