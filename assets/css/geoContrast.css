@@ -391,3 +391,13 @@ ul li{
     margin: 5px;
 }
 
+#legend-symbol-basemap {
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+}
+
+#select-basemap {
+    opacity: 0.7;
+}
+

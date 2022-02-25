@@ -35,20 +35,57 @@ var comparisonLayer = new ol.layer.Vector({
 
 // map
 
+var baseMaps = {
+    'maptiler': new ol.source.XYZ({
+        attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
+        url:
+        'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
+        maxZoom: 20,
+        crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+    }),
+    'esri': new ol.source.XYZ({
+        attributions: 'ESRI World Street Map',
+        url:
+        'http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        maxZoom: 20,
+        crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+    }),
+    'osm': new ol.source.OSM({crossOrigin: 'anonymous'}),
+};
+var baseMapLayer = new ol.layer.Tile({source: baseMaps.maptiler});
+
+function setBaseMap(name) {
+    baseMapLayer.setSource(baseMaps[name]);
+};
+
 var map = new ol.Map({
     target: 'map',
-    controls: ol.control.defaults().extend([new ol.control.FullScreen(),
+    controls: ol.control.defaults({attribution:false}).extend([new ol.control.FullScreen(),
                                             new ol.control.ScaleLine({units: 'metric'}),
                                             ]),
     layers: [
-    new ol.layer.Tile({
-        source: new ol.source.XYZ({
-            attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
-            url:
-            'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
-            maxZoom: 20,
-            crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
-        })}),
+        baseMapLayer,
+        /*
+        new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
+                url:
+                'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
+                maxZoom: 20,
+                crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+            })}),
+        new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                attributions: 'ESRI World Street Map',
+                url:
+                'http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+                maxZoom: 20,
+                crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+            })}),
+        new ol.layer.Tile({
+            source: new ol.source.OSM({crossOrigin: 'anonymous'})
+            }),
+        */
         gbLayer,
         comparisonLayer
     ],
