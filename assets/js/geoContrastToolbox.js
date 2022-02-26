@@ -1322,3 +1322,214 @@ function comparisonSourceChanged() {
 };
 
 
+// pdf report
+
+/*
+function setImageDataAndPrintPDF(imgData) {
+    //alert('processing img data');
+    // enable the top banner div for printing
+    var topBannerDiv = document.getElementById('top-banner-for-printing');
+    topBannerDiv.style.display = 'block';
+    // set img src
+    var mapImg = document.getElementById('map-image-for-printing');
+    mapImg.src = imgData;
+    // set country header
+    var countrySelect = document.getElementById('country-select');
+    var country = countrySelect.options[countrySelect.selectedIndex].text;
+    document.getElementById('country-header-for-printing').innerText = country;
+    // set args
+    args = {printable:'main', 
+            type:'html', 
+            //css:['/assets/css/main.css','/assets/css/extra.css'],
+            targetStyles:['*'], 
+            ignoreElements:['map-and-toolbox-div','feature-compare-popup','contribute-popup'], 
+            maxWidth:1000};
+    // create pdf
+    //alert('creating pdf');
+    printJS(args);
+    // disable the map image div
+    topBannerDiv.style.display = 'none';
+};
+*/
+
+async function renderFrontPage(mapImgData) {
+    // hide some elements
+    var ignoreElements = [];
+    // enable the top banner div for printing
+    var wrapper = document.createElement('div');
+    wrapper.style.padding = '50px';
+    var header = document.getElementById('header');
+    wrapper.appendChild(header);
+    var topbanner = document.createElement('div');
+    topbanner.innerHTML = `
+    <div id="top-banner-for-printing" style="width:100%; margin:0; padding:0; text-align:center">
+        <div style="position:relative; text-align:center">
+            <img id="map-image-for-printing" style="width:100%; height:1300px; object-fit:cover" crossorigin="anonymous"></img>
+            <h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
+        </div>
+    </div>
+    `
+    wrapper.appendChild(topbanner);
+    // set img src
+    var mapImg = wrapper.querySelector('#map-image-for-printing');
+    mapImg.src = mapImgData;
+    // set country header
+    var countrySelect = document.getElementById('country-select');
+    var country = countrySelect.options[countrySelect.selectedIndex].text;
+    wrapper.querySelector('#country-header-for-printing').innerText = country;
+    // render to image
+    //alert('creating pdf');
+    var elem = wrapper;
+    var config = {'ignoreElements': function(e){return ignoreElements.includes(e.id)}
+    };
+    document.body.appendChild(wrapper);
+    var canvas = await html2canvas(elem, config);
+    wrapper.remove();
+    var imgData = canvas.toDataURL("image/png"); // creates one tall image of entire canvas
+    return imgData;
+}
+
+async function renderMetaPage() {
+    fdsf;
+}
+
+async function renderStatsPage() {
+    fdsfs;
+}
+
+async function renderAgreementPage() {
+    fdsfs;
+}
+
+/*
+function makePDF(imgData) {
+    //alert('processing img data');
+    // hide some elements
+    var ignoreElements = ['map-and-toolbox-div','feature-compare-popup','contribute-popup'];
+    // enable the top banner div for printing
+    var topBannerDiv = document.getElementById('top-banner-for-printing');
+    topBannerDiv.style.display = 'block';
+    // set img src
+    var mapImg = document.getElementById('map-image-for-printing');
+    mapImg.src = imgData;
+    // set country header
+    var countrySelect = document.getElementById('country-select');
+    var country = countrySelect.options[countrySelect.selectedIndex].text;
+    document.getElementById('country-header-for-printing').innerText = country;
+    // create pdf
+    //alert('creating pdf');
+    var elem = document.getElementById('main');
+    var config = {'ignoreElements': function(e){return ignoreElements.includes(e.id)}
+    };
+    html2canvas(elem, config).then(function (canvas) {
+        // canvas to image (creates one tall image of entire page)
+        var imgData = canvas.toDataURL("image/png");
+        // define doc
+        var imgWidth = 210; 
+        var pageHeight = 295; 
+        var imgHeight = canvas.height * imgWidth / canvas.width;
+        var heightLeft = imgHeight;
+        var doc = new jsPDF('p', 'mm');
+        var position = 0;
+
+        // loop parts of the image and crop to each page
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        };
+
+        // show or save pdf
+        //doc.output('datauri');
+        doc.save('geoBoundaries-comparison.pdf');
+        //window.open(doc.output('bloburl'));
+        //doc.output('bloburi');
+
+        // reactivate pdf button
+        but = document.getElementById('pdf-button');
+        but.disabled = false;
+        but.innerHTML = 'Generate PDF Report';
+    });
+    // disable the map image div
+    topBannerDiv.style.display = 'none';
+};
+*/
+
+async function makePDF(mapImgData) {
+    // define doc
+    var imgWidth = 210; 
+    var pageHeight = 295; 
+    var imgHeight = 295;
+    var heightLeft = imgHeight;
+    var doc = new jsPDF('p', 'mm');
+    var position = 0;
+
+    // loop parts of the image and crop to each page
+    var imgData = await renderFrontPage(mapImgData)
+    console.log('final img '+imgData)
+    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    // show or save pdf
+    //doc.output('datauri');
+    doc.save('geoBoundaries-comparison.pdf');
+    //window.open(doc.output('bloburl'));
+    //doc.output('bloburi');
+
+    // reactivate pdf button
+    but = document.getElementById('pdf-button');
+    but.disabled = false;
+    but.innerHTML = 'Generate PDF Report';
+}
+
+function renderMapToImgData(processdata) {
+    map.once('rendercomplete', function () {
+        //alert('rendercomplete');
+        const mapCanvas = document.createElement('canvas');
+        const size = map.getSize();
+        mapCanvas.width = size[0];
+        mapCanvas.height = size[1];
+        const mapContext = mapCanvas.getContext('2d');
+        Array.prototype.forEach.call(
+            document.querySelectorAll('#map .ol-layer canvas'),
+            function (canvas) {
+                if (canvas.width > 0) {
+                    const opacity = canvas.parentNode.style.opacity;
+                    mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+                    const transform = canvas.style.transform;
+                    // Get the transform parameters from the style's transform matrix
+                    const matrix = transform
+                        .match(/^matrix\(([^\(]*)\)$/)[1]
+                        .split(',')
+                        .map(Number);
+                    // Apply the transform to the export map context
+                    CanvasRenderingContext2D.prototype.setTransform.apply(
+                        mapContext,
+                        matrix
+                    );
+                    mapContext.drawImage(canvas, 0, 0);
+                };
+            }
+        );
+        imgData = mapCanvas.toDataURL();
+        //alert('imgdata '+imgData);
+        processdata(imgData);
+    });
+    map.renderSync();
+};
+
+function printPageToPDF() {
+    // update pdf button
+    but = document.getElementById('pdf-button');
+    but.innerHTML = '<div style="display:flex; flex-direction:row; align-items:center; gap:3px"><span>Generating</span><img src="images/Spinner-1s-200px.gif" style="max-width:30px; margin-right:-15px"/></div>';
+    but.disabled = true;
+    // render the map to image data
+    // on success, set image data to img src and print the pdf
+    var onsuccess = makePDF; 
+    renderMapToImgData(onsuccess);
+};
+
+
