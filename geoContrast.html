@@ -424,49 +424,34 @@
 
 					<div id="top-banner-for-printing" style="display:none; width:100%; margin:0; padding:0; text-align:center">
 						<div style="position:relative; text-align:center">
-							<img id="map-image-for-printing" style="width:100%; height:400px; object-fit:cover" crossorigin="anonymous"></img>
+							<img id="map-image-for-printing" style="width:100%; height:800px; object-fit:cover" crossorigin="anonymous"></img>
 							<h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
 						</div>
 					</div>
 
-					<style>
-						.summarystat {
-							text-align: center;
-							width: 100px;
-							margin: 10px;
-						}
-						.summarystat h2 {
-							margin: 5px;
-							white-space: nowrap;
-						}
-						.summarystat img {
-							height: 50px;
-						}
-					</style>
-
-					<div id="source-summary" class="row box" style="width:100%; margin:0px 0px">
-						<div id="source-summary-banner" style="display:none; flex-direction:column; width:100%; align-items:center;">
+					<div id="source-summary" class="row box" style="display:none; width:100%; margin:0px 0px">
+						<div id="source-summary-banner" style="display:flex; flex-direction:column; width:100%; align-items:center;">
 							<div style="display:flex; flex-direction:row; align-items:center; width:80%; justify-content:space-evenly;">
 								<div style="display:flex; flex-direction:row; align-items:center">
 									<div style="width:10px; height:10px; background-color:#31add3; margin:10px"></div>
-									<h3 style="margin-bottom: 4px;">
+									<h2 style="margin-bottom: 4px;">
 										<span class="gb-source-title" style="font-style:normal">-</span> 
-									</h3>
+									</h2>
 								</div>
 								<div style="display:flex; flex-direction:row; align-items:center">
 									<div style="width:10px; height:10px; background-color:rgb(255,0,0); margin:10px"></div>
-									<h3 style="margin-bottom: 4px;">
+									<h2 style="margin-bottom: 4px;">
 										<span class="comp-source-title" style="font-style:normal">-</span>
-									</h3>
+									</h2>
 								</div>
 							</div>
 						</div>
-						<div id="source-summary-links" style="display:flex; flex-direction:row; align-items:center; width:100%; justify-content:space-evenly; font-weight:bold">
+						<div id="source-summary-links" style="display:none; flex-direction:row; align-items:center; width:100%; justify-content:space-evenly; font-weight:bold">
 							<a href="#source-overview">Metadata</a>
 							<a href="#source-stats">Boundary Stats</a>
 							<a href="#source-contents">Boundary Agreement</a>
 						</div>
-						<div id="source-summary-div" style="width:98%; display:flex; flex-direction:row; justify-content:space-evenly">
+						<div id="source-summary-div" style="width:98%; display:flex; flex-direction:row; flex-wrap:wrap; justify-content:space-evenly">
 							<div class="summarystat">
 								<img style="padding:5px" src="https://cdn-icons-png.flaticon.com/512/1017/1017397.png"/>
 								<h2 id="summary-level">ADM1</h2>
@@ -494,8 +479,6 @@
 							</div>
 						</div>
 					</div>
-
-					<br>
 						
 					<div id="source-overview" class="row box" style="width:100%; margin:0px 0px; page-break-after:always">
 						<div id="source-overview-banner" style="width:100%; text-align:center">
