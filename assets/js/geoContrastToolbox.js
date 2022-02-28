@@ -1353,52 +1353,158 @@ function setImageDataAndPrintPDF(imgData) {
 */
 
 async function renderFrontPage(mapImgData) {
-    // hide some elements
-    var ignoreElements = [];
-    // enable the top banner div for printing
+    // create page wrapper with padding
     var wrapper = document.createElement('div');
     wrapper.style.padding = '50px';
-    var header = document.getElementById('header');
+    // add top header
+    var header = document.getElementById('header').cloneNode(true);
     wrapper.appendChild(header);
-    var topbanner = document.createElement('div');
-    topbanner.innerHTML = `
-    <div id="top-banner-for-printing" style="width:100%; margin:0; padding:0; text-align:center">
-        <div style="position:relative; text-align:center">
-            <img id="map-image-for-printing" style="width:100%; height:1300px; object-fit:cover" crossorigin="anonymous"></img>
-            <h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
-        </div>
-    </div>
+    // add top title incl country
+    var titleDiv = document.createElement('div');
+    titleDiv.innerHTML = `
+        <h1 style="margin:10px 0px">Boundary comparison report</h1>
+        <h2 id="country-header-for-printing" style="margin:10px 0px"></h2>
     `
-    wrapper.appendChild(topbanner);
-    // set img src
-    var mapImg = wrapper.querySelector('#map-image-for-printing');
-    mapImg.src = mapImgData;
-    // set country header
     var countrySelect = document.getElementById('country-select');
     var country = countrySelect.options[countrySelect.selectedIndex].text;
-    wrapper.querySelector('#country-header-for-printing').innerText = country;
+    titleDiv.querySelector('#country-header-for-printing').innerText = country + ' administrative boundaries';
+    wrapper.appendChild(titleDiv);
+    // add source legend
+    var legend = document.createElement('div');
+    legend.style = 'display:flex; flex-direction:row';
+    legend.innerHTML = `
+        <div style="width:49%">
+            <hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+            <h2 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h2>
+            <span class="gb-source-title" style="font-size:large; font-style:italic; color:gray; margin-left:15px;"></span>
+            <br><br>
+        </div>
+        <div style="width:50%">
+            <hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+            <h2 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h2>
+            <span class="comp-source-title" style="font-size:large; font-style:italic; color:gray; margin-left:15px;"></span>
+            <br><br>
+        </div>
+    `
+    var mainSource = document.querySelector('.gb-source-title').innerText;
+    var comparisonSource = document.querySelector('.comp-source-title').innerText;
+    legend.querySelector('.gb-source-title').innerText = mainSource;
+    legend.querySelector('.comp-source-title').innerText = comparisonSource;
+    wrapper.appendChild(legend);
+    // add map
+    var mapDiv = document.createElement('div');
+    mapDiv.innerHTML = `
+        <div style="width:100%; margin:0; padding:0; text-align:center">
+            <img id="map-image-for-printing" style="width:100%; height:1300px; object-fit:cover" crossorigin="anonymous"></img>
+        </div>
+    `
+    wrapper.appendChild(mapDiv);
+    // set map img src
+    var mapImg = wrapper.querySelector('#map-image-for-printing');
+    mapImg.src = mapImgData;
     // render to image
-    //alert('creating pdf');
-    var elem = wrapper;
-    var config = {'ignoreElements': function(e){return ignoreElements.includes(e.id)}
-    };
+    var config = {};
     document.body.appendChild(wrapper);
-    var canvas = await html2canvas(elem, config);
+    var canvas = await html2canvas(wrapper, config);
     wrapper.remove();
-    var imgData = canvas.toDataURL("image/png"); // creates one tall image of entire canvas
+    var imgData = canvas.toDataURL("image/jpeg"); // creates one tall image of entire canvas
     return imgData;
 }
 
-async function renderMetaPage() {
-    fdsf;
-}
-
-async function renderStatsPage() {
-    fdsfs;
+async function renderMetaStatsPage() {
+    // create page wrapper with padding
+    var wrapper = document.createElement('div');
+    wrapper.style.padding = '50px';
+    // add top header
+    var header = document.getElementById('header').cloneNode(true);
+    wrapper.appendChild(header);
+    var br = document.createElement('br');
+    wrapper.appendChild(br);
+    // add meta
+    metaBox = document.getElementById('source-overview').cloneNode(true);
+    wrapper.appendChild(metaBox);
+    var br = document.createElement('br');
+    wrapper.appendChild(br);
+    // add stats
+    statsBox = document.getElementById('source-stats').cloneNode(true);
+    wrapper.appendChild(statsBox);
+    var br = document.createElement('br');
+    wrapper.appendChild(br);
+    // render to images
+    var config = {};
+    document.body.appendChild(wrapper);
+    var canvas = await html2canvas(wrapper, config);
+    wrapper.remove();
+    var imgData = canvas.toDataURL("image/jpeg"); // creates one tall image of entire canvas
+    return imgData;
 }
 
 async function renderAgreementPage() {
-    fdsfs;
+    // get table row info
+    var matchTable = document.getElementById('match-table-div');
+    var rows = matchTable.querySelectorAll('tr');
+    var rowCount = rows.length;
+    var rowNum = 0;
+    // add new page for every 20 rows
+    var images = [];
+    while (rowNum <= (rowCount-1)) {
+        // create page wrapper with padding
+        var wrapper = document.createElement('div');
+        wrapper.style.padding = '50px';
+        // add top header
+        var header = document.getElementById('header').cloneNode(true);
+        wrapper.appendChild(header);
+        var br = document.createElement('br');
+        wrapper.appendChild(br);
+        // box
+        var box = document.createElement('div');
+        box.className = 'box row';
+        box.style = "width:100%; margin:0";
+        wrapper.appendChild(box);
+        // top title and match percent
+        if (rowNum == 0) {
+            var banner = document.getElementById('source-contents-banner').cloneNode(true);
+            box.appendChild(banner);
+            var br = document.createElement('br');
+            box.appendChild(br);
+        } else {
+            var banner = document.createElement('div');
+            banner.style = "width:100%; text-align:center";
+            banner.innerHTML = '<h2>Boundary Agreement</h2><h3>(Continued)</h3>';
+            box.appendChild(banner);
+        };
+        // source headers
+        var leftHeader = document.getElementById('left-table-header').cloneNode(true);
+        box.appendChild(leftHeader);
+        var rightHeader = document.getElementById('right-table-header').cloneNode(true);
+        box.appendChild(rightHeader);
+        // table of rows
+        var table = document.createElement('table');
+        table.style = "width:100%";
+        var rowEnd = Math.min(rowNum + 20, rowCount-1);
+        // add top header row
+        if (rowNum != 0) {
+            var row = rows[0];
+            table.appendChild(row.cloneNode(true));
+        };
+        // add data rows
+        while (rowNum <= rowEnd) {
+            console.log(rowNum)
+            var row = rows[rowNum];
+            table.appendChild(row.cloneNode(true));
+            rowNum += 1;
+        };
+        box.appendChild(table);
+        // render to image
+        var config = {};
+        document.body.appendChild(wrapper);
+        var canvas = await html2canvas(wrapper, config);
+        wrapper.remove();
+        var imgData = canvas.toDataURL("image/jpeg"); // creates one tall image of entire canvas
+        images.push(imgData);
+        console.log(images.length)
+    };
+    return images;
 }
 
 /*
@@ -1463,15 +1569,22 @@ async function makePDF(mapImgData) {
     var imgWidth = 210; 
     var pageHeight = 295; 
     var imgHeight = 295;
-    var heightLeft = imgHeight;
     var doc = new jsPDF('p', 'mm');
     var position = 0;
 
     // loop parts of the image and crop to each page
-    var imgData = await renderFrontPage(mapImgData)
-    console.log('final img '+imgData)
-    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
+    var imgData = await renderFrontPage(mapImgData);
+    doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+
+    var imgData = await renderMetaStatsPage();
+    doc.addPage();
+    doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+
+    var images = await renderAgreementPage();
+    for (imgData of images) {
+        doc.addPage();
+        doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    };
 
     // show or save pdf
     //doc.output('datauri');
