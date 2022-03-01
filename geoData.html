@@ -98,18 +98,18 @@
 									</ul>
 									
 									<div id="countries" class="box" style="font-size:14pt; height:700px">
-									  <div style="padding:15px">
+									  <div style="padding:0px">
 
-									    <div class="row" style="margin-top:10px">
-									      <span>Select csv</span>
-									      <select id="csv_list" style="margin-left:20px">
+									    <div class="row" style="margin-top:0px">
+									      <span><b>Select Dataset to Visualize</b></span>
+									      <select id="csv_list" style="margin-left:25px;margin-bottom:5px;">
 
 									      </select>
  
 									    </div>
 
-									    <button type="button" style="font-size:0.6em" onclick="read_geodata_data()">Show data</button>
-				 					    <button type="button" style="font-size:0.6em" onclick="goto_raw_csv_file()">View raw data</button>
+									    <button type="button" style="font-size:0.6em" onclick="read_geodata_data()">Map Data</button>
+				 					    <button type="button" style="font-size:0.6em" onclick="goto_raw_csv_file()">Download Raw Data</button>
 
 									    
 									<p style="font-size:10px;"  id="metadata-text"></p>
@@ -144,7 +144,7 @@
 
 
 					
-					<div id="countries-overview" class="row box" style="width:100%; margin:150px 0px">
+					<div id="countries-overview" class="row box" style="width:100%; margin:15px 0px">
 						<div id="countries-overview-banner" style="width:100%; text-align:center">
 							<h2 style="margin-bottom:5px">Countries</h2>
 						</div>
@@ -294,6 +294,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () { $('#tab-container').easytabs({animate:false}); });
+		
 	</script>
 
 	<script src="assets/js/ol.js"></script>
@@ -307,7 +308,9 @@
     <script src="assets/js/geoContrastCountries/Countries.js"></script>
     <script src="assets/js/geoContrastCountries/Toolbox.js"></script>
 
-
+	<script>
+		read_geodata_data(); 
+	</script>
 
     
 </body>

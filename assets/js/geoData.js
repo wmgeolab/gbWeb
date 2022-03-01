@@ -336,9 +336,14 @@ function read_geodata_data()
     var metadata_text = request.responseText;
     metadata_text = metadata_text.split("==============================================================\n\n")[1]
 
+    metadata_text = metadata_text.replace(/(?:\r\n|\r|\n)/g, "<br /><b>");
+    metadata_text = metadata_text.replace(/:/g, ":</b>");
+    metadata_text = "<b>" + metadata_text;
     var desc = document.getElementById("metadata-text");
 
-    desc.innerText = metadata_text;
+    
+
+    desc.innerHTML = metadata_text;
     
     var rows = return_object.split("\n");
 
