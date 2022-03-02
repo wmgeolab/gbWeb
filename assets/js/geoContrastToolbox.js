@@ -1324,41 +1324,37 @@ function comparisonSourceChanged() {
 
 // pdf report
 
-/*
-function setImageDataAndPrintPDF(imgData) {
-    //alert('processing img data');
-    // enable the top banner div for printing
-    var topBannerDiv = document.getElementById('top-banner-for-printing');
-    topBannerDiv.style.display = 'block';
-    // set img src
-    var mapImg = document.getElementById('map-image-for-printing');
-    mapImg.src = imgData;
-    // set country header
-    var countrySelect = document.getElementById('country-select');
-    var country = countrySelect.options[countrySelect.selectedIndex].text;
-    document.getElementById('country-header-for-printing').innerText = country;
-    // set args
-    args = {printable:'main', 
-            type:'html', 
-            //css:['/assets/css/main.css','/assets/css/extra.css'],
-            targetStyles:['*'], 
-            ignoreElements:['map-and-toolbox-div','feature-compare-popup','contribute-popup'], 
-            maxWidth:1000};
-    // create pdf
-    //alert('creating pdf');
-    printJS(args);
-    // disable the map image div
-    topBannerDiv.style.display = 'none';
-};
-*/
-
-async function renderFrontPage(mapImgData) {
+function getPageWrapper() {
     // create page wrapper with padding
     var wrapper = document.createElement('div');
     wrapper.style.padding = '50px';
     // add top header
-    var header = document.getElementById('header').cloneNode(true);
+    var header = document.createElement('header'); //document.getElementById('header').cloneNode(true);
+    header.className = "logo";
+    header.style = "width:100%; margin-bottom:40px";
+    header.innerHTML = `
+        <span style="float:left">
+            <strong>Boundary comparison report: <span class="countryName"></span></strong>
+        </span>
+        <span style="float:right">
+            William &amp; Mary geoLab
+        </span>
+    `
+    // set country name
+    var countrySelect = document.getElementById('country-select');
+    var country = countrySelect.options[countrySelect.selectedIndex].text;
+    header.querySelector('.countryName').innerText = country;
     wrapper.appendChild(header);
+    // add header line
+    var hr = document.createElement('hr');
+    hr.style = "border-color:#F0B323; background-color:#F0B323; margin:3px; height:6px; margin-bottom:30px"
+    wrapper.appendChild(hr);
+    return wrapper;
+}
+
+async function renderFrontPage(mapImgData) {
+    // get page wrapper
+    var wrapper = getPageWrapper();
     // add top title incl country
     var titleDiv = document.createElement('div');
     titleDiv.innerHTML = `
@@ -1369,36 +1365,68 @@ async function renderFrontPage(mapImgData) {
     var country = countrySelect.options[countrySelect.selectedIndex].text;
     titleDiv.querySelector('#country-header-for-printing').innerText = country + ' administrative boundaries';
     wrapper.appendChild(titleDiv);
-    // add source legend
-    var legend = document.createElement('div');
-    legend.style = 'display:flex; flex-direction:row';
-    legend.innerHTML = `
-        <div style="width:49%">
-            <hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-            <h2 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h2>
-            <span class="gb-source-title" style="font-size:large; font-style:italic; color:gray; margin-left:15px;"></span>
-            <br><br>
-        </div>
-        <div style="width:50%">
-            <hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-            <h2 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h2>
-            <span class="comp-source-title" style="font-size:large; font-style:italic; color:gray; margin-left:15px;"></span>
-            <br><br>
-        </div>
-    `
-    var mainSource = document.querySelector('.gb-source-title').innerText;
-    var comparisonSource = document.querySelector('.comp-source-title').innerText;
-    legend.querySelector('.gb-source-title').innerText = mainSource;
-    legend.querySelector('.comp-source-title').innerText = comparisonSource;
-    wrapper.appendChild(legend);
     // add map
     var mapDiv = document.createElement('div');
     mapDiv.innerHTML = `
-        <div style="width:100%; margin:0; padding:0; text-align:center">
-            <img id="map-image-for-printing" style="width:100%; height:1300px; object-fit:cover" crossorigin="anonymous"></img>
+        <style>
+            #map-image-legend {
+                position:absolute;
+                top:10px;
+                left:10px;
+                background-color:white; 
+                border-radius:5px; 
+                opacity:0.8;
+                color:black;
+            }
+
+            #map-image-legend #layer-list {
+                list-style-type: none;
+                margin: 0;
+            }
+            
+            #map-image-legend #layer-list li {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin:5px;
+            }
+            
+            #legend-symbol-main {
+                width: 20px;
+                border-top: 4px solid #319FD3;
+                border-bottom: unset;
+                margin: 5px;
+            }
+            
+            #legend-symbol-comparison {
+                width: 20px;
+                border-top: 4px dashed rgb(255,0,0);
+                border-bottom: unset;
+                margin: 5px;
+            }
+        </style>
+        <div style="position:relative; width:100%; height:75%; margin:0; padding:0; text-align:center">
+            <img id="map-image-for-printing" style="width:100%; height:100%; object-fit:cover" crossorigin="anonymous"/>
+            <div id="map-image-legend">
+                <ul id="layer-list">
+                    <li>
+                        <hr id="legend-symbol-main">
+                        <span class="gb-source-title">Main boundary</span>
+                    </li>
+                    <li>
+                        <hr id="legend-symbol-comparison">
+                        <span class="comp-source-title">Comparison boundary</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     `
     wrapper.appendChild(mapDiv);
+    // populate legend
+    var mainSource = document.querySelector('.gb-source-title').innerText;
+    var comparisonSource = document.querySelector('.comp-source-title').innerText;
+    mapDiv.querySelector('.gb-source-title').innerText = mainSource;
+    mapDiv.querySelector('.comp-source-title').innerText = comparisonSource;
     // set map img src
     var mapImg = wrapper.querySelector('#map-image-for-printing');
     mapImg.src = mapImgData;
@@ -1407,22 +1435,17 @@ async function renderFrontPage(mapImgData) {
     document.body.appendChild(wrapper);
     var canvas = await html2canvas(wrapper, config);
     wrapper.remove();
-    var imgData = canvas.toDataURL("image/jpeg"); // creates one tall image of entire canvas
-    return imgData;
+    return canvas;
 }
 
 async function renderMetaStatsPage() {
-    // create page wrapper with padding
-    var wrapper = document.createElement('div');
-    wrapper.style.padding = '50px';
-    // add top header
-    var header = document.getElementById('header').cloneNode(true);
-    wrapper.appendChild(header);
-    var br = document.createElement('br');
-    wrapper.appendChild(br);
+    // get page wrapper
+    var wrapper = getPageWrapper();
     // add meta
     metaBox = document.getElementById('source-overview').cloneNode(true);
     wrapper.appendChild(metaBox);
+    var br = document.createElement('br');
+    wrapper.appendChild(br);
     var br = document.createElement('br');
     wrapper.appendChild(br);
     // add stats
@@ -1435,8 +1458,7 @@ async function renderMetaStatsPage() {
     document.body.appendChild(wrapper);
     var canvas = await html2canvas(wrapper, config);
     wrapper.remove();
-    var imgData = canvas.toDataURL("image/jpeg"); // creates one tall image of entire canvas
-    return imgData;
+    return canvas;
 }
 
 async function renderAgreementPage() {
@@ -1446,16 +1468,10 @@ async function renderAgreementPage() {
     var rowCount = rows.length;
     var rowNum = 0;
     // add new page for every 20 rows
-    var images = [];
+    var canvases = [];
     while (rowNum <= (rowCount-1)) {
-        // create page wrapper with padding
-        var wrapper = document.createElement('div');
-        wrapper.style.padding = '50px';
-        // add top header
-        var header = document.getElementById('header').cloneNode(true);
-        wrapper.appendChild(header);
-        var br = document.createElement('br');
-        wrapper.appendChild(br);
+        // get page wrapper
+        var wrapper = getPageWrapper();
         // box
         var box = document.createElement('div');
         box.className = 'box row';
@@ -1470,7 +1486,7 @@ async function renderAgreementPage() {
         } else {
             var banner = document.createElement('div');
             banner.style = "width:100%; text-align:center";
-            banner.innerHTML = '<h2>Boundary Agreement</h2><h3>(Continued)</h3>';
+            banner.innerHTML = '<h2 style="margin-bottom:3px">Boundary Agreement</h2><h3 style="margin-top:0">(Continued)</h3>';
             box.appendChild(banner);
         };
         // source headers
@@ -1480,7 +1496,7 @@ async function renderAgreementPage() {
         box.appendChild(rightHeader);
         // table of rows
         var table = document.createElement('table');
-        table.style = "width:100%";
+        table.style = "margin-left:10px; width:100%";
         var rowEnd = Math.min(rowNum + 20, rowCount-1);
         // add top header row
         if (rowNum != 0) {
@@ -1489,7 +1505,6 @@ async function renderAgreementPage() {
         };
         // add data rows
         while (rowNum <= rowEnd) {
-            console.log(rowNum)
             var row = rows[rowNum];
             table.appendChild(row.cloneNode(true));
             rowNum += 1;
@@ -1500,90 +1515,32 @@ async function renderAgreementPage() {
         document.body.appendChild(wrapper);
         var canvas = await html2canvas(wrapper, config);
         wrapper.remove();
-        var imgData = canvas.toDataURL("image/jpeg"); // creates one tall image of entire canvas
-        images.push(imgData);
-        console.log(images.length)
+        canvases.push(canvas);
     };
-    return images;
+    return canvases;
 }
-
-/*
-function makePDF(imgData) {
-    //alert('processing img data');
-    // hide some elements
-    var ignoreElements = ['map-and-toolbox-div','feature-compare-popup','contribute-popup'];
-    // enable the top banner div for printing
-    var topBannerDiv = document.getElementById('top-banner-for-printing');
-    topBannerDiv.style.display = 'block';
-    // set img src
-    var mapImg = document.getElementById('map-image-for-printing');
-    mapImg.src = imgData;
-    // set country header
-    var countrySelect = document.getElementById('country-select');
-    var country = countrySelect.options[countrySelect.selectedIndex].text;
-    document.getElementById('country-header-for-printing').innerText = country;
-    // create pdf
-    //alert('creating pdf');
-    var elem = document.getElementById('main');
-    var config = {'ignoreElements': function(e){return ignoreElements.includes(e.id)}
-    };
-    html2canvas(elem, config).then(function (canvas) {
-        // canvas to image (creates one tall image of entire page)
-        var imgData = canvas.toDataURL("image/png");
-        // define doc
-        var imgWidth = 210; 
-        var pageHeight = 295; 
-        var imgHeight = canvas.height * imgWidth / canvas.width;
-        var heightLeft = imgHeight;
-        var doc = new jsPDF('p', 'mm');
-        var position = 0;
-
-        // loop parts of the image and crop to each page
-        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            doc.addPage();
-            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-        };
-
-        // show or save pdf
-        //doc.output('datauri');
-        doc.save('geoBoundaries-comparison.pdf');
-        //window.open(doc.output('bloburl'));
-        //doc.output('bloburi');
-
-        // reactivate pdf button
-        but = document.getElementById('pdf-button');
-        but.disabled = false;
-        but.innerHTML = 'Generate PDF Report';
-    });
-    // disable the map image div
-    topBannerDiv.style.display = 'none';
-};
-*/
 
 async function makePDF(mapImgData) {
     // define doc
-    var imgWidth = 210; 
+    var pageWidth = 210;
     var pageHeight = 295; 
-    var imgHeight = 295;
-    var doc = new jsPDF('p', 'mm');
-    var position = 0;
+    var doc = new jsPDF('portrait', 'mm');
 
     // loop parts of the image and crop to each page
-    var imgData = await renderFrontPage(mapImgData);
-    doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    var canvas = await renderFrontPage(mapImgData);
+    var imgHeight = canvas.height * (pageWidth / canvas.width);
+    doc.addImage(canvas.toDataURL("image/jpeg"), 'JPEG', 0, 0, pageWidth, imgHeight);
 
-    var imgData = await renderMetaStatsPage();
+    var canvas = await renderMetaStatsPage();
+    var imgHeight = canvas.height * (pageWidth / canvas.width);
     doc.addPage();
-    doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    doc.addImage(canvas.toDataURL("image/jpeg"), 'JPEG', 0, 0, pageWidth, imgHeight);
 
-    var images = await renderAgreementPage();
-    for (imgData of images) {
+    var canvases = await renderAgreementPage();
+    for (canvas of canvases) {
+        var imgHeight = canvas.height * (pageWidth / canvas.width);
         doc.addPage();
-        doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        doc.addImage(canvas.toDataURL("image/jpeg"), 'JPEG', 0, 0, pageWidth, imgHeight);
     };
 
     // show or save pdf
