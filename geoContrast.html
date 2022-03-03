@@ -504,13 +504,13 @@
 					</div>
 
 					<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
-						<div id="source-overlap-total" style="width:100%; text-align:center">
-							<h2 style="margin-bottom:5px">Matched boundaries (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>)</h2>
-							<div id="total-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Initiating...</p></div>
-							<br><br>
+						<div id="source-overlap-total" style="width:95%; text-align:center">
+							<h3>Matched Boundary Units (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>):</h3>
+							<div id="total-similarity" class="stats-percent" style="height:20px; width:80%"><span style="--data-width:0%"></span><p>Initiating...</p></div>
+							<br><br><br>
 						</div>
 						<br>
-						<div id="match-table-div" style="width:90%">
+						<div id="match-table-div" style="width:95%">
 							<table id="match-table" class="table" style="margin-left:10px; page-break-after:auto">
 								<thead>
 									<th style="width:50%">
@@ -523,81 +523,19 @@
 									</th>
 									<th style="width:50%">
 										<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-										<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+										<h3 style="margin-bottom:0; padding-bottom:0">Closest Comparison Match:</h3>
 										<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 										<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
 											<option selected>(Select name field)</option>
 										</select>
 									</th>
-								</thhead>
+								</thead>
 								<tbody>
 								</tbody>
 							</table>
 						</div>
-						<div id="nomatch-none-notification" style="display:none; margin-left:10px; width:90%; text-align:right">
-							All boundary units in the comparison source were <b>successfully matched</b> to a boundary unit in the main source.
-							<br><br>
+						<div id="nomatch-div" style="width:100%; margin:10px">
 						</div>
-						<div id="nomatch-div" style="display:none; width:100%">
-							<div style="width:100%; text-align:center">
-								<h2 style="margin-bottom:5px">No Match (<span class="tooltip" data-text="Boundary units in the other source that are not considered to have the highest overlapping area with any other boundary unit, are considered not matching.">?</span>)</h2>
-							</div>
-							<div id="nomatch-table-div" style="width:90%">
-								<table id="nomatch-table" class="table" style="margin-left:10px; page-break-after:auto">
-									<thead>
-										<th style="width:50%">
-										</th>
-										<th style="width:50%">
-										</th>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<br>
-						<!--
-						<div id="left-table-div" style="width:45%">
-							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							<br>
-							<div id="gb-names-table-div" style="margin-top:10px">
-								<table id="gb-names-table" class="gb-table" style="margin-left:10px; page-break-after:auto">
-									<thead>
-										<th>
-											<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
-												<option selected>(Select name field)</option>
-											</select>
-										</th>
-										<th>Most similar</th>
-									</thhead>
-									<tbody id="gb-names-table-tbody">
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div id="right-table-div" style="width:45%">
-							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							<br>
-							<div id="comparison-names-table-div" style="margin-top:10px">
-								<table id="comparison-names-table" class="comparison-table" style="margin-left:10px; page-break-after:auto">
-									<thead>
-										<th>
-											<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
-												<option selected>(Select name field)</option>
-											</select>
-										</th>
-										<th>Most similar</th>
-									</thhead>
-									<tbody id="comparison-names-table-tbody">
-									</tbody>
-								</table>
-							</div>
-						</div>
-						-->
 					</div>
 
 				</section>

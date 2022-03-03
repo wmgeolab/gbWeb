@@ -1369,7 +1369,6 @@ async function renderFrontPage(mapImgData) {
         <h1 style="margin:10px 0px">Boundary comparison report</h1>
         <h2 id="country-header-for-printing" style="margin:10px 0px"></h2>
         <br>
-        <br>
     `
     var countrySelect = document.getElementById('country-select');
     var country = countrySelect.options[countrySelect.selectedIndex].text;
@@ -1502,8 +1501,7 @@ async function renderAgreementPage() {
             box.appendChild(br);
         } else {
             var banner = document.createElement('div');
-            banner.style = "width:100%; text-align:center";
-            banner.innerHTML = '<h2 style="margin-bottom:3px">Matched boundaries</h2><h3 style="margin-top:0">(Continued)</h3>';
+            banner.innerHTML = '<br>';
             box.appendChild(banner);
         };
         // table of rows
@@ -1516,12 +1514,19 @@ async function renderAgreementPage() {
             table.appendChild(row.cloneNode(true));
         };
         // add data rows
+        var tbody = document.createElement('tbody');
         while (rowNum <= rowEnd) {
             var row = rows[rowNum];
-            table.appendChild(row.cloneNode(true));
+            tbody.appendChild(row.cloneNode(true));
             rowNum += 1;
         };
+        table.appendChild(tbody);
         box.appendChild(table);
+        // add nomatch info at end of table
+        if (rowNum == rowCount) {
+            var noMatchDiv = document.getElementById('nomatch-div').cloneNode(true);
+            box.appendChild(noMatchDiv);
+        };
         // render to image
         var config = {};
         document.body.appendChild(wrapper);
