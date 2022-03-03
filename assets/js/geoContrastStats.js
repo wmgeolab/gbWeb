@@ -6,7 +6,7 @@ function clearGbStats() {
     };
     // clear stats values
     for (elem of document.querySelectorAll('#source-stats .stats-value')) {
-        if (elem.id.startsWith('stats-comp')) {
+        if (elem.id.startsWith('stats-gb')) {
             elem.innerText = '-';
         };
     };
