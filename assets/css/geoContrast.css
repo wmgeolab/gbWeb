@@ -235,20 +235,6 @@ ul li{
 }
 
 
-.summarystat {
-    text-align: center;
-    width: 100px;
-    margin: 10px;
-}
-.summarystat h2 {
-    margin: 5px;
-    white-space: nowrap;
-}
-.summarystat img {
-    height: 50px;
-}
-
-
 
 .stats-value {
     font-weight: bold;
