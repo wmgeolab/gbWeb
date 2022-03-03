@@ -238,6 +238,18 @@ ul li{
     font-weight: bold;
 }
 
+.stats-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: bold;
+}
+
+.stats-label img {
+    height: 30px;
+    margin: 5px;
+}
+
 .stats-percent {
     display:inline-block;
     background-color:rgb(180,180,180);

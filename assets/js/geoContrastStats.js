@@ -5,8 +5,10 @@ function clearGbStats() {
         elem.innerText = '-';
     };
     // clear stats values
-    for (elem of document.querySelectorAll('#stats-gb-container .stats-value')) {
-        elem.innerText = '-';
+    for (elem of document.querySelectorAll('#source-stats .stats-value')) {
+        if (elem.id.startsWith('stats-comp')) {
+            elem.innerText = '-';
+        };
     };
 };
 
@@ -16,8 +18,10 @@ function clearComparisonStats() {
         elem.innerText = '-';
     };
     // clear stats values
-    for (elem of document.querySelectorAll('#stats-comp-container .stats-value')) {
-        elem.innerText = '-';
+    for (elem of document.querySelectorAll('#source-stats .stats-value')) {
+        if (elem.id.startsWith('stats-comp')) {
+            elem.innerText = '-';
+        };
     };
 };
 

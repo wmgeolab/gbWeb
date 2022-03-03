@@ -293,13 +293,6 @@
 					
 					</div>
 
-					<div id="top-banner-for-printing" style="display:none; width:100%; margin:0; padding:0; text-align:center">
-						<div style="position:relative; text-align:center">
-							<img id="map-image-for-printing" style="width:100%; height:800px; object-fit:cover" crossorigin="anonymous"></img>
-							<h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
-						</div>
-					</div>
-
 					<div id="source-summary" class="row box" style="display:none; width:100%; margin:0px 0px">
 						<div id="source-summary-banner" style="display:flex; flex-direction:column; width:100%; align-items:center;">
 							<div style="display:flex; flex-direction:row; align-items:center; width:80%; justify-content:space-evenly;">
@@ -355,67 +348,68 @@
 						<div id="source-overview-banner" style="width:100%; text-align:center">
 							<h2>Metadata</h2>
 						</div>
-						<div id="left-table-div" style="width:45%">
-							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							<br><br>
-							<div id="stats-gb-container">
-								<table style="table-layout:fixed; width:100%">
+						<div style="width:100%">
+							<table style="table-layout:fixed; width:100%">
+								<thead>
 									<tr>
-										<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
-										<td><div id="stats-gb-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+										<td style="width:25%"></td>
+										<td style="width:37.5%">
+											<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+											<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+											<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<br><br>
+										</td>
+										<td style="width:37.5%">
+											<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+											<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+											<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<br><br>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="stats-label">
+											<img src="images/google-docs.png"/>
+											Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)
+										</td>
+										<td><div id="stats-gb-source" class="stats-value"></div></td>
+										<td><div id="stats-comp-source" class="stats-value"></div></td>
 									</tr>
 									<tr>
-										<td>License:</td>
-										<td><div id="stats-gb-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
+										<td class="stats-label">
+											<img src="images/hand-shake.png"/>
+											License:
+										</td>
+										<td><div id="stats-gb-license" class="stats-value"></div></td>
+										<td><div id="stats-comp-license" class="stats-value"></div></td>
 									</tr>
 									<tr>
-										<td>Level:</td>
+										<td class="stats-label">
+											<img style="padding:2px" src="https://cdn-icons-png.flaticon.com/512/1017/1017397.png"/>
+											Level:
+										</td>
 										<td id="stats-gb-level" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Year the Boundary Represents:</td>
-										<td id="stats-gb-year" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Last Update:</td>
-										<td id="stats-gb-updated" class="stats-value"></td>
-									</tr>
-								</table>
-							</div>
-
-						</div>
-						
-						<div id="right-table-div" style="width:45%">
-							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							<br><br>
-							<div id="stats-comp-container">
-								<table style="table-layout:fixed; width:100%">
-									<tr>
-										<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
-										<td><div id="stats-comp-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-									</tr>
-									<tr>
-										<td>License:</td>
-										<td><div id="stats-comp-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-									</tr>
-									<tr>
-										<td>Level:</td>
 										<td id="stats-comp-level" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Year the Boundary Represents:</td>
+										<td class="stats-label">
+											<img src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_history_48px-512.png"/>
+											Year the Boundary Represents:
+										</td>
+										<td id="stats-gb-year" class="stats-value"></td>
 										<td id="stats-comp-year" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Last Update:</td>
+										<td class="stats-label">
+											<img style="padding:2px" src="images/calendar.png"/>
+											Last Update:
+										</td>
+										<td id="stats-gb-updated" class="stats-value"></td>
 										<td id="stats-comp-updated" class="stats-value"></td>
 									</tr>
-								</table>
-							</div>
+								</tbody>
+							</table>
 						</div>
 					</div>
 
@@ -425,73 +419,76 @@
 						<div id="source-stats-banner" style="width:100%; text-align:center">
 							<h2>Boundary Stats</h2>
 						</div>
-						<div id="left-table-div" style="width:45%">
-							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							<br>
-							<div id="stats-gb-container">
-								<table style="table-layout:fixed; width:100%">
+						<div style="width:100%">
+							<table style="table-layout:fixed; width:100%">
+								<thead>
 									<tr>
-										<td>Administrative Units:</td>
+										<td style="width:25%"></td>
+										<td style="width:37.5%">
+											<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+											<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+											<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<br><br>
+										</td>
+										<td style="width:37.5%">
+											<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+											<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+											<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<br><br>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="stats-label">
+											<img src="images/count.png" title="Count icon created by Sicon - Flaticon: https://www.flaticon.com/premium-icon/count_2440951"/>
+											Administrative Units:
+										</td>
 										<td id="stats-gb-admincount" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Area:</td>
-										<td id="stats-gb-area" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
-										<td id="stats-gb-circumf" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
-										<td id="stats-gb-vertices" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
-										<td id="stats-gb-avglinedens" class="stats-value"></td>
-									</tr>
-									<tr>
-										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
-										<td id="stats-gb-avglineres" class="stats-value"></td>
-									</tr>
-								</table>
-							</div>
-						</div>
-						<div id="right-table-div" style="width:45%">
-							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							<br>
-							<div id="stats-comp-container">
-								<table style="table-layout:fixed; width:100%">
-									<tr>
-										<td>Administrative Units:</td>
 										<td id="stats-comp-admincount" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Area:</td>
+										<td class="stats-label">
+											<img style="padding:3px" src="images/square.png">
+											Area:
+										</td>
+										<td id="stats-gb-area" class="stats-value"></td>
 										<td id="stats-comp-area" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
+										<td class="stats-label">
+											<img style="padding:3px" src="images/selection-square.png">
+											Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):
+										</td>
+										<td id="stats-gb-circumf" class="stats-value"></td>
 										<td id="stats-comp-circumf" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
+										<td class="stats-label">
+											<img style="padding:5px" src="https://d338t8kmirgyke.cloudfront.net/icons/icon_pngs/000/000/357/original/linegraph.png"/>
+											Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):
+										</td>
+										<td id="stats-gb-vertices" class="stats-value"></td>
 										<td id="stats-comp-vertices" class="stats-value"></td>
 									</tr>
-									<tr>
-										<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
+									<tr style="display:none">
+										<td class="stats-label">
+											<img style="padding:5px" src="https://d338t8kmirgyke.cloudfront.net/icons/icon_pngs/000/000/357/original/linegraph.png"/>
+											Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):
+										</td>
+										<td id="stats-gb-avglinedens" class="stats-value"></td>
 										<td id="stats-comp-avglinedens" class="stats-value"></td>
 									</tr>
 									<tr>
-										<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
+										<td class="stats-label">
+											<img style="padding:5px" src="images/shape.png"/>
+											Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):
+										</td>
+										<td id="stats-gb-avglineres" class="stats-value"></td>
 										<td id="stats-comp-avglineres" class="stats-value"></td>
 									</tr>
-								</table>
-							</div>
+								</tbody>
+							</table>
 						</div>
 					</div>
 
