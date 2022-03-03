@@ -120,6 +120,8 @@ function getValueBin(value, bins) {
 };
 
 function updateStyleLegend(bins) {
+    //console.log("BINSSS");
+    //console.log(bins);
     var legend = document.getElementById('map-legend');
     // clear legend
     legend.innerHTML = '';
@@ -149,7 +151,9 @@ function updateStyleLegend(bins) {
         var binstart = bin.min;
         var binend = bin.max;
         var color = styleCategories[i].getFill().getColor();
+	//console.log("style is from: "+i);
         var text = binstart.toFixed(1) + ' to ' + binend.toFixed(1);
+	//console.log(text);
         var entry = createEntry(color, text);
         legend.appendChild(entry);
     };
@@ -157,6 +161,8 @@ function updateStyleLegend(bins) {
 
 function updateStyleBreaks(layer, key, reverse=false) {
     // get values
+    //console.log("LAYER:");
+    //console.log(layer);
     var values = [];
     for (feat of layer.getSource().getFeatures()) {
         var val = feat.get(key);
@@ -164,6 +170,8 @@ function updateStyleBreaks(layer, key, reverse=false) {
             values.push(val);
         };
     };
+    //console.log("VALUES:");
+    //console.log(values);
     // calc bins
     var bins = calcValueBins(calcEqualBreaks, values);
     if (reverse == true) {
@@ -173,12 +181,15 @@ function updateStyleBreaks(layer, key, reverse=false) {
     var dynamicStyle = function(feature, resolution){
         var val = feature.get(key);
         var bin = getValueBin(val, bins);
+	
         if (bin != null) {
             var binStyle = styleCategories[bin];
         } else {
             var binStyle = missingStyle;
         };
         //alert([val,bin,binStyle].join(' '))
+	//console.log("style: ");
+	//console.log([binStyle]);
         return [binStyle];
     };
     layer.getSource().forEachFeature(function(feature){
@@ -186,6 +197,8 @@ function updateStyleBreaks(layer, key, reverse=false) {
     });
     // update legend
     updateStyleLegend(bins);
+    //console.log("BINS:");
+    //console.log(bins);
 };
 
 function updateMapCountryStyle() {
@@ -213,6 +226,9 @@ function updateMapCountryProperties() {
             };
         };
         // update feature properties
+	//console.log("HERE4");
+	//console.log(feat);
+	//console.log(info);
         feat.setProperties(info);
     };
 };
@@ -283,6 +299,7 @@ var map = new ol.Map({
     })
 });
 
+
 map.on('pointermove', function(evt) {
     // get feat at pointer
     let cursorFeat = null;
@@ -294,7 +311,7 @@ map.on('pointermove', function(evt) {
         // clear any existing feature text
         countryLayer.getSource().forEachFeature(function (feature) {
             var styleFunc = feature.getStyle();
-            var styles = styleFunc(feature, null); 
+	    var styles = styleFunc(feature, null); 
             function dynamicStyle(feature, resolution) {
                 // main style is at pos 0, label style at pos 1
                 // keep only main style, ignoring label style
@@ -314,4 +331,3 @@ map.on('pointermove', function(evt) {
         cursorFeat.setStyle(dynamicStyle);
     };
 });
-

@@ -1,6 +1,7 @@
 on:
-  schedule:
-    - cron: '0 22 * * *'
+  workflow_dispatch
+#   schedule:
+#     - cron: '0 22 * * *'
   
 name: Build Web Downloads
 jobs:
