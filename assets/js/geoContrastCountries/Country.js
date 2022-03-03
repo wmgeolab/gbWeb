@@ -94,8 +94,7 @@ function openCountryPopup (feat) {
     };
 };
 
-    }
-
+/*
     // Country Data page
     else
     {
@@ -402,7 +401,7 @@ function openCountryPopup (feat) {
     var geoj = geojWriter.writeFeatureObject(feat);
     var geojColl = {type:'FeatureCollection', features:[geoj]};
     updateCountryPopupMap(geojColl);
-
+*/
 
 function closeCountryPopup () {
     popup.setPosition(undefined); // hides the popup
