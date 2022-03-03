@@ -79,31 +79,34 @@
 							<div id="fullscreen" class="fullscreen">
 								<div id="map" class="map">
 								</div>
-								<div id="layer-switcher" class="ol-control-panel ol-unselectable ol-control">
-									<ul id="layer-list">
-										<li>
-											<!--note: checkbox class is rendered using a label checkmark character-->
-											<input id="toggle-layer-main" type="checkbox" style="display:none" onchange="toggleMainLayer()" checked/>
-											<label for="toggle-layer-main" style="margin-top:-8px; font-size:0.8em"></label>
-											<hr id="legend-symbol-main"></hr>
-											<span>Main boundary</span>
-										</li>
-										<li>
-											<!--note: checkbox class is rendered using a label checkmark character-->
-											<input id="toggle-layer-comparison" type="checkbox" style="display:none" onchange="toggleComparisonLayer()" checked/>
-											<label for="toggle-layer-comparison" style="margin-top:-8px; font-size:0.8em"></label>
-											<hr id="legend-symbol-comparison"></hr>
-											<span>Comparison boundary</span>
-										</li>
-										<li>
-											<img id="legend-symbol-basemap" src="images/1200px-Picture_icon_BLACK.svg.png"/>
-											<select id="select-basemap" onchange="setBaseMap(this.value)">
-												<option value="maptiler" selected>MapTiler Satellite</option>
-												<option value="esri">ESRI World Street Map</option>
-												<option value="osm">OpenStreetMap</option>
-											</select>
-										</li>
-									</ul>
+								<div style="display:none">
+									<!--Inside display:none to avoid being shown while waiting to be positioned-->
+									<div id="layer-switcher" class="ol-control-panel ol-unselectable ol-control">
+										<ul id="layer-list">
+											<li>
+												<!--note: checkbox class is rendered using a label checkmark character-->
+												<input id="toggle-layer-main" type="checkbox" style="display:none" onchange="toggleMainLayer()" checked/>
+												<label for="toggle-layer-main" style="margin-top:-8px; font-size:0.8em"></label>
+												<hr id="legend-symbol-main"></hr>
+												<span>Main boundary</span>
+											</li>
+											<li>
+												<!--note: checkbox class is rendered using a label checkmark character-->
+												<input id="toggle-layer-comparison" type="checkbox" style="display:none" onchange="toggleComparisonLayer()" checked/>
+												<label for="toggle-layer-comparison" style="margin-top:-8px; font-size:0.8em"></label>
+												<hr id="legend-symbol-comparison"></hr>
+												<span>Comparison boundary</span>
+											</li>
+											<li>
+												<img id="legend-symbol-basemap" src="images/1200px-Picture_icon_BLACK.svg.png"/>
+												<select id="select-basemap" onchange="setBaseMap(this.value)">
+													<option value="maptiler" selected>MapTiler Satellite</option>
+													<option value="esri">ESRI World Street Map</option>
+													<option value="osm">OpenStreetMap</option>
+												</select>
+											</li>
+										</ul>
+									</div>
 								</div>
 							</div>
 						</div>
