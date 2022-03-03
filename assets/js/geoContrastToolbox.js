@@ -1349,6 +1349,14 @@ function getPageWrapper() {
     var hr = document.createElement('hr');
     hr.style = "border-color:#F0B323; background-color:#F0B323; margin:3px; height:6px; margin-bottom:30px"
     wrapper.appendChild(hr);
+    // custom css to display links without color
+    var style = document.createElement('style');
+    style.innerHTML = `
+        a {
+            color: inherit;
+        }
+    `;
+    wrapper.appendChild(style);
     return wrapper;
 }
 
@@ -1360,10 +1368,12 @@ async function renderFrontPage(mapImgData) {
     titleDiv.innerHTML = `
         <h1 style="margin:10px 0px">Boundary comparison report</h1>
         <h2 id="country-header-for-printing" style="margin:10px 0px"></h2>
+        <br>
+        <br>
     `
     var countrySelect = document.getElementById('country-select');
     var country = countrySelect.options[countrySelect.selectedIndex].text;
-    titleDiv.querySelector('#country-header-for-printing').innerText = country + ' administrative boundaries';
+    titleDiv.querySelector('#country-header-for-printing').innerText = country + ', administrative boundaries';
     wrapper.appendChild(titleDiv);
     // add map
     var mapDiv = document.createElement('div');
@@ -1442,6 +1452,8 @@ async function renderMetaStatsPage() {
     // get page wrapper
     var wrapper = getPageWrapper();
     // add meta
+    var banner = document.getElementById('source-overview-banner').cloneNode(true);
+    wrapper.appendChild(banner);
     metaBox = document.getElementById('source-overview').cloneNode(true);
     wrapper.appendChild(metaBox);
     var br = document.createElement('br');
@@ -1449,11 +1461,13 @@ async function renderMetaStatsPage() {
     var br = document.createElement('br');
     wrapper.appendChild(br);
     // add stats
+    var banner = document.getElementById('source-stats-banner').cloneNode(true);
+    wrapper.appendChild(banner);
     statsBox = document.getElementById('source-stats').cloneNode(true);
     wrapper.appendChild(statsBox);
     var br = document.createElement('br');
     wrapper.appendChild(br);
-    // render to images
+    // render to image
     var config = {};
     document.body.appendChild(wrapper);
     var canvas = await html2canvas(wrapper, config);
@@ -1472,6 +1486,9 @@ async function renderAgreementPage() {
     while (rowNum <= (rowCount-1)) {
         // get page wrapper
         var wrapper = getPageWrapper();
+        // banner
+        var banner = document.getElementById('source-contents-banner').cloneNode(true);
+        wrapper.appendChild(banner);
         // box
         var box = document.createElement('div');
         box.className = 'box row';
@@ -1479,21 +1496,16 @@ async function renderAgreementPage() {
         wrapper.appendChild(box);
         // top title and match percent
         if (rowNum == 0) {
-            var banner = document.getElementById('source-contents-banner').cloneNode(true);
+            var banner = document.getElementById('source-overlap-total').cloneNode(true);
             box.appendChild(banner);
             var br = document.createElement('br');
             box.appendChild(br);
         } else {
             var banner = document.createElement('div');
             banner.style = "width:100%; text-align:center";
-            banner.innerHTML = '<h2 style="margin-bottom:3px">Boundary Agreement</h2><h3 style="margin-top:0">(Continued)</h3>';
+            banner.innerHTML = '<h2 style="margin-bottom:3px">Matched boundaries</h2><h3 style="margin-top:0">(Continued)</h3>';
             box.appendChild(banner);
         };
-        // source headers
-        var leftHeader = document.getElementById('left-table-header').cloneNode(true);
-        box.appendChild(leftHeader);
-        var rightHeader = document.getElementById('right-table-header').cloneNode(true);
-        box.appendChild(rightHeader);
         // table of rows
         var table = document.createElement('table');
         table.style = "margin-left:10px; width:100%";

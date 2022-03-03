@@ -219,6 +219,22 @@ ul li{
 
 
 
+.section-banner {
+    display: flex;
+    flex-direction: row;
+    align-items: middle;
+}
+
+.section-banner h2 {
+    margin-bottom: 10px;
+}
+
+.section-banner img {
+    height: 25px;
+    margin: 5px;
+}
+
+
 .summarystat {
     text-align: center;
     width: 100px;

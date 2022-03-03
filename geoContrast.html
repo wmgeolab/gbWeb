@@ -343,11 +343,13 @@
 							</div>
 						</div>
 					</div>
-						
+					
+					<div id="source-overview-banner" class="section-banner">
+						<img src="images/info.png">
+						<h2>Metadata</h2>
+					</div>
+
 					<div id="source-overview" class="row box" style="width:100%; margin:0px 0px; page-break-after:always">
-						<div id="source-overview-banner" style="width:100%; text-align:center">
-							<h2>Metadata</h2>
-						</div>
 						<div style="width:100%">
 							<table style="table-layout:fixed; width:100%">
 								<thead>
@@ -386,7 +388,7 @@
 									</tr>
 									<tr>
 										<td class="stats-label">
-											<img style="padding:2px" src="https://cdn-icons-png.flaticon.com/512/1017/1017397.png"/>
+											<img style="padding:2px" src="images/hierarchy-structure.png"/>
 											Level:
 										</td>
 										<td id="stats-gb-level" class="stats-value"></td>
@@ -394,7 +396,7 @@
 									</tr>
 									<tr>
 										<td class="stats-label">
-											<img src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_history_48px-512.png"/>
+											<img src="images/history.png"/>
 											Year the Boundary Represents:
 										</td>
 										<td id="stats-gb-year" class="stats-value"></td>
@@ -415,10 +417,12 @@
 
 					<br>
 
+					<div id="source-stats-banner" class="section-banner">
+						<img src="images/graph.png">
+						<h2>Boundary Stats</h2>
+					</div>
+
 					<div id="source-stats" class="row box" style="width:100%; margin:0px 0px">
-						<div id="source-stats-banner" style="width:100%; text-align:center">
-							<h2>Boundary Stats</h2>
-						</div>
 						<div style="width:100%">
 							<table style="table-layout:fixed; width:100%">
 								<thead>
@@ -465,7 +469,7 @@
 									</tr>
 									<tr>
 										<td class="stats-label">
-											<img style="padding:5px" src="https://d338t8kmirgyke.cloudfront.net/icons/icon_pngs/000/000/357/original/linegraph.png"/>
+											<img style="padding:5px" src="images/stats.png"/>
 											Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):
 										</td>
 										<td id="stats-gb-vertices" class="stats-value"></td>
@@ -473,7 +477,7 @@
 									</tr>
 									<tr style="display:none">
 										<td class="stats-label">
-											<img style="padding:5px" src="https://d338t8kmirgyke.cloudfront.net/icons/icon_pngs/000/000/357/original/linegraph.png"/>
+											<img style="padding:5px" src="images/stats.png"/>
 											Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):
 										</td>
 										<td id="stats-gb-avglinedens" class="stats-value"></td>
@@ -494,32 +498,33 @@
 
 					<br>
 
+					<div id="source-contents-banner" class="section-banner">
+						<img src="images/overlap.png">
+						<h2>Boundary Agreement</h2>
+					</div>
+
 					<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
-						<div id="source-contents-banner" style="width:100%; text-align:center">
-							<h2 style="margin-bottom:5px">Boundary Agreement (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>)</h2>
+						<div id="source-overlap-total" style="width:100%; text-align:center">
+							<h2 style="margin-bottom:5px">Matched boundaries (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>)</h2>
 							<div id="total-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Initiating...</p></div>
 							<br><br>
-						</div>
-						<div id="left-table-header" style="width:45%">
-							<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-						</div>
-						<div id="right-table-header" style="width:45%">
-							<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-							<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-							<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 						</div>
 						<br>
 						<div id="match-table-div" style="width:90%">
 							<table id="match-table" class="table" style="margin-left:10px; page-break-after:auto">
 								<thead>
 									<th style="width:50%">
+										<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+										<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+										<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 										<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
 											<option selected>(Select name field)</option>
 										</select>
 									</th>
 									<th style="width:50%">
+										<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+										<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+										<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 										<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
 											<option selected>(Select name field)</option>
 										</select>
