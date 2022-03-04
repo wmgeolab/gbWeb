@@ -3,8 +3,6 @@ function clearMatchTable() {
     // clear old table rows
     var tbody = document.querySelector('#match-table tbody');
     tbody.innerHTML = "";
-    var tbody = document.querySelector('#nomatch-table tbody');
-    tbody.innerHTML = "";
     // clear name fields dropdown
     /*
     var sel = document.getElementById('gb-names-table-select');
@@ -13,8 +11,7 @@ function clearMatchTable() {
     sel.innerHTML = "";
     */
     // clear other match things
-    document.getElementById('nomatch-none-notification').style.display = 'none';
-    document.getElementById('nomatch-div').style.display = 'none';
+    document.getElementById('nomatch-div').innerHTML = '';
 };
 
 function updateGbNames(features) {
@@ -351,6 +348,7 @@ function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {
     console.log('matchArea:'+matchArea);
     // update the percent bar
     percArea = matchArea / unionArea * 100;
+    percArea = Math.min(percArea, 100.0); // cap at 100% in case of minor rounding errors
     // set div color
     var percDiv = document.querySelector('#total-similarity');
     if (percArea > 90) {var colorcat = 'high'}
@@ -363,7 +361,7 @@ function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {
     percSpan.style = "--data-width:"+percArea+"%";
     // set bar text
     var percP = percDiv.querySelector('p');
-    percP.innerText = "Source Overlap: " + percArea.toFixed(1) + "%";
+    percP.innerText = "Share of Total Possible Overlap: " + percArea.toFixed(1) + "%";
 };
 
 function updateMatchTable(bestMatches, comparisonFeatures) {
@@ -426,43 +424,29 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
             tbody.appendChild(row);
         };
     };
-    // populate nomatch table
-    var table = document.getElementById('nomatch-table')
-    var noMatchCount = 0;
-    // clear old table rows if exists
-    var tbody = table.querySelector('tbody');
-    tbody.innerHTML = "";
+    // populate nomatch description
+    var noMatchDiv = document.getElementById('nomatch-div');
+    var noMatchLinks = [];
+    // clear old description
+    noMatchDiv.innerHTML = "";
     // loop features that didnt match
     for (feature of comparisonFeatures) {
         var ID = feature.id;
         if (!matchIDs.includes(ID)) {
-            noMatchCount += 1;
-            var row = document.createElement("tr");
-            row.style = "page-break-inside:avoid!important; page-break-after:auto!important";
-            // empty first column
-            var cell = document.createElement("td");
-            row.appendChild(cell);
-            // name
-            var cell = document.createElement("td");
             var name = feature.properties[comparisonNameField];
             var getFeatureJs = 'comparisonLayer.getSource().getFeatureById('+ID+')';
             var onclick = 'openFeatureComparePopup(null,'+getFeatureJs+')';
             var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
-            var stats = {equality:0}
-            var share = (stats.equality * 100).toFixed(1) + '%';
-            var colorcat = 'low';
-            var shareDiv = '<div class="stats-percent stats-percent-'+colorcat+'" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
-            cell.innerHTML = '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
-            row.appendChild(cell);
-            tbody.appendChild(row);
+            link = '<span style="word-wrap:break-word">' + nameLink + '</span>';
+            noMatchLinks.push(link);
         };
     };
-    // show nomatch table or none notification
-    if (noMatchCount > 0) {
-        document.getElementById('nomatch-none-notification').style.display = 'none';
-        document.getElementById('nomatch-div').style.display = 'block';
+    // show list of nomatches or none notification
+    if (noMatchLinks.length > 0) {
+        var comparisonCount = document.getElementById('stats-comp-admincount').innerText;
+        noMatchDiv.innerHTML = '<b>' + noMatchLinks.length + ' of ' + comparisonCount + ' boundary units</b> in the comparison source <b>could not be matched</b> to a boundary unit in the main source: '
+        noMatchDiv.innerHTML += '<br>' + noMatchLinks.join(', ');
     } else {
-        document.getElementById('nomatch-none-notification').style.display = 'block';
-        document.getElementById('nomatch-div').style.display = 'none';
+        noMatchDiv.innerHTML = '<b>All boundary units</b> in the comparison source were <b>successfully matched</b> to a boundary unit in the main source.'
     };
 };

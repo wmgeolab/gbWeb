@@ -79,6 +79,35 @@
 							<div id="fullscreen" class="fullscreen">
 								<div id="map" class="map">
 								</div>
+								<div style="display:none">
+									<!--Inside display:none to avoid being shown while waiting to be positioned-->
+									<div id="layer-switcher" class="ol-control-panel ol-unselectable ol-control">
+										<ul id="layer-list">
+											<li>
+												<!--note: checkbox class is rendered using a label checkmark character-->
+												<input id="toggle-layer-main" type="checkbox" style="display:none" onchange="toggleMainLayer()" checked/>
+												<label for="toggle-layer-main" style="margin-top:-8px; font-size:0.8em"></label>
+												<hr id="legend-symbol-main"></hr>
+												<span>Main boundary</span>
+											</li>
+											<li>
+												<!--note: checkbox class is rendered using a label checkmark character-->
+												<input id="toggle-layer-comparison" type="checkbox" style="display:none" onchange="toggleComparisonLayer()" checked/>
+												<label for="toggle-layer-comparison" style="margin-top:-8px; font-size:0.8em"></label>
+												<hr id="legend-symbol-comparison"></hr>
+												<span>Comparison boundary</span>
+											</li>
+											<li>
+												<img id="legend-symbol-basemap" src="images/1200px-Picture_icon_BLACK.svg.png"/>
+												<select id="select-basemap" onchange="setBaseMap(this.value)">
+													<option value="maptiler" selected>MapTiler Satellite</option>
+													<option value="esri">ESRI World Street Map</option>
+													<option value="osm">OpenStreetMap</option>
+												</select>
+											</li>
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-5 col-12-medium" style="padding:0; ">
@@ -90,7 +119,7 @@
 									<ul class='etabs'>
 										<li class='tab'><a href="geoContrastCountries.html">Global Boundaries</a></li>
 										<li class='tab active'><a href="geoContrast.html">Country Boundaries</a></li>
-										<li class='tab'><a href="geoData.html">Country Data</a></li>
+										<!--<li class='tab'><a href="geoData.html">Country Data</a></li>-->
 									</ul>
 
 									<div id="compare" class="box" style="font-size:14pt; height:575px">
@@ -118,10 +147,11 @@
 												</script>
 											</div>
 											<div id="gb-file-div" style="padding-top:5px">
+												<span style="font-size:small; margin:4px">Drag-and-drop or select a zipped shapefile.</span>
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
 													<input id="gb-file-input" class="fas" type="file" accept=".zip">
 												</span>
-												<span data-text="Upload a zipped shapefile." class="tooltip">
+												<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
 													(?)
 												</span>
 												<select id="gb-file-select" onchange="gbFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
@@ -192,10 +222,11 @@
 												</script>
 											</span>
 											<div id="comparison-file-div">
+												<span style="font-size:small; margin:4px">Drag-and-drop or select a zipped shapefile.</span>
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
 													<input id="comparison-file-input" class="fas" type="file" accept=".zip">
 												</span>
-												<span data-text="Upload a zipped shapefile." class="tooltip">
+												<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
 													(?)
 												</span>
 												<select id="comparison-file-select" onchange="comparisonFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
@@ -247,135 +278,6 @@
 										</div>
 
 										<div id="compare-print-report" style="width:100%; text-align:center; margin-top:0px">
-											<script type="text/javascript">
-												function setImageDataAndPrintPDF(imgData) {
-													//alert('processing img data');
-													// enable the top banner div for printing
-													var topBannerDiv = document.getElementById('top-banner-for-printing');
-													topBannerDiv.style.display = 'block';
-													// set img src
-													var mapImg = document.getElementById('map-image-for-printing');
-													mapImg.src = imgData;
-													// set country header
-													var countrySelect = document.getElementById('country-select');
-													var country = countrySelect.options[countrySelect.selectedIndex].text;
-													document.getElementById('country-header-for-printing').innerText = country;
-													// set args
-													args = {printable:'main', 
-															type:'html', 
-															//css:['/assets/css/main.css','/assets/css/extra.css'],
-															targetStyles:['*'], 
-															ignoreElements:['map-and-toolbox-div','feature-compare-popup','contribute-popup'], 
-															maxWidth:1000};
-													// create pdf
-													//alert('creating pdf');
-													printJS(args);
-													// disable the map image div
-													topBannerDiv.style.display = 'none';
-												};
-
-												function setImageDataAndMakePDF(imgData) {
-													//alert('processing img data');
-													// hide some elements
-													var ignoreElements = ['map-and-toolbox-div','feature-compare-popup','contribute-popup'];
-													// enable the top banner div for printing
-													var topBannerDiv = document.getElementById('top-banner-for-printing');
-													topBannerDiv.style.display = 'block';
-													// set img src
-													var mapImg = document.getElementById('map-image-for-printing');
-													mapImg.src = imgData;
-													// set country header
-													var countrySelect = document.getElementById('country-select');
-													var country = countrySelect.options[countrySelect.selectedIndex].text;
-													document.getElementById('country-header-for-printing').innerText = country;
-													// create pdf
-													//alert('creating pdf');
-													var elem = document.getElementById('main');
-													var config = {'ignoreElements': function(e){return ignoreElements.includes(e.id)}
-													};
-													html2canvas(elem, config).then(function (canvas) {
-														// canvas to image (creates one tall image of entire page)
-														var imgData = canvas.toDataURL("image/png");
-														// define doc
-														var imgWidth = 210; 
-														var pageHeight = 295; 
-														var imgHeight = canvas.height * imgWidth / canvas.width;
-														var heightLeft = imgHeight;
-														var doc = new jsPDF('p', 'mm');
-														var position = 0;
-
-														// loop parts of the image and crop to each page
-														doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-														heightLeft -= pageHeight;
-														while (heightLeft >= 0) {
-															position = heightLeft - imgHeight;
-															doc.addPage();
-															doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-															heightLeft -= pageHeight;
-														};
-
-														// show or save pdf
-														//doc.output('datauri');
-														doc.save('geoBoundaries-comparison.pdf');
-														//window.open(doc.output('bloburl'));
-														//doc.output('bloburi');
-
-														// reactivate pdf button
-														but = document.getElementById('pdf-button');
-														but.disabled = false;
-														but.innerHTML = 'Generate PDF Report';
-													});
-													// disable the map image div
-													topBannerDiv.style.display = 'none';
-												};
-												
-												function renderMapToImgData(processdata) {
-													map.once('rendercomplete', function () {
-														//alert('rendercomplete');
-														const mapCanvas = document.createElement('canvas');
-														const size = map.getSize();
-														mapCanvas.width = size[0];
-														mapCanvas.height = size[1];
-														const mapContext = mapCanvas.getContext('2d');
-														Array.prototype.forEach.call(
-															document.querySelectorAll('#map .ol-layer canvas'),
-															function (canvas) {
-																if (canvas.width > 0) {
-																	const opacity = canvas.parentNode.style.opacity;
-																	mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
-																	const transform = canvas.style.transform;
-																	// Get the transform parameters from the style's transform matrix
-																	const matrix = transform
-																		.match(/^matrix\(([^\(]*)\)$/)[1]
-																		.split(',')
-																		.map(Number);
-																	// Apply the transform to the export map context
-																	CanvasRenderingContext2D.prototype.setTransform.apply(
-																		mapContext,
-																		matrix
-																	);
-																	mapContext.drawImage(canvas, 0, 0);
-																};
-															}
-														);
-														imgData = mapCanvas.toDataURL();
-														//alert('imgdata '+imgData);
-														processdata(imgData);
-													});
-													map.renderSync();
-												};
-
-												function printPageToPDF() {
-													// update pdf button
-													but = document.getElementById('pdf-button');
-													but.innerHTML = '<div style="display:flex; flex-direction:row; align-items:center; gap:3px"><span>Generating</span><img src="images/Spinner-1s-200px.gif" style="max-width:30px; margin-right:-15px"/></div>';
-													but.disabled = true;
-													// render the map to image data
-													// on success, set image data to img src and print the pdf
-													var onsuccess = setImageDataAndMakePDF; 
-													renderMapToImgData(onsuccess);
-												};
-											</script>
 
 											<button id="pdf-button" type="button" style="font-size:0.6em" onclick="printPageToPDF()">
 												Generate PDF Report
@@ -394,265 +296,200 @@
 						</div>
 					
 					</div>
+					
+					<div id="source-overview-banner" class="section-banner">
+						<img src="images/info.png" title="Icon created by Freepik from www.flaticons.com">
+						<h2>Metadata</h2>
+					</div>
 
-					<div id="top-banner-for-printing" style="display:none; width:100%; margin:0; padding:0; text-align:center">
-						<div style="position:relative; text-align:center">
-							<img id="map-image-for-printing" style="width:100%; height:400px; object-fit:cover" crossorigin="anonymous"></img>
-							<h2 id="country-header-for-printing" style="position:absolute; top:8px; left:8px; background-color:rgba(255,255,255,0.7)"></h2>
+					<div id="source-overview" class="row box" style="width:100%; margin:0px 0px; page-break-after:always">
+						<div style="width:100%">
+							<table style="table-layout:fixed; width:100%">
+								<thead>
+									<tr>
+										<td style="width:25%"></td>
+										<td style="width:37.5%">
+											<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+											<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+											<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<br><br>
+										</td>
+										<td style="width:37.5%">
+											<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+											<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+											<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<br><br>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="stats-label">
+											<img src="images/google-docs.png" title="Icon created by Freepik from www.flaticons.com"/>
+											Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)
+										</td>
+										<td><div id="stats-gb-source" class="stats-value"></div></td>
+										<td><div id="stats-comp-source" class="stats-value"></div></td>
+									</tr>
+									<tr>
+										<td class="stats-label">
+											<img src="images/hand-shake.png" title="Icon created by Pixel perfect from www.flaticons.com"/>
+											License:
+										</td>
+										<td><div id="stats-gb-license" class="stats-value"></div></td>
+										<td><div id="stats-comp-license" class="stats-value"></div></td>
+									</tr>
+									<tr>
+										<td class="stats-label">
+											<img style="padding:2px" src="images/hierarchy-structure.png" title="Icon created by Freepik from www.flaticons.com"/>
+											Level:
+										</td>
+										<td id="stats-gb-level" class="stats-value"></td>
+										<td id="stats-comp-level" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td class="stats-label">
+											<img src="images/history.png" title="Icon created by Google from www.flaticons.com"/>
+											Year the Boundary Represents:
+										</td>
+										<td id="stats-gb-year" class="stats-value"></td>
+										<td id="stats-comp-year" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td class="stats-label">
+											<img style="padding:2px" src="images/calendar.png" title="Icon created by Freepik from www.flaticons.com"/>
+											Last Update:
+										</td>
+										<td id="stats-gb-updated" class="stats-value"></td>
+										<td id="stats-comp-updated" class="stats-value"></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 
-					<div id="tab-container2" class="tab-container">
-										
-						<ul class='etabs'>
-							<li class='tab'><a href="#source-overview">Overview</a></li>
-							<li class='tab'><a href="#source-stats">Statistics</a></li>
-							<li class='tab'><a href="#source-contents">Matches</a></li>
-						</ul>
-						
-						<div id="source-overview" class="row box" style="width:100%; margin:0px 0px; page-break-after:always">
-							<div id="source-overview-banner" style="width:100%; text-align:center">
-								<h2>Overview</h2>
-							</div>
-							<div id="left-table-div" style="width:45%">
-								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-								<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br><br>
-								<div id="stats-gb-container">
-									<table style="table-layout:fixed; width:100%">
-										<tr>
-											<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
-											<td><div id="stats-gb-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-										</tr>
-										<tr>
-											<td>License:</td>
-											<td><div id="stats-gb-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-										</tr>
-										<tr>
-											<td>Level:</td>
-											<td id="stats-gb-level" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Year the Boundary Represents:</td>
-											<td id="stats-gb-year" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Last Update:</td>
-											<td id="stats-gb-updated" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
+					<br>
 
-							</div>
-							
-							<div id="right-table-div" style="width:45%">
-								<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-								<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br><br>
-								<div id="stats-comp-container">
-									<table style="table-layout:fixed; width:100%">
-										<tr>
-											<td>Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)</td>
-											<td><div id="stats-comp-source" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-										</tr>
-										<tr>
-											<td>License:</td>
-											<td><div id="stats-comp-license" class="stats-value" style="height:50px; overflow:hidden"></div></td>
-										</tr>
-										<tr>
-											<td>Level:</td>
-											<td id="stats-comp-level" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Year the Boundary Represents:</td>
-											<td id="stats-comp-year" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Last Update:</td>
-											<td id="stats-comp-updated" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
-							</div>
+					<div id="source-stats-banner" class="section-banner">
+						<img src="images/graph.png" title="Icon created by Bamicon from www.flaticons.com">
+						<h2>Boundary Stats</h2>
+					</div>
+
+					<div id="source-stats" class="row box" style="width:100%; margin:0px 0px">
+						<div style="width:100%">
+							<table style="table-layout:fixed; width:100%">
+								<thead>
+									<tr>
+										<td style="width:25%"></td>
+										<td style="width:37.5%">
+											<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+											<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+											<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<br><br>
+										</td>
+										<td style="width:37.5%">
+											<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+											<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+											<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<br><br>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="stats-label">
+											<img src="images/count.png" title="Icon created by Sicon from www.flaticon.com"/>
+											Administrative Units:
+										</td>
+										<td id="stats-gb-admincount" class="stats-value"></td>
+										<td id="stats-comp-admincount" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td class="stats-label">
+											<img style="padding:3px" src="images/square.png" title="Icon created by Freepik from www.flaticons.com">
+											Area:
+										</td>
+										<td id="stats-gb-area" class="stats-value"></td>
+										<td id="stats-comp-area" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td class="stats-label">
+											<img style="padding:3px" src="images/selection-square.png" title="Icon created by Freepik from www.flaticons.com">
+											Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):
+										</td>
+										<td id="stats-gb-circumf" class="stats-value"></td>
+										<td id="stats-comp-circumf" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td class="stats-label">
+											<img style="padding:5px" src="images/stats.png" title="Icon created by Freepik from www.flaticons.com"/>
+											Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):
+										</td>
+										<td id="stats-gb-vertices" class="stats-value"></td>
+										<td id="stats-comp-vertices" class="stats-value"></td>
+									</tr>
+									<tr style="display:none">
+										<!--Not shown-->
+										<td class="stats-label">
+											<img style="padding:5px" src="images/stats.png" title="Icon created by Freepik from www.flaticons.com"/>
+											Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):
+										</td>
+										<td id="stats-gb-avglinedens" class="stats-value"></td>
+										<td id="stats-comp-avglinedens" class="stats-value"></td>
+									</tr>
+									<tr>
+										<td class="stats-label">
+											<img style="padding:5px" src="images/shape.png"  title="Icon created by Pixelmeetup from www.flaticons.com"/>
+											Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):
+										</td>
+										<td id="stats-gb-avglineres" class="stats-value"></td>
+										<td id="stats-comp-avglineres" class="stats-value"></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
+					</div>
 
-						<div id="source-stats" class="row box" style="width:100%; margin:0px 0px">
-							<div id="source-stats-banner" style="width:100%; text-align:center">
-								<h2>Statistics</h2>
-							</div>
-							<div id="left-table-div" style="width:45%">
-								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-								<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br>
-								<div id="stats-gb-container">
-									<table style="table-layout:fixed; width:100%">
-										<tr>
-											<td>Administrative Units:</td>
-											<td id="stats-gb-admincount" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Area:</td>
-											<td id="stats-gb-area" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
-											<td id="stats-gb-circumf" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
-											<td id="stats-gb-vertices" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
-											<td id="stats-gb-avglinedens" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
-											<td id="stats-gb-avglineres" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
-							</div>
-							<div id="right-table-div" style="width:45%">
-								<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-								<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br>
-								<div id="stats-comp-container">
-									<table style="table-layout:fixed; width:100%">
-										<tr>
-											<td>Administrative Units:</td>
-											<td id="stats-comp-admincount" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Area:</td>
-											<td id="stats-comp-area" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
-											<td id="stats-comp-circumf" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
-											<td id="stats-comp-vertices" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
-											<td id="stats-comp-avglinedens" class="stats-value"></td>
-										</tr>
-										<tr>
-											<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
-											<td id="stats-comp-avglineres" class="stats-value"></td>
-										</tr>
-									</table>
-								</div>
-							</div>
+					<br>
+
+					<div id="source-contents-banner" class="section-banner">
+						<img src="images/overlap.png" title="Icon created by Kiranshastry from www.flaticons.com">
+						<h2>Boundary Agreement</h2>
+					</div>
+
+					<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
+						<div id="source-overlap-total" style="width:95%; text-align:center">
+							<h3>Matched Boundary Units (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>):</h3>
+							<div id="total-similarity" class="stats-percent" style="height:20px; width:80%"><span style="--data-width:0%"></span><p>Initiating...</p></div>
+							<br><br><br>
 						</div>
-
-						<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
-							<div id="source-contents-banner" style="width:100%; text-align:center">
-								<h2 style="margin-bottom:5px">Matches (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>)</h2>
-								<div id="total-similarity" class="stats-percent" style="height:20px; width:40%"><span style="--data-width:0%"></span><p>Initiating...</p></div>
-								<br><br>
-							</div>
-							<div id="left-table-header" style="width:45%">
-								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-								<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							</div>
-							<div id="right-table-header" style="width:45%">
-								<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-								<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-							</div>
-							<br>
-							<div id="match-table-div" style="width:90%">
-								<table id="match-table" class="table" style="margin-left:10px; page-break-after:auto">
-									<thead>
-										<th style="width:50%">
-											<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
-												<option selected>(Select name field)</option>
-											</select>
-										</th>
-										<th style="width:50%">
-											<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
-												<option selected>(Select name field)</option>
-											</select>
-										</th>
-									</thhead>
-									<tbody>
-									</tbody>
-								</table>
-							</div>
-							<div id="nomatch-none-notification" style="display:none; margin-left:10px; width:90%; text-align:right">
-								All boundary units in the comparison source were <b>successfully matched</b> to a boundary unit in the main source.
-								<br><br>
-							</div>
-							<div id="nomatch-div" style="display:none; width:100%">
-								<div style="width:100%; text-align:center">
-									<h2 style="margin-bottom:5px">No Match (<span class="tooltip" data-text="Boundary units in the other source that are not considered to have the highest overlapping area with any other boundary unit, are considered not matching.">?</span>)</h2>
-								</div>
-								<div id="nomatch-table-div" style="width:90%">
-									<table id="nomatch-table" class="table" style="margin-left:10px; page-break-after:auto">
-										<thead>
-											<th style="width:50%">
-											</th>
-											<th style="width:50%">
-											</th>
-										</thead>
-										<tbody>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<br>
-							<!--
-							<div id="left-table-div" style="width:45%">
-								<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-								<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br>
-								<div id="gb-names-table-div" style="margin-top:10px">
-									<table id="gb-names-table" class="gb-table" style="margin-left:10px; page-break-after:auto">
-										<thead>
-											<th>
-												<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
-													<option selected>(Select name field)</option>
-												</select>
-											</th>
-											<th>Most similar</th>
-										</thhead>
-										<tbody id="gb-names-table-tbody">
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div id="right-table-div" style="width:45%">
-								<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
-								<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
-								<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-								<br>
-								<div id="comparison-names-table-div" style="margin-top:10px">
-									<table id="comparison-names-table" class="comparison-table" style="margin-left:10px; page-break-after:auto">
-										<thead>
-											<th>
-												<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
-													<option selected>(Select name field)</option>
-												</select>
-											</th>
-											<th>Most similar</th>
-										</thhead>
-										<tbody id="comparison-names-table-tbody">
-										</tbody>
-									</table>
-								</div>
-							</div>
-							-->
+						<br>
+						<div id="match-table-div" style="width:95%">
+							<table id="match-table" class="table" style="margin-left:10px; page-break-after:auto">
+								<thead>
+									<th style="width:50%">
+										<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+										<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+										<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+										<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
+											<option selected>(Select name field)</option>
+										</select>
+									</th>
+									<th style="width:50%">
+										<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+										<h3 style="margin-bottom:0; padding-bottom:0">Closest Comparison Match:</h3>
+										<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+										<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
+											<option selected>(Select name field)</option>
+										</select>
+									</th>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
 						</div>
-
+						<div id="nomatch-div" style="width:100%; margin:10px">
+						</div>
 					</div>
 
 				</section>
@@ -894,11 +731,10 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () { $('#tab-container').easytabs({animate:false}); });
-		$(document).ready(function () { $('#tab-container2').easytabs({animate:false}); });
-		$(document).ready(function () { $('#contribute-tab-container').easytabs({animate:false}); });
 	</script>
 
 	<script src="assets/js/ol.js"></script>
+	<script src="assets/js/ol-ext.min.js"></script>
 
 	<script src="assets/js/internalHelpers.js"></script>
 	<script src="assets/js/internalData.js"></script>

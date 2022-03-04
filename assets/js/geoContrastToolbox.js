@@ -6,7 +6,7 @@
 
 var gbStyle = new ol.style.Style({
     fill: new ol.style.Fill({
-        color: 'rgba(220, 220, 255, 0.5)',
+        color: 'rgba(220, 220, 255, 0.3)',
     }),
     stroke: new ol.style.Stroke({
         color: 'rgb(29,107,191)', //'rgb(49, 127, 211)',
@@ -14,6 +14,7 @@ var gbStyle = new ol.style.Style({
     }),
 });
 var gbLayer = new ol.layer.Vector({
+    title: "Main boundary",
     style: gbStyle,
 });
 
@@ -28,25 +29,63 @@ var comparisonStyle = new ol.style.Style({
     }),
 });
 var comparisonLayer = new ol.layer.Vector({
+    title: "Comparison boundary",
     style: comparisonStyle,
 });
 
 // map
 
+var baseMaps = {
+    'maptiler': new ol.source.XYZ({
+        attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
+        url:
+        'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
+        maxZoom: 20,
+        crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+    }),
+    'esri': new ol.source.XYZ({
+        attributions: 'ESRI World Street Map',
+        url:
+        'http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        maxZoom: 20,
+        crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+    }),
+    'osm': new ol.source.OSM({crossOrigin: 'anonymous'}),
+};
+var baseMapLayer = new ol.layer.Tile({source: baseMaps.maptiler});
+
+function setBaseMap(name) {
+    baseMapLayer.setSource(baseMaps[name]);
+};
+
 var map = new ol.Map({
     target: 'map',
-    controls: ol.control.defaults().extend([new ol.control.FullScreen(),
+    controls: ol.control.defaults({attribution:false}).extend([new ol.control.FullScreen(),
                                             new ol.control.ScaleLine({units: 'metric'}),
                                             ]),
     layers: [
-    new ol.layer.Tile({
-        source: new ol.source.XYZ({
-            attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
-            url:
-            'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
-            maxZoom: 20,
-            crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
-        })}),
+        baseMapLayer,
+        /*
+        new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
+                url:
+                'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
+                maxZoom: 20,
+                crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+            })}),
+        new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                attributions: 'ESRI World Street Map',
+                url:
+                'http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+                maxZoom: 20,
+                crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
+            })}),
+        new ol.layer.Tile({
+            source: new ol.source.OSM({crossOrigin: 'anonymous'})
+            }),
+        */
         gbLayer,
         comparisonLayer
     ],
@@ -72,6 +111,22 @@ map.on('singleclick', function(evt) {
         openFeatureComparePopup(mainFeat, comparisonFeat);
     };
 });
+
+function toggleMainLayer() {
+    var check = document.getElementById('toggle-layer-main');
+    gbLayer.setVisible(check.checked);
+};
+
+function toggleComparisonLayer() {
+    var check = document.getElementById('toggle-layer-comparison');
+    comparisonLayer.setVisible(check.checked);
+};
+
+var switcher = document.getElementById('layer-switcher');
+var control = new ol.control.Control({
+    element: switcher
+});
+map.addControl(control);
 
 
 
@@ -1106,7 +1161,7 @@ function updateComparisonSourceDropdown() {
     // finally add custom upload boundary choice
     opt = document.createElement('option');
     opt.value = 'upload';
-    opt.textContent = 'Custom: Your Own Boundary';
+    opt.textContent = 'Upload Your Own Boundary';
     select.appendChild(opt);
     sources.push('upload');
     // set the source to get-param if specified
@@ -1264,6 +1319,304 @@ function comparisonSourceChanged() {
         updateComparisonLayer(zoomToExtent=true);
     };
     updateGetParams();
+};
+
+
+// pdf report
+
+function getPageWrapper() {
+    // create page wrapper with padding
+    var wrapper = document.createElement('div');
+    wrapper.style.padding = '50px';
+    // add top header
+    var header = document.createElement('header'); //document.getElementById('header').cloneNode(true);
+    header.className = "logo";
+    header.style = "width:100%; margin-bottom:40px";
+    header.innerHTML = `
+        <span style="float:left">
+            <strong>Boundary comparison report: <span class="countryName"></span></strong>
+        </span>
+        <span style="float:right">
+            William &amp; Mary geoLab
+        </span>
+    `
+    // set country name
+    var countrySelect = document.getElementById('country-select');
+    var country = countrySelect.options[countrySelect.selectedIndex].text;
+    header.querySelector('.countryName').innerText = country;
+    wrapper.appendChild(header);
+    // add header line
+    var hr = document.createElement('hr');
+    hr.style = "border-color:#F0B323; background-color:#F0B323; margin:3px; height:6px; margin-bottom:30px"
+    wrapper.appendChild(hr);
+    // custom css to display links without color
+    var style = document.createElement('style');
+    style.innerHTML = `
+        a {
+            color: inherit;
+        }
+    `;
+    wrapper.appendChild(style);
+    return wrapper;
+}
+
+async function renderFrontPage(mapImgData) {
+    // get page wrapper
+    var wrapper = getPageWrapper();
+    // add top title incl country
+    var titleDiv = document.createElement('div');
+    titleDiv.innerHTML = `
+        <h1 style="margin:10px 0px">Boundary comparison report</h1>
+        <h2 id="country-header-for-printing" style="margin:10px 0px"></h2>
+        <br>
+    `
+    var countrySelect = document.getElementById('country-select');
+    var country = countrySelect.options[countrySelect.selectedIndex].text;
+    titleDiv.querySelector('#country-header-for-printing').innerText = country + ', administrative boundaries';
+    wrapper.appendChild(titleDiv);
+    // add map
+    var mapDiv = document.createElement('div');
+    mapDiv.innerHTML = `
+        <style>
+            #map-image-legend {
+                position:absolute;
+                top:10px;
+                left:10px;
+                background-color:white; 
+                border-radius:5px; 
+                opacity:0.8;
+                color:black;
+            }
+
+            #map-image-legend #layer-list {
+                list-style-type: none;
+                margin: 0;
+            }
+            
+            #map-image-legend #layer-list li {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin:5px;
+            }
+            
+            #legend-symbol-main {
+                width: 20px;
+                border-top: 4px solid #319FD3;
+                border-bottom: unset;
+                margin: 5px;
+            }
+            
+            #legend-symbol-comparison {
+                width: 20px;
+                border-top: 4px dashed rgb(255,0,0);
+                border-bottom: unset;
+                margin: 5px;
+            }
+        </style>
+        <div style="position:relative; width:100%; height:75%; margin:0; padding:0; text-align:center">
+            <img id="map-image-for-printing" style="width:100%; height:100%; object-fit:cover" crossorigin="anonymous"/>
+            <div id="map-image-legend">
+                <ul id="layer-list">
+                    <li>
+                        <hr id="legend-symbol-main">
+                        <span class="gb-source-title">Main boundary</span>
+                    </li>
+                    <li>
+                        <hr id="legend-symbol-comparison">
+                        <span class="comp-source-title">Comparison boundary</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    `
+    wrapper.appendChild(mapDiv);
+    // populate legend
+    var mainSource = document.querySelector('.gb-source-title').innerText;
+    var comparisonSource = document.querySelector('.comp-source-title').innerText;
+    mapDiv.querySelector('.gb-source-title').innerText = mainSource;
+    mapDiv.querySelector('.comp-source-title').innerText = comparisonSource;
+    // set map img src
+    var mapImg = wrapper.querySelector('#map-image-for-printing');
+    mapImg.src = mapImgData;
+    // render to image
+    var config = {};
+    document.body.appendChild(wrapper);
+    var canvas = await html2canvas(wrapper, config);
+    wrapper.remove();
+    return canvas;
+}
+
+async function renderMetaStatsPage() {
+    // get page wrapper
+    var wrapper = getPageWrapper();
+    // add meta
+    var banner = document.getElementById('source-overview-banner').cloneNode(true);
+    wrapper.appendChild(banner);
+    metaBox = document.getElementById('source-overview').cloneNode(true);
+    wrapper.appendChild(metaBox);
+    var br = document.createElement('br');
+    wrapper.appendChild(br);
+    var br = document.createElement('br');
+    wrapper.appendChild(br);
+    // add stats
+    var banner = document.getElementById('source-stats-banner').cloneNode(true);
+    wrapper.appendChild(banner);
+    statsBox = document.getElementById('source-stats').cloneNode(true);
+    wrapper.appendChild(statsBox);
+    var br = document.createElement('br');
+    wrapper.appendChild(br);
+    // render to image
+    var config = {};
+    document.body.appendChild(wrapper);
+    var canvas = await html2canvas(wrapper, config);
+    wrapper.remove();
+    return canvas;
+}
+
+async function renderAgreementPage() {
+    // get table row info
+    var matchTable = document.getElementById('match-table-div');
+    var rows = matchTable.querySelectorAll('tr');
+    var rowCount = rows.length;
+    var rowNum = 0;
+    // add new page for every 20 rows
+    var canvases = [];
+    while (rowNum <= (rowCount-1)) {
+        // get page wrapper
+        var wrapper = getPageWrapper();
+        // banner
+        var banner = document.getElementById('source-contents-banner').cloneNode(true);
+        wrapper.appendChild(banner);
+        // box
+        var box = document.createElement('div');
+        box.className = 'box row';
+        box.style = "width:100%; margin:0";
+        wrapper.appendChild(box);
+        // top title and match percent
+        if (rowNum == 0) {
+            var banner = document.getElementById('source-overlap-total').cloneNode(true);
+            box.appendChild(banner);
+            var br = document.createElement('br');
+            box.appendChild(br);
+        } else {
+            var banner = document.createElement('div');
+            banner.innerHTML = '<br>';
+            box.appendChild(banner);
+        };
+        // table of rows
+        var table = document.createElement('table');
+        table.style = "margin-left:10px; width:100%";
+        var rowEnd = Math.min(rowNum + 20, rowCount-1);
+        // add top header row
+        if (rowNum != 0) {
+            var row = rows[0];
+            table.appendChild(row.cloneNode(true));
+        };
+        // add data rows
+        var tbody = document.createElement('tbody');
+        while (rowNum <= rowEnd) {
+            var row = rows[rowNum];
+            tbody.appendChild(row.cloneNode(true));
+            rowNum += 1;
+        };
+        table.appendChild(tbody);
+        box.appendChild(table);
+        // add nomatch info at end of table
+        if (rowNum == rowCount) {
+            var noMatchDiv = document.getElementById('nomatch-div').cloneNode(true);
+            box.appendChild(noMatchDiv);
+        };
+        // render to image
+        var config = {};
+        document.body.appendChild(wrapper);
+        var canvas = await html2canvas(wrapper, config);
+        wrapper.remove();
+        canvases.push(canvas);
+    };
+    return canvases;
+}
+
+async function makePDF(mapImgData) {
+    // define doc
+    var pageWidth = 210;
+    var pageHeight = 295; 
+    var doc = new jsPDF('portrait', 'mm');
+
+    // loop parts of the image and crop to each page
+    var canvas = await renderFrontPage(mapImgData);
+    var imgHeight = canvas.height * (pageWidth / canvas.width);
+    doc.addImage(canvas.toDataURL("image/jpeg"), 'JPEG', 0, 0, pageWidth, imgHeight);
+
+    var canvas = await renderMetaStatsPage();
+    var imgHeight = canvas.height * (pageWidth / canvas.width);
+    doc.addPage();
+    doc.addImage(canvas.toDataURL("image/jpeg"), 'JPEG', 0, 0, pageWidth, imgHeight);
+
+    var canvases = await renderAgreementPage();
+    for (canvas of canvases) {
+        var imgHeight = canvas.height * (pageWidth / canvas.width);
+        doc.addPage();
+        doc.addImage(canvas.toDataURL("image/jpeg"), 'JPEG', 0, 0, pageWidth, imgHeight);
+    };
+
+    // show or save pdf
+    //doc.output('datauri');
+    doc.save('geoBoundaries-comparison.pdf');
+    //window.open(doc.output('bloburl'));
+    //doc.output('bloburi');
+
+    // reactivate pdf button
+    but = document.getElementById('pdf-button');
+    but.disabled = false;
+    but.innerHTML = 'Generate PDF Report';
+}
+
+function renderMapToImgData(processdata) {
+    map.once('rendercomplete', function () {
+        //alert('rendercomplete');
+        const mapCanvas = document.createElement('canvas');
+        const size = map.getSize();
+        mapCanvas.width = size[0];
+        mapCanvas.height = size[1];
+        const mapContext = mapCanvas.getContext('2d');
+        Array.prototype.forEach.call(
+            document.querySelectorAll('#map .ol-layer canvas'),
+            function (canvas) {
+                if (canvas.width > 0) {
+                    const opacity = canvas.parentNode.style.opacity;
+                    mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+                    const transform = canvas.style.transform;
+                    // Get the transform parameters from the style's transform matrix
+                    const matrix = transform
+                        .match(/^matrix\(([^\(]*)\)$/)[1]
+                        .split(',')
+                        .map(Number);
+                    // Apply the transform to the export map context
+                    CanvasRenderingContext2D.prototype.setTransform.apply(
+                        mapContext,
+                        matrix
+                    );
+                    mapContext.drawImage(canvas, 0, 0);
+                };
+            }
+        );
+        imgData = mapCanvas.toDataURL();
+        //alert('imgdata '+imgData);
+        processdata(imgData);
+    });
+    map.renderSync();
+};
+
+function printPageToPDF() {
+    // update pdf button
+    but = document.getElementById('pdf-button');
+    but.innerHTML = '<div style="display:flex; flex-direction:row; align-items:center; gap:3px"><span>Generating</span><img src="images/Spinner-1s-200px.gif" style="max-width:30px; margin-right:-15px"/></div>';
+    but.disabled = true;
+    // render the map to image data
+    // on success, set image data to img src and print the pdf
+    var onsuccess = makePDF; 
+    renderMapToImgData(onsuccess);
 };
 
 
