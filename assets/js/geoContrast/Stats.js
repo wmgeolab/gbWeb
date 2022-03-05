@@ -1,12 +1,12 @@
 
-function clearGbStats() {
+function clearMainStats() {
     // clear source name titles
-    for (elem of document.querySelectorAll('.gb-source-title')) {
+    for (elem of document.querySelectorAll('.main-source-title')) {
         elem.innerText = '-';
     };
     // clear stats values
     for (elem of document.querySelectorAll('#source-stats .stats-value')) {
-        if (elem.id.startsWith('stats-gb')) {
+        if (elem.id.startsWith('stats-main')) {
             elem.innerText = '-';
         };
     };
@@ -25,15 +25,15 @@ function clearComparisonStats() {
     };
 };
 
-function updateGbStats(features) {
-    var source = document.getElementById('gb-boundary-select').value;
+function updateMainStats(features) {
+    var source = document.getElementById('main-boundary-select').value;
     if (source == 'upload') {
         // calc stats
         var stats = calcSpatialStats(features);
     } else {
         // fetch stats from metadata csv
         var iso = document.getElementById('country-select').value;
-        var level = document.getElementById('gb-admin-level-select').value;
+        var level = document.getElementById('main-admin-level-select').value;
         for (row of geoContrastMetadata) {
             if (row.length <= 1) {
                 // ignore empty rows
@@ -58,26 +58,26 @@ function updateGbStats(features) {
     };
     //alert(JSON.stringify(stats));
     // show in display
-    var name = document.getElementById('gb-boundary-select').value;
+    var name = document.getElementById('main-boundary-select').value;
     if (name == 'upload') {
-        var filePath = document.getElementById('gb-file-input').value;
+        var filePath = document.getElementById('main-file-input').value;
         var fileName = filePath.split('\\').pop().split('/').pop();
         name = 'File: '+fileName;
     };
-    for (elem of document.querySelectorAll('.gb-source-title')) {
+    for (elem of document.querySelectorAll('.main-source-title')) {
         elem.innerText = name;
     };
-    var lvl = document.getElementById('gb-admin-level-select').value;
+    var lvl = document.getElementById('main-admin-level-select').value;
     if (lvl == '9') {
         lvl = 'Unknown';
     };
-    document.getElementById('stats-gb-level').innerText = lvl;
-    document.getElementById('stats-gb-area').innerText = stats.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
-    document.getElementById('stats-gb-circumf').innerText = stats.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
-    document.getElementById('stats-gb-vertices').innerText = stats.vertices.toLocaleString('en-US', {maximumFractionDigits:0});
-    document.getElementById('stats-gb-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / km';
-    document.getElementById('stats-gb-avglineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
-    document.getElementById('stats-gb-admincount').innerText = stats.adminCount;
+    document.getElementById('stats-main-level').innerText = lvl;
+    document.getElementById('stats-main-area').innerText = stats.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
+    document.getElementById('stats-main-circumf').innerText = stats.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
+    document.getElementById('stats-main-vertices').innerText = stats.vertices.toLocaleString('en-US', {maximumFractionDigits:0});
+    document.getElementById('stats-main-avglinedens').innerText = stats.avgLineDensity.toFixed(1) + ' / km';
+    document.getElementById('stats-main-avglineres').innerText = stats.avgLineResolution.toFixed(1) + ' m';
+    document.getElementById('stats-main-admincount').innerText = stats.adminCount;
 };
 
 function updateComparisonStats(features) {

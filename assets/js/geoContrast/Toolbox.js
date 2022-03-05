@@ -4,7 +4,7 @@
 
 // layer definitions
 
-var gbStyle = new ol.style.Style({
+var mainStyle = new ol.style.Style({
     fill: new ol.style.Fill({
         color: 'rgba(220, 220, 255, 0.3)',
     }),
@@ -13,9 +13,9 @@ var gbStyle = new ol.style.Style({
         width: 2.5,
     }),
 });
-var gbLayer = new ol.layer.Vector({
+var mainLayer = new ol.layer.Vector({
     title: "Main boundary",
-    style: gbStyle,
+    style: mainStyle,
 });
 
 var comparisonStyle = new ol.style.Style({
@@ -86,7 +86,7 @@ var map = new ol.Map({
             source: new ol.source.OSM({crossOrigin: 'anonymous'})
             }),
         */
-        gbLayer,
+        mainLayer,
         comparisonLayer
     ],
     view: new ol.View({
@@ -100,7 +100,7 @@ map.on('singleclick', function(evt) {
     let mainFeat = null;
     let comparisonFeat = null;
     map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-        if (layer === gbLayer) {
+        if (layer === mainLayer) {
             mainFeat = feature
         } else if (layer === comparisonLayer) {
             comparisonFeat = feature
@@ -114,7 +114,7 @@ map.on('singleclick', function(evt) {
 
 function toggleMainLayer() {
     var check = document.getElementById('toggle-layer-main');
-    gbLayer.setVisible(check.checked);
+    mainLayer.setVisible(check.checked);
 };
 
 function toggleComparisonLayer() {
@@ -143,7 +143,7 @@ function onSuccess (data) {
     // update countries
     updateCountryDropdown();
     // update main sources
-    updateGbSourceDropdown();
+    updateMainSourceDropdown();
     // update comparison sources
     updateComparisonSourceDropdown();
 };
@@ -164,7 +164,7 @@ loadGeoContrastMetadata(onSuccess);
 -->
 */
 
-function handleGbFileUpload(evt) {
+function handleMainFileUpload(evt) {
     var files = evt.target.files;
     
     // get file contents as a base64 encoded url string
@@ -182,7 +182,7 @@ function handleGbFileUpload(evt) {
                 overlaps: false,
             });
             // update the layer
-            updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
+            updateMainLayerFromGeoJSON(source, geojson, zoomToExtent=true);
         };
         // read as data url
         reader.readAsText(file);
@@ -202,7 +202,7 @@ function handleGbFileUpload(evt) {
                     paths.push([path,displayName]);
                 };
             };
-            updateGbFileDropdown(paths);
+            updateMainFileDropdown(paths);
         };
         reader.readAsBinaryString(file);
     };
@@ -261,9 +261,9 @@ function handleComparisonFileUpload(evt) {
 ////////////////////////
 // update file dropdown stuff
 
-function updateGbFileDropdown(paths) {
+function updateMainFileDropdown(paths) {
     // activate and clear the dropdown
-    var select = document.getElementById('gb-file-select');
+    var select = document.getElementById('main-file-select');
     select.disabled = false;
     select.innerHTML = '';
     // populate the dropdown
@@ -274,7 +274,7 @@ function updateGbFileDropdown(paths) {
         select.appendChild(opt);
     };
     // force change
-    gbFileDropdownChanged();
+    mainFileDropdownChanged();
 };
 
 function updateComparisonFileDropdown(paths) {
@@ -301,15 +301,15 @@ function updateComparisonFileDropdown(paths) {
 
 //////////////////////
 // file dropdown changed
-function gbFileDropdownChanged() {
+function mainFileDropdownChanged() {
     // first clear previous info
-    clearGbInfo();
-    clearGbStats();
-    clearMatchTable(); //clearGbNames();
+    clearMainInfo();
+    clearMainStats();
+    clearMatchTable(); //clearMainNames();
     clearTotalEquality();
     // get file info
-    var file = document.getElementById('gb-file-input').files[0];
-    var path = document.getElementById('gb-file-select').value;
+    var file = document.getElementById('main-file-input').files[0];
+    var path = document.getElementById('main-file-select').value;
     var subPath = path.split('.zip/')[1]; // only the relative path inside the zipfile
     // read
     reader = new FileReader();
@@ -339,7 +339,7 @@ function gbFileDropdownChanged() {
                 overlaps: false,
             });
             // update the layer
-            updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=true);
+            updateMainLayerFromGeoJSON(source, geojson, zoomToExtent=true);
         };
 
         // load using shapefile-js
@@ -416,8 +416,8 @@ function comparisonFileDropdownChanged() {
 ////////////////////////
 // update map layer stuff
 
-function zoomGbFeature(ID) {
-    var features = gbLayer.getSource().getFeatures();
+function zoomMainFeature(ID) {
+    var features = mainLayer.getSource().getFeatures();
     // find feature
     for (feature of features) {
         if (feature.getId() == ID) {
@@ -444,12 +444,12 @@ function zoomComparisonFeature(ID) {
     //map.getView().setZoom(map.getView().getZoom()-1);
 };
 
-function updateGbLayer(zoomToExtent=false) {
-    // get gb params
+function updateMainLayer(zoomToExtent=false) {
+    // get main params
     iso = document.getElementById('country-select').value;
     // get comparison params
-    level = document.getElementById('gb-admin-level-select').value;
-    sourceName = document.getElementById('gb-boundary-select').value;
+    level = document.getElementById('main-admin-level-select').value;
+    sourceName = document.getElementById('main-boundary-select').value;
     if (sourceName == null) {
         return
     };
@@ -457,7 +457,7 @@ function updateGbLayer(zoomToExtent=false) {
     var source = new ol.source.Vector({
         overlaps: false,
     });
-    gbLayer.setSource(source);
+    mainLayer.setSource(source);
     // zoom after source has finished loading
     if (zoomToExtent) {
         source.on('change', function() {
@@ -472,10 +472,10 @@ function updateGbLayer(zoomToExtent=false) {
     source.on('change', function() {
         //alert('main loaded, update info');
         features = source.getFeatures();
-        updateGbStats(features);
-        updateGbFieldsDropdown(features);
-        //updateGbNames(features);
-        updateGbInfo(features);
+        updateMainStats(features);
+        updateMainFieldsDropdown(features);
+        //updateMainNames(features);
+        updateMainInfo(features);
         calcMatchTable();
         //calcBoundaryMakeupTables();
     });
@@ -488,7 +488,7 @@ function updateGbLayer(zoomToExtent=false) {
 };
 
 function updateComparisonLayer(zoomToExtent=false) {
-    // get gb params
+    // get main params
     iso = document.getElementById('country-select').value;
     // get comparison params
     level = document.getElementById('comparison-admin-level-select').value;
@@ -530,13 +530,13 @@ function updateComparisonLayer(zoomToExtent=false) {
     loadGeoContrastSource(source, iso, level, sourceName);
 };
 
-function clearGbLayer() {
+function clearMainLayer() {
     source = new ol.source.Vector({
         url: null,
         format: new ol.format.TopoJSON({}),
         overlaps: false,
     });
-    gbLayer.setSource(source);
+    mainLayer.setSource(source);
 };
 
 function clearComparisonLayer() {
@@ -548,14 +548,14 @@ function clearComparisonLayer() {
     comparisonLayer.setSource(source);
 };
 
-function updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
+function updateMainLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
     // set the new source
-    gbLayer.setSource(source);
+    mainLayer.setSource(source);
     // zoom to new source after source has finished loading
     if (zoomToExtent) {
         source.on('change', function() {
             //alert('new bbox: '+source.getExtent());
-            // get combined extent of gb and uploaded file
+            // get combined extent of main and uploaded file
             extent = ol.extent.createEmpty();
             ol.extent.extend(extent, source.getExtent());
             ol.extent.extend(extent, comparisonLayer.getSource().getExtent());
@@ -569,10 +569,10 @@ function updateGbLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
     source.on('change', function() {
         //alert('main loaded, update info');
         features = source.getFeatures();
-        updateGbStats(features);
-        updateGbFieldsDropdown(features);
-        //updateGbNames(features);
-        updateGbInfo(features);
+        updateMainStats(features);
+        updateMainFieldsDropdown(features);
+        //updateMainNames(features);
+        updateMainInfo(features);
         calcMatchTable();
     });
     // notify if failed to load source
@@ -590,10 +590,10 @@ function updateComparisonLayerFromGeoJSON(source, geojson, zoomToExtent=false) {
     if (zoomToExtent) {
         source.on('change', function() {
             //alert('new bbox: '+source.getExtent());
-            // get combined extent of gb and uploaded file
+            // get combined extent of main and uploaded file
             extent = ol.extent.createEmpty();
             ol.extent.extend(extent, source.getExtent());
-            ol.extent.extend(extent, gbLayer.getSource().getExtent());
+            ol.extent.extend(extent, mainLayer.getSource().getExtent());
             // zoom to extent
             map.getView().fit(extent);
             // zoom out a little
@@ -679,10 +679,10 @@ function updateCountryDropdown() {
 
 // admin level
 
-function updateGbAdminLevelDropdown() {
+function updateMainAdminLevelDropdown() {
     // NOTE: requires that geoContrastMetadata has already been populated
     // get admin-level dropdown
-    var select = document.getElementById('gb-admin-level-select');
+    var select = document.getElementById('main-admin-level-select');
     var selectVal = select.value;
     // clear all existing dropdown options
     select.innerHTML = '';
@@ -690,7 +690,7 @@ function updateGbAdminLevelDropdown() {
     var metadata = geoContrastMetadata;
     // get current country and comparison source
     var currentIso = document.getElementById('country-select').value;
-    var currentSource = document.getElementById('gb-boundary-select').value;
+    var currentSource = document.getElementById('main-boundary-select').value;
     // find available admin-levels for country
     var adminLevelsSeen = [];
     var adminLevels = [];
@@ -730,7 +730,7 @@ function updateGbAdminLevelDropdown() {
         select.value = 'ADM1';
     };
     // force dropdown change
-    gbAdminLevelChanged();
+    mainAdminLevelChanged();
 };
 
 function updateComparisonAdminLevelDropdown() {
@@ -789,15 +789,15 @@ function updateComparisonAdminLevelDropdown() {
 
 // sources
 
-function openGbSourcePopup() {
-    popup = document.getElementById('gb-source-popup');
+function openMainSourcePopup() {
+    popup = document.getElementById('main-source-popup');
     popup.className = "popup";
-    tableDiv = popup.querySelector('#gb-sources-table').parentNode;
+    tableDiv = popup.querySelector('#main-sources-table').parentNode;
     tableDiv.scrollTop = 0;
 };
 
-function closeGbSourcePopup() {
-    popup = document.getElementById('gb-source-popup');
+function closeMainSourcePopup() {
+    popup = document.getElementById('main-source-popup');
     popup.className = "popup is-hidden is-visually-hidden";
 };
 
@@ -813,12 +813,12 @@ function closeComparisonSourcePopup() {
     popup.className = "popup is-hidden is-visually-hidden";
 };
 
-function updateGbSourceTable() {
-    //console.log('update gb source table');
+function updateMainSourceTable() {
+    //console.log('update main source table');
     var currentIso = document.getElementById('country-select').value;
-    var currentLevel = document.getElementById('gb-admin-level-select').value;
+    var currentLevel = document.getElementById('main-admin-level-select').value;
     // clear sources table
-    var table = document.querySelector('#gb-sources-table tbody');
+    var table = document.querySelector('#main-sources-table tbody');
     table.innerHTML = '';
     // get geoContrast metadata
     var metadata = geoContrastMetadata;
@@ -840,7 +840,7 @@ function updateGbSourceTable() {
     
     // sort alphabetically
     sortBy(sourceRows, 'boundarySource-1');
-    var currentSource = document.getElementById("gb-boundary-select").value;
+    var currentSource = document.getElementById("main-boundary-select").value;
     /*
     for (sourceRow of sourceRows) {
         if (sourceRow['boundarySource-1']==currentSource) {
@@ -880,12 +880,12 @@ function updateGbSourceTable() {
             but.style.filter = 'brightness(1000)';
         };
         function onclick() {
-            var sel = document.getElementById("gb-boundary-select");
+            var sel = document.getElementById("main-boundary-select");
             sel.value = this.data;
             // force dropdown change
-            gbSourceChanged();
+            mainSourceChanged();
             // close
-            closeGbSourcePopup();
+            closeMainSourcePopup();
         };
         but.onclick = onclick;
         //but.setAttribute('onclick', onclick);
@@ -930,15 +930,15 @@ function updateGbSourceTable() {
     };
 };
 
-function updateGbSourceDropdown() {
-    //alert('update gb boundary dropdown');
+function updateMainSourceDropdown() {
+    //alert('update main boundary dropdown');
     // update source table
-    updateGbSourceTable();
+    updateMainSourceTable();
     // get current country and level
     var currentIso = document.getElementById('country-select').value;
-    var currentLevel = document.getElementById('gb-admin-level-select').value;
+    var currentLevel = document.getElementById('main-admin-level-select').value;
     // get source dropdown
-    var select = document.getElementById('gb-boundary-select');
+    var select = document.getElementById('main-boundary-select');
     var selectVal = select.value;
     // clear all existing dropdown options
     select.innerHTML = '';
@@ -994,7 +994,7 @@ function updateGbSourceDropdown() {
         select.value = sources[0];
     };
     // force dropdown change
-    gbSourceChanged();
+    mainSourceChanged();
 };
 
 function updateComparisonSourceTable() {
@@ -1198,7 +1198,7 @@ function updateGetParams() {
     if (select.value == '') {return}; // to avoid errors at startup when not all selects have been populated
     urlParams.set('country', select.value);
     // set main source
-    var select = document.getElementById('gb-boundary-select');
+    var select = document.getElementById('main-boundary-select');
     if (select.value == '') {return}; // to avoid errors at startup when not all selects have been populated
     urlParams.set('mainSource', select.value);
     // set comparison source
@@ -1206,7 +1206,7 @@ function updateGetParams() {
     if (select.value == '') {return}; // to avoid errors at startup when not all selects have been populated
     urlParams.set('comparisonSource', select.value);
     // set main adm level
-    var select = document.getElementById('gb-admin-level-select');
+    var select = document.getElementById('main-admin-level-select');
     if (select.value == '') {return}; // to avoid errors at startup when not all selects have been populated
     urlParams.set('mainLevel', select.value[select.value.length-1]); // only the adm number
     // set comparison adm level
@@ -1224,16 +1224,16 @@ function updateGetParams() {
 
 function countryChanged() {
     //alert('country changed');
-    updateGbAdminLevelDropdown();
+    updateMainAdminLevelDropdown();
     updateComparisonAdminLevelDropdown();
     //updateGetParams();
 };
 
 // admin levels
 
-function gbAdminLevelChanged() {
+function mainAdminLevelChanged() {
     //alert('comparison admin-level changed');
-    updateGbSourceDropdown();
+    updateMainSourceDropdown();
     //updateGetParams();
 };
 
@@ -1245,40 +1245,40 @@ function comparisonAdminLevelChanged() {
 
 // sources
 
-function gbSourceChanged() {
+function mainSourceChanged() {
     //alert('main source changed');
     // update source table
-    updateGbSourceTable();
+    updateMainSourceTable();
     // empty misc info
-    clearGbInfo();
-    clearGbStats();
-    clearMatchTable(); //clearGbNames();
+    clearMainInfo();
+    clearMainStats();
+    clearMatchTable(); //clearMainNames();
     clearTotalEquality();
     // clear comparison layer
-    clearGbLayer();
+    clearMainLayer();
     // check which comparison source was selected
-    source = document.getElementById('gb-boundary-select').value;
+    source = document.getElementById('main-boundary-select').value;
     if (source == 'none' | source == '') {
         // activate admin level button
-        document.getElementById('gb-admin-level-select').disabled = false;
+        document.getElementById('main-admin-level-select').disabled = false;
         // hide file button div
-        document.getElementById('gb-file-div').style.display = 'none';
+        document.getElementById('main-file-div').style.display = 'none';
     } else if (source == 'upload') {
         // disable admin level button
-        document.getElementById('gb-admin-level-select').disabled = true;
+        document.getElementById('main-admin-level-select').disabled = true;
         // reset
-        document.getElementById('gb-file-input').value = null;
-        document.getElementById('gb-file-select').innerHTML = '<option value="" disabled selected hidden>(Please select a boundary)</option>';
-        document.getElementById('gb-file-select').disabled = true;
+        document.getElementById('main-file-input').value = null;
+        document.getElementById('main-file-select').innerHTML = '<option value="" disabled selected hidden>(Please select a boundary)</option>';
+        document.getElementById('main-file-select').disabled = true;
         // show file button div
-        document.getElementById('gb-file-div').style.display = 'block';
+        document.getElementById('main-file-div').style.display = 'block';
     } else {
         // activate admin level button
-        document.getElementById('gb-admin-level-select').disabled = false;
+        document.getElementById('main-admin-level-select').disabled = false;
         // hide file button div
-        document.getElementById('gb-file-div').style.display = 'none';
+        document.getElementById('main-file-div').style.display = 'none';
         // update main layer with external geoContrast topojson
-        updateGbLayer(zoomToExtent=true);
+        updateMainLayer(zoomToExtent=true);
     };
     updateGetParams();
 };
@@ -1420,7 +1420,7 @@ async function renderFrontPage(mapImgData) {
                 <ul id="layer-list">
                     <li>
                         <hr id="legend-symbol-main">
-                        <span class="gb-source-title">Main boundary</span>
+                        <span class="main-source-title">Main boundary</span>
                     </li>
                     <li>
                         <hr id="legend-symbol-comparison">
@@ -1432,9 +1432,9 @@ async function renderFrontPage(mapImgData) {
     `
     wrapper.appendChild(mapDiv);
     // populate legend
-    var mainSource = document.querySelector('.gb-source-title').innerText;
+    var mainSource = document.querySelector('.main-source-title').innerText;
     var comparisonSource = document.querySelector('.comp-source-title').innerText;
-    mapDiv.querySelector('.gb-source-title').innerText = mainSource;
+    mapDiv.querySelector('.main-source-title').innerText = mainSource;
     mapDiv.querySelector('.comp-source-title').innerText = comparisonSource;
     // set map img src
     var mapImg = wrapper.querySelector('#map-image-for-printing');

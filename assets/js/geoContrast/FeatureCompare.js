@@ -115,7 +115,7 @@ function openFeatureComparePopup(feat1, feat2) {
     };
     // get names
     let mainName = '-';
-    var mainNameField = document.getElementById('gb-names-table-select').value;
+    var mainNameField = document.getElementById('main-names-table-select').value;
     let comparisonName = '-';
     var comparisonNameField = document.getElementById('comparison-names-table-select').value;
     if (feat1 != null) {
@@ -178,16 +178,16 @@ function openFeatureComparePopup(feat1, feat2) {
     };
     // update the spatial stats
     if (feat1 != null) {
-        var lvl = document.getElementById('gb-admin-level-select').value;
+        var lvl = document.getElementById('main-admin-level-select').value;
         if (lvl == '9') {
             lvl = 'Unknown';
         };
-        document.getElementById('feature-compare-stats-gb-level').innerText = lvl;
-        document.getElementById('feature-compare-stats-gb-area').innerText = stats1.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
-        document.getElementById('feature-compare-stats-gb-circumf').innerText = stats1.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
-        document.getElementById('feature-compare-stats-gb-vertices').innerText = stats1.vertices.toLocaleString('en-US');
-        document.getElementById('feature-compare-stats-gb-avglinedens').innerText = stats1.avgLineDensity.toFixed(1) + ' / km';
-        document.getElementById('feature-compare-stats-gb-avglineres').innerText = stats1.avgLineResolution.toFixed(1) + ' m';
+        document.getElementById('feature-compare-stats-main-level').innerText = lvl;
+        document.getElementById('feature-compare-stats-main-area').innerText = stats1.area.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km2';
+        document.getElementById('feature-compare-stats-main-circumf').innerText = stats1.circumf.toLocaleString('en-US', {maximumFractionDigits:0}) + ' km';
+        document.getElementById('feature-compare-stats-main-vertices').innerText = stats1.vertices.toLocaleString('en-US');
+        document.getElementById('feature-compare-stats-main-avglinedens').innerText = stats1.avgLineDensity.toFixed(1) + ' / km';
+        document.getElementById('feature-compare-stats-main-avglineres').innerText = stats1.avgLineResolution.toFixed(1) + ' m';
     };
     if (feat2 != null) {
         var lvl = document.getElementById('comparison-admin-level-select').value;
@@ -221,7 +221,7 @@ function openFeatureComparePopup(feat1, feat2) {
             [matchFeature,stats] = x;
             var ID2 = matchFeature.getId();
             var name2 = matchFeature.getProperties()[comparisonNameField];
-            var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
+            var getFeature1Js = 'mainLayer.getSource().getFeatureById('+ID+')';
             var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
             var onclick = "document.getElementById('close-compare-popup').click(); " + 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
             var nameLink = '<span class="link" onclick="'+onclick+'">'+name2+'</span>';
@@ -232,7 +232,7 @@ function openFeatureComparePopup(feat1, feat2) {
         document.getElementById('feature-compare-stats-comp-related').innerHTML = cellContent;
     };
     if (feat1 == null) {
-        var features1 = gbLayer.getSource().getFeatures();
+        var features1 = mainLayer.getSource().getFeatures();
         related = calcSpatialRelations(feat2, features1);
         // sort
         related = sortSpatialRelations(related, 'equality', 0);
@@ -250,7 +250,7 @@ function openFeatureComparePopup(feat1, feat2) {
             [matchFeature,stats] = x;
             var ID = matchFeature.getId();
             var name1 = matchFeature.getProperties()[mainNameField];
-            var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
+            var getFeature1Js = 'mainLayer.getSource().getFeatureById('+ID+')';
             var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
             var onclick = "document.getElementById('close-compare-popup').click(); " + 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
             var nameLink = '<span class="link" onclick="'+onclick+'">'+name1+'</span>';
@@ -258,7 +258,7 @@ function openFeatureComparePopup(feat1, feat2) {
             var shareDiv = '<div class="stats-percent" style="height:20px; width:50px"><span style="--data-width:'+stats.equality*100+'%"></span><p>'+share+'</p></div>';
             cellContent += '<div style="display:flex; flex-direction:row"><div>' + shareDiv + '</div><div style="word-wrap:break-word">' + nameLink + '</div></div>';
         };
-        document.getElementById('feature-compare-stats-gb-related').innerHTML = cellContent;
+        document.getElementById('feature-compare-stats-main-related').innerHTML = cellContent;
     };
     // prep for map
     var geojWriter = new ol.format.GeoJSON();
@@ -338,7 +338,7 @@ function openFeatureComparePopup(feat1, feat2) {
                 var rel2 = 'PARTLY INSIDE';
             };
         };
-        document.getElementById('feature-compare-stats-gb-relation').innerText = rel1;
+        document.getElementById('feature-compare-stats-main-relation').innerText = rel1;
         document.getElementById('feature-compare-stats-comp-relation').innerText = rel2;
     };
     // show popup

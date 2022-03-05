@@ -5,7 +5,7 @@ function clearMatchTable() {
     tbody.innerHTML = "";
     // clear name fields dropdown
     /*
-    var sel = document.getElementById('gb-names-table-select');
+    var sel = document.getElementById('main-names-table-select');
     sel.innerHTML = "";
     var sel = document.getElementById('comparison-names-table-select');
     sel.innerHTML = "";
@@ -14,14 +14,14 @@ function clearMatchTable() {
     document.getElementById('nomatch-div').innerHTML = '';
 };
 
-function updateGbNames(features) {
+function updateMainNames(features) {
     ////////////////////
     // table div
     // clear old table rows if exists
     var tbody = document.querySelector('#match-table tbody');
     tbody.innerHTML = "";
     // get name from dropdown
-    var nameField = document.getElementById('gb-names-table-select').value;
+    var nameField = document.getElementById('main-names-table-select').value;
     // sort by name
     features.sort(function (a,b) {
                     if (a.getProperties()[nameField] < b.getProperties()[nameField]) {
@@ -38,7 +38,7 @@ function updateGbNames(features) {
         var cell = document.createElement("td");
         var name = feature.getProperties()[nameField];
         var ID = feature.getId();
-        var getFeatureJs = 'gbLayer.getSource().getFeatureById('+ID+')';
+        var getFeatureJs = 'mainLayer.getSource().getFeatureById('+ID+')';
         var onclick = 'openFeatureComparePopup('+getFeatureJs+',null)';
         cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
         row.appendChild(cell);
@@ -63,9 +63,9 @@ function percentUniqueField(features, field) {
     return seen.length / total;
 };
 
-function updateGbFieldsDropdown(features) {
+function updateMainFieldsDropdown(features) {
     // clear existing fields dropdown
-    var sel = document.getElementById('gb-names-table-select');
+    var sel = document.getElementById('main-names-table-select');
     sel.innerHTML = "";
     // get all unique text fieldnames
     var feature = features[0];
@@ -82,7 +82,7 @@ function updateGbFieldsDropdown(features) {
         };
     };
     // update the dropdown
-    var select = document.getElementById('gb-names-table-select');
+    var select = document.getElementById('main-names-table-select');
     select.innerHTML = "";
     for (field of fields) {
         var opt = document.createElement('option');
@@ -92,8 +92,8 @@ function updateGbFieldsDropdown(features) {
     };
     // get geoContrast metadata
     var iso = document.getElementById('country-select').value;
-    var level = document.getElementById('gb-admin-level-select').value;
-    var sourceName = document.getElementById('gb-boundary-select').value;
+    var level = document.getElementById('main-admin-level-select').value;
+    var sourceName = document.getElementById('main-boundary-select').value;
     // get nameField from metadata
     let nameField = '';
     if (sourceName != 'upload') {
@@ -200,7 +200,7 @@ function updateComparisonFieldsDropdown(features) {
     select.value = nameField;
 };
 
-function gbFieldsDropdownChanged() {
+function mainFieldsDropdownChanged() {
     var comparisonFeatures = comparisonLayer.getSource().getFeatures();
     updateMatchTable(window.bestMatches, comparisonFeatures);
 };
@@ -254,14 +254,14 @@ function calcMatchTable() {
     document.querySelector('#total-similarity p').innerText = status;
     
     // get features 
-    var features = gbLayer.getSource().getFeatures();
+    var features = mainLayer.getSource().getFeatures();
     var comparisonFeatures = comparisonLayer.getSource().getFeatures();
     if (features.length == 0 | comparisonFeatures.length == 0) {
         return;
     };
 
     // add in main names while calculating
-    updateGbNames(features);
+    updateMainNames(features);
 
     // define on success
     function onSuccess(results) {
@@ -365,7 +365,7 @@ function updateTotalEquality(allMatches, bestMatches, comparisonFeatures) {
 };
 
 function updateMatchTable(bestMatches, comparisonFeatures) {
-    var mainNameField = document.getElementById('gb-names-table-select').value;
+    var mainNameField = document.getElementById('main-names-table-select').value;
     var comparisonNameField = document.getElementById('comparison-names-table-select').value;
 
     // sort by name
@@ -395,7 +395,7 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
             var cell = document.createElement("td");
             var name = feature.properties[mainNameField];
             var ID = feature.id;
-            var getFeatureJs = 'gbLayer.getSource().getFeatureById('+ID+')';
+            var getFeatureJs = 'mainLayer.getSource().getFeatureById('+ID+')';
             var onclick = 'openFeatureComparePopup('+getFeatureJs+',null)';
             cell.innerHTML = '<a style="cursor:pointer" onclick="'+onclick+'">'+name+'</a>';
             row.appendChild(cell);
@@ -406,7 +406,7 @@ function updateMatchTable(bestMatches, comparisonFeatures) {
                 var ID2 = matchFeature.id;
                 matchIDs.push(ID2);
                 var name2 = matchFeature.properties[comparisonNameField];
-                var getFeature1Js = 'gbLayer.getSource().getFeatureById('+ID+')';
+                var getFeature1Js = 'mainLayer.getSource().getFeatureById('+ID+')';
                 var getFeature2Js = 'comparisonLayer.getSource().getFeatureById('+ID2+')';
                 var onclick = 'openFeatureComparePopup('+getFeature1Js+','+getFeature2Js+')';
                 var nameLink = '<a style="cursor:pointer" onclick="'+onclick+'">'+name2+'</a>';

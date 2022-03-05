@@ -168,7 +168,7 @@ ul li{
     top:0;
 }
 
-.stats-percent-gb span {
+.stats-percent-main span {
     background-color:#319FD3;
 }
 
@@ -186,7 +186,7 @@ ul li{
     text-decoration: underline;
 }
 
-.gb-link {
+.main-link {
     color:#319FD3; 
 }
 

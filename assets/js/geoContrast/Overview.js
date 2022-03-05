@@ -1,7 +1,7 @@
 
-function clearGbInfo() {
+function clearMainInfo() {
     // clear old div contents if exists
-    var div = document.getElementById('gb-info-div');
+    var div = document.getElementById('main-info-div');
     div.innerHTML = '';
 };
 
@@ -11,25 +11,25 @@ function clearComparisonInfo() {
     div.innerHTML = '';
 };
 
-function updateGbInfo(features) {
-    //alert('update gb info');
+function updateMainInfo(features) {
+    //alert('update main info');
     // info div
-    var div = document.getElementById('gb-info-div');
+    var div = document.getElementById('main-info-div');
     // clear previous contents
     div.innerHTML = '';
     // get geoContrast metadata
     var iso = document.getElementById('country-select').value;
-    var level = document.getElementById('gb-admin-level-select').value;
-    var sourceName = document.getElementById('gb-boundary-select').value;
+    var level = document.getElementById('main-admin-level-select').value;
+    var sourceName = document.getElementById('main-boundary-select').value;
     if (sourceName == 'upload') {
         // set unknown values
-        var gbSource = 'Unknown';
-        var gbSourceUrl = '';
-        var gbLicense = 'Unknown';
-        var gbLicenseUrl = '';
-        var gbYear = 'Unknown';
-        var gbUpdated = 'Unknown';
-        var gbDownloadUrl = '';
+        var mainSource = 'Unknown';
+        var mainSourceUrl = '';
+        var mainLicense = 'Unknown';
+        var mainLicenseUrl = '';
+        var mainYear = 'Unknown';
+        var mainUpdated = 'Unknown';
+        var mainDownloadUrl = '';
     } else {
         // loop metadata table until reach row matching current iso and level
         var metadata = geoContrastMetadata;
@@ -38,16 +38,16 @@ function updateGbInfo(features) {
             var rowLevel = row.boundaryType;
             var rowSource = row['boundarySource-1'];
             if (rowSource == sourceName & rowIso == iso & rowLevel == level) {
-                var gbSource = row['boundarySource-1'];
+                var mainSource = row['boundarySource-1'];
                 if (row['boundarySource-2'] != '') {
-                    gbSource += ' / ' + row['boundarySource-2'];
+                    mainSource += ' / ' + row['boundarySource-2'];
                 };
-                var gbSourceUrl = parseURL(row.boundarySourceURL);
-                var gbLicense = row.boundaryLicense;
-                var gbLicenseUrl = parseURL(row.licenseSource);
-                var gbYear = row.boundaryYearRepresented;
-                var gbUpdated = row.sourceDataUpdateDate;
-                var gbDownloadUrl = parseURL(row.apiURL);
+                var mainSourceUrl = parseURL(row.boundarySourceURL);
+                var mainLicense = row.boundaryLicense;
+                var mainLicenseUrl = parseURL(row.licenseSource);
+                var mainYear = row.boundaryYearRepresented;
+                var mainUpdated = row.sourceDataUpdateDate;
+                var mainDownloadUrl = parseURL(row.apiURL);
                 break;
             };
         };
@@ -65,15 +65,15 @@ function updateGbInfo(features) {
         info.innerHTML += html;
     } else {
         // info
-        if (gbSourceUrl != '') {
-            var sourceEntry = '<a href="'+gbSourceUrl+'" target="_blank">'+gbSource+'</a>';
+        if (mainSourceUrl != '') {
+            var sourceEntry = '<a href="'+mainSourceUrl+'" target="_blank">'+mainSource+'</a>';
         } else {
-            var sourceEntry = gbSource;
+            var sourceEntry = mainSource;
         };
-        if (gbLicenseUrl != '') {
-            var licenseEntry = '<a href="'+gbLicenseUrl+'" target="_blank">'+gbLicense+'</a>';
+        if (mainLicenseUrl != '') {
+            var licenseEntry = '<a href="'+mainLicenseUrl+'" target="_blank">'+mainLicense+'</a>';
         } else {
-            var licenseEntry = gbLicense;
+            var licenseEntry = mainLicense;
         };
         if (sourceName != 'upload') {
             info.innerHTML += '<b>Source: </b>';
@@ -82,18 +82,18 @@ function updateGbInfo(features) {
             info.innerHTML += '<b>License: </b>';
             info.innerHTML += licenseEntry;
             info.innerHTML += '<br>';
-            info.innerHTML += '<b>Year the Boundary Represents: </b>'+gbYear;
+            info.innerHTML += '<b>Year the Boundary Represents: </b>'+mainYear;
             info.innerHTML += '<br>';
-            info.innerHTML += '<b>Last Update: </b>'+gbUpdated;
+            info.innerHTML += '<b>Last Update: </b>'+mainUpdated;
             info.innerHTML += '<br>';
         };
     };
     div.appendChild(info);
     // also update some redundant fields in the stats tables
-    document.getElementById('stats-gb-source').innerHTML = sourceEntry;
-    document.getElementById('stats-gb-license').innerHTML = licenseEntry;
-    document.getElementById('stats-gb-year').innerHTML = gbYear;
-    document.getElementById('stats-gb-updated').innerHTML = gbUpdated;
+    document.getElementById('stats-main-source').innerHTML = sourceEntry;
+    document.getElementById('stats-main-license').innerHTML = licenseEntry;
+    document.getElementById('stats-main-year').innerHTML = mainYear;
+    document.getElementById('stats-main-updated').innerHTML = mainUpdated;
 };
 
 function updateComparisonInfo(features) {

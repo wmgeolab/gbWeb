@@ -141,23 +141,23 @@ ul li{
 
 
 
-#gb-file-table {
+#main-file-table {
     border-collapse: collapse;
     width: 100%;
 }
 
-#gb-file-table td, #gb-file-table th {
+#main-file-table td, #main-file-table th {
     max-width: 150px;
     word-wrap: break-word;
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#gb-file-table tr:nth-child(even){background-color: #f2f2f2;}
+#main-file-table tr:nth-child(even){background-color: #f2f2f2;}
 
-#gb-file-table tr:hover {background-color: #ddd;}
+#main-file-table tr:hover {background-color: #ddd;}
 
-#gb-file-table th {
+#main-file-table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -167,23 +167,23 @@ ul li{
 
 
 
-.gb-table {
+.main-table {
     border-collapse: collapse;
     width: 100%;
 }
 
-.gb-table td, .gb-table th {
+.main-table td, .main-table th {
     max-width: 150px;
     word-wrap: break-word;
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-.gb-table tr:nth-child(even){background-color: #f2f2f2;}
+.main-table tr:nth-child(even){background-color: #f2f2f2;}
 
-.gb-table tr:hover {background-color: #ddd;}
+.main-table tr:hover {background-color: #ddd;}
 
-.gb-table th {
+.main-table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -294,7 +294,7 @@ ul li{
     background-color:rgb(241, 145, 0);
 }
 
-.stats-percent-gb span {
+.stats-percent-main span {
     background-color:#319FD3;
 }
 
@@ -312,7 +312,7 @@ ul li{
     text-decoration: underline;
 }
 
-.gb-link {
+.main-link {
     color:#319FD3; 
 }
 
