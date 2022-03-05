@@ -299,47 +299,10 @@ function openFeatureComparePopup(feat1, feat2) {
     };
     // update the stats entries
     if (feat1 != null & feat2 != null) {
-        //document.getElementById('feature-compare-equality').innerText = (stats.equality*100).toFixed(1) + '%';
-        //document.getElementById('feature-compare-contains').innerText = (stats.contains*100).toFixed(1) + '%';
-        //document.getElementById('feature-compare-within').innerText = (stats.within*100).toFixed(1) + '%';
         var share = (stats.equality * 100).toFixed(1) + '%';
         var shareDiv = document.getElementById('feature-compare-similarity'); 
         shareDiv.querySelector('span').style = '--data-width:'+stats.equality*100+'%';
         shareDiv.querySelector('p').innerText = 'Overlap: ' + share;
-        // figure out relationship
-        if ((stats.within >= 0.99) & (stats.contains >= 0.99)) {
-            var rel1 = 'EQUALS';
-            var rel2 = 'EQUALS';
-        } else if ((stats.within >= 0.99) | (stats.contains >= 0.99)) {
-            // either is >99%
-            if (stats.within > stats.contains) {
-                var rel2 = 'CONTAINS ALL OF';
-                var rel1 = 'FULLY INSIDE';
-            } else {
-                var rel1 = 'CONTAINS ALL OF';
-                var rel2 = 'FULLY INSIDE';
-            };
-        } else if ((stats.within >= 0.666) | (stats.contains >= 0.666)) {
-            // either is >66%
-            if (stats.within > stats.contains) {
-                var rel2 = 'CONTAINS MOST OF';
-                var rel1 = 'MOSTLY INSIDE';
-            } else {
-                var rel1 = 'CONTAINS MOST OF';
-                var rel2 = 'MOSTLY INSIDE';
-            };
-        } else {
-            // both are 0-66%
-            if (stats.within > stats.contains) {
-                var rel2 = 'CONTAINS PARTS OF';
-                var rel1 = 'PARTLY INSIDE';
-            } else {
-                var rel1 = 'CONTAINS PARTS OF';
-                var rel2 = 'PARTLY INSIDE';
-            };
-        };
-        document.getElementById('feature-compare-stats-main-relation').innerText = rel1;
-        document.getElementById('feature-compare-stats-comp-relation').innerText = rel2;
     };
     // show popup
     popup = document.getElementById('feature-compare-popup');
