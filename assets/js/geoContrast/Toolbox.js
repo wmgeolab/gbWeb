@@ -65,27 +65,6 @@ var map = new ol.Map({
                                             ]),
     layers: [
         baseMapLayer,
-        /*
-        new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
-                url:
-                'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
-                maxZoom: 20,
-                crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
-            })}),
-        new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                attributions: 'ESRI World Street Map',
-                url:
-                'http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-                maxZoom: 20,
-                crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
-            })}),
-        new ol.layer.Tile({
-            source: new ol.source.OSM({crossOrigin: 'anonymous'})
-            }),
-        */
         mainLayer,
         comparisonLayer
     ],
@@ -841,17 +820,6 @@ function updateMainSourceTable() {
     // sort alphabetically
     sortBy(sourceRows, 'boundarySource-1');
     var currentSource = document.getElementById("main-boundary-select").value;
-    /*
-    for (sourceRow of sourceRows) {
-        if (sourceRow['boundarySource-1']==currentSource) {
-            break;
-        };
-    };
-    console.log(sourceRows);
-    sourceRows.splice(sourceRows.indexOf(sourceRow), 1); // remove old
-    sourceRows.splice(0, 0, sourceRow); // add to start
-    console.log(sourceRows);
-    */
 
     // add row at bottom for local file upload
     uploadRow = {'boundarySource-1':'upload', // 'upload' is the value expected for the dropdown to work
@@ -1025,17 +993,6 @@ function updateComparisonSourceTable() {
     // sort alphabetically
     sortBy(sourceRows, 'boundarySource-1');
     var currentSource = document.getElementById("comparison-boundary-select").value;
-    /*
-    for (sourceRow of sourceRows) {
-        if (sourceRow['boundarySource-1']==currentSource) {
-            break;
-        };
-    };
-    console.log(sourceRows);
-    sourceRows.splice(sourceRows.indexOf(sourceRow), 1); // remove old
-    sourceRows.splice(0, 0, sourceRow); // add to start
-    console.log(sourceRows);
-    */
 
     // add row at bottom for local file upload
     uploadRow = {'boundarySource-1':'upload', // 'upload' is the value expected for the dropdown to work
