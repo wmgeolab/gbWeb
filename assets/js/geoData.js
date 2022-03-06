@@ -341,9 +341,13 @@ function read_geodata_data()
     metadata_text = "<b>" + metadata_text;
     var desc = document.getElementById("metadata-text");
 
-    
-
     desc.innerHTML = metadata_text;
+
+    var downloadbut = document.getElementById('csv_download');
+    var csv_url = get_raw_csv_file_url();
+    downloadbut.href = 'data:text/csv;charset=UTF-8,' + csv_url; // data:... is key to allowing download as file
+    var csv_name = csv_url.split('/').pop();
+    downloadbut.download = csv_name; // sets download file name
     
     var rows = return_object.split("\n");
 
@@ -644,8 +648,8 @@ function read_geodata_data()
     
 }
 
-// this function sends the user to a page with the raw json data when the "view raw data" button is pressed
-function goto_raw_csv_file()
+// this function determines the url of the data to download when the "view raw data" button is pressed
+function get_raw_csv_file_url()
 {
     var selection_menu = document.getElementById('csv_list');
 
@@ -653,5 +657,5 @@ function goto_raw_csv_file()
 
     var url = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/ADM0/" + selection_val + ".csv";
 
-    window.open(url)
+    return url;
 }
