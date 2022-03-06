@@ -355,8 +355,8 @@ function read_geodata_data()
     
     var rows = return_object.split("\n");
 
-    var table = document.getElementById("countries-table");
-    table.innerHTML = "";
+    var table_body = document.querySelector("#countries-table tbody");
+    table_body.innerHTML = "";
 
     var dict = {
 "ABW":"Aruba",
@@ -614,7 +614,7 @@ function read_geodata_data()
     var max = 0;
     var min = 0;
 
-    for (var i=0;i<rows.length;i++)
+    for (var i=1;i<rows.length;i++)
     {
 	if (rows[i] == "")
 	{
@@ -631,7 +631,7 @@ function read_geodata_data()
 	var country_name = dict[country]
 	
 	row_string = "<tr><td>" + country_name + "</td><td>" + data + "</td></tr>";
-	table.innerHTML += row_string;
+	table_body.innerHTML += row_string;
 	data = parseFloat(data);
 	if (data > max)
 	{
