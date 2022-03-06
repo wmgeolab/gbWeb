@@ -348,6 +348,10 @@ function read_geodata_data()
     downloadbut.href = 'data:text/csv;charset=UTF-8,' + csv_url; // data:... is key to allowing download as file
     var csv_name = csv_url.split('/').pop();
     downloadbut.download = csv_name; // sets download file name
+
+    var selection_text = selection_menu.options[selection_menu.selectedIndex].text;
+    var table_title = document.getElementById("countries-table-title");
+    table_title.innerText = selection_text;
     
     var rows = return_object.split("\n");
 
