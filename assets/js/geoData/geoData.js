@@ -341,14 +341,21 @@ function read_geodata_data()
     metadata_text = "<b>" + metadata_text;
     var desc = document.getElementById("metadata-text");
 
-    
-
     desc.innerHTML = metadata_text;
+
+    var downloadbut = document.getElementById('csv_download');
+    downloadbut.href = 'data:text/csv;charset=UTF-8,' + return_object; // data:... is key to allowing download as file
+    var csv_name = url.split('/').pop();
+    downloadbut.download = csv_name; // sets download file name
+
+    var selection_text = selection_menu.options[selection_menu.selectedIndex].text;
+    var table_title = document.getElementById("countries-table-title");
+    table_title.innerText = selection_text;
     
     var rows = return_object.split("\n");
 
-    var table = document.getElementById("countries-table");
-    table.innerHTML = "";
+    var table_body = document.querySelector("#countries-table tbody");
+    table_body.innerHTML = "";
 
     var dict = {
 "ABW":"Aruba",
@@ -606,7 +613,7 @@ function read_geodata_data()
     var max = 0;
     var min = 0;
 
-    for (var i=0;i<rows.length;i++)
+    for (var i=1;i<rows.length;i++)
     {
 	if (rows[i] == "")
 	{
@@ -623,7 +630,7 @@ function read_geodata_data()
 	var country_name = dict[country]
 	
 	row_string = "<tr><td>" + country_name + "</td><td>" + data + "</td></tr>";
-	table.innerHTML += row_string;
+	table_body.innerHTML += row_string;
 	data = parseFloat(data);
 	if (data > max)
 	{
@@ -644,14 +651,3 @@ function read_geodata_data()
     
 }
 
-// this function sends the user to a page with the raw json data when the "view raw data" button is pressed
-function goto_raw_csv_file()
-{
-    var selection_menu = document.getElementById('csv_list');
-
-    var selection_val = selection_menu.value;
-
-    var url = "https://raw.githubusercontent.com/wmgeolab/geoDataWeb/main/ancillaryData/gdOpen/sourceData/ADM0/" + selection_val + ".csv";
-
-    window.open(url)
-}

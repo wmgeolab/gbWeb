@@ -48,7 +48,7 @@
 </head>
 
 
-<script src="assets/js/geoData.js"></script>
+<script src="assets/js/geoData/geoData.js"></script>
 
 
 <body class="is-preload">
@@ -102,25 +102,30 @@
 
 									    <div class="row" style="margin-top:0px">
 									      <span><b>Select Dataset to Visualize</b></span>
-									      <select id="csv_list" style="margin-left:25px;margin-bottom:5px;">
+									      <select id="csv_list" style="margin-left:25px;margin-bottom:5px;" onchange="read_geodata_data()">
 
 									      </select>
+
+										  <script>add_options()</script>
  
 									    </div>
 
-									    <button type="button" style="font-size:0.6em" onclick="read_geodata_data()">Map Data</button>
-				 					    <button type="button" style="font-size:0.6em" onclick="goto_raw_csv_file()">Download Raw Data</button>
 
-									    
-									<p style="font-size:10px;"  id="metadata-text"></p>
-
-    <script>add_options()</script>
-				 					
-									
-                                        <div style="width:100%; margin-top:10px">
+										<div style="width:100%; margin-top:10px; margin-bottom:10px">
                                             <div id="map-legend" style="margin-left:10%; display:flex; flex-direction:column-reverse;">
                                             </div>
                                         </div>
+
+									    
+										<div style="max-height:330px; overflow:auto">
+											<p id="metadata-text" style="font-size:10px"></p>
+										</div>
+
+
+										<br>
+
+
+										<a id="csv_download" class="button" href="" style="font-size:0.6em" target="_blank">Download Raw Data</a>
                                         
                                         </div>
                                         
@@ -147,17 +152,19 @@
 					<div id="countries-overview" class="row box" style="width:100%; margin:15px 0px">
 						<div id="countries-overview-banner" style="width:100%; text-align:center">
 							<h2 style="margin-bottom:5px">Countries</h2>
+							<h5 id="countries-table-title"></h5>
 						</div>
 						<div style="width:100%">
 						  <table id="countries-table" style="margin-left:10px">
-						    <p>Select a csv to show data</p>
                                 <thead>
+									<tr>
+										<th>Country</th>
+										<th>Value</th>
+									</tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
-
-			  
 						</div>
 					</div>
 
@@ -295,8 +302,8 @@
 	<script src="assets/js/internalData.js"></script>
 	<script src="assets/js/internalSpatial.js"></script>
     <script src="assets/data/gb-countries-simple.js"></script>
-    <script src="assets/js/geoData/geoData_Map.js"></script>
-    <script src="assets/js/geoData/geoData_Country.js"></script>
+    <script src="assets/js/geoData/Map.js"></script>
+    <script src="assets/js/geoData/Country.js"></script>
 
 	<script>
 		read_geodata_data(); 
