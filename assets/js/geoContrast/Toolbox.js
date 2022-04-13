@@ -39,7 +39,7 @@ var baseMaps = {
     'maptiler': new ol.source.XYZ({
         attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
         url:
-        'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'aknzJQRnZg32XVVPrcYH',
+        'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'snhFre9GjLPBZf1tOZ0L',
         maxZoom: 20,
         crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
     }),
