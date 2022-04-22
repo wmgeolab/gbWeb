@@ -237,11 +237,20 @@
 							}
 
 						};
+
+					  var yearMutator = function (value, data, type, params, component) {
+					      if (value)
+					      {
+						  return value.substring(6,10) + '-' + value.substring(20,24);
+					      }
+					   
+					  };
+					  
 						var tableA = new Tabulator("#dataTableRep", {
 							ajaxURL: "https://www.geoboundaries.org/api/index.json", //ajax URL
-							height: screen.height * 0.60,
-							layout: "fitData",
-							autoResize:false,
+						        height: screen.height * 0.60,
+							layout: "fitColumns",
+							autoResize:true,
 							resizableColumns: true,
 							responsiveLayout: "collapse",
 							groupBy: ["Continent", "boundaryName"],
@@ -281,8 +290,8 @@
 									title: "UN SALB<br><span style='font-size:x-small;'>Authoritative. No <br />commercial use or <br />modification allowed.</span>",
 									cssClass: "salbHighlight",
 									columns: [
-										{ formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
-										{ title: "Year Represented", cssClass: "salbHighlight", width:"6px", field: "authBoundaryYearRepresented", visible: true, responsive: 1, headerVertical: true, },
+									    { formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
+									    { title: "Year Represented", cssClass: "salbHighlight", width: "10px",  mutator:yearMutator, field: "authBoundaryYearRepresented", visible: true, responsive: 1, headerVertical: true, },
 										{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", formatter: iconFormatter, responsive: 0, visible: true, visible: true, variableHeight: true, headerVertical: true, },
 										{ title: "Primary Source", cssClass: "salbHighlight", field: "authBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
 										{ title: "License", cssClass: "salbHighlight", field: "authBoundaryLicense", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
@@ -300,6 +309,7 @@
 							]
 						});
 
+					  tableA.redraw(true);
 
 					</script>
 
