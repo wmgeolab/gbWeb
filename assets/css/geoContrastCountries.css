@@ -60,9 +60,9 @@ Karim Bahgat
 }
 
 .toolbox {
-    padding-left: 2px;
+    padding-left: 0px;
     margin-top: 0px;
-    margin-left: 2px;
+    margin-left: 0px;
     height:600px;
 }
 
@@ -168,7 +168,7 @@ ul li{
     top:0;
 }
 
-.stats-percent-gb span {
+.stats-percent-main span {
     background-color:#319FD3;
 }
 
@@ -186,7 +186,7 @@ ul li{
     text-decoration: underline;
 }
 
-.gb-link {
+.main-link {
     color:#319FD3; 
 }
 

@@ -75,6 +75,13 @@
 					</header>
 
 					<div id="map-and-toolbox-div" class="row" style="width:100%; margin-left:0; margin-bottom:25px">
+
+						<ul class='etabs' style="display:flex; flex-direction:row; width:100%">
+							<li class='tab'><a href="geoContrastCountries.html">Global Boundaries</a></li>
+							<li class='tab active'><a href="geoContrast.html">Country Boundaries</a></li>
+							<li class='tab'><a href="geoData.html">Country Data</a></li>
+						</ul>
+
 						<div class="col-7 col-12-medium" style="padding-left:0">
 							<div id="fullscreen" class="fullscreen">
 								<div id="map" class="map">
@@ -110,21 +117,14 @@
 								</div>
 							</div>
 						</div>
+
 						<div class="col-5 col-12-medium" style="padding:0; ">
 							<div id="toolbox" class="toolbox">
 								
 								<div id="tab-container" class="tab-container">
-								
-								
-									<ul class='etabs'>
-										<li class='tab'><a href="geoContrastCountries.html">Global Boundaries</a></li>
-										<li class='tab active'><a href="geoContrast.html">Country Boundaries</a></li>
-										<li class='tab'><a href="geoData.html">Country Data</a></li>
-									</ul>
-
-									<div id="compare" class="box" style="font-size:14pt; height:575px">
+									<div id="compare" class="box" style="font-size:14pt; height:600px">
 									
-										<div id="compare-gb" style="height:50%">
+										<div id="compare-main" style="height:50%">
 											<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 												
 											Compare boundary for:
@@ -133,40 +133,40 @@
 												<!--options should get dynamically populated here-->
 											</select>
 											<div style="display:block;">
-												<select id="gb-admin-level-select" style="width:30%;display:inline;font-size:10pt;" onchange="gbAdminLevelChanged()">
+												<select id="main-admin-level-select" style="width:30%;display:inline;font-size:10pt;" onchange="mainAdminLevelChanged()">
 													<!--options should get dynamically populated here-->
 												</select>
-												<select id="gb-boundary-select" style="width:65%;display:inline;font-size:10pt;" onchange="gbSourceChanged()">
+												<select id="main-boundary-select" style="width:65%;display:inline;font-size:10pt;" onchange="mainSourceChanged()">
 													<!--options should get dynamically populated here-->
 												</select>
 												<script>
-													document.getElementById('gb-boundary-select').onmousedown = function(event) {
-														openGbSourcePopup();
+													document.getElementById('main-boundary-select').onmousedown = function(event) {
+														openMainSourcePopup();
 														event.preventDefault(); // This prevents the drop-down menu from displaying
 													};
 												</script>
 											</div>
-											<div id="gb-file-div" style="padding-top:5px">
+											<div id="main-file-div" style="padding-top:5px">
 												<span style="font-size:small; margin:4px">Drag-and-drop or select a zipped shapefile.</span>
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
-													<input id="gb-file-input" class="fas" type="file" accept=".zip">
+													<input id="main-file-input" class="fas" type="file" accept=".zip">
 												</span>
 												<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
 													(?)
 												</span>
-												<select id="gb-file-select" onchange="gbFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
+												<select id="main-file-select" onchange="mainFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
 												</select>
 											</div>
 											
-											<div id="gb-info-div" style="padding:5px; height:60%; overflow:auto">
+											<div id="main-info-div" style="padding:5px; height:60%; overflow:auto">
 											</div>
 
-											<div id="gb-source-popup" class="popup is-hidden is-visually-hidden">
+											<div id="main-source-popup" class="popup is-hidden is-visually-hidden">
 												<script>
 													// When the user clicks anywhere outside of the popup, close it
 													window.addEventListener('click', function(event) {
 														//alert('click '+event.target.className+' '+event.target.id);
-														if (event.target.id == 'gb-source-popup') {
+														if (event.target.id == 'main-source-popup') {
 															//alert('should close');
 															event.target.className = "popup is-hidden is-visually-hidden";
 														};
@@ -181,7 +181,7 @@
 															<button>From Datasets</button>
 															<button>Local File</button>
 															-->
-															<table id="gb-sources-table" class="table">
+															<table id="main-sources-table" class="table">
 																<thead>
 																	<th></th>
 																	<th>Source</th>
@@ -311,7 +311,7 @@
 										<td style="width:37.5%">
 											<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 											<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-											<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<span class="main-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 											<br><br>
 										</td>
 										<td style="width:37.5%">
@@ -328,7 +328,7 @@
 											<img src="images/google-docs.png" title="Icon created by Freepik from www.flaticons.com"/>
 											Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)
 										</td>
-										<td><div id="stats-gb-source" class="stats-value"></div></td>
+										<td><div id="stats-main-source" class="stats-value"></div></td>
 										<td><div id="stats-comp-source" class="stats-value"></div></td>
 									</tr>
 									<tr>
@@ -336,7 +336,7 @@
 											<img src="images/hand-shake.png" title="Icon created by Pixel perfect from www.flaticons.com"/>
 											License:
 										</td>
-										<td><div id="stats-gb-license" class="stats-value"></div></td>
+										<td><div id="stats-main-license" class="stats-value"></div></td>
 										<td><div id="stats-comp-license" class="stats-value"></div></td>
 									</tr>
 									<tr>
@@ -344,7 +344,7 @@
 											<img style="padding:2px" src="images/hierarchy-structure.png" title="Icon created by Freepik from www.flaticons.com"/>
 											Level:
 										</td>
-										<td id="stats-gb-level" class="stats-value"></td>
+										<td id="stats-main-level" class="stats-value"></td>
 										<td id="stats-comp-level" class="stats-value"></td>
 									</tr>
 									<tr>
@@ -352,7 +352,7 @@
 											<img src="images/history.png" title="Icon created by Google from www.flaticons.com"/>
 											Year the Boundary Represents:
 										</td>
-										<td id="stats-gb-year" class="stats-value"></td>
+										<td id="stats-main-year" class="stats-value"></td>
 										<td id="stats-comp-year" class="stats-value"></td>
 									</tr>
 									<tr>
@@ -360,7 +360,7 @@
 											<img style="padding:2px" src="images/calendar.png" title="Icon created by Freepik from www.flaticons.com"/>
 											Last Update:
 										</td>
-										<td id="stats-gb-updated" class="stats-value"></td>
+										<td id="stats-main-updated" class="stats-value"></td>
 										<td id="stats-comp-updated" class="stats-value"></td>
 									</tr>
 								</tbody>
@@ -384,7 +384,7 @@
 										<td style="width:37.5%">
 											<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 											<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-											<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+											<span class="main-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 											<br><br>
 										</td>
 										<td style="width:37.5%">
@@ -401,7 +401,7 @@
 											<img src="images/count.png" title="Icon created by Sicon from www.flaticon.com"/>
 											Administrative Units:
 										</td>
-										<td id="stats-gb-admincount" class="stats-value"></td>
+										<td id="stats-main-admincount" class="stats-value"></td>
 										<td id="stats-comp-admincount" class="stats-value"></td>
 									</tr>
 									<tr>
@@ -409,7 +409,7 @@
 											<img style="padding:3px" src="images/square.png" title="Icon created by Freepik from www.flaticons.com">
 											Area:
 										</td>
-										<td id="stats-gb-area" class="stats-value"></td>
+										<td id="stats-main-area" class="stats-value"></td>
 										<td id="stats-comp-area" class="stats-value"></td>
 									</tr>
 									<tr>
@@ -417,7 +417,7 @@
 											<img style="padding:3px" src="images/selection-square.png" title="Icon created by Freepik from www.flaticons.com">
 											Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):
 										</td>
-										<td id="stats-gb-circumf" class="stats-value"></td>
+										<td id="stats-main-circumf" class="stats-value"></td>
 										<td id="stats-comp-circumf" class="stats-value"></td>
 									</tr>
 									<tr>
@@ -425,7 +425,7 @@
 											<img style="padding:5px" src="images/stats.png" title="Icon created by Freepik from www.flaticons.com"/>
 											Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):
 										</td>
-										<td id="stats-gb-vertices" class="stats-value"></td>
+										<td id="stats-main-vertices" class="stats-value"></td>
 										<td id="stats-comp-vertices" class="stats-value"></td>
 									</tr>
 									<tr style="display:none">
@@ -434,7 +434,7 @@
 											<img style="padding:5px" src="images/stats.png" title="Icon created by Freepik from www.flaticons.com"/>
 											Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):
 										</td>
-										<td id="stats-gb-avglinedens" class="stats-value"></td>
+										<td id="stats-main-avglinedens" class="stats-value"></td>
 										<td id="stats-comp-avglinedens" class="stats-value"></td>
 									</tr>
 									<tr>
@@ -442,7 +442,7 @@
 											<img style="padding:5px" src="images/shape.png"  title="Icon created by Pixelmeetup from www.flaticons.com"/>
 											Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):
 										</td>
-										<td id="stats-gb-avglineres" class="stats-value"></td>
+										<td id="stats-main-avglineres" class="stats-value"></td>
 										<td id="stats-comp-avglineres" class="stats-value"></td>
 									</tr>
 								</tbody>
@@ -470,8 +470,8 @@
 									<th style="width:50%">
 										<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 										<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
-										<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
-										<select id="gb-names-table-select" style="color:black; font-size:smaller" onchange="gbFieldsDropdownChanged()">
+										<span class="main-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+										<select id="main-names-table-select" style="color:black; font-size:smaller" onchange="mainFieldsDropdownChanged()">
 											<option selected>(Select name field)</option>
 										</select>
 									</th>
@@ -530,40 +530,36 @@
 								<a id="feature-compare-left-clear" class="popup-close" style="display:none">x</a>
 								<h3 id="feature-compare-left-name" style="margin-left:3px; margin-bottom:0; padding-bottom:0"></h3>
 							</div>
-							<span class="gb-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+							<span class="main-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
 							<br>
 							<table id="feature-compare-left-table" style="width:100%; margin-left:15px">
 								<tr>
 									<td>Level:</td>
-									<td id="feature-compare-stats-gb-level" class="stats-value"></td>
+									<td id="feature-compare-stats-main-level" class="stats-value"></td>
 								</tr>
 								<tr>
 									<td>Area:</td>
-									<td id="feature-compare-stats-gb-area" class="stats-value"></td>
+									<td id="feature-compare-stats-main-area" class="stats-value"></td>
 								</tr>
 								<tr>
 									<td>Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):</td>
-									<td id="feature-compare-stats-gb-circumf" class="stats-value"></td>
+									<td id="feature-compare-stats-main-circumf" class="stats-value"></td>
 								</tr>
 								<tr>
 									<td>Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):</td>
-									<td id="feature-compare-stats-gb-vertices" class="stats-value"></td>
+									<td id="feature-compare-stats-main-vertices" class="stats-value"></td>
 								</tr>
 								<tr>
 									<td>Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):</td>
-									<td id="feature-compare-stats-gb-avglinedens" class="stats-value"></td>
+									<td id="feature-compare-stats-main-avglinedens" class="stats-value"></td>
 								</tr>
 								<tr>
 									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
-									<td id="feature-compare-stats-gb-avglineres" class="stats-value"></td>
-								</tr>
-								<tr style="display:none">
-									<td>Relationship (<span class="tooltip" data-text="If both feature's boundary overlap exceed 99% then they are considered equal. If either feature exceeds 99% then the one with the highest share is considered FULLY INSIDE the other, while the one with the lowest share CONTAINS ALL OF the other one. If the highest share is above 66.6% then this is modified to MOSTLY INSIDE and CONTAINS MOST OF; above 0% is modified to PARTLY INSIDE and CONTAINS PARTS OF.">?</span>):</td>
-									<td id="feature-compare-stats-gb-relation" class="stats-value"></td>
+									<td id="feature-compare-stats-main-avglineres" class="stats-value"></td>
 								</tr>
 							</table>
 							<div id="feature-compare-left-empty" style="margin-left:15px; margin-top:10px">
-								<div id="feature-compare-stats-gb-related" class="stats-value"></div>
+								<div id="feature-compare-stats-main-related" class="stats-value"></div>
 							</div>
 						</div>
 						<div id="feature-compare-right-div" style="width:50%">
@@ -599,29 +595,9 @@
 									<td>Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):</td>
 									<td id="feature-compare-stats-comp-avglineres" class="stats-value"></td>
 								</tr>
-								<tr style="display:none">
-									<td>Relationship (<span class="tooltip" data-text="If both feature's boundary overlap exceed 99% then they are considered equal. If either feature exceeds 99% then the one with the highest share is considered FULLY INSIDE the other, while the one with the lowest share CONTAINS ALL OF the other one. If the highest share is above 66.6% then this is modified to MOSTLY INSIDE and CONTAINS MOST OF; above 0% is modified to PARTLY INSIDE and CONTAINS PARTS OF.">?</span>):</td>
-									<td id="feature-compare-stats-comp-relation" class="stats-value"></td>
-								</tr>
 							</table>
 							<div id="feature-compare-right-empty" style="margin-left:15px; margin-top:10px">
 								<div id="feature-compare-stats-comp-related" class="stats-value"></div>
-							</div>
-						</div>
-
-						<div style="display:none; width:100%">
-							<!--Topline similarity stats-->
-							<div style="display:inline-block; text-align:center; width:32%">
-								<h5>Equals:</h5>
-								<h3 id="feature-compare-equality"></h3>
-							</div>
-							<div style="display:inline-block; text-align:center; width:32%">
-								<h5>Contains:</h5>
-								<h3 id="feature-compare-contains"></h3>
-							</div>
-							<div style="display:inline-block; text-align:center; width:32%">
-								<h5>Within:</h5>
-								<h3 id="feature-compare-within"></h3>
 							</div>
 						</div>
 
@@ -708,15 +684,13 @@
 	<script src="assets/js/papaparse.min.js"></script>
 
 
-	<!--this is for shp2geojson-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.3/proj4.js"></script>
-	<script src="assets/js/shp2geojson/lib/jszip.js"></script>
-	<script src="assets/js/shp2geojson/lib/jszip-utils.js"></script>
-	<script type="text/javascript" src="assets/js/shp2geojson/lib/jszip-utils-ie.js"></script>
-	<script src="assets/js/shp2geojson/preprocess.js"></script>
-	<script src="assets/js/shp2geojson/preview.js"></script>
+	<!--this is for jszip-->
+	<script src="assets/js/jszip/jszip.js"></script>
+	<script src="assets/js/jszip/jszip-utils.js"></script>
+	<script type="text/javascript" src="assets/js/jszip/jszip-utils-ie.js"></script>
 
-	<!-- alternatively use shapefile-js -->
+	<!-- this is for shapefile-js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.3/proj4.js"></script>
 	<script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
 
 	<!--this is for dynamic boundary stats-->
@@ -739,15 +713,15 @@
 	<script src="assets/js/internalHelpers.js"></script>
 	<script src="assets/js/internalData.js"></script>
 	<script src="assets/js/internalSpatial.js"></script>
-	<script src="assets/js/geoContrastOverview.js"></script>
-	<script src="assets/js/geoContrastStats.js"></script>
-	<script src="assets/js/geoContrastBoundaryUnits.js"></script>
-	<script src="assets/js/geoContrastFeatureCompare.js"></script>
-	<script src="assets/js/geoContrastToolbox.js"></script>
+	<script src="assets/js/geoContrast/Overview.js"></script>
+	<script src="assets/js/geoContrast/Stats.js"></script>
+	<script src="assets/js/geoContrast/BoundaryUnits.js"></script>
+	<script src="assets/js/geoContrast/FeatureCompare.js"></script>
+	<script src="assets/js/geoContrast/Toolbox.js"></script>
 
 	<script>
 		// bind file input actions
-		document.getElementById('gb-file-input').addEventListener('change', handleGbFileUpload, false);
+		document.getElementById('main-file-input').addEventListener('change', handleMainFileUpload, false);
 		document.getElementById('comparison-file-input').addEventListener('change', handleComparisonFileUpload, false);
 	</script>
 

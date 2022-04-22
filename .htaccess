@@ -1,4 +1,3 @@
-
 AddHandler php-cgi .html
 AddHandler php5-cgi .html
 RewriteCond %{HTTPS} !=on

@@ -48,7 +48,7 @@
 </head>
 
 
-<script src="assets/js/geoData.js"></script>
+<script src="assets/js/geoData/geoData.js"></script>
 
 
 <body class="is-preload">
@@ -78,49 +78,55 @@
 						<span><h1>Visualize & Compare Boundaries</h1></span>
 					</header>
 
-					<div id="map-and-toolbox-div" class="row gtr-200" style="width:100%; margin-left:0; margin-bottom:25px">
+					<div id="map-and-toolbox-div" class="row" style="width:100%; margin-left:0; margin-bottom:25px">
+
+						<ul class='etabs' style="display:flex; flex-direction:row; width:100%">
+							<li class='tab'><a href="geoContrastCountries.html">Global Boundaries</a></li>
+							<li class='tab'><a href="geoContrast.html">Country Boundaries</a></li>
+							<li class='tab active'><a href="geoData.html">Country Data</a></li>
+						</ul>
+						
 						<div class="col-7 col-12-medium" style="padding-left:0">
 							<div id="fullscreen" class="fullscreen">
 								<div id="map" class="map" style="height:725px">
 								</div>
 							</div>
 						</div>
+
 						<div class="col-5 col-12-medium" style="padding:0; ">
 							<div id="toolbox" class="toolbox">
 								
 								<div id="tab-container" class="tab-container">
-								
-								
-									<ul class='etabs'>
-										<li class='tab'><a href="geoContrastCountries.html">Global Boundaries</a></li>
-										<li class='tab'><a href="geoContrast.html">Country Boundaries</a></li>
-										<li class='tab active'><a href="geoData.html">Country Data</a></li>
-									</ul>
 									
-									<div id="countries" class="box" style="font-size:14pt; height:700px">
+									<div id="countries" class="box" style="font-size:14pt; height:725px">
 									  <div style="padding:0px">
 
 									    <div class="row" style="margin-top:0px">
 									      <span><b>Select Dataset to Visualize</b></span>
-									      <select id="csv_list" style="margin-left:25px;margin-bottom:5px;">
+									      <select id="csv_list" style="margin-left:25px;margin-bottom:5px;" onchange="read_geodata_data()">
 
 									      </select>
+
+										  <script>add_options()</script>
  
 									    </div>
 
-									    <button type="button" style="font-size:0.6em" onclick="read_geodata_data()">Map Data</button>
-				 					    <button type="button" style="font-size:0.6em" onclick="goto_raw_csv_file()">Download Raw Data</button>
 
-									    
-									<p style="font-size:10px;"  id="metadata-text"></p>
-
-    <script>add_options()</script>
-				 					
-									
-                                        <div style="width:100%; margin-top:10px">
+										<div style="width:100%; margin-top:10px; margin-bottom:10px">
                                             <div id="map-legend" style="margin-left:10%; display:flex; flex-direction:column-reverse;">
                                             </div>
                                         </div>
+
+									    
+										<div style="max-height:330px; overflow:auto">
+											<p id="metadata-text" style="font-size:10px"></p>
+										</div>
+
+
+										<br>
+
+
+										<a id="csv_download" class="button" href="" style="font-size:0.6em" target="_blank">Download Raw Data</a>
                                         
                                         </div>
                                         
@@ -147,17 +153,19 @@
 					<div id="countries-overview" class="row box" style="width:100%; margin:15px 0px">
 						<div id="countries-overview-banner" style="width:100%; text-align:center">
 							<h2 style="margin-bottom:5px">Countries</h2>
+							<h5 id="countries-table-title"></h5>
 						</div>
 						<div style="width:100%">
 						  <table id="countries-table" style="margin-left:10px">
-						    <p>Select a csv to show data</p>
                                 <thead>
+									<tr>
+										<th>Country</th>
+										<th>Value</th>
+									</tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
-
-			  
 						</div>
 					</div>
 
@@ -276,14 +284,6 @@
 	<script src="assets/js/papaparse.min.js"></script>
 
 
-	<!--this is for shp2geojson-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.3/proj4.js"></script>
-	<script src="assets/js/shp2geojson/lib/jszip.js"></script>
-	<script src="assets/js/shp2geojson/lib/jszip-utils.js"></script>
-	<script type="text/javascript" src="assets/js/shp2geojson/lib/jszip-utils-ie.js"></script>
-	<script src="assets/js/shp2geojson/preprocess.js"></script>
-	<script src="assets/js/shp2geojson/preview.js"></script>
-
 	<!--this is for dynamic boundary stats-->
 	<!--<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js" integrity="sha512-Q7HOppxoH0L2M7hreVoFCtUZimR2YaY0fBewIYzkCgmNtgOOZ5IgMNYxHgfps0qrO1ef5m7L1FeHrhXlq1I9HA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -303,10 +303,8 @@
 	<script src="assets/js/internalData.js"></script>
 	<script src="assets/js/internalSpatial.js"></script>
     <script src="assets/data/gb-countries-simple.js"></script>
-    <script src="assets/js/geoData/geoData_Map.js"></script>
-    <script src="assets/js/geoData/geoData_Country.js"></script>
-    <script src="assets/js/geoData/Countries.js"></script>
-    <script src="assets/js/geoData/Toolbox.js"></script>
+    <script src="assets/js/geoData/Map.js"></script>
+    <script src="assets/js/geoData/Country.js"></script>
 
 	<script>
 		read_geodata_data(); 
