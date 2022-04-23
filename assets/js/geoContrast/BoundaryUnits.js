@@ -73,12 +73,9 @@ function updateMainFieldsDropdown(features) {
     var props = feature.getProperties();
     for (key in props) {
         if (key == 'geometry') {continue};
-        console.log(key)
         val = props[key];
         if (typeof val === 'string') {
-            if (percentUniqueField(features, key) > 0.25) {
-                fields.push(key);
-            };
+            fields.push(key);
         };
     };
     // update the dropdown
@@ -111,19 +108,31 @@ function updateMainFieldsDropdown(features) {
     };
     // auto guess name field if missing or if it doesnt exist
     if (!nameField | !fields.includes(nameField)) {
+        fieldUniqueness = {};
+        for (field of fields) {
+            fieldUniqueness[field] = percentUniqueField(features, field);
+        };
         fields.sort(function (a,b) {
             if (a.toLowerCase().includes('name') & b.toLowerCase().includes('name')) {
-                if (a.length < b.length) {
+                // both have 'name' in field, return most unique field
+                if (fieldUniqueness[a] > fieldUniqueness[b]) {
                     return -1;
                 } else {
                     return 1;
                 }
             } else if (a.toLowerCase().includes('name')) {
+                // field with 'name' in field takes precedence
                 return -1;
             } else if (b.toLowerCase().includes('name')) {
+                // field with 'name' in field takes precedence
                 return 1;
             } else {
-                return 0;
+                // none have 'name' in field, return most unique field
+                if (fieldUniqueness[a] > fieldUniqueness[b]) {
+                    return -1;
+                } else {
+                    return 1;
+                };
             };
         });
         nameField = fields[0];
@@ -144,9 +153,7 @@ function updateComparisonFieldsDropdown(features) {
         if (key == 'geometry') {continue};
         val = props[key];
         if (typeof val === 'string') {
-            if (percentUniqueField(features, key) > 0.25) {
-                fields.push(key);
-            };
+            fields.push(key);
         };
     };
     // update the dropdown
@@ -179,22 +186,33 @@ function updateComparisonFieldsDropdown(features) {
     };
     // auto guess name field if missing or if it doesn't exist
     if (!nameField | !fields.includes(nameField)) {
+        fieldUniqueness = {};
+        for (field of fields) {
+            fieldUniqueness[field] = percentUniqueField(features, field);
+        };
         fields.sort(function (a,b) {
             if (a.toLowerCase().includes('name') & b.toLowerCase().includes('name')) {
-                if (a.length < b.length) {
+                // both have 'name' in field, return most unique field
+                if (fieldUniqueness[a] > fieldUniqueness[b]) {
                     return -1;
                 } else {
                     return 1;
                 }
             } else if (a.toLowerCase().includes('name')) {
+                // field with 'name' in field takes precedence
                 return -1;
             } else if (b.toLowerCase().includes('name')) {
+                // field with 'name' in field takes precedence
                 return 1;
             } else {
-                return 0;
+                // none have 'name' in field, return most unique field
+                if (fieldUniqueness[a] > fieldUniqueness[b]) {
+                    return -1;
+                } else {
+                    return 1;
+                };
             };
         });
-        nameField = fields[0];
     };
     // set name field selector
     select.value = nameField;
