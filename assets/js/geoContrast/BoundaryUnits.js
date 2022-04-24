@@ -67,16 +67,13 @@ function updateMainFieldsDropdown(features) {
     // clear existing fields dropdown
     var sel = document.getElementById('main-names-table-select');
     sel.innerHTML = "";
-    // get all unique text fieldnames
+    // get all fieldnames
     var feature = features[0];
     var fields = [];
     var props = feature.getProperties();
     for (key in props) {
         if (key == 'geometry') {continue};
-        val = props[key];
-        if (typeof val === 'string') {
-            fields.push(key);
-        };
+        fields.push(key);
     };
     // update the dropdown
     var select = document.getElementById('main-names-table-select');
@@ -145,16 +142,13 @@ function updateComparisonFieldsDropdown(features) {
     // clear existing fields dropdown
     var sel = document.getElementById('comparison-names-table-select');
     sel.innerHTML = "";
-    // get all unique text fieldnames
+    // get all fieldnames
     var feature = features[0];
     var fields = [];
     var props = feature.getProperties();
     for (key in props) {
         if (key == 'geometry') {continue};
-        val = props[key];
-        if (typeof val === 'string') {
-            fields.push(key);
-        };
+        fields.push(key);
     };
     // update the dropdown
     var select = document.getElementById('comparison-names-table-select');
