@@ -128,18 +128,24 @@
 										<div id="compare-main" style="height:50%">
 											<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
 												
-											Compare boundary for:
+											Compare boundaries for:
 
-											<select id="country-select" style="width:96%;display:inline;font-size:10pt;" onchange="countryChanged()">
+											<select id="country-select" style="width:100%;display:inline;font-size:10pt;" onchange="countryChanged()">
 												<!--options should get dynamically populated here-->
 											</select>
-											<div style="display:block;">
-												<select id="main-admin-level-select" style="width:30%;display:inline;font-size:10pt;" onchange="mainAdminLevelChanged()">
+											<div style="display:flex; width:100%">
+												<select id="main-admin-level-select" style="width:45%;font-size:10pt;" onchange="mainAdminLevelChanged()">
 													<!--options should get dynamically populated here-->
 												</select>
-												<select id="main-boundary-select" style="width:65%;display:inline;font-size:10pt;" onchange="mainSourceChanged()">
+												<select id="main-boundary-select" style="font-size:10pt;" onchange="mainSourceChanged()">
 													<!--options should get dynamically populated here-->
 												</select>
+												<div id="main-boundary-upload-title" style="display:none; font-size:small; margin:auto auto 0px 5px">
+													Upload a zipped boundary shapefile.
+												</div>
+												<span id="main-boundary-upload-button" class="upload-button" onclick="mainUploadButtonPushed()" title="Upload your own boundary">
+													&#129093;
+												</span>
 												<script>
 													document.getElementById('main-boundary-select').onmousedown = function(event) {
 														openMainSourcePopup();
@@ -148,7 +154,6 @@
 												</script>
 											</div>
 											<div id="main-file-div" style="padding-top:5px">
-												<span style="font-size:small; margin:4px">Drag-and-drop or select a zipped shapefile.</span>
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
 													<input id="main-file-input" class="fas" type="file" accept=".zip">
 												</span>
@@ -207,23 +212,28 @@
 											
 											<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
 										
-											<span>
-												<span style="display:inline-block">To:</span>
-												<select id="comparison-admin-level-select" style="display:inline; width:30%; font-size:10pt;" onchange="comparisonAdminLevelChanged()">
+											<div style="display:flex; width:100%">
+												<!--<span style="">To:</span>-->
+												<select id="comparison-admin-level-select" style="width:45%; font-size:10pt;" onchange="comparisonAdminLevelChanged()">
 													<!--options should get dynamically populated here-->
 												</select>
-												<select id="comparison-boundary-select" style="display:inline; width:55%" onchange="comparisonSourceChanged()">
+												<select id="comparison-boundary-select" style="font-size:10pt;" onchange="comparisonSourceChanged()">
 													<!--options should get dynamically populated here-->
 												</select>
+												<div id="comparison-boundary-upload-title" style="display:none; font-size:small; margin:auto auto 0px 5px">
+													Upload a zipped boundary shapefile.
+												</div>
+												<span id="comparison-boundary-upload-button" class="upload-button" onclick="comparisonUploadButtonPushed()" title="Upload your own boundary">
+													&#129093;
+												</span>
 												<script>
 													document.getElementById('comparison-boundary-select').onmousedown = function(event) {
 														openComparisonSourcePopup();
 														event.preventDefault(); // This prevents the drop-down menu from displaying
 													};
 												</script>
-											</span>
+											</div>
 											<div id="comparison-file-div">
-												<span style="font-size:small; margin:4px">Drag-and-drop or select a zipped shapefile.</span>
 												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
 													<input id="comparison-file-input" class="fas" type="file" accept=".zip">
 												</span>
