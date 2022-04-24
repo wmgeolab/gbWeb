@@ -1243,12 +1243,15 @@ function mainSourceChanged() {
     clearMainLayer();
     // check which comparison source was selected
     source = document.getElementById('main-boundary-select').value;
+    uploadOnSymbol = '&#x00d7;';
+    uploadOffSymbol = '&#129093;';
     if (source == 'none' | source == '') {
         // activate admin level button
         document.getElementById('main-admin-level-select').style.display = '';
         document.getElementById('main-boundary-select').style.display = '';
         // reset upload button style
         document.getElementById('main-boundary-upload-button').className = "upload-button";
+        document.getElementById('main-boundary-upload-button').innerHTML = uploadOffSymbol;
         // hide file button elements
         document.getElementById('main-boundary-upload-title').style.display = 'none';
         document.getElementById('main-file-div').style.display = 'none';
@@ -1262,6 +1265,7 @@ function mainSourceChanged() {
         document.getElementById('main-file-select').disabled = true;
         // change upload button style to active
         document.getElementById('main-boundary-upload-button').className = "upload-button upload-button-active";
+        document.getElementById('main-boundary-upload-button').innerHTML = uploadOnSymbol;
         // show file button elements
         document.getElementById('main-boundary-upload-title').style.display = '';
         document.getElementById('main-file-div').style.display = 'block';
@@ -1271,6 +1275,7 @@ function mainSourceChanged() {
         document.getElementById('main-boundary-select').style.display = '';
         // reset upload button style
         document.getElementById('main-boundary-upload-button').className = "upload-button";
+        document.getElementById('main-boundary-upload-button').innerHTML = uploadOffSymbol;
         // hide file button elements
         document.getElementById('main-boundary-upload-title').style.display = 'none';
         document.getElementById('main-file-div').style.display = 'none';
@@ -1293,12 +1298,15 @@ function comparisonSourceChanged() {
     clearComparisonLayer();
     // check which comparison source was selected
     source = document.getElementById('comparison-boundary-select').value;
+    uploadOnSymbol = '&#x00d7;';
+    uploadOffSymbol = '&#129093;';
     if (source == 'none' | source == '') {
         // activate admin level button
         document.getElementById('comparison-admin-level-select').style.display = '';
         document.getElementById('comparison-boundary-select').style.display = '';
         // reset upload button style
         document.getElementById('comparison-boundary-upload-button').className = "upload-button";
+        document.getElementById('comparison-boundary-upload-button').innerHTML = uploadOffSymbol;
         // hide file button elements
         document.getElementById('comparison-boundary-upload-title').style.display = 'none';
         document.getElementById('comparison-file-div').style.display = 'none';
@@ -1312,6 +1320,7 @@ function comparisonSourceChanged() {
         document.getElementById('comparison-file-select').disabled = true;
         // change upload button style to active
         document.getElementById('comparison-boundary-upload-button').className = "upload-button upload-button-active";
+        document.getElementById('comparison-boundary-upload-button').innerHTML = uploadOnSymbol;
         // show file button elements
         document.getElementById('comparison-boundary-upload-title').style.display = '';
         document.getElementById('comparison-file-div').style.display = 'block';
@@ -1321,6 +1330,7 @@ function comparisonSourceChanged() {
         document.getElementById('comparison-boundary-select').style.display = '';
         // reset upload button style
         document.getElementById('comparison-boundary-upload-button').className = "upload-button";
+        document.getElementById('comparison-boundary-upload-button').innerHTML = uploadOffSymbol;
         // hide file button elements
         document.getElementById('comparison-boundary-upload-title').style.display = 'none';
         document.getElementById('comparison-file-div').style.display = 'none';

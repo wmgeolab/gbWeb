@@ -144,7 +144,6 @@
 													Upload a zipped boundary shapefile.
 												</div>
 												<span id="main-boundary-upload-button" class="upload-button" onclick="mainUploadButtonPushed()" title="Upload your own boundary">
-													&#129093;
 												</span>
 												<script>
 													document.getElementById('main-boundary-select').onmousedown = function(event) {
@@ -154,12 +153,16 @@
 												</script>
 											</div>
 											<div id="main-file-div" style="padding-top:5px">
-												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
-													<input id="main-file-input" class="fas" type="file" accept=".zip">
-												</span>
-												<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
-													(?)
-												</span>
+												<div style="display:flex; width:96%">
+													<div style="flex-grow:1">
+														<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
+															<input id="main-file-input" class="fas" type="file" accept=".zip">
+														</span>
+													</div>
+													<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
+														(?)
+													</span>
+												</div>
 												<select id="main-file-select" onchange="mainFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
 												</select>
 											</div>
@@ -224,7 +227,6 @@
 													Upload a zipped boundary shapefile.
 												</div>
 												<span id="comparison-boundary-upload-button" class="upload-button" onclick="comparisonUploadButtonPushed()" title="Upload your own boundary">
-													&#129093;
 												</span>
 												<script>
 													document.getElementById('comparison-boundary-select').onmousedown = function(event) {
@@ -233,13 +235,17 @@
 													};
 												</script>
 											</div>
-											<div id="comparison-file-div">
-												<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
-													<input id="comparison-file-input" class="fas" type="file" accept=".zip">
-												</span>
-												<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
-													(?)
-												</span>
+											<div id="comparison-file-div" style="padding-top:5px">
+												<div style="display:flex; width:96%">
+													<div style="flex-grow:1">
+														<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
+															<input id="comparison-file-input" class="fas" type="file" accept=".zip">
+														</span>
+													</div>
+													<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
+														(?)
+													</span>
+												</div>
 												<select id="comparison-file-select" onchange="comparisonFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
 												</select>
 											</div>
