@@ -3,14 +3,20 @@ importScripts('https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js'
 
 function loadFeatures(data) {
     // load geojson objects from geojson string
-    features = JSON.parse(data)['features']
+    allFeatures = JSON.parse(data)['features'];
     // reproject and simplify geometries, plus precalc areas
-    for (let i=0; i<features.length; i++) {
-        feat = features[i];
-        feat = turf.toWgs84(feat); // ol geom web mercator -> turf wgs84
-        feat = turf.simplify(feat, {tolerance:0.01, mutate:true})
-        features[i].geometry = feat.geometry;
-        features[i].properties.area = turf.convertArea(Math.abs(turf.area(feat)),'meters','kilometers');
+    features = [];
+    for (let i=0; i<allFeatures.length; i++) {
+        feat = allFeatures[i];
+        try {
+            feat = turf.toWgs84(feat); // ol geom web mercator -> turf wgs84
+            feat = turf.simplify(feat, {tolerance:0.01, mutate:true})
+            feat.properties.area = turf.convertArea(Math.abs(turf.area(feat)),'meters','kilometers');
+            features.push(feat);
+        } catch(error) {
+            console.warn('feature '+i+' could not be loaded: ' + error);
+            console.warn(feat.properties);
+        };
     };
     return features;
 };
