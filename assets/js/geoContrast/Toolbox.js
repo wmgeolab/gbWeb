@@ -855,7 +855,7 @@ function updateMainSourceTable() {
         if (sourceRow['boundarySource-1']=='upload') {
             td.innerText = 'Upload Your Own Boundary';
         } else {
-            td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
+            td.innerText = sourceRow['boundarySource-1'];
         }
         tr.appendChild(td);
         // license
@@ -928,7 +928,7 @@ function updateMainSourceDropdown() {
     for (source of sources) {
         var opt = document.createElement("option");
         opt.value = source;
-        opt.textContent = 'Dataset: ' + source;
+        opt.textContent = source;
         select.appendChild(opt);
     };
     // finally add custom upload boundary choice
@@ -1017,7 +1017,7 @@ function updateComparisonSourceTable() {
         if (sourceRow['boundarySource-1']=='upload') {
             td.innerText = 'Upload Your Own Boundary';
         } else {
-            td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
+            td.innerText = sourceRow['boundarySource-1'];
         }
         tr.appendChild(td);
         // license
@@ -1090,7 +1090,7 @@ function updateComparisonSourceDropdown() {
     for (source of sources) {
         var opt = document.createElement("option");
         opt.value = source;
-        opt.textContent = 'Dataset: ' + source;
+        opt.textContent = source;
         select.appendChild(opt);
     };
     // finally add custom upload boundary choice
