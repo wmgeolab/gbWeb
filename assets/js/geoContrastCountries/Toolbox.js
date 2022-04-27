@@ -1,4 +1,3 @@
-
 // ------------------------------
 // update boundary collection dropdown
 
@@ -95,5 +94,3 @@ function onSuccess (data) {
 };
 
 loadGeoContrastMetadata(onSuccess);
-
-

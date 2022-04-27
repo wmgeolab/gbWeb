@@ -1,4 +1,3 @@
-
 var countryDataLookup = {
     // defines display name and long description for countryData entries
     numSources: {label: 'Num of Sources',
