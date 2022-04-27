@@ -821,17 +821,6 @@ function updateMainSourceTable() {
     sortBy(sourceRows, 'boundarySource-1');
     var currentSource = document.getElementById("main-boundary-select").value;
 
-    // add row at bottom for local file upload
-    uploadRow = {'boundarySource-1':'upload', // 'upload' is the value expected for the dropdown to work
-            'boundaryLicense':'-',
-            'boundaryYearRepresented':'-',
-            'sourceDataUpdateDate':'-',
-            'boundaryCount':'-',
-            'statsLineResolution':'-',
-            'statsVertexDensity':'-'
-            };
-    sourceRows.push(uploadRow);
-
     // begin adding data to sources table
     for (sourceRow of sourceRows) {
         var tr = document.createElement('tr');
@@ -866,7 +855,7 @@ function updateMainSourceTable() {
         if (sourceRow['boundarySource-1']=='upload') {
             td.innerText = 'Upload Your Own Boundary';
         } else {
-            td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
+            td.innerText = sourceRow['boundarySource-1'];
         }
         tr.appendChild(td);
         // license
@@ -939,7 +928,7 @@ function updateMainSourceDropdown() {
     for (source of sources) {
         var opt = document.createElement("option");
         opt.value = source;
-        opt.textContent = 'Dataset: ' + source;
+        opt.textContent = source;
         select.appendChild(opt);
     };
     // finally add custom upload boundary choice
@@ -994,17 +983,6 @@ function updateComparisonSourceTable() {
     sortBy(sourceRows, 'boundarySource-1');
     var currentSource = document.getElementById("comparison-boundary-select").value;
 
-    // add row at bottom for local file upload
-    uploadRow = {'boundarySource-1':'upload', // 'upload' is the value expected for the dropdown to work
-            'boundaryLicense':'-',
-            'boundaryYearRepresented':'-',
-            'sourceDataUpdateDate':'-',
-            'boundaryCount':'-',
-            'statsLineResolution':'-',
-            'statsVertexDensity':'-'
-            };
-    sourceRows.push(uploadRow);
-
     // begin adding data to sources table
     for (sourceRow of sourceRows) {
         var tr = document.createElement('tr');
@@ -1039,7 +1017,7 @@ function updateComparisonSourceTable() {
         if (sourceRow['boundarySource-1']=='upload') {
             td.innerText = 'Upload Your Own Boundary';
         } else {
-            td.innerText = 'Dataset: '+sourceRow['boundarySource-1'];
+            td.innerText = sourceRow['boundarySource-1'];
         }
         tr.appendChild(td);
         // license
@@ -1112,7 +1090,7 @@ function updateComparisonSourceDropdown() {
     for (source of sources) {
         var opt = document.createElement("option");
         opt.value = source;
-        opt.textContent = 'Dataset: ' + source;
+        opt.textContent = source;
         select.appendChild(opt);
     };
     // finally add custom upload boundary choice
@@ -1202,6 +1180,56 @@ function comparisonAdminLevelChanged() {
 
 // sources
 
+function mainUploadButtonPushed() {
+    val = document.getElementById('main-boundary-select').value;
+    if (val == 'upload') {
+        // already in upload mode
+        // get available sources
+        select = document.getElementById('main-boundary-select');
+        sourceVals = [];
+        for (opt of select.options) {
+            sourceVals.push(opt.value);
+        };
+        // set dropdown value to first available source
+        newVal = 'none';
+        if (sourceVals.length) {
+            newVal = sourceVals[0];
+        };
+        document.getElementById('main-boundary-select').value = newVal;
+    } else {
+        // switch to upload mode
+        // set dropdown value to upload
+        document.getElementById('main-boundary-select').value = 'upload';
+    };
+    // trigger source changed
+    mainSourceChanged();
+};
+
+function comparisonUploadButtonPushed() {
+    val = document.getElementById('comparison-boundary-select').value;
+    if (val == 'upload') {
+        // already in upload mode
+        // get available sources
+        select = document.getElementById('comparison-boundary-select');
+        sourceVals = [];
+        for (opt of select.options) {
+            sourceVals.push(opt.value);
+        };
+        // set dropdown value to first available source
+        newVal = 'none';
+        if (sourceVals.length) {
+            newVal = sourceVals[0];
+        };
+        document.getElementById('comparison-boundary-select').value = newVal;
+    } else {
+        // switch to upload mode
+        // set dropdown value to upload
+        document.getElementById('comparison-boundary-select').value = 'upload';
+    };
+    // trigger source changed
+    comparisonSourceChanged();
+};
+
 function mainSourceChanged() {
     //alert('main source changed');
     // update source table
@@ -1215,24 +1243,41 @@ function mainSourceChanged() {
     clearMainLayer();
     // check which comparison source was selected
     source = document.getElementById('main-boundary-select').value;
+    uploadOnSymbol = '&#x00d7;';
+    uploadOffSymbol = '&#129093;';
     if (source == 'none' | source == '') {
         // activate admin level button
-        document.getElementById('main-admin-level-select').disabled = false;
-        // hide file button div
+        document.getElementById('main-admin-level-select').style.display = '';
+        document.getElementById('main-boundary-select').style.display = '';
+        // reset upload button style
+        document.getElementById('main-boundary-upload-button').className = "upload-button";
+        document.getElementById('main-boundary-upload-button').innerHTML = uploadOffSymbol;
+        // hide file button elements
+        document.getElementById('main-boundary-upload-title').style.display = 'none';
         document.getElementById('main-file-div').style.display = 'none';
     } else if (source == 'upload') {
         // disable admin level button
-        document.getElementById('main-admin-level-select').disabled = true;
+        document.getElementById('main-admin-level-select').style.display = 'none';
+        document.getElementById('main-boundary-select').style.display = 'none';
         // reset
         document.getElementById('main-file-input').value = null;
         document.getElementById('main-file-select').innerHTML = '<option value="" disabled selected hidden>(Please select a boundary)</option>';
         document.getElementById('main-file-select').disabled = true;
-        // show file button div
+        // change upload button style to active
+        document.getElementById('main-boundary-upload-button').className = "upload-button upload-button-active";
+        document.getElementById('main-boundary-upload-button').innerHTML = uploadOnSymbol;
+        // show file button elements
+        document.getElementById('main-boundary-upload-title').style.display = '';
         document.getElementById('main-file-div').style.display = 'block';
     } else {
         // activate admin level button
-        document.getElementById('main-admin-level-select').disabled = false;
-        // hide file button div
+        document.getElementById('main-admin-level-select').style.display = '';
+        document.getElementById('main-boundary-select').style.display = '';
+        // reset upload button style
+        document.getElementById('main-boundary-upload-button').className = "upload-button";
+        document.getElementById('main-boundary-upload-button').innerHTML = uploadOffSymbol;
+        // hide file button elements
+        document.getElementById('main-boundary-upload-title').style.display = 'none';
         document.getElementById('main-file-div').style.display = 'none';
         // update main layer with external geoContrast topojson
         updateMainLayer(zoomToExtent=true);
@@ -1253,24 +1298,41 @@ function comparisonSourceChanged() {
     clearComparisonLayer();
     // check which comparison source was selected
     source = document.getElementById('comparison-boundary-select').value;
+    uploadOnSymbol = '&#x00d7;';
+    uploadOffSymbol = '&#129093;';
     if (source == 'none' | source == '') {
         // activate admin level button
-        document.getElementById('comparison-admin-level-select').disabled = false;
-        // hide file button div
+        document.getElementById('comparison-admin-level-select').style.display = '';
+        document.getElementById('comparison-boundary-select').style.display = '';
+        // reset upload button style
+        document.getElementById('comparison-boundary-upload-button').className = "upload-button";
+        document.getElementById('comparison-boundary-upload-button').innerHTML = uploadOffSymbol;
+        // hide file button elements
+        document.getElementById('comparison-boundary-upload-title').style.display = 'none';
         document.getElementById('comparison-file-div').style.display = 'none';
     } else if (source == 'upload') {
         // disable admin level button
-        document.getElementById('comparison-admin-level-select').disabled = true;
+        document.getElementById('comparison-admin-level-select').style.display = 'none';
+        document.getElementById('comparison-boundary-select').style.display = 'none';
         // reset
         document.getElementById('comparison-file-input').value = null;
         document.getElementById('comparison-file-select').innerHTML = '<option value="" disabled selected hidden>(Please select a boundary)</option>';
         document.getElementById('comparison-file-select').disabled = true;
-        // show file button div
+        // change upload button style to active
+        document.getElementById('comparison-boundary-upload-button').className = "upload-button upload-button-active";
+        document.getElementById('comparison-boundary-upload-button').innerHTML = uploadOnSymbol;
+        // show file button elements
+        document.getElementById('comparison-boundary-upload-title').style.display = '';
         document.getElementById('comparison-file-div').style.display = 'block';
     } else {
         // activate admin level button
-        document.getElementById('comparison-admin-level-select').disabled = false;
-        // hide file button div
+        document.getElementById('comparison-admin-level-select').style.display = '';
+        document.getElementById('comparison-boundary-select').style.display = '';
+        // reset upload button style
+        document.getElementById('comparison-boundary-upload-button').className = "upload-button";
+        document.getElementById('comparison-boundary-upload-button').innerHTML = uploadOffSymbol;
+        // hide file button elements
+        document.getElementById('comparison-boundary-upload-title').style.display = 'none';
         document.getElementById('comparison-file-div').style.display = 'none';
         // update main layer with external geoContrast topojson
         updateComparisonLayer(zoomToExtent=true);

@@ -1,5 +1,5 @@
 
-var DEV = 0; // when set to 1, metadata and source data is read from the 'dev' branch
+var GITBRANCH = 'stable'; // metadata and source data is read from this branch
 
 function getZipFileContent(zipdata, name) {
     console.log('unzipping...');
@@ -209,7 +209,7 @@ function loadFromTopoJSON(source, topoj) {
 function loadFromGeoJSON(source, geoj) {
     //alert('reading features...');
     var format = new ol.format.GeoJSON({});
-    var features = format.readFeatures(geoj, {
+    var allFeatures = format.readFeatures(geoj, {
                                                 dataProjection: 'EPSG:4326',
                                                 featureProjection: 'EPSG:3857'
                                             }
@@ -217,7 +217,13 @@ function loadFromGeoJSON(source, geoj) {
     //alert(features.length + ' features fetched');
     // set ids
     var i = 1;
-    for (feat of features) {
+    var features = [];
+    for (feat of allFeatures) {
+        if (feat.getGeometry() == null) {
+            // ignore null geoms
+            continue;
+        };
+        features.push(feat);
         feat.setId(i);
         i++;
     };
@@ -253,8 +259,11 @@ function loadGeoContrastSource(source, iso, level, sourceName) {
             .then(out => loadFromTopoJSON(source, out))
             //.catch(err => alert('Failed to load data from '+apiUrl+'. Please choose another source. Error: '+JSON.stringify(err)));
     } else if (apiUrl.endsWith('.zip')) {
-        if (DEV == 1) {
-            apiUrl = apiUrl.replace('/geoContrast/stable/', '/geoContrast/main/');
+        if (GITBRANCH != 'stable') {
+            // HACKY FIX:
+            // all metadata api urls are set to stable
+            // until this is changed, hacky replace with branch name for now
+            apiUrl = apiUrl.replace('/geoContrast/stable/', '/geoContrast/'+GITBRANCH+'/');
         };
         var splitUrl = apiUrl.split('/');
         var extractName = splitUrl[splitUrl.length-1].replace('.zip','');
@@ -279,8 +288,11 @@ function loadGeoContrastMetadata(onSuccess) {
     // fetch metadata
     // determine url of metadata csv
     url = 'https://raw.githubusercontent.com/wmgeolab/geoContrast/stable/releaseData/geoContrast-meta.csv';
-    if (DEV == 1) {
-        url = url.replace('/geoContrast/stable/', '/geoContrast/main/');
+    if (GITBRANCH != 'stable') {
+        // HACKY FIX:
+        // all metadata api urls are set to stable
+        // until this is changed, hacky replace with branch name for now
+        url = url.replace('/geoContrast/stable/', '/geoContrast/'+GITBRANCH+'/');
     };
     // define error and success
     function error (err, file, inputElem, reason) {
