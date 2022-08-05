@@ -27,6 +27,21 @@
 			}
 		}
 
+	div#banner { 
+       position: absolute; 
+       top: 0; 
+       left: 0; 
+       background-color: #DDEEEE; 
+       width: 100%; 
+     }
+     div#banner-content { 
+       width: 800px; 
+	   height:10px;
+       margin: 0 auto; 
+       padding: 10px; 
+       border: 1px solid #000;
+     }
+
 	</style>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -38,6 +53,9 @@
 
 		gtag('config', 'UA-9276981-3');
 	</script>
+
+
+
 	<!-- Global site tag (gtag.js) - Google Ads: 984002936 -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
 	<script>
@@ -81,7 +99,6 @@
 		<!-- Main -->
 		<div id="main">
 			<div class="inner">
-
 				<!-- Header -->
 				<header id="header">
 					<span class="logo"><a href="index.html"><strong>geoBoundaries</strong></a> built by the <a href="https://github.com/wmgeolab/geoBoundaries">community</a> and <a
@@ -533,6 +550,30 @@ L.tileLayer(
 			]
 		});
 	</script>
+
+<script>
+function showNotificationBar(message, duration, bgColor, txtColor, height) {
+ 
+ /*set default values*/
+ duration = typeof duration !== 'undefined' ? duration : 120000;
+ bgColor = typeof bgColor !== 'undefined' ? bgColor : "#F4E0E1";
+ txtColor = typeof txtColor !== 'undefined' ? txtColor : "#A42732";
+ height = typeof height !== 'undefined' ? height : 40;
+ /*create the notification bar div if it doesn't exist*/
+
+var HTMLmessage = "<div class='notification-message' style='text-align:center; line-height: " + height + "px;'> " + message + " </div>";
+$('body').prepend("<div id='notification-bar' style='display:none; width:100%; height:" + height + "px; background-color: " + bgColor + "; position: fixed; z-index: 100; color: " + txtColor + ";border-bottom: 1px solid " + txtColor + ";'>" + HTMLmessage + "</div>");
+ 
+ /*animate the bar*/
+ $('#notification-bar').slideDown(function() {
+	 setTimeout(function() {
+		 $('#notification-bar').slideUp(function() {});
+	 }, duration);
+ });
+}
+
+showNotificationBar("geoBoundaries is <a href='https://jobs.wm.edu/postings/49580'>hiring</a>!  Apply by Aug 16.");
+</script>
 </body>
 
 </html>
