@@ -1530,6 +1530,8 @@ async function renderAgreementPage() {
         // add top header row
         if (rowNum != 0) {
             var row = rows[0];
+            row.querySelector('#main-names-table-select').value = document.getElementById('#main-names-table-select').value;
+            row.querySelector('#comparison-names-table-select').value = document.getElementById('#comparison-names-table-select').value;
             table.appendChild(row.cloneNode(true));
         };
         // add data rows
