@@ -36,10 +36,10 @@ var comparisonLayer = new ol.layer.Vector({
 // map
 
 var baseMaps = {
-    'maptiler': new ol.source.XYZ({
-        attributions: 'Satellite Imagery <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ',
+    'google': new ol.source.XYZ({
+        attributions: 'Satellite Imagery <a href="https://www.google.com" target="_blank">&copy; Google</a> ',
         url:
-        'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + 'snhFre9GjLPBZf1tOZ0L',
+        'https://www.google.com/maps/vt?lyrs=s&x={x}&y={y}&z={z}',
         maxZoom: 20,
         crossOrigin: 'anonymous' // necessary for converting map to img during pdf generation: https://stackoverflow.com/questions/66671183/how-to-export-map-image-in-openlayer-6-without-cors-problems-tainted-canvas-iss
     }),
@@ -52,7 +52,7 @@ var baseMaps = {
     }),
     'osm': new ol.source.OSM({crossOrigin: 'anonymous'}),
 };
-var baseMapLayer = new ol.layer.Tile({source: baseMaps.maptiler});
+var baseMapLayer = new ol.layer.Tile({source: baseMaps.google});
 
 function setBaseMap(name) {
     baseMapLayer.setSource(baseMaps[name]);
@@ -1530,6 +1530,8 @@ async function renderAgreementPage() {
         // add top header row
         if (rowNum != 0) {
             var row = rows[0];
+            row.querySelector('#main-names-table-select').value = document.getElementById('#main-names-table-select').value;
+            row.querySelector('#comparison-names-table-select').value = document.getElementById('#comparison-names-table-select').value;
             table.appendChild(row.cloneNode(true));
         };
         // add data rows

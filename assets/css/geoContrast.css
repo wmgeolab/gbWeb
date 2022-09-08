@@ -223,10 +223,21 @@ ul li{
     display: flex;
     flex-direction: row;
     align-items: middle;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-left: 1px solid rgb(240, 179, 35);
+    border-top: 1px solid rgb(240, 179, 35);
+    border-right: 1px solid rgb(240, 179, 35);
+    background-color: white;
+    width: fit-content;
+    padding: 5px 15px;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: infinite;
 }
 
 .section-banner h2 {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .section-banner img {
