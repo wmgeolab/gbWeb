@@ -1,0 +1,68 @@
+<div id="footer-wrapper">
+    <footer id="footer" class="container">
+        <div class="row">
+            <div class="col-3 col-6-medium col-12-small">
+
+                <!-- Links -->
+                    <section>
+                        <h3>Legal</h3>
+                        <span style="font-size:14px;display:inline-block;line-height:1em;">With respect to works on or made available through download from the this website, we make no representations or warranties—express, implied, or statutory—as to the validity, accuracy, completeness, or fitness for a particular purpose; nor represent that use of such works would not infringe privately owned rights; nor assume any liability resulting from use of such works; and shall in no way be liable for any costs, expenses, claims, or demands arising out of use of such works. </span>
+                    </section>
+
+            </div>
+            <div class="col-3 col-6-medium col-12-small">
+
+                <!-- Links -->
+                    <section class="widget links">
+                        <h3>Partners & Collaborators</h3>
+                        <ul class="style2">
+                            <li><a href="https://www.unocha.org/">UN OCHA</a></li>
+                            <li><a href="https://www.unsalb.org/">UN SALB</a></li>
+                            <li><a href="https://grid3.org/">GRID3</a></li>
+                        </ul>
+                    </section>
+
+            </div>
+            <div class="col-3 col-6-medium col-12-small">
+
+                <!-- Links -->
+                    <section class="widget links">
+                        <h3>Made Possible By</h3>
+                        <ul class="style2">
+                            <li><a href="https://www.gatesfoundation.org/">Bill & Melinda Gates Foundation</a></li>
+                            <li><a href="https://www.mcgovern.org/">Patrick J McGovern Foundation</a></li>
+                            <li><a href="https://www.wm.edu/">William & Mary</a></li>
+                            <li><a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">Viewers Like You</a></li>
+                        </ul>
+                    </section>
+
+            </div>
+            <div class="col-3 col-6-medium col-12-small">
+
+                <!-- Contact -->
+                    <section class="widget contact last">
+                        <h3>Contact Us</h3>
+                        <ul>
+                            <li><a href="https://twitter.com/geogdan" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                            <li><a href="https://www.linkedin.com/in/geogdan/" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+                            <li><a href="mailto:team@geoboundaries.org" class="fas fa-envelope"><span class="label"></span></a></li>
+                            <li><a href="https://github.com/wmgeolab/geoBoundaries" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                        </ul>
+                        <p>William & Mary geoLab<br />
+                        540 Landrum Drive<br />
+                        Williamsburg, VA 23185</p>
+                    </section>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="copyright">
+                    <ul class="menu">
+                        <li>William & Mary geoLab</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

@@ -1,0 +1,30 @@
+<div id="header-wrapper">
+    <header id="header" class="container">
+
+        <!-- Logo -->
+        <div id="logo">
+            <h1><a href="index.html">geoBoundaries</a></h1>
+            <span><a href="http://geolab.wm.edu">@ William & Mary</a></span>
+        </div>
+        <nav id="nav">
+            <ul>
+                <li>
+                    <a href="right-sidebar.html">Visualize Data</a>
+                </li>
+                <li>
+                    <a href="index.html#features-wrapper">Download Data</a>
+                </li>
+                <li>
+                    <a href="#">API</a>
+                </li>
+                
+                <li>
+                    <a href="#">Get Involved</a>
+                </li>
+
+
+            </ul>
+        </nav>
+
+    </header>
+</div>

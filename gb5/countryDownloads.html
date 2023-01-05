@@ -6,53 +6,47 @@
 -->
 <html>
 	<head>
-		<title>Verti by HTML5 UP</title>
+		<title>geoBoundaries</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/tabulator.css">
+		<script type="text/javascript" src="assets/js/tabulator.js"></script>
 	</head>
 	<body class="is-preload left-sidebar">
 		<div id="page-wrapper">
 
-			<!-- Header -->
-				<div id="header-wrapper">
-					<header id="header" class="container">
-
-						<!-- Logo -->
-							<div id="logo">
-								<h1><a href="index.html">Verti</a></h1>
-								<span>by HTML5 UP</span>
-							</div>
-
-						<!-- Nav -->
-							<nav id="nav">
-								<ul>
-									<li><a href="index.html">Welcome</a></li>
-									<li>
-										<a href="#">Dropdown</a>
-										<ul>
-											<li><a href="#">Lorem ipsum dolor</a></li>
-											<li><a href="#">Magna phasellus</a></li>
-											<li>
-												<a href="#">Phasellus consequat</a>
-												<ul>
-													<li><a href="#">Lorem ipsum dolor</a></li>
-													<li><a href="#">Phasellus consequat</a></li>
-													<li><a href="#">Magna phasellus</a></li>
-													<li><a href="#">Etiam dolore nisl</a></li>
-												</ul>
-											</li>
-											<li><a href="#">Veroeros feugiat</a></li>
-										</ul>
-									</li>
-									<li class="current"><a href="left-sidebar.html">Left Sidebar</a></li>
-									<li><a href="right-sidebar.html">Right Sidebar</a></li>
-									<li><a href="no-sidebar.html">No Sidebar</a></li>
-								</ul>
-							</nav>
-
-					</header>
-				</div>
+			<!-- Header & Nav -->
+			<div id="header-wrapper">
+				<header id="header" class="container">
+			
+					<!-- Logo -->
+					<div id="logo">
+						<h1><a href="index.html">geoBoundaries</a></h1>
+						<span><a href="http://geolab.wm.edu">@ William & Mary</a></span>
+					</div>
+					<nav id="nav">
+						<ul>
+							<li>
+								<a href="right-sidebar.html">Visualize Data</a>
+							</li>
+							<li>
+								<a href="index.html#features-wrapper">Download Data</a>
+							</li>
+							<li>
+								<a href="#">API</a>
+							</li>
+							
+							<li>
+								<a href="#">Get Involved</a>
+							</li>
+			
+			
+						</ul>
+					</nav>
+			
+				</header>
+			</div>
 
 			<!-- Main -->
 				<div id="main-wrapper">
@@ -63,27 +57,14 @@
 
 									<!-- Sidebar -->
 										<section>
-											<h3>Subheading</h3>
-											<p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus.
-											Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat.
-											Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis nisi
-											consequat etiam.</p>
+											<h3>Individual Country Files</h3>
+											<p>The geoBoundaries open license (<a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>) country dataset seeks to represent every nation "as they would represent themselves", with no special identification of disputed areas. If you would prefer data that explicitly includes disputed areas, please see the global composite dataset. The only requirement for use of this dataset is <a href="index.html#usage">attribution</a>. </p>
 											<footer>
-												<a href="#" class="button icon solid fa-info-circle">Find out more</a>
+												<a href="#" style="width:100%" class="button icon solid fa-globe">Global Composite Files</a>
+												<a href="#" style="width:100%;position:relative;top:20px;padding-top:5px;" class="button icon solid fa-address-card">Joinable Data <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />Population, Health, Environment & more</span></a>
 											</footer>
 										</section>
 
-										<section>
-											<h3>Subheading</h3>
-											<ul class="style2">
-												<li><a href="#">Amet turpis, feugiat et sit amet</a></li>
-												<li><a href="#">Ornare in hendrerit in lectus</a></li>
-												<li><a href="#">Semper mod quis eget mi dolore</a></li>
-												<li><a href="#">Quam turpis feugiat sit dolor</a></li>
-												<li><a href="#">Amet ornare in hendrerit in lectus</a></li>
-												<li><a href="#">Semper mod quisturpis nisi</a></li>
-											</ul>
-										</section>
 
 								</div>
 							</div>
@@ -93,29 +74,106 @@
 									<!-- Content -->
 										<article>
 
-											<h2>Left Sidebar</h2>
 
-											<p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus.
-											Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat.
-											Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis nisi
-											consequat etiam lorem ipsum dolor sit amet nullam.</p>
+											<p>	<div id="dataTableRep" style="max-width:100%;">
 
-											<h3>More intriguing information</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac quam risus, at tempus
-											justo. Sed dictum rutrum massa eu volutpat. Quisque vitae hendrerit sem. Pellentesque lorem felis,
-											ultricies a bibendum id, bibendum sit amet nisl. Mauris et lorem quam. Maecenas rutrum imperdiet
-											vulputate. Nulla quis nibh ipsum, sed egestas justo. Morbi ut ante mattis orci convallis tempor.
-											Etiam a lacus a lacus pharetra porttitor quis accumsan odio. Sed vel euismod nisi. Etiam convallis
-											rhoncus dui quis euismod. Maecenas lorem tellus, congue et condimentum ac, ullamcorper non sapien.
-											Donec sagittis massa et leo semper a scelerisque metus faucibus. Morbi congue mattis mi.
-											Phasellus sed nisl vitae risus tristique volutpat. Cras rutrum commodo luctus.</p>
+												Loading...
+						
+											</div></p>
 
-											<p>Phasellus odio risus, faucibus et viverra vitae, eleifend ac purus. Praesent mattis, enim
-											quis hendrerit porttitor, sapien tortor viverra magna, sit amet rhoncus nisl lacus nec arcu.
-											Suspendisse laoreet metus ut metus imperdiet interdum aliquam justo tincidunt. Mauris dolor urna,
-											fringilla vel malesuada ac, dignissim eu mi. Praesent mollis massa ac nulla pretium pretium.
-											Maecenas tortor mauris, consectetur pellentesque dapibus eget, tincidunt vitae arcu.
-											Vestibulum purus augue, tincidunt sit amet iaculis id, porta eu purus.</p>
+										<script>
+												var downloadSingleIcon = function (cell, formatterParams) {
+													if (typeof cell.getValue() != "undefined") {
+														return "<i class='fa fa-download'></i>";
+													}
+												}
+												var downloadSimpleIcon = function (cell, formatterParams) {
+													if (typeof cell.getValue() != "undefined") {
+														return "<i class='fa fa-save'></i>";
+													}
+												}
+												var interactivePreview = function (cell, formatterParams) {
+													if (typeof cell.getValue() != "undefined") {
+														return "<i class='fa fa-eye'></i>";
+													}
+												}
+												var iconFormatter = function (cell, row, formatterParams) { //plain text value
+													if (typeof cell.getValue() != "undefined") {
+														return "<a href='" + cell.getValue() + "' target='_blank'><img width=50px src='" + cell.getValue() + "'></a>";
+													}
+						
+												};
+												var tableA = new Tabulator("#dataTableRep", {
+													ajaxURL: "https://www.geoboundaries.org/api/current/gbOpen/ALL/ALL/", //ajax URL
+													height: screen.height * 0.75,
+													layout: "fitDataStretch",
+													autoResize:true,
+													resizableColumns: true,
+													responsiveLayout: "collapse",
+													//groupBy: ["Continent", "boundaryName"],
+													//autoColumns:true,
+													columns: [                 //define the table columns
+													{ formatter: downloadSingleIcon, title: "", align: "center", field: "staticDownloadLink", headerVertical: false, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["staticDownloadLink"].replace("https://g", "https://www.g"))) }},	
+													{ formatter: interactivePreview, title: "", field: "simplifiedGeometryGeoJSON", align: "center", headerVertical: false, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["simplifiedGeometryGeoJSON"])) } },
+													{ title: "Name", field: "boundaryName", visible: true, responsive: 0, headerFilter: 'input', width: "20px", headerVertical: false },
+														{ title: "ISO-3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: 'input', width: "12px", headerVertical: false },
+														{ title: "Type", field: "boundaryType", visible: true, responsive: 0, headerVertical: false },
+														{ title: "Year", width:"10px", field: "boundaryYearRepresented", headerVertical: false, },
+														{ title: "Preview", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: false, },
+														{ title: "Source", field: "boundarySource", headerVertical: false, responsive: 1, width: "20px", visible: true }
+														/* 
+														{
+															title: "geoBoundaries<br><span style='font-size:x-small;'>Can be used for most purposes, <br/>including academic and commercial.<br />Attribution required.</span>",
+															cssClass: "openHighlight",
+															columns: [
+																{ formatter: downloadSingleIcon, cssClass: "openHighlight", title: "Full Release", align: "center", field: "openDownloadURL", headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
+																{ formatter: downloadSimpleIcon, cssClass: "openHighlight", title: "Simplified geoJSON", field: "openSimplified", align: "center", visible: false, headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
+																{ title: "Year Represented", cssClass: "openHighlight", width:"6px", field: "openBoundaryYearRepresented", headerVertical: true, },
+																{ title: "Image Preview", cssClass: "openHighlight", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
+																{ formatter: interactivePreview, cssClass: "openHighlight", title: "Interactive Preview", field: "openSimpInteractive", align: "center", headerVertical: true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
+																{ title: "Primary Source", cssClass: "openHighlight", field: "openBoundarySource-1", headerVertical: true, responsive: 1, width: "30%", visible: false },
+																{ title: "License", cssClass: "openHighlight", field: "openBoundaryLicense", headerVertical: true, responsive: 1, width: "30%", visible: false },
+															],
+														},
+														{
+															title: "UN OCHA CODs<br><span style='font-size:x-small;'>For Humanitarian Uses Only.<br />&nbsp;<br />&nbsp;</span>",
+															formatter:"html",
+															cssClass: "ochaHighlight",
+															columns: [
+																{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field: "humDownloadURL", headerVertical: true, responsive: 0, visible: true, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
+																{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field: "humSimplified", align: "center", headerVertical: true, responsive: 0, visible: false, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
+																{ title: "Year Represented", field: "humBoundaryYearRepresented", width:"6px", headerVertical: true, visible: true, cssClass: "ochaHighlight" },
+																{ title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible: true, variableHeight: true, headerVertical: true, cssClass: "ochaHighlight" },
+																{ formatter: interactivePreview, title: "Interactive Preview", field: "humSimpInteractive", visible: false, align: "center", cssClass: "ochaHighlight", headerVertical: true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
+																{ title: "Primary Source", field: "humBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", cssClass: "ochaHighlight", visible: false },
+																{ title: "License", field: "humBoundaryLicense", headerVertical: true, responsive: 1, width: "30%", visible: false, cssClass: "ochaHighlight", visible: false },
+															],
+														},
+														{
+															title: "UN SALB<br><span style='font-size:x-small;'>Authoritative. No <br />commercial use or <br />modification allowed.</span>",
+															cssClass: "salbHighlight",
+															columns: [
+																{ formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
+																{ title: "Year Represented", cssClass: "salbHighlight", width:"6px", field: "authBoundaryYearRepresented", visible: true, responsive: 1, headerVertical: true, },
+																{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", formatter: iconFormatter, responsive: 0, visible: true, visible: true, variableHeight: true, headerVertical: true, },
+																{ title: "Primary Source", cssClass: "salbHighlight", field: "authBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
+																{ title: "License", cssClass: "salbHighlight", field: "authBoundaryLicense", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
+															],
+														} */
+						
+														//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
+														//
+														//{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
+														//{ title: "Level", field: "boundaryType", visible: true, responsive: 0, headerFilter: "select" },
+														//{ title: "License", field: "boundaryLicense", headerFilter: "select", headerFilterParams: { values: true }, visible: true, formatter: "textarea", width: "37%"},
+														//{title:"ID", field:"boundaryID", visible:true},
+														//{ title: "Source", field: "boundarySource-1", visible: true, formatter: "textarea", width: "37%" },
+														//{ title: "ShapefileURL", field: "downloadURL", visible: false },
+													]
+												});
+						
+						
+											</script>
 
 										</article>
 
@@ -126,84 +184,7 @@
 				</div>
 
 			<!-- Footer -->
-				<div id="footer-wrapper">
-					<footer id="footer" class="container">
-						<div class="row">
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Contact -->
-									<section class="widget contact">
-										<h3>Contact Us</h3>
-										<ul>
-											<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-											<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-											<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-											<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-											<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
-										</ul>
-										<p>1234 Fictional Road<br />
-										Nashville, TN 00000<br />
-										(800) 555-0000</p>
-									</section>
-
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<div id="copyright">
-									<ul class="menu">
-										<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</footer>
-				</div>
+			<div data-include="_includes/footer.shtml"></div>
 
 			</div>
 
@@ -215,6 +196,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/HTMLInclude.min.js"></script>
 
 	</body>
 </html>

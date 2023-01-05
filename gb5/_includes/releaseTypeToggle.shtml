@@ -1,0 +1,9 @@
+<section>
+    <h3>Choose type of Release</h3>
+    <p style="margin-block-end:0px;">While we recommend geoBoundaries Open Data for most users (as it is open under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>), we also provide two alternative releases, each under licenses that prohibit certain (i.e., commercial, redistribution) uses: a rapidly-updating humanitarian release (from <a href="https://www.unocha.org/">UN OCHA</a>), and a slowly-updating authoritative release (from <a href="https://www.unsalb.org/">UN SALB</a>).</p>
+    <ul class="style2">
+        <li><a class="icon solid fa-solid fa-globe" href="countryDownloads.html"><b>&nbsp;Open License Data</b></a></li>
+        <li><a class="icon solid fa-solid fa-hand-holding-heart" href="countryDownloadHumanitarian.html"><b>&nbsp;Humanitarian Data</b></a></li>
+        <li><a class="icon solid fa-solid fa-handshake" href="countryDownloadsAuthoritative.html"><b>&nbsp;Authoritative Data</b></a></li>
+    </ul>
+</section>
