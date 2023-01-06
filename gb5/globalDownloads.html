@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<!--
+	Verti by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>geoBoundaries</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/tabulator.css">
+		<link rel="stylesheet" href="assets/css/BeerSlider.css" />
+		<link rel="stylesheet" type="text/css" href="assets/js/slick/slick.css" />
+		<script type="text/javascript" src="assets/js/tabulator.js"></script>
+	</head>
+	<body class="is-preload left-sidebar">
+		<div id="page-wrapper">
+
+			<!-- Header & Nav -->
+			<div id="header-wrapper">
+				<header id="header" class="container">
+			
+					<!-- Logo -->
+					<div id="logo">
+						<h1><a href="index.html">geoBoundaries</a></h1>
+						<span><a href="http://geolab.wm.edu">@ William & Mary</a></span>
+					</div>
+					<nav id="nav">
+						<ul>
+							<li>
+								<a href="right-sidebar.html">Visualize Data</a>
+							</li>
+							<li>
+								<a href="index.html#features-wrapper">Download Data</a>
+							</li>
+							<li>
+								<a href="#">API</a>
+							</li>
+							
+							<li>
+								<a href="#">Get Involved</a>
+							</li>
+			
+			
+						</ul>
+					</nav>
+			
+				</header>
+			</div>
+
+			<!-- Main -->
+				<div id="main-wrapper">
+					<div class="container">
+						<div class="row gtr-200">
+							<div class="col-4 col-12-medium">
+								<div id="sidebar">
+
+									<!-- Sidebar -->
+										<section>
+											<h3>Comprehensive Global Administrative Zones (CGAZ)</h3>
+											<p>CGAZ is a set of global composites for administrative boundaries. There are two important distinctions between our global product and individual country downloads. First, extensive simplification is performed to ensure that file sizes are small enough to be used in most traditional desktop software. Second, disputed areas are removed and replaced with polygons following US Department of State definitions.<b> <a href="index.html#usage">Attribution</a> is required for all uses of this dataset</b>. </p>
+											<footer>
+												<div style="overflow:hidden;"><a href="countryDownloads.html" style="width:100%;position:relative;top:20px;padding-top:5px;padding-bottom:-10px;" class="button icon solid fa-flag">Single Country Files <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />Files for individual countries</span></a></div>
+												<div style="overflow:hidden;"><a href="globalDownloads.html" style="width:100%;position:relative;top:20px;padding-top:5px;padding-bottom:-10px;" class="button icon solid fa-globe">Global Composite Files <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />A single file for the enite globe</span></a></div>
+												<div style="overflow:hidden;"><a href="joinData.html" style="width:100%;position:relative;top:20px;padding-top:5px;padding-bottom:-10px;" class="button icon solid fa-address-card">Joinable Data <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />Population, Health, Environment & more</span></a></div>
+											</footer>
+										</section>
+
+
+								</div>
+							</div>
+							<div class="col-8 col-12-medium imp-medium">
+								<div id="content">
+
+									<!-- Content -->
+									<div class="row gtr-200">
+										<div class="col-6 col-12-medium">
+											<div class="image object" id="imageRotate" style="max-height:250px;max-width:500px;height:auto;width:auto;">
+												<div id="slider3" class="beer-slider" data-beer-label="High Resolution">
+													<img src="images/ADM0_sim25.jpg" alt="">
+													<div class="beer-reveal" data-beer-label="Low Resolution">
+													  <img src="images/ADM0_sim10.jpg" alt="">
+													</div>
+												  </div>
+											
+											
+											
+												<div id="slider" class="beer-slider" data-beer-label="High Resolution">
+												<img src="images/ADM2_sim25.jpg" alt="">
+												<div class="beer-reveal" data-beer-label="Low Resolution">
+												  <img src="images/ADM2_sim10.jpg" alt="">
+												</div>
+											  </div>
+				
+				
+											  <div id="slider2" class="beer-slider" data-beer-label="High Resolution">
+												<img src="images/ADM1_sim25.jpg" alt="">
+												<div class="beer-reveal" data-beer-label="Low Resolution">
+												  <img src="images/ADM1_sim10.jpg" alt="">
+												</div>
+											  </div>
+				
+											  
+				
+				
+											</div>
+				
+										</div>
+										<div class="col-6 col-12-medium">
+											<blockquote>Our single-file global products are heavily simplified and gap filled, as contrasted to our	full resolution single-country products. An example of the difference between resolutions can be seen here to help you choose the best product for your use. </blockquote>
+										</div>
+				
+									</div>
+									<br />
+									<br />
+									<div id="ADM0" class="box">
+										<table>
+											<tbody>
+												<tr>
+													<td><b>ADM Level</b></td>
+													<td><b>GeoJSON</b></td>
+													<td><b>TopoJSON</b></td>
+													<td><b>Shapefile</b></td>
+													<td><b>geoPackage</b></td>
+												</tr>
+												<tr>
+													<td>ADM0 (Countries)</td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM0.geojson"><i class='fa fa-download'></i>379MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM0.topojson"><i class='fa fa-download'></i>54MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM0.zip"><i class='fa fa-download'></i>99MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM0.gpkg"><i class='fa fa-download'></i>162MB</a></td>
+												</tr>
+												<tr>
+													<td>ADM1 (Districts)</td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM1.geojson"><i class='fa fa-download'></i>373MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM1.topojson"><i class='fa fa-download'></i>55MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM1.zip"><i class='fa fa-download'></i>109MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM1.gpkg"><i class='fa fa-download'></i>163MB</a></td>
+												</tr>
+												<tr>
+													<td>ADM2 (Municipalities)</td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM2.geojson"><i class='fa fa-download'></i>655MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM2.topojson"><i class='fa fa-download'></i>106MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM2.zip"><i class='fa fa-download'></i>185MB</a></td>
+													<td><a href="https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/CGAZ/geoBoundariesCGAZ_ADM2.gpkg"><i class='fa fa-download'></i>317MB</a></td>
+												</tr>
+											</tbody>
+										</table>
+										
+	
+							</div>
+							
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- Footer -->
+			<div data-include="_includes/footer.shtml"></div>
+
+			</div>
+
+		<!-- Scripts -->
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/HTMLInclude.min.js"></script>
+			<script src="assets/js/jquery.easytabs.js" type="text/javascript"></script>
+			<script src="assets/js/BeerSlider.js" type="text/javascript"></script>
+			<script type="text/javascript" src="assets/js/slick/slick.min.js"></script>
+			<script type="text/javascript">
+				$(document).ready(function () {
+					$('#tab-container').easytabs();
+					$('#imageRotate').slick({
+					appendArrows:"#arrowHold",
+					dots: false,
+					draggable: false,
+					infinite: true,
+					slidesToShow: 1,
+					centerMode: false,
+					centerPadding: '40px',
+					autoplay: false,
+					variableWidth: false,
+					accessibility: false,
+					arrows: false,
+					prevArrow:'<div style="width:100%"><button type="button" class="slick-prev">Previous</button>',
+					nextArrow:'<button type="button" class="slick-next" style="margin-left:10px;">Next</button></div>'
+				});
+				});
+				new BeerSlider(document.getElementById('slider'));
+				new BeerSlider(document.getElementById('slider2'));
+				new BeerSlider(document.getElementById('slider3'));
+		
+			</script>
+
+	</body>
+</html>

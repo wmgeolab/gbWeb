@@ -1637,7 +1637,7 @@ input, select, textarea {
 		background: #0090c5;
 		color: #fff;
 		text-decoration: none;
-		border-radius: 6px;
+		border-radius: 0px;
 		font-weight: 800;
 		outline: 0;
 		border: 0;

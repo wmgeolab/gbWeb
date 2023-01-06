@@ -58,10 +58,11 @@
 									<!-- Sidebar -->
 										<section>
 											<h3>Individual Country Files</h3>
-											<p>The geoBoundaries open license (<a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>) country dataset seeks to represent every nation "as they would represent themselves", with no special identification of disputed areas. If you would prefer data that explicitly includes disputed areas, please see the global composite dataset. The only requirement for use of this dataset is <a href="index.html#usage">attribution</a>. </p>
+											<p>The geoBoundaries open license (<a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>) country dataset seeks to represent every nation "as they would represent themselves", with no special identification of disputed areas. If you would prefer data that explicitly includes disputed areas, please see the global composite dataset. <b><a href="index.html#usage">Attribution</a> is required for all uses of this dataset</b>. </p>
 											<footer>
-												<a href="#" style="width:100%" class="button icon solid fa-globe">Global Composite Files</a>
-												<a href="#" style="width:100%;position:relative;top:20px;padding-top:5px;" class="button icon solid fa-address-card">Joinable Data <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />Population, Health, Environment & more</span></a>
+												<div style="overflow:hidden;"><a href="countryDownloads.html" style="width:100%;position:relative;top:20px;padding-top:5px;padding-bottom:-10px;" class="button icon solid fa-flag">Single Country Files <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />Files for individual countries</span></a></div>
+												<div style="overflow:hidden;"><a href="globalDownloads.html" style="width:100%;position:relative;top:20px;padding-top:5px;padding-bottom:-10px;" class="button icon solid fa-globe">Global Composite Files <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />A single file for the enite globe</span></a></div>
+												<div style="overflow:hidden;"><a href="joinData.html" style="width:100%;position:relative;top:20px;padding-top:5px;padding-bottom:-10px;" class="button icon solid fa-address-card">Joinable Data <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />Population, Health, Environment & more</span></a></div>
 											</footer>
 										</section>
 
@@ -121,54 +122,6 @@
 														{ title: "Year", width:"10px", field: "boundaryYearRepresented", headerVertical: false, },
 														{ title: "Preview", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: false, },
 														{ title: "Source", field: "boundarySource", headerVertical: false, responsive: 1, width: "20px", visible: true }
-														/* 
-														{
-															title: "geoBoundaries<br><span style='font-size:x-small;'>Can be used for most purposes, <br/>including academic and commercial.<br />Attribution required.</span>",
-															cssClass: "openHighlight",
-															columns: [
-																{ formatter: downloadSingleIcon, cssClass: "openHighlight", title: "Full Release", align: "center", field: "openDownloadURL", headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
-																{ formatter: downloadSimpleIcon, cssClass: "openHighlight", title: "Simplified geoJSON", field: "openSimplified", align: "center", visible: false, headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
-																{ title: "Year Represented", cssClass: "openHighlight", width:"6px", field: "openBoundaryYearRepresented", headerVertical: true, },
-																{ title: "Image Preview", cssClass: "openHighlight", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
-																{ formatter: interactivePreview, cssClass: "openHighlight", title: "Interactive Preview", field: "openSimpInteractive", align: "center", headerVertical: true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
-																{ title: "Primary Source", cssClass: "openHighlight", field: "openBoundarySource-1", headerVertical: true, responsive: 1, width: "30%", visible: false },
-																{ title: "License", cssClass: "openHighlight", field: "openBoundaryLicense", headerVertical: true, responsive: 1, width: "30%", visible: false },
-															],
-														},
-														{
-															title: "UN OCHA CODs<br><span style='font-size:x-small;'>For Humanitarian Uses Only.<br />&nbsp;<br />&nbsp;</span>",
-															formatter:"html",
-															cssClass: "ochaHighlight",
-															columns: [
-																{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field: "humDownloadURL", headerVertical: true, responsive: 0, visible: true, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
-																{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field: "humSimplified", align: "center", headerVertical: true, responsive: 0, visible: false, cssClass: "ochaHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
-																{ title: "Year Represented", field: "humBoundaryYearRepresented", width:"6px", headerVertical: true, visible: true, cssClass: "ochaHighlight" },
-																{ title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible: true, variableHeight: true, headerVertical: true, cssClass: "ochaHighlight" },
-																{ formatter: interactivePreview, title: "Interactive Preview", field: "humSimpInteractive", visible: false, align: "center", cssClass: "ochaHighlight", headerVertical: true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
-																{ title: "Primary Source", field: "humBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", cssClass: "ochaHighlight", visible: false },
-																{ title: "License", field: "humBoundaryLicense", headerVertical: true, responsive: 1, width: "30%", visible: false, cssClass: "ochaHighlight", visible: false },
-															],
-														},
-														{
-															title: "UN SALB<br><span style='font-size:x-small;'>Authoritative. No <br />commercial use or <br />modification allowed.</span>",
-															cssClass: "salbHighlight",
-															columns: [
-																{ formatter: downloadSingleIcon, cssClass: "salbHighlight", title: "Full Release", align: "center", field: "authDownloadURL", headerVertical: true, visible: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
-																{ title: "Year Represented", cssClass: "salbHighlight", width:"6px", field: "authBoundaryYearRepresented", visible: true, responsive: 1, headerVertical: true, },
-																{ title: "Image Preview", cssClass: "salbHighlight", field: "authPreview", formatter: iconFormatter, responsive: 0, visible: true, visible: true, variableHeight: true, headerVertical: true, },
-																{ title: "Primary Source", cssClass: "salbHighlight", field: "authBoundarySource-1", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
-																{ title: "License", cssClass: "salbHighlight", field: "authBoundaryLicense", headerVertical: true, responsive: 1, visible: false, width: "30%", visible: false },
-															],
-														} */
-						
-														//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
-														//
-														//{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
-														//{ title: "Level", field: "boundaryType", visible: true, responsive: 0, headerFilter: "select" },
-														//{ title: "License", field: "boundaryLicense", headerFilter: "select", headerFilterParams: { values: true }, visible: true, formatter: "textarea", width: "37%"},
-														//{title:"ID", field:"boundaryID", visible:true},
-														//{ title: "Source", field: "boundarySource-1", visible: true, formatter: "textarea", width: "37%" },
-														//{ title: "ShapefileURL", field: "downloadURL", visible: false },
 													]
 												});
 						
