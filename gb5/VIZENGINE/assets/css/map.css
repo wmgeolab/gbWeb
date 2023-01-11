@@ -1,0 +1,139 @@
+#map { 
+    position: absolute;
+    height: 100%; 
+    width: 100%; 
+    margin: 0px; 
+    padding: 0px; 
+    font-size: 16px;
+ }
+ 
+ #groups {
+    position: absolute;
+    display: none;
+    top: 10px;
+    left: 10px;
+    width: fit-content; 
+    border: 1px solid #aaa;
+    background-color: white;
+    padding: 10px;
+    text-align: left;
+    border-radius: 5px;
+    overflow: auto;
+    max-height: 90%;
+    z-index: 2020;
+ }
+ 
+ #layers {
+    position: absolute;
+    top: 110px;
+    left: 10px;
+    border: 1px solid #aaa;
+    background-color: white;
+    margin: 0px;
+    padding: 7px;
+    padding-bottom: 0px;
+    z-index: 2010;
+    border-radius: 5px;
+ }
+ 
+ #crosshair {
+    position: absolute;
+    padding: 0px;
+    margin-left: -10px;
+    margin-top: -10px;
+    left: 50%;
+    top: 50%;
+    z-index: 5000;
+ }
+ 
+ #info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: fit-content;
+    border: 1px solid #aaa;
+    background-color: white;
+    padding: 7px;
+    text-align: center;
+    border-radius: 5px;
+    z-index: 2000;
+ }
+ 
+ #bounds {
+    font-size: .8em;
+ }
+ 
+ #fixed {
+    font-size: .8em;
+ }
+ 
+ #loading {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    display: none;
+    padding: 10px;
+    background-color: #ffffffaa;
+    z-index: 2100;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    width: fit-content;
+ }
+ 
+ .legend {
+    position: absolute;
+    right: 10px;
+    top: 100px;
+    width: fit-content;
+    display: block;
+    z-index: 2100;
+ }
+ 
+ .milemarker {
+    width: fit-content;
+    height: fit-content;
+    margin: 0px; 
+    padding: 0px;
+    color: #964B00;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+    z-index: 2100;
+ }
+ 
+ .legendClass {
+    position: absolute;
+    display: block;
+    top: 85px;
+    right: 10px;
+    margin: 0px;
+    padding: 15px;
+    padding-bottom: 0px;
+    font-size: 12px;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 2500;
+ }
+ 
+ .cus-con {
+    width: 13px;
+    height: 13px;
+    margin: 0px; 
+    padding: 0px;
+    border-radius: 50%;
+    opacity: 0.6;
+ }
+ 
+ .resupply-con { border: 3px solid #700; background-color: #c00; }
+ .spring-con { border: 3px solid #004040; background-color: #008080; }
+ .gap-con { border: 3px solid #030303; background-color: #707070; }
+ .roads-con { border: 3px solid #000000; background-color: #303030; }
+ .lake-con { border: 3px solid #0000aa; background-color: #0000ff; }
+ .drainage-con { border: 3px solid #000000; background-color: #000080; }
+ .valley-con { border: 3px solid #404000; background-color: #808000; }
+ .summit-con { border: 3px solid #400000 ; background-color: #800000; }
+ .ridge-con { border: 3px solid #400040 ; background-color: #800080; }
+ .place-con { border: 3px solid #000000 ; background-color: #000000; }
+ .other-con { border: 3px solid #aa00aa ; background-color: #ff00ff; }

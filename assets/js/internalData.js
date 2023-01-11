@@ -287,7 +287,7 @@ function loadGeoContrastSource(source, iso, level, sourceName) {
 function loadGeoContrastMetadata(onSuccess) {
     // fetch metadata
     // determine url of metadata csv
-    url = 'https://raw.githubusercontent.com/wmgeolab/geoContrast/stable/releaseData/geoContrast-meta.csv';
+    url = 'https://raw.githubusercontent.com/wmgeolab/geoContrast/18c5aff53ae64b38803b01786da78b63344c5809/releaseData/geoContrast-meta.csv';
     if (GITBRANCH != 'stable') {
         // HACKY FIX:
         // all metadata api urls are set to stable

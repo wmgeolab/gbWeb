@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+   <link rel="stylesheet" type="text/css" href="assets/css/site.css" crossorigin="">
+   <link rel="stylesheet" type="text/css" href="assets/css/map.css" crossorigin="">
+   <link rel="stylesheet" type="text/css" href="assets/css/jsLegend.css" crossorigin="">
+   <link rel="stylesheet" href="assets/css/leaflet.css" crossorigin=""/>
+   <script src="assets/js/leaflet.js" crossorigin=""></script>
+   <script src="assets/js/underscore-min.js" crossorigin=""></script>
+   <script src="assets/js/flatgeobuf-geojson.min.js" crossorigin=""></script>
+   <script src="assets/js/json-formatter.js" crossorigin=""></script>
+   <script src="assets/js/proj4.js" crossorigin=""></script>
+   <script src="assets/js/georaster.js" crossorigin=""></script>
+   <script src="assets/js/georaster-layer-for-leaflet.js" crossorigin=""></script>
+   <script src="assets/js/jsLegend.js" crossorigin=""></script>
+   <script src="assets/js/class.js"></script>
+   <script src="assets/js/config.js"></script>
+   <script src="assets/js/map.js" defer></script>
+</head>
+<body onload="initMap()">
+<div id="groups" onmouseover="util.toggleDiv('groups', 'block')" onmouseout="util.toggleDiv('groups', 'none')">
+   <span class="boldFont">Layers:</span><br> 
+</div>
+
+<div id="map">
+
+   <div id="layers" onmouseover="util.toggleDiv('groups', 'block')">
+      <img src="https://www.postholer.com/demo/cdt/images/layers.png"></img>
+   </div>
+   <img id="crosshair" src="https://www.postholer.com/demo/cdt/images/crossHair.gif"></img>
+   <div id="loading">Loading...</div>
+</div>
+<div id="info">
+   <strong>Decimal Degrees:</strong><br>
+   <span id="latlon">-&nbsp;&nbsp;-</span><br>
+   <span id="fixed"><em>(lat/lon at mouse click)</em></span><br>
+   <span id="bounds"></span>
+</div>
+<div id="legend"></div>
+</body>
+</html>
+
