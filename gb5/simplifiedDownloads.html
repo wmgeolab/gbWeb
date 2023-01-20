@@ -11,6 +11,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/tabulator.css">
+		<link rel="stylesheet" href="assets/css/BeerSlider.css" />
+		<link rel="stylesheet" type="text/css" href="assets/js/slick/slick.css" />
 		<script type="text/javascript" src="assets/js/tabulator.js"></script>
 	</head>
 	<body class="is-preload left-sidebar">
@@ -57,8 +59,8 @@
 
 									<!-- Sidebar -->
 										<section>
-											<h3>Individual Country Files</h3>
-											<p>The geoBoundaries open license (<a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>) country dataset seeks to represent every nation "as they would represent themselves", with no special identification of disputed areas. If you would prefer data that explicitly includes disputed areas, please see the global composite dataset. <b><a href="index.html#usage">Attribution</a> is required for all uses of this dataset</b>. </p>
+											<h3>Simplified Country Files</h3>
+											<p>On this page, you'll find download links for the geoBoundaries simplified dataset, which is less accurate, but much faster rendering. The geoBoundaries open license (<a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>) country dataset seeks to represent every nation "as they would represent themselves", with no special identification of disputed areas. If you would prefer data that explicitly includes disputed areas, please see the global composite dataset. <b><a href="index.html#usage">Attribution</a> is required for all uses of this dataset</b>. </p>
 											<footer>
 												<div style="overflow:hidden;"><a href="countryDownloads.html" style="width:100%;position:relative;top:20px;padding-top:5px;padding-bottom:-10px;" class="button icon solid fa-flag">Single Country Files <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />Files for individual countries</span></a></div>
 												<div style="overflow:hidden;"><a href="globalDownloads.html" style="width:100%;position:relative;top:20px;padding-top:5px;padding-bottom:-10px;" class="button icon solid fa-globe">Global Files <span style="font-size:0.5em;position:relative;top:-15px;line-height:0px;left:30px;"><br />A single file for the enite globe</span></a></div>
@@ -74,7 +76,44 @@
 
 									<!-- Content -->
 										<article>
-
+											<div class="row gtr-200" >
+												<div class="col-6 col-12-medium" >
+													<div class="image object" id="imageRotate" style="max-height:250px;max-width:500px;height:auto;width:auto;">
+														<div id="slider3" class="beer-slider" data-beer-label="High Resolution">
+															<img src="images/ADM0_sim25.jpg" alt="">
+															<div class="beer-reveal" data-beer-label="Simplified">
+															  <img src="images/ADM0_sim10.jpg" alt="">
+															</div>
+														  </div>
+													
+													
+													
+														<div id="slider" class="beer-slider" data-beer-label="High Resolution">
+														<img src="images/ADM2_sim25.jpg" alt="">
+														<div class="beer-reveal" data-beer-label="Simplified">
+														  <img src="images/ADM2_sim10.jpg" alt="">
+														</div>
+													  </div>
+						
+						
+													  <div id="slider2" class="beer-slider" data-beer-label="High Resolution">
+														<img src="images/ADM1_sim25.jpg" alt="">
+														<div class="beer-reveal" data-beer-label="Simplified">
+														  <img src="images/ADM1_sim10.jpg" alt="">
+														</div>
+													  </div>
+						
+													  
+						
+						
+													</div>
+						
+												</div>
+												<div class="col-6 col-12-medium">
+													<blockquote>Our single-file global products are heavily simplified and gap filled, as contrasted to our	full resolution single-country products. An example of the difference between resolutions can be seen here to help you choose the best product for your use. </blockquote>
+												</div>
+						
+											</div>
 
 											<p>	<div id="dataTableRep" style="max-width:100%;">
 
@@ -114,12 +153,11 @@
 													//groupBy: ["Continent", "boundaryName"],
 													//autoColumns:true,
 													columns: [                 //define the table columns
-													{ formatter: downloadSingleIcon, title: "", align: "center", field: "staticDownloadLink", headerVertical: true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["staticDownloadLink"].replace("https://g", "https://www.g"))) }},	
+													{ formatter: downloadSingleIcon, title: "", align: "center", field: "staticDownloadLink", headerVertical: false, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["staticDownloadLink"].replace("https://g", "https://www.g"))) }},	
 													{ title: "Name", field: "boundaryName", visible: true, responsive: 0, headerFilter: 'input', width: "20px", headerVertical: false },
 														{ title: "ISO-3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: 'input', width: "12px", headerVertical: false },
 														{ title: "Type", field: "boundaryType", visible: true, responsive: 0, headerVertical: false },
 														{ title: "Year", width:"10px", field: "boundaryYearRepresented", headerVertical: false, },
-														{ title: "Preview", field: "imagePreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: false, },
 														{ title: "Source", field: "boundarySource", headerVertical: false, responsive: 1, width: "20px", visible: true }
 													]
 												});
@@ -149,6 +187,34 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/HTMLInclude.min.js"></script>
+
+			<script src="assets/js/jquery.easytabs.js" type="text/javascript"></script>
+			<script src="assets/js/BeerSlider.js" type="text/javascript"></script>
+			<script type="text/javascript" src="assets/js/slick/slick.min.js"></script>
+			<script type="text/javascript">
+				$(document).ready(function () {
+					$('#tab-container').easytabs();
+					$('#imageRotate').slick({
+					appendArrows:"#arrowHold",
+					dots: false,
+					draggable: false,
+					infinite: true,
+					slidesToShow: 1,
+					centerMode: false,
+					centerPadding: '40px',
+					autoplay: false,
+					variableWidth: false,
+					accessibility: false,
+					arrows: false,
+					prevArrow:'<div style="width:100%"><button type="button" class="slick-prev">Previous</button>',
+					nextArrow:'<button type="button" class="slick-next" style="margin-left:10px;">Next</button></div>'
+				});
+				});
+				new BeerSlider(document.getElementById('slider'));
+				new BeerSlider(document.getElementById('slider2'));
+				new BeerSlider(document.getElementById('slider3'));
+		
+			</script>
 
 	</body>
 </html>
