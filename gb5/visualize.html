@@ -9,7 +9,36 @@
 		<title>geoBoundaries</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/ol.css" type="text/css">
+		<link rel="stylesheet" href="assets/css/geoContrast.css" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		
+
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-9276981-3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-9276981-3');
+	</script>
+
+  
+	<!-- Global site tag (gtag.js) - Google Ads: 984002936 -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'AW-984002936');
+	</script>
+
+	<!-- Event snippet for Website traffic conversion page -->
+	<script>
+		gtag('event', 'conversion', {'send_to': 'AW-984002936/BycZCJ_8kdMBEPjimtUD'});
+	</script>
 	</head>
 	<body class="is-preload right-sidebar">
 		<div id="page-wrapper">
@@ -50,66 +79,419 @@
 				<div id="main-wrapper">
 					<div class="container">
 						<div class="row gtr-200">
-							<div class="col-8 col-12-medium">
+							<div class="col-12 col-12-medium">
 								<div id="content">
 
 									<!-- Content -->
 										<article>
 
-											<h2>Right Sidebar</h2>
+											<h2>Visualize & Compare Boundaries</h2>
 
-											<p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus.
-											Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat.
-											Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis nisi
-											consequat etiam lorem ipsum dolor sit amet nullam.</p>
+											<div id="map-and-toolbox-div" class="row" style="width:100%; margin-left:0; margin-bottom:25px">
 
-											<h3>More intriguing information</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac quam risus, at tempus
-											justo. Sed dictum rutrum massa eu volutpat. Quisque vitae hendrerit sem. Pellentesque lorem felis,
-											ultricies a bibendum id, bibendum sit amet nisl. Mauris et lorem quam. Maecenas rutrum imperdiet
-											vulputate. Nulla quis nibh ipsum, sed egestas justo. Morbi ut ante mattis orci convallis tempor.
-											Etiam a lacus a lacus pharetra porttitor quis accumsan odio. Sed vel euismod nisi. Etiam convallis
-											rhoncus dui quis euismod. Maecenas lorem tellus, congue et condimentum ac, ullamcorper non sapien.
-											Donec sagittis massa et leo semper a scelerisque metus faucibus. Morbi congue mattis mi.
-											Phasellus sed nisl vitae risus tristique volutpat. Cras rutrum commodo luctus.</p>
+						
+												<div class="col-7 col-12-medium" style="padding-left:0">
+													<div id="fullscreen" class="fullscreen">
+														<div id="map" class="map">
+														</div>
+														<div style="display:none">
+															<!--Inside display:none to avoid being shown while waiting to be positioned-->
+															<div id="layer-switcher" class="ol-control-panel ol-unselectable ol-control">
+																<ul id="layer-list">
+																	<li>
+																		<!--note: checkbox class is rendered using a label checkmark character-->
+																		<input id="toggle-layer-main" type="checkbox" style="display:none" onchange="toggleMainLayer()" checked/>
+																		<label for="toggle-layer-main" style="margin-top:-8px; font-size:0.8em"></label>
+																		<hr id="legend-symbol-main"></hr>
+																		<span>Main boundary</span>
+																	</li>
+																	<li>
+																		<!--note: checkbox class is rendered using a label checkmark character-->
+																		<input id="toggle-layer-comparison" type="checkbox" style="display:none" onchange="toggleComparisonLayer()" checked/>
+																		<label for="toggle-layer-comparison" style="margin-top:-8px; font-size:0.8em"></label>
+																		<hr id="legend-symbol-comparison"></hr>
+																		<span>Comparison boundary</span>
+																	</li>
+																	<li>
+																		<img id="legend-symbol-basemap" src="images/1200px-Picture_icon_BLACK.svg.png"/>
+																		<select id="select-basemap" onchange="setBaseMap(this.value)">
+																			<option value="google" selected>Google Satellite</option>
+																			<option value="esri">ESRI World Street Map</option>
+																			<option value="osm">OpenStreetMap</option>
+																		</select>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+						
+												<div class="col-5 col-12-medium" style="padding-left:0; ">
+													<div id="toolbox" class="toolbox">
+														
+														<div id="tab-container" class="tab-container">
+						
+															<div id="compare" class="box" style="font-size:14pt; height:600px; border-radius:0em;">
+															
+																<div id="compare-main" style="height:50%">
+																	<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+																		
+																	Compare boundaries for:
+						
+																	<select id="country-select" style="width:100%;display:inline;font-size:10pt;" onchange="countryChanged()">
+																		<!--options should get dynamically populated here-->
+																	</select>
+																	<div style="display:flex; width:100%">
+																		<select id="main-admin-level-select" style="width:45%;font-size:10pt;" onchange="mainAdminLevelChanged()">
+																			<!--options should get dynamically populated here-->
+																		</select>
+																		<select id="main-boundary-select" style="font-size:10pt;" onchange="mainSourceChanged()">
+																			<!--options should get dynamically populated here-->
+																		</select>
+																		<div id="main-boundary-upload-title" style="display:none; border-width:0; font-size:small; margin:auto auto 0px 5px">
+																			Upload a zipped boundary shapefile.
+																		</div>
+																		<span id="main-boundary-upload-button" class="upload-button" onclick="mainUploadButtonPushed()" title="Upload your own boundary">
+																		</span>
+																		<script>
+																			document.getElementById('main-boundary-select').onmousedown = function(event) {
+																				openMainSourcePopup();
+																				event.preventDefault(); // This prevents the drop-down menu from displaying
+																			};
+																		</script>
+																	</div>
+																	<div id="main-file-div" style="padding-top:5px">
+																		<div style="display:flex; width:96%">
+																			<div style="flex-grow:1">
+																				<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
+																					<input id="main-file-input" class="fas" type="file" accept=".zip">
+																				</span>
+																			</div>
+																			<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
+																				(?)
+																			</span>
+																		</div>
+																		<select id="main-file-select" onchange="mainFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
+																		</select>
+																	</div>
+																	
+																	<div id="main-info-div" style="padding:5px; height:60%; overflow:auto">
+																	</div>
+						
+																	<div id="main-source-popup" class="popup is-hidden is-visually-hidden">
+																		<script>
+																			// When the user clicks anywhere outside of the popup, close it
+																			window.addEventListener('click', function(event) {
+																				//alert('click '+event.target.className+' '+event.target.id);
+																				if (event.target.id == 'main-source-popup') {
+																					//alert('should close');
+																					event.target.className = "popup is-hidden is-visually-hidden";
+																				};
+																			});
+																		</script>
+																		<div class="popup-content" style="height:90%; font-size:medium; overflow:hidden">
+																			<div class="box" style="height:100%">
+																				<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+																				<h3>Select a source for the main boundary:</h3>
+																				<div style="height:90%; overflow:auto; font-size:small">
+																					<!--
+																					<button>From Datasets</button>
+																					<button>Local File</button>
+																					-->
+																					<table id="main-sources-table" class="table">
+																						<thead>
+																							<th></th>
+																							<th>Source</th>
+																							<th>License</th>
+																							<th>Year</th>
+																							<th>Updated</th>
+																							<th>Admin. Units</th>
+																							<th>Line Resolution</th>
+																							<th>Vertex Density</th>
+																						</thead>
+																						<tbody>
+																						</tbody>
+																					</table>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+						
+																</div>
+																	
+																<div id="compare-comparison" style="height:40%; margin-top:20px">
+																	
+																	<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+																
+																	<div style="display:flex; width:100%">
+																		<!--<span style="">To:</span>-->
+																		<select id="comparison-admin-level-select" style="width:45%; font-size:10pt;margin-left:3px;" onchange="comparisonAdminLevelChanged()">
+																			<!--options should get dynamically populated here-->
+																		</select>
+																		<select id="comparison-boundary-select" style="font-size:10pt;" onchange="comparisonSourceChanged()">
+																			<!--options should get dynamically populated here-->
+																		</select>
+																		<div id="comparison-boundary-upload-title" style="display:none; font-size:small; margin:auto auto 0px 5px">
+																			Upload a zipped boundary shapefile.
+																		</div>
+																		<span id="comparison-boundary-upload-button" class="upload-button" onclick="comparisonUploadButtonPushed()" title="Upload your own boundary">
+																		</span>
+																		<script>
+																			document.getElementById('comparison-boundary-select').onmousedown = function(event) {
+																				openComparisonSourcePopup();
+																				event.preventDefault(); // This prevents the drop-down menu from displaying
+																			};
+																		</script>
+																	</div>
+																	<div id="comparison-file-div" style="padding-top:5px">
+																		<div style="display:flex; width:96%">
+																			<div style="flex-grow:1">
+																				<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
+																					<input id="comparison-file-input" class="fas" type="file" accept=".zip">
+																				</span>
+																			</div>
+																			<span data-text="The file must be a *.zip file and contain at least three files: *.shp, *.shx, and *.dbf. If the *.prj file is missing, the shapefile is assumed to be in latitude-longitude (WGS84) projection." class="tooltip">
+																				(?)
+																			</span>
+																		</div>
+																		<select id="comparison-file-select" onchange="comparisonFileDropdownChanged()" style="width:90%; margin-top:10px; margin-left:20px">
+																		</select>
+																	</div>
+																	
+																	<div id="comparison-info-div" style="padding:5px; height:75%; overflow:auto">
+																	</div>
+						
+																	<div id="comparison-source-popup" class="popup is-hidden is-visually-hidden">
+																		<script>
+																			// When the user clicks anywhere outside of the popup, close it
+																			window.addEventListener('click', function(event) {
+																				//alert('click '+event.target.className+' '+event.target.id);
+																				if (event.target.id == 'comparison-source-popup') {
+																					//alert('should close');
+																					event.target.className = "popup is-hidden is-visually-hidden";
+																				};
+																			});
+																		</script>
+																		<div class="popup-content" style="height:90%; font-size:medium; overflow:hidden">
+																			<div class="box" style="height:100%">
+																				<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+																				<h3>Select a source for the comparison boundary:</h3>
+																				<!--
+																				<button>From Datasets</button>
+																				<button>Local File</button>
+																				-->
+																				<div style="height:90%; overflow:auto; font-size:small">
+																					<table id="comparison-sources-table" class="table">
+																						<thead>
+																							<th></th>
+																							<th>Source</th>
+																							<th>License</th>
+																							<th>Year</th>
+																							<th>Updated</th>
+																							<th>Admin. Units</th>
+																							<th>Line Resolution</th>
+																							<th>Vertex Density</th>
+																						</thead>
+																						<tbody>
+																						</tbody>
+																					</table>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+						
+																</div>
+						
+																<div id="compare-print-report" style="width:100%; text-align:center; margin-top:0px">
+						
+																	<button id="pdf-button" type="button" style="font-size:0.6em" onclick="printPageToPDF()">
+																		Generate PDF Report
+																	</button>
+						
+																</div>
+																
+															
+															</div>
+						
+						
+														</div>
+														
+													</div>
+						
+												</div>
+											
+											</div>
+											
 
-											<p>Phasellus odio risus, faucibus et viverra vitae, eleifend ac purus. Praesent mattis, enim
-											quis hendrerit porttitor, sapien tortor viverra magna, sit amet rhoncus nisl lacus nec arcu.
-											Suspendisse laoreet metus ut metus imperdiet interdum aliquam justo tincidunt. Mauris dolor urna,
-											fringilla vel malesuada ac, dignissim eu mi. Praesent mollis massa ac nulla pretium pretium.
-											Maecenas tortor mauris, consectetur pellentesque dapibus eget, tincidunt vitae arcu.
-											Vestibulum purus augue, tincidunt sit amet iaculis id, porta eu purus.</p>
+						
+											<div id="source-overview" class="row box" style="width:100%; margin:0px 0px; page-break-after:always; padding:0;">
+												<div style="width:100%;padding:0;">
+													<table style="table-layout:fixed; width:100%; padding:0;">
+														<thead style="background:#ffffff;">
+															<tr>
+																<td style="width:25%"></td>
+																<td style="width:37.5%">
+																	<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+																	<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+																	<span class="main-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+
+																</td>
+																<td style="width:37.5%">
+																	<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+																	<h3 style="margin-bottom:0; padding-bottom:0">Comparison Boundary:</h3>
+																	<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+
+																</td>
+															</tr>
+														</thead>
+														<tbody style="font-size:1.0em;line-height:1em;">
+															<tr>
+																<td class="stats-label">
+																	<img src="images/google-docs.png" title="Source"/>
+																	Source: (<span class="tooltip" data-text="Shown in order of most recent source first (e.g. starting with the dataset curator or publisher, ending with the original data source).">?</span>)
+																</td>
+																<td><div id="stats-main-source" class="stats-value"></div></td>
+																<td><div id="stats-comp-source" class="stats-value"></div></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img src="images/hand-shake.png" title="License"/>
+																	License:
+																</td>
+																<td><div id="stats-main-license" class="stats-value"></div></td>
+																<td><div id="stats-comp-license" class="stats-value"></div></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img style="padding:2px" src="images/hierarchy-structure.png" title="Boundary Represented"/>
+																	Level:
+																</td>
+																<td id="stats-main-level" class="stats-value"></td>
+																<td id="stats-comp-level" class="stats-value"></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img src="images/history.png" title="Icon created by Google from www.flaticons.com"/>
+																	Year the Boundary Represents:
+																</td>
+																<td id="stats-main-year" class="stats-value"></td>
+																<td id="stats-comp-year" class="stats-value"></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img style="padding:2px" src="images/calendar.png" title="Icon created by Freepik from www.flaticons.com"/>
+																	Last Update:
+																</td>
+																<td id="stats-main-updated" class="stats-value"></td>
+																<td id="stats-comp-updated" class="stats-value"></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img src="images/count.png" title="Icon created by Sicon from www.flaticon.com"/>
+																	Administrative Units:
+																</td>
+																<td id="stats-main-admincount" class="stats-value"></td>
+																<td id="stats-comp-admincount" class="stats-value"></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img style="padding:3px" src="images/square.png" title="Icon created by Freepik from www.flaticons.com">
+																	Area:
+																</td>
+																<td id="stats-main-area" class="stats-value"></td>
+																<td id="stats-comp-area" class="stats-value"></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img style="padding:3px" src="images/selection-square.png" title="Icon created by Freepik from www.flaticons.com">
+																	Perimeter (<span class="tooltip" data-text="The total length of borders across all boundary units.">?</span>):
+																</td>
+																<td id="stats-main-circumf" class="stats-value"></td>
+																<td id="stats-comp-circumf" class="stats-value"></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img style="padding:5px" src="images/stats.png" title="Icon created by Freepik from www.flaticons.com"/>
+																	Vertices (<span class="tooltip" data-text="The total number of line vertices across all boundary units.">?</span>):
+																</td>
+																<td id="stats-main-vertices" class="stats-value"></td>
+																<td id="stats-comp-vertices" class="stats-value"></td>
+															</tr>
+															<tr>
+																<td class="stats-label">
+																	<img style="padding:5px" src="images/shape.png"  title="Icon created by Pixelmeetup from www.flaticons.com"/>
+																	Line Resolution (<span class="tooltip" data-text="The average resolution or distance between line vertices. Calculated as the total perimeter of all boundary units divided by the total number of vertices.">?</span>):
+																</td>
+																<td id="stats-main-avglineres" class="stats-value"></td>
+																<td id="stats-comp-avglineres" class="stats-value"></td>
+															</tr>
+															<tr style="display:none">
+																<!--Not shown-->
+																<td class="stats-label">
+																	<img style="padding:5px" src="images/stats.png" title="Icon created by Freepik from www.flaticons.com"/>
+																	Vertex Density (<span class="tooltip" data-text="The average number of vertices for every km of line distance. Calculated as the total number of vertices of all boundary units divided by the total perimeter.">?</span>):
+																</td>
+																<td id="stats-main-avglinedens" class="stats-value"></td>
+																<td id="stats-comp-avglinedens" class="stats-value"></td>
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+						
+											<br>
+						
+						
+						
+															
+
+						
+											<div id="source-contents-banner" class="section-banner">
+												<img src="images/overlap.png" title="Overlap between sources">
+												<h2>Boundary Agreement</h2>
+											</div>
+						
+											<div id="source-contents" class="row box" style="width:100%; margin:0px 0px">
+												<div id="source-overlap-total" style="width:95%; text-align:center">
+													<h3>Matched Boundary Units (<span class="tooltip" data-text="Each boundary unit is matched to the boundary unit in the other source with the highest shared area overlap. The share of total overlapping area of matching units is then used to calculate the total source match. E.g., a 66% match means that only two-thirds of the area covered by both sources are considered matching/overlapping.">?</span>):</h3>
+													<div id="total-similarity" class="stats-percent" style="height:20px; width:80%"><span style="--data-width:0%"></span><p>Initiating...</p></div>
+													<br><br><br>
+												</div>
+												<br>
+												<div id="match-table-div" style="width:95%">
+													<table id="match-table" class="table" style="margin-left:10px; page-break-after:auto">
+														<thead>
+															<th style="width:50%">
+																<hr style="border-color:#319FD3; background-color:#319FD3; margin:3px; height:3px">
+																<h3 style="margin-bottom:0; padding-bottom:0">Main Boundary:</h3>
+																<span class="main-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+																<select id="main-names-table-select" style="color:black; font-size:smaller" onchange="mainFieldsDropdownChanged()">
+																	<option selected>(Select name field)</option>
+																</select>
+															</th>
+															<th style="width:50%">
+																<hr style="border-color:rgb(255,0,0); background-color:rgb(255,0,0); margin:3px; height:3px">
+																<h3 style="margin-bottom:0; padding-bottom:0">Closest Comparison Match:</h3>
+																<span class="comp-source-title" style="font-style:italic; color:gray; margin-left:15px;">None</span>
+																<select id="comparison-names-table-select" style="color:black; font-size:smaller" onchange="comparisonFieldsDropdownChanged()">
+																	<option selected>(Select name field)</option>
+																</select>
+															</th>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+												</div>
+												<div id="nomatch-div" style="width:100%; margin:10px">
+												</div>
+											</div>
 
 										</article>
 
 								</div>
 							</div>
-							<div class="col-4 col-12-medium">
-								<div id="sidebar">
-
-									<!-- Sidebar -->
-										<section>
-											<h3>Visualization & Other Tools</h3>
-											<p>We provide a number of tools to help you visualize, contrast, and otherwise use administrative information from around the world.  Any outputs you generate from these products are licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, which requires <a href="index.html#usage">attribution</a>.</p>
-											<footer>
-												<a href="index.html#features-wrapper" class="button icon solid fa-info-circle">Get the Source Data</a>
-											</footer>
-										</section>
-
-										<section>
-											<h3>Toolbox</h3>
-											<ul class="style2">
-												<li><a href="#">geoContrast</a></li>
-												<li><a href="#">Ornare in hendrerit in lectus</a></li>
-												<li><a href="#">Semper mod quis eget mi dolore</a></li>
-												<li><a href="#">Quam turpis feugiat sit dolor</a></li>
-												<li><a href="#">Amet ornare in hendrerit in lectus</a></li>
-												<li><a href="#">Semper mod quisturpis nisi</a></li>
-											</ul>
-										</section>
-
-								</div>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -126,6 +508,52 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/HTMLInclude.min.js"></script>
+			<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+			<script src="assets/js/papaparse.min.js"></script>
+
+
+			<!--this is for jszip-->
+			<script src="assets/js/jszip/jszip.js"></script>
+			<script src="assets/js/jszip/jszip-utils.js"></script>
+			<script type="text/javascript" src="assets/js/jszip/jszip-utils-ie.js"></script>
+
+
+
+
+			<!-- this is for shapefile-js -->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.3/proj4.js"></script>
+			<script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
+
+			<!--this is for dynamic boundary stats-->
+			<!--<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>-->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js" integrity="sha512-Q7HOppxoH0L2M7hreVoFCtUZimR2YaY0fBewIYzkCgmNtgOOZ5IgMNYxHgfps0qrO1ef5m7L1FeHrhXlq1I9HA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+			<!--this is for printing pdf reports-->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js" integrity="sha512-/fgTphwXa3lqAhN+I8gG8AvuaTErm1YxpUjbdCvwfTMyv8UZnFyId7ft5736xQ6CyQN4Nzr21lBuWWA9RTCXCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+			<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.1/html2canvas.min.js" integrity="sha512-Ki6BxhTDkeY2+bERO2RGKOGh6zvje2DxN3zPsNg4XhJGhkXiVXxIi1rkHUeZgZrf+5voBQJErceuCHtCCMuqTw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+			<script src="assets/js/html2canvas.js"></script> <!--this local file includes a patch for image object-fit from https://github.com/niklasvh/html2canvas/issues/2541-->
+
+
+			<script src="assets/js/ol.js"></script>
+			<script src="assets/js/ol-ext.min.js"></script>
+		
+			<script src="assets/js/internalHelpers.js"></script>
+			<script src="assets/js/internalData.js"></script>
+			<script src="assets/js/internalSpatial.js"></script>
+			<script src="assets/js/geoContrast/Overview.js"></script>
+			<script src="assets/js/geoContrast/Stats.js"></script>
+			<script src="assets/js/geoContrast/BoundaryUnits.js"></script>
+			<script src="assets/js/geoContrast/FeatureCompare.js"></script>
+			<script src="assets/js/geoContrast/Toolbox.js"></script>
+
+			
+		
+			<script>
+				// bind file input actions
+				document.getElementById('main-file-input').addEventListener('change', handleMainFileUpload, false);
+				document.getElementById('comparison-file-input').addEventListener('change', handleComparisonFileUpload, false);
+			</script>
 
 	</body>
 </html>

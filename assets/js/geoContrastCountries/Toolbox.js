@@ -10,8 +10,8 @@ function updateCollectionDropdown() {
     // add 'no collection' as default
     select.innerHTML = '<option value="">Show all collections</option>\
                         <option value="geoBoundaries (Open)" selected>geoBoundaries (Open)</option>\
-                        <option value="geoBoundaries (Humanitarian)">geoBoundaries (Humanitarian)</option>\
-                        <option value="geoBoundaries (Authoritative)">geoBoundaries (Authoritative)</option>\
+                        <option value="geoBoundaries (Humanitarian)">UN OCHA COD</option>\
+                        <option value="geoBoundaries (Authoritative)">UN SALB</option>\
                         ';
     // add entries for each collection
     for (coll of collections) {
