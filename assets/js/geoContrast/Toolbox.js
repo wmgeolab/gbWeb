@@ -650,7 +650,7 @@ function updateCountryDropdown() {
         select.value = iso;
     } else {
         // default country
-        select.value = 'NIC';
+        select.value = 'BHR';
     };
     // force dropdown change
     countryChanged();
@@ -1102,7 +1102,7 @@ function updateComparisonSourceDropdown() {
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('comparisonSource');
-    var defaultSource = 'GADM v3.6';
+    var defaultSource = 'Natural Earth v5.0.1';
     if (source != null & sources.includes(source)) {
         select.value = source;
     } else if (sources.includes(defaultSource)) {
