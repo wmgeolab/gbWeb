@@ -72,7 +72,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["openBoundaryYearRepresented"] = allOpenDict[ISO][adm]["boundaryYearRepresented"].replace(".0","")
                 webJSON[ISO][adm]["openBoundaryLicense"] = allOpenDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["openSourceDataUpdateDate"] = allOpenDict[ISO][adm]["sourceDataUpdateDate"]
-                webJSON[ISO][adm]["openBoundarySource-1"] = allOpenDict[ISO][adm]["boundarySource-1"]
+                webJSON[ISO][adm]["openBoundarySource"] = allOpenDict[ISO][adm]["boundarySource"]
                 webJSON[ISO][adm]["openDownloadURL"] = allOpenDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["openPreview"] = allOpenDict[ISO][adm]["imagePreview"]
                 webJSON[ISO][adm]["openSimplified"] = allOpenDict[ISO][adm]["simplifiedGeometryGeoJSON"]
@@ -112,7 +112,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["humBoundaryYearRepresented"] = allHumDict[ISO][adm]["boundaryYearRepresented"].replace(".0","")
                 webJSON[ISO][adm]["humBoundaryLicense"] = allHumDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["humSourceDataUpdateDate"] = allHumDict[ISO][adm]["sourceDataUpdateDate"]
-                webJSON[ISO][adm]["humBoundarySource-1"] = allHumDict[ISO][adm]["boundarySource-1"]
+                webJSON[ISO][adm]["humBoundarySource"] = allHumDict[ISO][adm]["boundarySource"]
                 webJSON[ISO][adm]["humDownloadURL"] = allHumDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["humPreview"] = allHumDict[ISO][adm]["imagePreview"]
                 webJSON[ISO][adm]["humSimplified"] = allHumDict[ISO][adm]["simplifiedGeometryGeoJSON"]
@@ -149,7 +149,7 @@ for _, bound in allBounds.iterrows():
                 webJSON[ISO][adm]["authBoundaryYearRepresented"] = allAuthDict[ISO][adm]["boundaryYearRepresented"].replace(".0","")
                 webJSON[ISO][adm]["authBoundaryLicense"] = allAuthDict[ISO][adm]["boundaryLicense"]
                 webJSON[ISO][adm]["authSourceDataUpdateDate"] = allAuthDict[ISO][adm]["sourceDataUpdateDate"]
-                webJSON[ISO][adm]["authBoundarySource-1"] = allAuthDict[ISO][adm]["boundarySource-1"]
+                webJSON[ISO][adm]["authBoundarySource"] = allAuthDict[ISO][adm]["boundarySource"]
                 webJSON[ISO][adm]["authDownloadURL"] = allAuthDict[ISO][adm]["downloadURL"]
                 webJSON[ISO][adm]["authPreview"] = allAuthDict[ISO][adm]["imagePreview"]
                 webJSON[ISO][adm]["authSimplified"] = allAuthDict[ISO][adm]["simplifiedGeometryGeoJSON"]
