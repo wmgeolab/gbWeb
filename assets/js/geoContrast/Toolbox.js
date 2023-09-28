@@ -650,7 +650,7 @@ function updateCountryDropdown() {
         select.value = iso;
     } else {
         // default country
-        select.value = 'BHR';
+        select.value = 'NIC';
     };
     // force dropdown change
     countryChanged();
@@ -1102,7 +1102,7 @@ function updateComparisonSourceDropdown() {
     // set the source to get-param if specified
     const urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('comparisonSource');
-    var defaultSource = 'Natural Earth v5.0.1';
+    var defaultSource = 'GADM v3.6';
     if (source != null & sources.includes(source)) {
         select.value = source;
     } else if (sources.includes(defaultSource)) {
@@ -1244,7 +1244,7 @@ function mainSourceChanged() {
     // check which comparison source was selected
     source = document.getElementById('main-boundary-select').value;
     uploadOnSymbol = '&#x00d7;';
-    uploadOffSymbol = '&#129093;';
+    uploadOffSymbol = '<i class="fa fa-upload" aria-hidden="true"></i>';
     if (source == 'none' | source == '') {
         // activate admin level button
         document.getElementById('main-admin-level-select').style.display = '';
@@ -1299,7 +1299,7 @@ function comparisonSourceChanged() {
     // check which comparison source was selected
     source = document.getElementById('comparison-boundary-select').value;
     uploadOnSymbol = '&#x00d7;';
-    uploadOffSymbol = '&#129093;';
+    uploadOffSymbol = '<i class="fa fa-upload" aria-hidden="true"></i>';
     if (source == 'none' | source == '') {
         // activate admin level button
         document.getElementById('comparison-admin-level-select').style.display = '';

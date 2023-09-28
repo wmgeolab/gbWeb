@@ -54,7 +54,7 @@ function updateMainInfo(features) {
     };
     // populate info
     var info = document.createElement("div");
-    info.style = "margin-left:20px; margin-top:10px; font-size:0.7em";
+    info.style = "margin-left:2px; margin-top:1px; font-size:0.75em; line-height:1.5;";
     info.innerHTML = '';
     // action buttons
     if (sourceName == 'upload') {
@@ -76,7 +76,7 @@ function updateMainInfo(features) {
             var licenseEntry = mainLicense;
         };
         if (sourceName != 'upload') {
-            info.innerHTML += '<b>Source: </b>';
+            info.innerHTML += '<b>Source: </b><br/>';
             info.innerHTML += sourceEntry;
             info.innerHTML += '<br>';
             info.innerHTML += '<b>License: </b>';
@@ -139,7 +139,7 @@ function updateComparisonInfo(features) {
     };
     // populate info
     var info = document.createElement("div");
-    info.style = "margin-left:20px; margin-top:10px; font-size:0.7em";
+    info.style = "margin-left:2px; margin-top:1px; font-size:0.75em; line-height:1.5;";
     info.innerHTML = '';
     // action buttons
     if (sourceName == 'upload') {
@@ -160,7 +160,7 @@ function updateComparisonInfo(features) {
         } else {
             var licenseEntry = comparisonLicense;
         };
-        info.innerHTML += '<b>Source: </b>';
+        info.innerHTML += '<b>Source: </b><br />';
         info.innerHTML += sourceEntry;
         info.innerHTML += '<br>';
         info.innerHTML += '<b>License: </b>';
