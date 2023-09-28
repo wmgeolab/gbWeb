@@ -29,8 +29,8 @@
                     <section class="widget links">
                         <h3>Made Possible By</h3>
                         <ul class="style2">
+                            <li><a href="https://www.nsf.gov/">National Science Foundation</a></li>
                             <li><a href="https://www.gatesfoundation.org/">Bill & Melinda Gates Foundation</a></li>
-                            <li><a href="https://www.mcgovern.org/">Patrick J McGovern Foundation</a></li>
                             <li><a href="https://www.wm.edu/">William & Mary</a></li>
                             <li><a href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors">Viewers Like You</a></li>
                         </ul>
