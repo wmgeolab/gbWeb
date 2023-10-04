@@ -1,0 +1,9 @@
+AddHandler php-cgi .html
+AddHandler php5-cgi .html
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteOptions InheritDown
+Header set Access-Control-Allow-Origin: "*"
+Header set Access-Control-Allow-Methods: "*"
+Header set Access-Control-Allow-Headers: "*"
+DirectoryIndex index.json index.html
