@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<!--
+	Verti by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>geoBoundaries</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/tabulator.css">
+		<link rel="stylesheet" href="assets/css/BeerSlider.css" />
+		<link rel="stylesheet" type="text/css" href="assets/js/slick/slick.css" />
+		<script type="text/javascript" src="assets/js/tabulator.js"></script>
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-9276981-3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-9276981-3');
+	</script>
+
+  
+	<!-- Global site tag (gtag.js) - Google Ads: 984002936 -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'AW-984002936');
+	</script>
+
+	<!-- Event snippet for Website traffic conversion page -->
+	<script>
+		gtag('event', 'conversion', {'send_to': 'AW-984002936/BycZCJ_8kdMBEPjimtUD'});
+	</script>
+	</head>
+	<body class="is-preload left-sidebar">
+		<div id="page-wrapper">
+
+			<!-- Header & Nav -->
+			<div id="header-wrapper">
+				<header id="header" class="container">
+			
+					<!-- Logo -->
+					<div id="logo">
+						<h1><a href="index.html">geoBoundaries</a></h1>
+						<span><a href="http://geolab.wm.edu">@ William & Mary</a></span>
+					</div>
+					<nav id="nav">
+						<ul>
+							<li>
+								<a href="visualize.html">Visualize Data</a>
+							</li>
+							<li>
+								<a href="index.html#features-wrapper">Download Data</a>
+							</li>
+							<li>
+								<a href="api.html">API</a>
+							</li>
+							
+							<li>
+								<a href="contribute.html">Get Involved</a>
+							</li>
+			
+			
+						</ul>
+					</nav>
+			
+				</header>
+			</div>
+
+			<!-- Main -->
+				<div id="main-wrapper">
+					<div class="container">
+						<div class="row gtr-200">
+							<div class="col-4 col-12-medium">
+								<div id="sidebar">
+
+									<!-- Sidebar -->
+										<section>
+											<h3>Submit a Boundary</h3>
+											<p>Fill out this form to make a new boundary submissions to geoBoundaries.
+												The information you provide will be formatted, packaged, and submitted as a new <a href="https://github.com/wmgeolab/geoBoundaries/pulls" target="_blank">pull request to the geoBoundaries Github repository</a>. 
+												After submission, we will manually assess your provided files and information, and as warranted follow up for any clarifications. <b>Please note that all submissions must be compatible with the <a href="https://github.com/wmgeolab/geoBoundaryBot/blob/main/dta/licenseText/CCBY_40.pdf">CC-BY SA license</a>, which allows for most uses so long as attribution is provided. </b> For more information, please review the <a href="https://github.com/wmgeolab/geoBoundaries/blob/main/CONTRIBUTING.md" target='_blank'>Guidelines for Submission</a>.  </p>
+										</section>
+
+
+								</div>
+							</div>
+							<div class="col-8 col-12-medium imp-medium">
+								<div id="content">
+
+									<!-- Content -->
+									
+									<form id="contribute-form" action="https://geoboundaries.geolab.wm.edu/api_contribute/" method="post" enctype="multipart/form-data">
+										<!--the 'enctype' attribute above is necessary for django to receive the file-->
+										<div id="contribute-tab-container" style="height:80%; overflow:auto">
+					
+
+			
+											<div id="contribute-data" class="box">
+			
+												<div style="width:90%; text-align:center; padding-top:20px; margin:auto">
+													<p>Drag-and-drop or select a zipped shapefile. Data must use WGS84 projection (EPSG 4326).  Please note that if your submission fails, you may be required to re-upload this zip file.</p>
+													<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
+														<input id="file-input" name="file" class="fas" type="file" accept=".zip" onchange="zipfileSelected()" required>
+													</span>
+												</div>
+			
+												<div id="file-input-form" style="width:97%; margin:20px; display:none">
+													<div>
+														<div style="display:flex; flex-direction:row; align-items:center">
+															<div style="flex:0 0 30%">File<span style="color:red">*</span>:</div>
+															<div style="flex:0 0 70%">
+																<select name="path" onchange="zipfileFileDropdownChanged(this)" required>
+																</select>
+															</div>
+														</div>
+														<div style="margin:10px;"></div>
+														<div style="display:flex; flex-direction:row; align-items:center">
+															<div style="flex:0 0 30%">Administrative level<span style="color:red">*</span>:</div>
+															<div style="flex:0 0 70%">
+																<select name="level" required>
+																	<option value='' selected></option>
+																	<option value='ADM0'>ADM0</option>
+																	<option value='ADM1'>ADM1</option>
+																	<option value='ADM2'>ADM2</option>
+																	<option value='ADM3'>ADM3</option>
+																	<option value='ADM4'>ADM4</option>
+																	<option value='ADM5'>ADM5</option>
+																</select>
+															</div>
+														</div>
+														<div style="margin:10px;"></div>
+														<div style="display:flex; flex-direction:row; align-items:center">
+															<div style="flex:0 0 30%">Name field<span style="color:red">*</span>:</div>
+															<div style="flex:0 0 70%">
+																<select name="name_field" class="field-dropdown" required>
+																</select>
+															</div>
+														</div>
+														<div style="margin:10px;"></div>
+														<div style="display:flex; flex-direction:row; align-items:center">
+															<div style="flex:0 0 30%">ISO 3166-2 field:</div>
+															<div style="flex:0 0 70%">
+																<select name="iso_field" class="field-dropdown">
+																</select>
+															</div>
+														</div>
+														<div style="margin:10px;"></div>
+														<div style="display:flex; flex-direction:row; align-items:center">
+															<div style="flex:0 0 30%"></div>
+															<div style="flex:0 0 70%">
+																<input name="type" type="hidden" value="gbOpen">
+																</input>
+															</div>
+														</div>
+													</div>
+													<div style="width:100%; padding-left:1%; margin-top:30px; overflow:auto">
+														<table class="table file-preview-table">
+															<thead></thead>
+															<tbody></tbody>
+														</table>
+													</div>
+												</div>
+			
+											</div>
+					
+											<div id="contribute-metadata" class="box">
+												<table style="width:97%; margin:10px;">
+													<tr>
+														<td>Country<span style="color:red">*</span>:</td>
+														<td>
+															<select name="iso" type="text" placeholder=" " required>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<td>Year the boundary represents<span style="color:red">*</span>:</td>
+														<td>
+															<input name="year" type="text" placeholder=" " minlength=4 maxlength=4 pattern="\d{4}" required>
+														</td>
+													</tr>
+													<tr>
+														<td>Source<span style="color:red">*</span>:</td>
+														<td>
+															<input name="source" type="text" placeholder=" " required>
+														</td>
+													</tr>
+													<tr>
+														<td>Source URL<span style="color:red">*</span>:</td>
+														<td>
+															<input name="source_url" type="url" placeholder=" " required>
+														</td>
+													</tr>
+													<tr>
+														<td>License<span style="color:red">*</span>:</td>
+														<td>
+															<select name="license" type="text" placeholder=" " required>
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<td>License URL<span style="color:red">*</span>:</td>
+														<td>
+															<input name="license_url" type="url" placeholder=" " required>
+														</td>
+													</tr>
+													<tr>
+														<td>License Screenshot:</td>
+														<td>
+															<span class="fas fa-file" style="padding:0px 3px important!; margin-left:10px; width:auto">
+																<input name="license_screenshot" class="fas" type="file" accept="image/png, image/jpeg">
+															</span>
+														</td>
+													</tr>
+													<tr>
+														<td>License details:</td>
+														<td>
+															<input name="license_detail" type="text" placeholder=" ">
+														</td>
+													</tr>
+												</table>
+											</div>
+					
+											<div id="contribute-contact" class="box">
+												<table style="width:97%; margin:10px;">
+													<tr>
+														<td>Your Name<span style="color:red">*</span>:</td>
+														<td>
+															<input name="contributor_name" type="text" placeholder=" " required>
+														</td>
+													</tr>
+													<tr>
+														<td>Affiliation<span style="color:red">*</span>:</td>
+														<td>
+															<input name="contributor_affiliation" type="text" placeholder=" " required>
+														</td>
+													</tr>
+													<tr>
+														<td>Contact email<span style="color:red">*</span>:</td>
+														<td>
+															<input name="contributor_email" type="email" placeholder=" " required>
+														</td>
+													</tr>
+													<tr>
+														<td>Notes/comment:</td>
+														<td>
+															<input name="notes" type="text" placeholder=" ">
+														</td>
+													</tr>
+												</table>
+			
+												<div style="margin-left:5%; width:90%; display:flex; flex-direction:row">
+													<p style="margin-left:10px; font-size:smaller">I understand that by submitting this form the boundary data, metadata, 
+														and contact information will be made publicly available
+														on the code sharing platform GitHub.</p>
+												</div>
+												
+												<div style="text-align:right; margin-top:10px">
+													<ul hidden class='etabs' id="submitButton">
+														<li class='tab'>Submit</li>
+													  </ul>
+													<button type="submit" onclick="submitBoundary()">Submit!</button>
+												</div>
+					
+											</div>
+										
+									</form>
+									<!-- END CONTENT -->
+							</div>
+							
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- Footer -->
+			<div data-include="_includes/footer.shtml"></div>
+
+			</div>
+
+		<!-- Scripts -->
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/HTMLInclude.min.js"></script>
+			<script src="assets/js/jquery.easytabs.js" type="text/javascript"></script>
+			<script src="assets/js/BeerSlider.js" type="text/javascript"></script>
+			
+			<!--this is for jszip-->
+			<script src="assets/js/jszip/jszip.js"></script>
+			<script src="assets/js/jszip/jszip-utils.js"></script>
+			<script type="text/javascript" src="assets/js/jszip/jszip-utils-ie.js"></script>
+
+			<!-- this is for shapefile-js -->
+			<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.3/proj4.js"></script>-->
+			<script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
+			<script src="assets/js/papaparse.min.js"></script>
+			<script src="assets/js/ol.js"></script>
+
+			<script src="assets/js/internalHelpers.js"></script>
+			<script src="assets/js/internalData.js"></script>
+			<script src="assets/js/internalSpatial.js"></script>
+			<script src="assets/js/gbContribute.js"></script>
+			
+
+			<script type="text/javascript" src="assets/js/slick/slick.min.js"></script>
+
+	</body>
+</html>

@@ -22,7 +22,7 @@
           animate: true,
           panelActiveClass: "active",
           tabActiveClass: "active",
-          defaultTab: "li:first-child",
+          defaultTab: "submitButton",
           animationSpeed: "normal",
           tabs: "> ul > li",
           updateHash: true,
