@@ -97,8 +97,8 @@
 								<div id="content">
 
 									<!-- Content -->
-									
-									<form id="contribute-form" action="https://geoboundaries.geolab.wm.edu/api_contribute/" method="post" enctype="multipart/form-data">
+									<!--https://geoboundary-contributions.herokuapp.com https://geoboundaries.geolab.wm.edu/api_contribute/-->
+									<form id="contribute-form" action="http://localhost:8000/api_contribute/" method="post" enctype="multipart/form-data">
 										<!--the 'enctype' attribute above is necessary for django to receive the file-->
 										<div id="contribute-tab-container" style="height:80%; overflow:auto">
 					
@@ -263,6 +263,23 @@
 														</td>
 													</tr>
 												</table>
+
+												<div id="Captcha" class="container">
+													<div class="wrapper">
+													  <canvas id="canvas" width="200" height="70"></canvas>
+													  <button id="reload-button">
+														<i class="fa-solid fa-arrow-rotate-right"></i>
+													  </button>
+													</div>
+													<input
+													  type="text"
+													  id="user-input"
+													  placeholder="Enter the text in the image"
+													  required
+													/>
+												</div>
+
+												<div id="error-container"></div>
 			
 												<div style="margin-left:5%; width:90%; display:flex; flex-direction:row">
 													<p style="margin-left:10px; font-size:smaller">I understand that by submitting this form the boundary data, metadata, 
@@ -274,7 +291,7 @@
 													<ul hidden class='etabs' id="submitButton">
 														<li class='tab'>Submit</li>
 													  </ul>
-													<button type="submit" onclick="submitBoundary()">Submit!</button>
+													<button id="submit-button" type="submit" onclick="submitBoundary()">Submit!</button>
 												</div>
 					
 											</div>
