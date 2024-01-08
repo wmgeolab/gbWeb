@@ -337,17 +337,17 @@ window.onload = () => triggerFunction();
 submitButton.addEventListener("click", () => {
     //check if user input  == generated text
     if (userInput.value === text) {
-        alert("Success");
+        // alert("Success");
     } else {
-        alert("Incorrect");
+        // alert("Incorrect");
         triggerFunction();
 
-        // Switch to the tab containing the captcha input
-        try {
-            $('#contribute-tab-container').easytabs('select', 'Captcha');
-        } catch (error) {
-            console.log(error);
-        }
+        // // Switch to the tab containing the captcha input
+        // try {
+        //     $('#contribute-tab-container').easytabs('select', 'Captcha');
+        // } catch (error) {
+        //     console.log(error);
+        // }
 
         // Create a new element for displaying the error message
         var errorMessage = document.createElement("p");
