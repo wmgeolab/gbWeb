@@ -170,14 +170,46 @@ For example, the `dev` download table requests
 `https://geoboundaries-dev.org/api/current/gbOpen/ALL/ALL/`; `main` requests the
 same path on `https://geoboundaries.org`.
 
-Assign the appropriate custom domain to each deployment in Cloudflare. This
-build configuration selects outgoing URLs; domain/DNS association is managed
-in Cloudflare. A Workers Preview custom domain produces a hostname such as
-`dev.geoboundaries-dev.org`, so serving the exact `geoboundaries-dev.org` apex
-requires a deployment/custom-domain mapping that serves that apex, such as a
-separate development Worker connected to the `dev` branch. Keep the production
-deployment connected to `main`. Merge these changes into `main` before deploying
-that branch.
+This build configuration selects outgoing URLs; domain/DNS association is
+managed in Cloudflare. Use a development website Worker connected to the `dev`
+branch and keep the production website Worker connected to `main`. Merge these
+changes into `main` before deploying that branch.
+
+### Share the domain with the existing API Worker
+
+`geoboundaries-dev.org` is already used by a separate Cloudflare API Worker.
+Keep its current domain and DNS records. Adding the website as another Custom
+Domain, especially with Preview enabled, conflicts with those records. Use
+**Worker Routes** to split requests by path while keeping the existing hostname:
+
+| Route pattern | Destination |
+| --- | --- |
+| `geoboundaries-dev.org/api/*` | Existing development API Worker |
+| `geoboundaries-dev.org/*` | Development website Worker |
+
+Add the specific API route first, then add or change the catch-all website
+route. More specific routes take precedence. Add corresponding specific routes
+for any other paths the API Worker serves, such as `/data/*` or
+`/api_contribute/*`; otherwise the catch-all website route returns 404 for them.
+Keep contributions routed to their actual backend if it is a different service.
+
+In the dashboard, open each Worker, then **Settings → Domains & Routes → Add →
+Route**, select the `geoboundaries-dev.org` zone, and enter the appropriate
+pattern. Use **Route**, rather than **Custom Domain**, for this shared hostname.
+The existing DNS record must be proxied through Cloudflare.
+
+Routes target a Worker's live deployment. Set the development website Worker's
+production branch to `dev`, its build command to `npm run build`, and its deploy
+command to `npx wrangler deploy --name <development-website-worker-name>`.
+Wrangler's `--name` must match the Worker receiving that build. For example, a
+Worker named `gbweb-dev` uses `npx wrangler deploy --name gbweb-dev`.
+`npx wrangler preview` updates a branch Preview and does not publish the live
+Worker used by these routes.
+
+For the main deployment, use the equivalent path split on `geoboundaries.org`.
+A Workers Preview custom domain produces a hostname such as
+`dev.previews.geoboundaries-dev.org`; use a dedicated Preview hostname or the
+provided `workers.dev` URL if branch previews are also needed.
 
 On **both domains**, route `/api/*`, `/api_contribute/*`, and any separately
 hosted `/data/*` downloads to the corresponding API/backend deployment. This
@@ -187,6 +219,7 @@ to this static website alone.
 References: [Workers branch variable](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/#default-variables),
 [Pages branch variable](https://developers.cloudflare.com/pages/configuration/build-configuration/#environment-variables),
 and [Workers Preview custom domains](https://developers.cloudflare.com/workers/previews/custom-domains/).
+See also [Worker Routes and matching precedence](https://developers.cloudflare.com/workers/configuration/routing/routes/).
 
 The archived PHP endpoint `archive/archive_gb4/gbRequest.html` is excluded because
 it requires PHP and legacy server files under `/data/`. This deployment does not
