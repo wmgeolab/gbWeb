@@ -301,7 +301,7 @@ function loadGeoContrastMetadata(onSuccess) {
     function success (result) {
         //alert('load success');
         // process csv data using custom function
-        onSuccess(result['data']);
+        onSuccess(geoBoundariesResponse(result['data']));
     };
     // parse
     Papa.parse(url,

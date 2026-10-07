@@ -1,14 +1,17 @@
 import { copyFile, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { dirname, extname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { configureHtml, getSiteConfig, replaceSiteUrls } from './site-config.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = join(root, 'dist');
+const site = getSiteConfig();
 const directories = ['archive', 'assets', 'gb5', 'images', 'VIZENGINE'];
 const extensions = new Set([
   '.html', '.css', '.js', '.json', '.map', '.png', '.jpg', '.jpeg', '.gif',
   '.ico', '.svg', '.woff', '.woff2', '.ttf', '.eot', '.fgb', '.jgw',
 ]);
+const textExtensions = new Set(['.html', '.css', '.js', '.json', '.map', '.svg', '.txt']);
 let copied = 0;
 
 function expandIncludes(html, ancestors = []) {
@@ -38,8 +41,16 @@ async function publish(source) {
       return;
     }
     content = await expandIncludes(content);
-  } else if (extname(source) === '.json') {
-    JSON.parse(await readFile(source, 'utf8'));
+  } else if (textExtensions.has(extname(source))) {
+    content = await readFile(source, 'utf8');
+    if (extname(source) === '.json') JSON.parse(content);
+  }
+  if (content !== undefined) {
+    content = replaceSiteUrls(content, site);
+    if (extname(source) === '.html') content = configureHtml(content, name, site);
+    if (name === 'assets/js/site-config.js') {
+      content = `window.geoBoundariesConfig = ${JSON.stringify(site)};\n${content}`;
+    }
   }
   await mkdir(dirname(target), { recursive: true });
   if (content === undefined) await copyFile(source, target);
@@ -64,4 +75,4 @@ for (const entry of await readdir(root, { withFileTypes: true })) {
   }
 }
 for (const directory of directories) await publishDirectory(join(root, directory));
-console.log(`Built dist/: ${copied} public files. API data is hosted separately.`);
+console.log(`Built dist/: ${copied} public files for branch ${site.branch} (${site.origin}). API data is hosted separately.`);

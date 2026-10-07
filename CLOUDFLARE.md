@@ -139,21 +139,57 @@ Reference: [Pages CI credentials](https://developers.cloudflare.com/pages/how-to
   preserves the site's public CORS headers. A real 404 page avoids a homepage
   fallback for missing files.
 - `npm run check` verifies the output, asset limits, required public pages, and
-  absence of server/build sources or API directories.
+  absence of server/build sources or API directories. It also rejects URLs or
+  runtime configuration from the wrong deployment branch.
+- `npm test` builds and checks both branches, then exercises download buttons
+  and metadata normalization with API responses containing production URLs.
 
-The download tables retain their existing API URL:
-`https://www.geoboundaries.org/api/current/gbOpen/ALL/ALL/`. API documentation and
-upstream download links are preserved. Cloudflare previews therefore use the
-separately hosted production API. If the separate process hosts the API at a
-different hostname, update the API request URLs in the website accordingly.
+## Branch-specific domains
 
-Before assigning `www.geoboundaries.org` to this static website, ensure `/api/*`
-is served by the separate API deployment. This website intentionally has no API
-routes. If both use the same hostname, configure routing for the separate API;
-otherwise this static deployment will return 404 for API requests.
+| Source branch | Website and API origin |
+| --- | --- |
+| `dev` | `https://geoboundaries-dev.org` |
+| `main` | `https://geoboundaries.org` |
+
+The build detects the branch from `WORKERS_CI_BRANCH` in Workers Builds or
+`CF_PAGES_BRANCH` in Pages. Local builds use the checked-out Git branch. These
+Cloudflare variables are supplied automatically; no new secrets or manually
+configured variables are needed. Other branches use the development domain.
+For a local test or a detached checkout outside Cloudflare,
+`GBWEB_BRANCH=main npm run build` overrides branch detection.
+
+The selected origin is compiled into the published HTML, JavaScript, sitemap,
+and API documentation. Site navigation points at that domain, while static
+CSS/JS assets can still load from the current preview host. API metadata is
+normalized before rendering: download and preview-image URLs that refer to
+either geoBoundaries domain are rewritten to the selected origin. Links to
+GitHub, data providers, libraries, and email addresses retain their destinations.
+The contribution form's `/api_contribute/` action also uses the selected origin.
+
+For example, the `dev` download table requests
+`https://geoboundaries-dev.org/api/current/gbOpen/ALL/ALL/`; `main` requests the
+same path on `https://geoboundaries.org`.
+
+Assign the appropriate custom domain to each deployment in Cloudflare. This
+build configuration selects outgoing URLs; domain/DNS association is managed
+in Cloudflare. A Workers Preview custom domain produces a hostname such as
+`dev.geoboundaries-dev.org`, so serving the exact `geoboundaries-dev.org` apex
+requires a deployment/custom-domain mapping that serves that apex, such as a
+separate development Worker connected to the `dev` branch. Keep the production
+deployment connected to `main`. Merge these changes into `main` before deploying
+that branch.
+
+On **both domains**, route `/api/*`, `/api_contribute/*`, and any separately
+hosted `/data/*` downloads to the corresponding API/backend deployment. This
+repository publishes no API or backend routes; those paths return 404 if sent
+to this static website alone.
+
+References: [Workers branch variable](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/#default-variables),
+[Pages branch variable](https://developers.cloudflare.com/pages/configuration/build-configuration/#environment-variables),
+and [Workers Preview custom domains](https://developers.cloudflare.com/workers/previews/custom-domains/).
 
 The archived PHP endpoint `archive/archive_gb4/gbRequest.html` is excluded because
 it requires PHP and legacy server files under `/data/`. This deployment does not
 migrate that legacy endpoint, any existing `/data/` files absent from the repo,
-or the external contribution-form backend. Retain those services separately if
-they are still needed when cutting over an existing production domain.
+or the contribution-form backend. Host those services separately and expose
+their paths on the matching development or production domain when needed.

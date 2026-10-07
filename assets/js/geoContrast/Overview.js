@@ -60,7 +60,7 @@ function updateMainInfo(features) {
     if (sourceName == 'upload') {
         var html = '';
         html += '<div>';
-        html += '<a href="gbContribute.html" target="_blank" style="cursor:pointer">Submit this file to geoBoundaries?</a>';
+        html += '<a href="'+geoBoundariesURL("gbContribute.html")+'" target="_blank" style="cursor:pointer">Submit this file to geoBoundaries?</a>';
         html += '</div>';
         info.innerHTML += html;
     } else {
@@ -145,7 +145,7 @@ function updateComparisonInfo(features) {
     if (sourceName == 'upload') {
         var html = '';
         html += '<div>';
-        html += '<a href="gbContribute.html" target="_blank" style="cursor:pointer">Submit this file to geoBoundaries?</a>';
+        html += '<a href="'+geoBoundariesURL("gbContribute.html")+'" target="_blank" style="cursor:pointer">Submit this file to geoBoundaries?</a>';
         html += '</div>';
         info.innerHTML += html;
     } else {

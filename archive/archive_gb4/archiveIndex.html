@@ -242,6 +242,7 @@
 						};
 						var tableA = new Tabulator("#dataTableRep", {
 							ajaxURL: "https://www.geoboundaries.org/api/index.json", //ajax URL
+							ajaxResponse: function (url, params, response) { return geoBoundariesResponse(response); },
 							height: screen.height * 0.60,
 							layout: "fitDataFill",
 							resizableColumns: true,
@@ -256,8 +257,8 @@
 									title:"gBOpen",
 									columns:[
 								{title: "Available", field:"openAvailable", formatter:"tickCross", align:"center", headerVertical: true, },
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"openDownloadURL", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"openSimplified", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"openDownloadURL", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openDownloadURL"])) } },
+								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"openSimplified", align: "center", headerVertical:true, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimplified"])) } },
 								{title: "Year Represented", field:"openBoundaryYearRepresented", headerVertical: true, },
 								{title: "Image Preview", field: "openPreview", formatter: iconFormatter, visible: true, variableHeight: true, headerVertical: true, },
 								{ formatter: interactivePreview, title:"Interactive Preview", field:"openSimpInteractive", align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
@@ -270,8 +271,8 @@
 									cssClass:"lightHighlight",
 									columns:[
 								{title: "Available", field:"humAvailable", formatter:"tickCross", align:"center", headerVertical: true, cssClass:"lightHighlight", visible:false},
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"humDownloadURL", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"].replace("https://g", "https://www.g"))) } },
-								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"humSimplified", align: "center", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"humDownloadURL", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humDownloadURL"])) } },
+								{ formatter: downloadSimpleIcon, title: "Simplified geoJSON", field:"humSimplified", align: "center", headerVertical:true, responsive: 0, visible:false, cssClass:"lightHighlight", cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["humSimplified"])) } },
 								{title: "Year Represented", field:"humBoundaryYearRepresented", headerVertical: true, visible:false, cssClass:"lightHighlight"},
 								{title: "Image Preview", field: "humPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, cssClass:"lightHighlight"},
 								{ formatter: interactivePreview, title:"Interactive Preview", field:"humSimpInteractive", visible:false, align: "center", headerVertical:true, responsive: 0, headerVertical: true, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["openSimpInteractive"])) } },
@@ -283,7 +284,7 @@
 									title:"gBAuthoritative",
 									columns:[
 								{title: "Available", field:"authAvailable", formatter:"tickCross", align:"center", visible:false, headerVertical: true, },
-								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"authDownloadURL", headerVertical:true, visible:false, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"].replace("https://g", "https://www.g"))) } },
+								{ formatter: downloadSingleIcon, title: "Full Release", align: "center", field:"authDownloadURL", headerVertical:true, visible:false, responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["authDownloadURL"])) } },
 								{title: "Year Represented", field:"authBoundaryYearRepresented", visible:false, headerVertical: true, },
 								{title: "Preview", field: "authPreview", formatter: iconFormatter, visible: true, visible:false, variableHeight: true, headerVertical: true, },
 								{title: "Primary Source", field:"authBoundarySource-1", headerVertical: true, responsive:1,  visible:false, width:"30%"},
@@ -291,7 +292,7 @@
 								],
 								}
 
-								//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"].replace("https://g", "https://www.g"))) } },
+								//{ formatter: downloadSingleIcon, title: "", align: "center", responsive: 0, cellClick: function (e, cell) { window.open(encodeURI(cell.getRow().getData()["downloadURL"])) } },
 								//
 								//{ title: "ISO3", field: "boundaryISO", visible: true, responsive: 0, headerFilter: "input" },
 								//{ title: "Level", field: "boundaryType", visible: true, responsive: 0, headerFilter: "select" },
