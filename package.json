@@ -12,7 +12,8 @@
     "dev": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy",
     "deploy:dry-run": "npm run build && wrangler deploy --dry-run",
-    "pages:dev": "npm run build && wrangler pages dev --cwd cloudflare/pages",
+    "preview": "npm run build && wrangler preview",
+    "pages:dev": "npm run build && wrangler pages dev dist",
     "pages:deploy": "npm run build && wrangler pages deploy --cwd cloudflare/pages"
   },
   "devDependencies": {

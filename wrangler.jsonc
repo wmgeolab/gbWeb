@@ -2,6 +2,10 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "gbweb",
   "compatibility_date": "2026-10-07",
+  "build": {
+    "command": "node scripts/build.mjs"
+  },
+  "previews": {},
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"

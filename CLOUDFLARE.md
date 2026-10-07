@@ -35,6 +35,7 @@ Use these settings for the Worker connected to `wmgeolab/gbWeb`:
 | Root directory | Repository root (`/` or blank in the dashboard) |
 | Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` |
+| Preview deploy command | `npx wrangler preview` |
 | API token | The replacement selected above |
 | Build variables/secrets | None required |
 
@@ -54,8 +55,27 @@ npx wrangler login
 npx wrangler deploy
 ```
 
-Run the build before invoking Wrangler directly. `npm run deploy` builds and
-deploys in one command; Workers Builds runs the configured dashboard build command.
+The root Wrangler configuration also runs `node scripts/build.mjs` before a
+Workers deployment or preview through the CLI. Set `npm run build` explicitly
+as the dashboard build command: Workers Builds does not infer its build command
+from Wrangler's custom-build configuration.
+
+### The `dev` branch preview
+
+Keep the preview tracking branch set to `dev`, and the preview deploy command
+set to `npx wrangler preview`. The root configuration includes the required
+`"previews": {}` block. Assets and compatibility settings stay at the top level;
+the static site has no bindings or secrets to override for previews.
+
+Pushing to `dev` triggers the connected preview build. To deploy a preview from
+an authenticated local shell, run `npm run preview`. This command builds the
+public assets before invoking Wrangler.
+
+The npm install-scripts warnings about esbuild and workerd are not the cause of
+the reported missing-`previews` error. No new application variables or tokens
+are needed for this configuration change.
+
+Reference: [Workers Preview configuration](https://developers.cloudflare.com/workers/previews/configuration/).
 
 **Omit the final `.` from `npx wrangler deploy .`.** A positional directory
 overrides the configured assets directory and attempts to upload the source
