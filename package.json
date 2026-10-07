@@ -1,0 +1,21 @@
+{
+  "name": "gbweb",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:dry-run": "npm run build && wrangler deploy --dry-run",
+    "pages:dev": "npm run build && wrangler pages dev --cwd cloudflare/pages",
+    "pages:deploy": "npm run build && wrangler pages deploy --cwd cloudflare/pages"
+  },
+  "devDependencies": {
+    "wrangler": "4.148.0"
+  }
+}

@@ -6,3 +6,15 @@ geoBoundaries/*
 geoBoundaryBot
 /geoBoundaryBot/
 geoBoundaryBot/*
+
+# API output is managed by a separate process
+/api/
+
+# Cloudflare build output, tooling, and local credentials
+node_modules/
+dist/
+.wrangler/
+.env
+.env.*
+.dev.vars
+.dev.vars.*
