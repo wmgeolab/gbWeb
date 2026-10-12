@@ -1,16 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="The requested geoBoundaries page could not be found."
+    />
+    <meta name="theme-color" content="#004e38" />
     <title>Page not found | geoBoundaries</title>
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <script type="module" src="/assets/js/site.js"></script>
   </head>
   <body>
-    <main class="container box">
-      <h1>Page not found</h1>
-      <p>The requested page or dataset could not be found.</p>
-      <p><a href="/">Return to geoBoundaries</a> or <a href="/api.html">view the API documentation</a>.</p>
+    <!-- #include virtual="/_includes/site-header.shtml" -->
+    <main id="main">
+      <div class="container error-page">
+        <p class="eyebrow">404</p>
+        <h1>Page not found</h1>
+        <p>The requested page or dataset could not be found.</p>
+        <div class="hero-actions">
+          <a class="button" href="/countryDownloads.html">Download data →</a
+          ><a class="button secondary" href="/index.html">Home</a>
+        </div>
+      </div>
     </main>
+    <!-- #include virtual="/_includes/site-footer.shtml" -->
   </body>
 </html>

@@ -144,12 +144,31 @@ Reference: [Pages CI credentials](https://developers.cloudflare.com/pages/how-to
 - `npm test` builds and checks both branches, then exercises download buttons
   and metadata normalization with API responses containing production URLs.
 
+## Website development
+
+The primary pages use semantic HTML, native ES modules, and `assets/css/site.css`.
+Shared navigation and footers live in `_includes/site-*.shtml` and are expanded at
+build time, so they also work without JavaScript. Country and simplified downloads
+use the nightly API, with search, combined level/region filters, pagination,
+source metadata, and explicit loading/error states. Simplified downloads select
+`simplifiedGeometryGeoJSON`; they never substitute a full-resolution archive.
+The existing spatial comparison and upload tools retain their computation and
+backend dependencies, with the shared site shell layered over their legacy CSS.
+
+Use `npm run pages:dev` for a local Pages preview. Local navigation stays within
+the preview, while API requests use the branch's configured API origin. Run `npm test`
+and `npm run check` after edits. No frontend framework or extra runtime service is
+required. Cloudflare Pages still builds with `npm run build` and publishes `dist`.
+
+Brand color source: [William & Mary digital brand guidance](https://www.wm.edu/brand/visual-brand/web-digital-guidelines/ai-brand-guidelines/).
+
+
 ## Branch-specific domains
 
-| Source branch | Website and API origin |
-| --- | --- |
-| `dev` | `https://geoboundaries-dev.org` |
-| `main` | `https://geoboundaries.org` |
+| Source branch | Website origin | API origin |
+| --- | --- | --- |
+| `dev` | `https://geoboundaries-dev.org` | `https://www.geoboundaries-dev.org` |
+| `main` | `https://geoboundaries.org` | `https://geoboundaries.org` |
 
 The build detects the branch from `WORKERS_CI_BRANCH` in Workers Builds or
 `CF_PAGES_BRANCH` in Pages. Local builds use the checked-out Git branch. These
@@ -158,16 +177,18 @@ configured variables are needed. Other branches use the development domain.
 For a local test or a detached checkout outside Cloudflare,
 `GBWEB_BRANCH=main npm run build` overrides branch detection.
 
-The selected origin is compiled into the published HTML, JavaScript, sitemap,
-and API documentation. Site navigation points at that domain, while static
+The selected origins are compiled into the published HTML, JavaScript, sitemap,
+and API documentation. Site navigation points at the website domain, while static
 CSS/JS assets can still load from the current preview host. API metadata is
 normalized before rendering: download and preview-image URLs that refer to
-either geoBoundaries domain are rewritten to the selected origin. Links to
+either geoBoundaries domain are rewritten to the selected website origin. `/api/`
+URLs use the API origin; the development API requires the `www` hostname.
+Dedicated `data.geoboundaries-dev.org` download URLs retain their destinations. Links to
 GitHub, data providers, libraries, and email addresses retain their destinations.
 The contribution form's `/api_contribute/` action also uses the selected origin.
 
 For example, the `dev` download table requests
-`https://geoboundaries-dev.org/api/current/gbOpen/ALL/ALL/`; `main` requests the
+`https://www.geoboundaries-dev.org/api/nightly/gbOpen/ALL/ALL/`; `main` requests the
 same path on `https://geoboundaries.org`.
 
 This build configuration selects outgoing URLs; domain/DNS association is

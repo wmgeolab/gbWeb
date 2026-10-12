@@ -1,192 +1,444 @@
-<!DOCTYPE HTML>
-<!--
-	Verti by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>geoBoundaries</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-			<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-9276981-3"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() { dataLayer.push(arguments); }
-		gtag('js', new Date());
-
-		gtag('config', 'UA-9276981-3');
-	</script>
-
-  
-	<!-- Global site tag (gtag.js) - Google Ads: 984002936 -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-984002936"></script>
-	<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-
-	gtag('config', 'AW-984002936');
-	</script>
-
-	<!-- Event snippet for Website traffic conversion page -->
-	<script>
-		gtag('event', 'conversion', {'send_to': 'AW-984002936/BycZCJ_8kdMBEPjimtUD'});
-	</script>
-	</head>
-	<body class="is-preload right-sidebar">
-		<div id="page-wrapper">
-
-			<!-- Header & Nav -->
-			<div id="header-wrapper">
-				<header id="header" class="container">
-			
-					<!-- Logo -->
-					<div id="logo">
-						<h1><a href="index.html">geoBoundaries</a></h1>
-						<span><a href="http://geolab.wm.edu">@ William & Mary</a></span>
-					</div>
-					<nav id="nav">
-						<ul>
-							<li>
-								<a href="visualize.html">Visualize Data</a>
-							</li>
-							<li>
-								<a href="index.html#features-wrapper">Download Data</a>
-							</li>
-							<li>
-								<a href="api.html">API</a>
-							</li>
-							
-							<li>
-								<a href="contribute.html">Get Involved</a>
-							</li>
-			
-			
-						</ul>
-					</nav>
-			
-				</header>
-			</div>
-
-			<!-- Main -->
-				<div id="main-wrapper">
-					<div class="container">
-						<div class="row gtr-200">
-							<div class="col-8 col-12-medium">
-								<div id="content">
-
-									<!-- Content -->
-										<article>
-
-											<h2>Ways to Help Out</h2>
-
-											We welcome contributions to the geoBoundaries dataset.  Involvement can take many forms: assistance identifying errors in the database, contributing boundary files, or even contributing code for our build or website scripts.  To get started, you could:
-												<br />
-												<ul>
-													<li><a href="https://github.com/wmgeolab/geoBoundaries/issues/new?assignees=&labels=&template=boundary-errata.md&title=%5BBOUNDARY+ERRATA%5D">Report Boundary Errors</a>: While we try to ensure geoBoundaries is as error-free as possible, we are currently tracking around 300 million vertices across hundreds-of-thousands of geometries - there are bound to be issues!  We very much welcome any reports of errors across the database.</li>
-													<li><a href="https://github.com/wmgeolab/geoBoundaries/blob/main/CONTRIBUTING.md">Contribute Boundaries</a>: We carefully curate all boundaries that are submitted to the database, and have a very active community.  Join us in the fun!  We try to keep things simple for everyone, requiring only a zipfile upload. </li>
-													<li><a href="https://github.com/wmgeolab/geoBoundaries/issues">Fix Known Issues</a>: We have a number of known issues with the database, and always welcome contributions that might fix any of these.  </li>
-													<li><a href="https://github.com/wmgeolab/geoBoundaryBot">Help with the Python Code</a>: We always welcome contributions to our codebase that improve the efficiency of our processing, or introduce new types of checks to automatically prevent errors.  Our code includes a number of different pieces, such as the www.geoboundaries.org website, API, the geoBoundaryBot (responds to PRs), and our formal build scripts.</p></li>
-												</ul>
-											
-											<h2 id="contributors">Contributors</h2>
-												geoBoundaries would not be possible without a huge number of people working tirelessly to find data, improve code, and catch issues. We've tried to capture everyone who's lent us a hand here. Note that with the release of geoBoundaries 5.0, the size of our repository exceeded limitations on github.com, requiring us to nuke our contribution log.  We've memorialized everyone who committed to the repo before that date here as well ❤️.  
-												<br />
-												<div class="gridB">
-													<div><img src="https://github.com/dfornatora.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/dfornatora">dfornatora</a></div>
-													<div><img src="https://github.com/leeberryman.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/leeberryman">leeberryman</a></div>
-													<div><img src="https://github.com/dorianvmiller.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/dorianvmiller">dorianvmiller</a></div>
-													<div><img src="https://github.com/kpupkiewicz.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/kpupkiewicz">kpupkiewicz</a></div>
-													<div><img src="https://github.com/carolinamonrivera.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/carolinamonrivera">carolinamonrivera</a></div>
-													<div><img src="https://github.com/rmbiddle.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/rmbiddle">rmbiddle</a></div>
-													<div><img src="https://github.com/nmspage.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/nmspage">nmspage</a></div>
-													<div><img src="https://github.com/MichaelR-geoLab.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/MichaelR-geoLab">MichaelR-geoLab</a></div>
-													<div><img src="https://github.com/larogersWM.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/larogersWM">larogersWM</a></div>
-													<div><img src="https://github.com/hadleyday.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/hadleyday">hadleyday</a></div>
-													<div><img src="https://github.com/ceedwards1.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/ceedwards1">ceedwards1</a></div>
-													<div><img src="https://github.com/taraamcl.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/taraamcl">taraamcl</a></div>
-													<div><img src="https://github.com/ssheminway.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/ssheminway">ssheminway</a></div>
-													<div><img src="https://github.com/SidonieH.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/SidonieH">SidonieH</a></div>
-													<div><img src="https://github.com/helenabuckman.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/helenabuckman">helenabuckman</a></div>
-													<div><img src="https://github.com/rsritchey.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/rsritchey">rsritchey</a></div>
-													<div><img src="https://github.com/slfuhrig.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/slfuhrig">slfuhrig</a></div>
-													<div><img src="https://github.com/nirajpatel10122.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/nirajpatel10122">nirajpatel10122</a></div>
-													<div><img src="https://github.com/owachob.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/owachob">owachob</a></div>
-													<div><img src="https://github.com/lydiatroup.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/lydiatroup">lydiatroup</a></div>
-													<div><img src="https://github.com/karimbahgat.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/karimbahgat">karimbahgat</a></div>
-													<div><img src="https://github.com/charliealtman.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/charliealtman">charliealtman</a></div>
-													<div><img src="https://github.com/amanda-reed.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/amanda-reed">amanda-reed</a></div>
-													<div><img src="https://github.com/iaschreur.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/iaschreur">iaschreur</a></div>
-													<div><img src="https://github.com/neelsimpson.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/neelsimpson">neelsimpson</a></div>
-													<div><img src="https://github.com/hannahslevin.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/hannahslevin">hannahslevin</a></div>
-													<div><img src="https://github.com/mlwilliams01.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/mlwilliams01">mlwilliams01</a></div>
-													<div><img src="https://github.com/jrhabib.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/jrhabib">jrhabib</a></div>
-													<div><img src="https://github.com/memulder.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/memulder">memulder</a></div>
-													<div><img src="https://github.com/fpate.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/fpate">fpate</a></div>
-													<div><img src="https://github.com/jdturner303.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/jdturner303">jdturner303</a></div>
-													<div><img src="https://github.com/heatherbaier.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/heatherbaier">heatherbaier</a></div>
-													<div><img src="https://github.com/jingjli1.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/jingjli1">jingjli1</a></div>
-													<div><img src="https://github.com/sylviashea1.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/sylviashea1">sylviashea1</a></div>
-													<div><img src="https://github.com/jcsiwek.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/jcsiwek">jcsiwek</a></div>
-													<div><img src="https://github.com/sgmurphy216.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/sgmurphy216">sgmurphy216</a></div>
-													<div><img src="https://github.com/SamUpdike.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/SamUpdike">SamUpdike</a></div>
-													<div><img src="https://github.com/coyotefarrell.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/coyotefarrell">coyotefarrell</a></div>
-													<div><img src="https://github.com/shauntmathew.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/shauntmathew">shauntmathew</a></div>
-													<div><img src="https://github.com/kovaca.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/kovaca">kovaca</a></div>
-													<div><img src="https://github.com/maxmalynowsky.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/maxmalynowsky">maxmalynowsky</a></div>
-													<div><img src="https://github.com/calvinb4.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/calvinb4">calvinb4</a></div>
-													<div><img src="https://github.com/DanRunfola.png?size=50" style="vertical-align:middle;border-radius: 50%;width:50px;"> <a href="https://github.com/DanRunfola">DanRunfola</a></div>
-												  
-												  </div>
-
-										</article>
-
-								</div>
-							</div>
-							<div class="col-4 col-12-medium">
-								<div id="sidebar">
-
-									<!-- Sidebar -->
-										<section>
-											<h3>Get Involved</h3>
-											<p>Without <a href="contribute.html#contributors">contributors</a>, the geoBoundaries project wouldn't be half of what it is today.  There are a number of ways you can help out, ranging from simply reporting errors you see to improving the codebase!</p>
-												 
-											<footer>
-												<a href="contribute.html#contributors" class="button icon solid fa-users">Community Contributors</a>
-											</footer>
-										</section>
-
-										<section>
-											<h3>Project Links</h3>
-											<ul class="style2">
-												<li><a href="https://github.com/wmgeolab/geoBoundaries">geoBoundaries Core Data Repository</a></li>
-												<li><a href="https://github.com/wmgeolab/geoBoundaryBot">geoBoundaries Bot Repository</a></li>
-												<li><a href="https://github.com/wmgeolab/gbWeb">geoBoundaries Website & API Repository</a></li>
-												<li><a href="https://github.com/wmgeolab">William & Mary geoLab Organization</a></li>
-											</ul>
-										</section>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			<!-- Footer -->
-			<div data-include="_includes/footer.shtml"></div>
-
-		<!-- Scripts -->
-
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.dropotron.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-			<script src="assets/js/HTMLInclude.min.js"></script>
-
-	</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Help improve geoBoundaries by sharing boundary files, reporting errors, and contributing code."
+    />
+    <meta name="theme-color" content="#004e38" />
+    <title>Contribute | geoBoundaries</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <script type="module" src="/assets/js/site.js"></script>
+  </head>
+  <body>
+    <!-- #include virtual="/_includes/site-header.shtml" -->
+    <main id="main">
+      <div class="container page-intro">
+        <h1>Contribute</h1>
+        <p>Submit boundaries, report errors, or contribute code.</p>
+      </div>
+      <div class="container">
+        <div class="community-grid">
+          <article class="community-card">
+            <h2>Report a boundary issue</h2>
+            <p>
+              Report missing boundaries, incorrect names, or geometry errors.
+              Include the country, level, and source.
+            </p>
+            <a
+              class="text-link"
+              href="https://github.com/wmgeolab/geoBoundaries/issues/new?assignees=&amp;labels=&amp;template=boundary-errata.md&amp;title=%5BBOUNDARY+ERRATA%5D"
+              >Report an error <span aria-hidden="true">↗</span></a
+            >
+          </article>
+          <article class="community-card">
+            <h2>Contribute boundaries</h2>
+            <p>
+              Review file format and license requirements before submitting
+              data. Submissions are reviewed.
+            </p>
+            <a
+              class="text-link"
+              href="https://github.com/wmgeolab/geoBoundaries/blob/main/CONTRIBUTING.md"
+              >Read submission guidelines <span aria-hidden="true">↗</span></a
+            >
+            <p style="margin-top: 14px; margin-bottom: 0">
+              <a href="/gbContribute.html">Use the submission form</a>
+            </p>
+          </article>
+          <article class="community-card">
+            <h2>Known issues</h2>
+            <p>
+              Review open issues and propose corrections to data or
+              documentation.
+            </p>
+            <a
+              class="text-link"
+              href="https://github.com/wmgeolab/geoBoundaries/issues"
+              >Browse open issues <span aria-hidden="true">↗</span></a
+            >
+          </article>
+          <article class="community-card">
+            <h2>Contribute code</h2>
+            <p>The processing tools and website are open source.</p>
+            <a
+              class="text-link"
+              href="https://github.com/wmgeolab/geoBoundaryBot"
+              >Processing tools <span aria-hidden="true">↗</span></a
+            >
+          </article>
+        </div>
+        <section id="contributors" class="section" style="padding-top: 0">
+          <h2>Contributors</h2>
+          <p style="margin-top: 20px; max-width: 760px">
+            Contributors recognized before geoBoundaries 5.0. See the
+            <a
+              href="https://github.com/wmgeolab/geoBoundaries/graphs/contributors"
+              >current contribution history</a
+            >.
+          </p>
+          <div class="contributors">
+            <a class="contributor" href="https://github.com/dfornatora"
+              ><img
+                src="https://github.com/dfornatora.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>dfornatora</span></a
+            ><a class="contributor" href="https://github.com/leeberryman"
+              ><img
+                src="https://github.com/leeberryman.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>leeberryman</span></a
+            ><a class="contributor" href="https://github.com/dorianvmiller"
+              ><img
+                src="https://github.com/dorianvmiller.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>dorianvmiller</span></a
+            ><a class="contributor" href="https://github.com/kpupkiewicz"
+              ><img
+                src="https://github.com/kpupkiewicz.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>kpupkiewicz</span></a
+            ><a class="contributor" href="https://github.com/carolinamonrivera"
+              ><img
+                src="https://github.com/carolinamonrivera.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>carolinamonrivera</span></a
+            ><a class="contributor" href="https://github.com/rmbiddle"
+              ><img
+                src="https://github.com/rmbiddle.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>rmbiddle</span></a
+            ><a class="contributor" href="https://github.com/nmspage"
+              ><img
+                src="https://github.com/nmspage.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>nmspage</span></a
+            ><a class="contributor" href="https://github.com/MichaelR-geoLab"
+              ><img
+                src="https://github.com/MichaelR-geoLab.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>MichaelR-geoLab</span></a
+            ><a class="contributor" href="https://github.com/larogersWM"
+              ><img
+                src="https://github.com/larogersWM.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>larogersWM</span></a
+            ><a class="contributor" href="https://github.com/hadleyday"
+              ><img
+                src="https://github.com/hadleyday.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>hadleyday</span></a
+            ><a class="contributor" href="https://github.com/ceedwards1"
+              ><img
+                src="https://github.com/ceedwards1.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>ceedwards1</span></a
+            ><a class="contributor" href="https://github.com/taraamcl"
+              ><img
+                src="https://github.com/taraamcl.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>taraamcl</span></a
+            ><a class="contributor" href="https://github.com/ssheminway"
+              ><img
+                src="https://github.com/ssheminway.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>ssheminway</span></a
+            ><a class="contributor" href="https://github.com/SidonieH"
+              ><img
+                src="https://github.com/SidonieH.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>SidonieH</span></a
+            ><a class="contributor" href="https://github.com/helenabuckman"
+              ><img
+                src="https://github.com/helenabuckman.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>helenabuckman</span></a
+            ><a class="contributor" href="https://github.com/rsritchey"
+              ><img
+                src="https://github.com/rsritchey.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>rsritchey</span></a
+            ><a class="contributor" href="https://github.com/slfuhrig"
+              ><img
+                src="https://github.com/slfuhrig.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>slfuhrig</span></a
+            ><a class="contributor" href="https://github.com/nirajpatel10122"
+              ><img
+                src="https://github.com/nirajpatel10122.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>nirajpatel10122</span></a
+            ><a class="contributor" href="https://github.com/owachob"
+              ><img
+                src="https://github.com/owachob.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>owachob</span></a
+            ><a class="contributor" href="https://github.com/lydiatroup"
+              ><img
+                src="https://github.com/lydiatroup.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>lydiatroup</span></a
+            ><a class="contributor" href="https://github.com/karimbahgat"
+              ><img
+                src="https://github.com/karimbahgat.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>karimbahgat</span></a
+            ><a class="contributor" href="https://github.com/charliealtman"
+              ><img
+                src="https://github.com/charliealtman.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>charliealtman</span></a
+            ><a class="contributor" href="https://github.com/amanda-reed"
+              ><img
+                src="https://github.com/amanda-reed.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>amanda-reed</span></a
+            ><a class="contributor" href="https://github.com/iaschreur"
+              ><img
+                src="https://github.com/iaschreur.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>iaschreur</span></a
+            ><a class="contributor" href="https://github.com/neelsimpson"
+              ><img
+                src="https://github.com/neelsimpson.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>neelsimpson</span></a
+            ><a class="contributor" href="https://github.com/hannahslevin"
+              ><img
+                src="https://github.com/hannahslevin.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>hannahslevin</span></a
+            ><a class="contributor" href="https://github.com/mlwilliams01"
+              ><img
+                src="https://github.com/mlwilliams01.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>mlwilliams01</span></a
+            ><a class="contributor" href="https://github.com/jrhabib"
+              ><img
+                src="https://github.com/jrhabib.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>jrhabib</span></a
+            ><a class="contributor" href="https://github.com/memulder"
+              ><img
+                src="https://github.com/memulder.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>memulder</span></a
+            ><a class="contributor" href="https://github.com/fpate"
+              ><img
+                src="https://github.com/fpate.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>fpate</span></a
+            ><a class="contributor" href="https://github.com/jdturner303"
+              ><img
+                src="https://github.com/jdturner303.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>jdturner303</span></a
+            ><a class="contributor" href="https://github.com/heatherbaier"
+              ><img
+                src="https://github.com/heatherbaier.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>heatherbaier</span></a
+            ><a class="contributor" href="https://github.com/jingjli1"
+              ><img
+                src="https://github.com/jingjli1.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>jingjli1</span></a
+            ><a class="contributor" href="https://github.com/sylviashea1"
+              ><img
+                src="https://github.com/sylviashea1.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>sylviashea1</span></a
+            ><a class="contributor" href="https://github.com/jcsiwek"
+              ><img
+                src="https://github.com/jcsiwek.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>jcsiwek</span></a
+            ><a class="contributor" href="https://github.com/sgmurphy216"
+              ><img
+                src="https://github.com/sgmurphy216.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>sgmurphy216</span></a
+            ><a class="contributor" href="https://github.com/SamUpdike"
+              ><img
+                src="https://github.com/SamUpdike.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>SamUpdike</span></a
+            ><a class="contributor" href="https://github.com/coyotefarrell"
+              ><img
+                src="https://github.com/coyotefarrell.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>coyotefarrell</span></a
+            ><a class="contributor" href="https://github.com/shauntmathew"
+              ><img
+                src="https://github.com/shauntmathew.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>shauntmathew</span></a
+            ><a class="contributor" href="https://github.com/kovaca"
+              ><img
+                src="https://github.com/kovaca.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>kovaca</span></a
+            ><a class="contributor" href="https://github.com/maxmalynowsky"
+              ><img
+                src="https://github.com/maxmalynowsky.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>maxmalynowsky</span></a
+            ><a class="contributor" href="https://github.com/calvinb4"
+              ><img
+                src="https://github.com/calvinb4.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>calvinb4</span></a
+            ><a class="contributor" href="https://github.com/DanRunfola"
+              ><img
+                src="https://github.com/DanRunfola.png?size=64"
+                alt=""
+                width="32"
+                height="32"
+                loading="lazy"
+              /><span>DanRunfola</span></a
+            >
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/wmgeolab/geoBoundaries"
+              >Data repository ↗</a
+            ><a href="https://github.com/wmgeolab/gbWeb"
+              >Website repository ↗</a
+            ><a href="https://github.com/wmgeolab"
+              >William &amp; Mary geoLab ↗</a
+            ><a href="mailto:team@geoboundaries.org">Contact the team</a>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-- #include virtual="/_includes/site-footer.shtml" -->
+  </body>
 </html>

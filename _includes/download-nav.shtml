@@ -1,0 +1,7 @@
+<nav class="dataset-nav" aria-label="Choose a dataset">
+  <a href="/countryDownloads.html" data-dataset="country">Country files</a>
+  <a href="/globalDownloads.html" data-dataset="global">Global composites</a>
+  <a href="/simplifiedDownloads.html" data-dataset="simplified"
+    >Simplified files</a
+  >
+</nav>

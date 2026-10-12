@@ -14,13 +14,18 @@ export function getSiteConfig(env = process.env) {
   return {
     branch,
     origin: branch === 'main' ? 'https://geoboundaries.org' : 'https://geoboundaries-dev.org',
+    apiOrigin: branch === 'main' ? 'https://geoboundaries.org' : 'https://www.geoboundaries-dev.org',
   };
 }
 
-export function replaceSiteUrls(text, { origin }) {
+export function replaceSiteUrls(text, { origin, apiOrigin = origin }) {
+  const targetOrigin = (match, offset, source) => {
+    const path = source.slice(offset + match.length, offset + match.length + 12).replaceAll('\\/', '/');
+    return /^\/api(?:[/?#]|$)/i.test(path) ? apiOrigin : origin;
+  };
   // Also update escaped URLs in the archived JSON examples. Email addresses stay intact.
-  text = text.replace(new RegExp(`https?:\\\\/\\\\/${siteHost}${hostBoundary}`, 'gi'), origin.replaceAll('/', '\\/'));
-  return text.replace(new RegExp(`(?:https?:)?//${siteHost}${hostBoundary}`, 'gi'), origin);
+  text = text.replace(new RegExp(`https?:\\\\/\\\\/${siteHost}${hostBoundary}`, 'gi'), (...args) => targetOrigin(...args).replaceAll('/', '\\/'));
+  return text.replace(new RegExp(`(?:https?:)?//${siteHost}${hostBoundary}`, 'gi'), targetOrigin);
 }
 
 export function configureHtml(html, filename, config) {

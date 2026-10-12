@@ -1,0 +1,46 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/index.html" aria-label="geoBoundaries home">
+      <svg
+        class="brand-mark"
+        viewBox="0 0 40 40"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M5 9 18 4l16 7-2 22-15 3-13-9Z"
+          stroke="currentColor"
+          stroke-width="1.8"
+        />
+        <path
+          d="m5 9 12 10 17-8M17 19v17M4 27l13-8 15 14M18 4l-1 15"
+          stroke="currentColor"
+          stroke-width="1.2"
+        />
+      </svg>
+      <span
+        ><span class="brand-name">geoBoundaries</span
+        ><span class="brand-affiliation">William &amp; Mary geoLab</span></span
+      >
+    </a>
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+      hidden
+    >
+      Menu <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" aria-label="Main navigation">
+      <a href="/countryDownloads.html" data-nav="downloads">Downloads</a>
+      <a href="/visualize.html" data-nav="visualize">Visualize</a>
+      <a href="/api.html" data-nav="api">API &amp; docs</a>
+      <a href="/contribute.html" data-nav="contribute">Contribute</a>
+      <a class="nav-github" href="https://github.com/wmgeolab/geoBoundaries"
+        >GitHub <span aria-hidden="true">↗</span></a
+      >
+    </nav>
+  </div>
+</header>

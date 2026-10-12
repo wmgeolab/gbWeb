@@ -18,7 +18,8 @@
         }
         if (url.protocol !== 'http:' && url.protocol !== 'https:') return value;
         if (siteHosts.includes(url.hostname) || url.origin === config.origin) {
-            return config.origin + url.pathname + url.search + url.hash;
+            var origin = /^\/api(?:\/|$)/i.test(url.pathname) ? config.apiOrigin || config.origin : config.origin;
+            return origin + url.pathname + url.search + url.hash;
         }
         return value;
     };

@@ -26,7 +26,9 @@ async function checkDirectory(directory) {
     assert(!['.py', '.rb', '.scss', '.less', '.php', '.jsonc'].includes(extname(name)), `Source file published: ${name}`);
     if (textExtensions.has(extname(name))) {
       const text = await readFile(filename, 'utf8');
-      assert.equal(replaceSiteUrls(text, site), text, `URL points at the wrong deployment domain: ${name}`);
+      // The injected config is checked below; its distinct API origin is intentional.
+      const source = name === 'assets/js/site-config.js' ? text.slice(text.indexOf('\n') + 1) : text;
+      assert.equal(replaceSiteUrls(source, site), source, `URL points at the wrong deployment domain: ${name}`);
     }
     if (name.endsWith('.html')) {
       const text = await readFile(filename, 'utf8');
@@ -37,9 +39,17 @@ async function checkDirectory(directory) {
 
 await checkDirectory(output);
 assert(assets < 20000, 'Asset count exceeds the Workers Free/Pages Free limit');
-for (const name of ['index.html', '404.html', '_headers', 'api.html', 'assets/css/main.css', 'assets/js/site-config.js']) {
+for (const name of ['index.html', '404.html', '_headers', 'api.html', 'assets/css/main.css', 'assets/css/site.css', 'assets/js/site-config.js', 'assets/js/downloads.js', 'assets/js/boundary-data.js']) {
   await stat(join(output, name));
 }
 const runtimeConfig = await readFile(join(output, 'assets/js/site-config.js'), 'utf8');
 assert(runtimeConfig.startsWith(`window.geoBoundariesConfig = ${JSON.stringify(site)};`), 'Built assets do not match the current deployment branch');
+for (const name of ['index.html', 'countryDownloads.html', 'globalDownloads.html', 'simplifiedDownloads.html', 'api.html', 'contribute.html', 'visualize.html', 'gbContribute.html', '404.html']) {
+  const html = await readFile(join(output, name), 'utf8');
+  assert(html.includes('<html lang="en">'), `${name}: missing page language`);
+  assert(html.includes('id="primary-nav"') && html.includes('class="site-footer"'), `${name}: shared navigation/footer missing`);
+  assert(html.includes('<main id="main">'), `${name}: missing main landmark`);
+  assert(!html.includes('user-scalable=no'), `${name}: page blocks zoom`);
+  assert(!html.includes('data-include='), `${name}: footer depends on client-side includes`);
+}
 console.log(`Validated ${assets} public assets for ${site.origin}; no API data or server/build sources in dist/.`);

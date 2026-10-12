@@ -1,0 +1,66 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-about">
+      <a class="footer-brand" href="/index.html"
+        >geoBoundaries<span aria-hidden="true">.</span></a
+      >
+      <p>
+        Administrative boundary data from William &amp; Mary geoLab and
+        contributors.
+      </p>
+      <a href="mailto:team@geoboundaries.org">team@geoboundaries.org</a>
+    </div>
+    <div>
+      <h2>Data</h2>
+      <ul>
+        <li><a href="/countryDownloads.html">Country boundaries</a></li>
+        <li><a href="/globalDownloads.html">Global composites</a></li>
+        <li><a href="/simplifiedDownloads.html">Simplified boundaries</a></li>
+        <li><a href="/api.html">API &amp; archives</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Collaborators</h2>
+      <ul>
+        <li><a href="https://www.unocha.org/">UN OCHA</a></li>
+        <li><a href="https://www.unsalb.org/">UN SALB</a></li>
+        <li><a href="https://grid3.org/">GRID3</a></li>
+        <li><a href="/contribute.html#contributors">Contributors</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Supporters</h2>
+      <ul>
+        <li><a href="https://www.wm.edu/">William &amp; Mary</a></li>
+        <li><a href="https://www.nsf.gov/">National Science Foundation</a></li>
+        <li><a href="https://www.gatesfoundation.org/">Gates Foundation</a></li>
+        <li>
+          <a href="https://geolab.wm.edu/"
+            >geoLab <span aria-hidden="true">↗</span></a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>William &amp; Mary geoLab · Williamsburg, Virginia</span
+    ><a href="/index.html#usage">License &amp; attribution</a>
+    <details>
+      <summary>Legal notice</summary>
+      <p>
+        With respect to works on or made available through download from this
+        website, we make no representations or warranties—express, implied, or
+        statutory—as to the validity, accuracy, completeness, or fitness for a
+        particular purpose; nor represent that use of such works would not
+        infringe privately owned rights; nor assume any liability resulting from
+        use of such works; and shall in no way be liable for any costs,
+        expenses, claims, or demands arising out of use of such works.
+      </p>
+      <p>
+        Legacy tool layouts use the
+        <a href="https://html5up.net/">HTML5 UP</a> Verti template under its
+        <a href="https://html5up.net/license">Creative Commons license</a>.
+      </p>
+    </details>
+  </div>
+</footer>
